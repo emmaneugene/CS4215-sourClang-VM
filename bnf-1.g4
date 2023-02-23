@@ -1,3 +1,24 @@
+/*
+ [The "BSD licence"] Copyright (c) 2013 Sam Harwell All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without modification, are permitted
+ provided that the following conditions are met: 1. Redistributions of source code must retain the
+ above copyright notice, this list of conditions and the following disclaimer. 2. Redistributions in
+ binary form must reproduce the above copyright notice, this list of conditions and the following
+ disclaimer in the documentation and/or other materials provided with the distribution. 3. The name
+ of the author may not be used to endorse or promote products derived from this software without
+ specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING,
+ BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+ */
+
 /** C 2011 grammar built from the C11 Spec */
 grammar C;
 
@@ -6,10 +27,6 @@ primaryExpression:
 	| Constant
 	| StringLiteral+
 	| '(' expression ')';
-
-genericAssocList: genericAssociation (',' genericAssociation)*;
-
-genericAssociation: (typeName | 'default') ':' assignmentExpression;
 
 postfixExpression:
 	(
@@ -38,7 +55,7 @@ unaryOperator: '&' | '*' | '+' | '-' | '~' | '!';
 castExpression:
 	'__extension__'? '(' typeName ')' castExpression
 	| unaryExpression
-	| DigitSequence; // for
+	| DigitSequence ; // for
 
 multiplicativeExpression:
 	castExpression (('*' | '/' | '%') castExpression)*;
@@ -76,13 +93,23 @@ conditionalExpression:
 	)?;
 
 assignmentExpression:
-	conditionalExpression // ternary operator
+	conditionalExpression
 	| unaryExpression assignmentOperator assignmentExpression
-	| DigitSequence; // for
+	| DigitSequence ; // for
 
-assignmentOperator: '=' | '*=' | '/=' | '%=' | '+=' | '-=';
+assignmentOperator:
+	'='
+	| '*='
+	| '/='
+	| '%='
+	| '+='
+	| '-='
+	| '<<='
+	| '>>='
+	| '&='
+	| '^='
+	| '|=';
 
-/* int x, y, z; */
 expression: assignmentExpression (',' assignmentExpression)*;
 
 constantExpression: conditionalExpression;
@@ -92,8 +119,6 @@ declaration:
 	| staticAssertDeclaration;
 
 declarationSpecifiers: declarationSpecifier+;
-
-declarationSpecifiers2: declarationSpecifier+;
 
 declarationSpecifier:
 	storageClassSpecifier
@@ -124,29 +149,19 @@ typeSpecifier: (
 		| 'double'
 		| 'signed'
 		| 'unsigned'
-		| '_Bool'
-		| '_Complex'
-		| '__m128'
-		| '__m128d'
-		| '__m128i'
 	)
-	| '__extension__' '(' ('__m128' | '__m128d' | '__m128i') ')'
-	| atomicTypeSpecifier
-	| structOrUnionSpecifier
-	| enumSpecifier
-	| typedefName
-	| '__typeof__' '(' constantExpression ')'; // GCC extension
+	//    |   structOrUnionSpecifier
+	| typedefName;
 
-structOrUnionSpecifier:
-	structOrUnion Identifier? '{' structDeclarationList '}'
-	| structOrUnion Identifier;
+// reach goal structOrUnionSpecifier : structOrUnion Identifier? '{' structDeclarationList '}' |
+// structOrUnion Identifier ;
 
 structOrUnion: 'struct' | 'union';
 
 structDeclarationList: structDeclaration+;
 
-structDeclaration:
-	// The first two rules have priority order and cannot be simplified to one expression.
+structDeclaration
+	: // The first two rules have priority order and cannot be simplified to one expression.
 	specifierQualifierList structDeclaratorList ';'
 	| specifierQualifierList ';'
 	| staticAssertDeclaration;
@@ -158,16 +173,6 @@ structDeclaratorList: structDeclarator (',' structDeclarator)*;
 structDeclarator:
 	declarator
 	| declarator? ':' constantExpression;
-
-enumSpecifier:
-	'enum' Identifier? '{' enumeratorList ','? '}'
-	| 'enum' Identifier;
-
-enumeratorList: enumerator (',' enumerator)*;
-
-enumerator: enumerationConstant ('=' constantExpression)?;
-
-enumerationConstant: Identifier;
 
 atomicTypeSpecifier: '_Atomic' '(' typeName ')';
 
@@ -196,18 +201,7 @@ directDeclarator:
 	| directDeclarator '[' typeQualifierList? '*' ']'
 	| directDeclarator '(' parameterTypeList ')'
 	| directDeclarator '(' identifierList? ')'
-	| Identifier ':' DigitSequence // bit field
-	| vcSpecificModifer Identifier // Visual C Extension
-	| '(' vcSpecificModifer declarator ')'; // Visual C Extension
-
-vcSpecificModifer: (
-		'__cdecl'
-		| '__clrcall'
-		| '__stdcall'
-		| '__fastcall'
-		| '__thiscall'
-		| '__vectorcall'
-	);
+	| Identifier ':' DigitSequence ; // bit field
 
 gccDeclaratorExtension:
 	'__asm' '(' StringLiteral+ ')'
@@ -231,7 +225,7 @@ nestedParenthesesBlock: (
 		| '(' nestedParenthesesBlock ')'
 	)*;
 
-pointer: (('*' | '^') typeQualifierList?)+; // ^ - Blocks language extension
+pointer: (('*' | '^') typeQualifierList?)+ ; // ^ - Blocks language extension
 
 typeQualifierList: typeQualifier+;
 
@@ -239,9 +233,7 @@ parameterTypeList: parameterList (',' '...')?;
 
 parameterList: parameterDeclaration (',' parameterDeclaration)*;
 
-parameterDeclaration:
-	declarationSpecifiers declarator
-	| declarationSpecifiers2 abstractDeclarator?;
+parameterDeclaration: declarationSpecifiers declarator;
 
 identifierList: Identifier (',' Identifier)*;
 
@@ -283,11 +275,11 @@ staticAssertDeclaration:
 	'_Static_assert' '(' constantExpression ',' StringLiteral+ ')' ';';
 
 statement:
-	| compoundStatement // familar block construct in other prog. lang.
+	compoundStatement
 	| expressionStatement
-	| selectionStatement // if/switch
-	| iterationStatement // while/do-while/for
-	| jumpStatement; // goto/continue/break/return - may take out goto
+	| selectionStatement
+	| iterationStatement
+	| jumpStatement;
 
 compoundStatement: '{' blockItemList? '}';
 
@@ -295,19 +287,16 @@ blockItemList: blockItem+;
 
 blockItem: statement | declaration;
 
-// C supports 'stray' semicolons that don't do anything
 expressionStatement: expression? ';';
 
 selectionStatement:
-	'if' '(' expression ')' statement ('else' statement)?;
+	'if' '(' expression ')' statement ('else' statement)?
+	| 'switch' '(' expression ')' statement;
 
-// reach goal: 	| Do statement While '(' expression ')' ';'
 iterationStatement:
 	While '(' expression ')' statement
+	| Do statement While '(' expression ')' ';'
 	| For '(' forCondition ')' statement;
-
-// | 'for' '(' expression? ';' expression? ';' forUpdate? ')' statement | For '(' declaration
-// expression? ';' expression? ')' statement
 
 forCondition: (forDeclaration | expression?) ';' forExpression? ';' forExpression?;
 
@@ -315,7 +304,7 @@ forDeclaration: declarationSpecifiers initDeclaratorList?;
 
 forExpression: assignmentExpression (',' assignmentExpression)*;
 
-jumpStatement: ( | ('continue' | 'break') | 'return' expression?) ';';
+jumpStatement: (('continue' | 'break') | 'return' expression?) ';';
 
 compilationUnit: translationUnit? EOF;
 
@@ -324,27 +313,21 @@ translationUnit: externalDeclaration+;
 externalDeclaration:
 	functionDefinition
 	| declaration
-	| ';'; // stray ;
+	| ';' ; // stray ;
 
 functionDefinition:
 	declarationSpecifiers? declarator declarationList? compoundStatement;
 
 declarationList: declaration+;
 
-/*
- * List of keywords and symbols used in the syntax.
- */
-
 Break: 'break';
 Case: 'case';
 Char: 'char';
 Const: 'const';
 Continue: 'continue';
-Default: 'default';
 Do: 'do';
 Double: 'double';
 Else: 'else';
-Enum: 'enum';
 Extern: 'extern';
 Float: 'float';
 For: 'for';
@@ -377,8 +360,6 @@ Less: '<';
 LessEqual: '<=';
 Greater: '>';
 GreaterEqual: '>=';
-LeftShift: '<<';
-RightShift: '>>';
 
 Plus: '+';
 PlusPlus: '++';
@@ -408,11 +389,6 @@ DivAssign: '/=';
 ModAssign: '%=';
 PlusAssign: '+=';
 MinusAssign: '-=';
-LeftShiftAssign: '<<=';
-RightShiftAssign: '>>=';
-AndAssign: '&=';
-XorAssign: '^=';
-OrAssign: '|=';
 
 Equal: '==';
 NotEqual: '!=';
@@ -421,16 +397,12 @@ Arrow: '->';
 Dot: '.';
 Ellipsis: '...';
 
-/*
- * List of symbols used to parse ints, variable names. Also helps to parse declarations like 0xffff
- * and 0b1010.
- */
-
 Identifier: IdentifierNondigit ( IdentifierNondigit | Digit)*;
 
 fragment IdentifierNondigit:
 	Nondigit
-	| UniversalCharacterName; //|   // other implementation-defined characters...
+	| UniversalCharacterName
+	; //|   // other implementation-defined characters...
 
 fragment Nondigit: [a-zA-Z_];
 
@@ -551,7 +523,7 @@ fragment SChar:
 	~["\\\r\n]
 	| EscapeSequence
 	| '\\\n' // Added line
-	| '\\\r\n'; // Added line
+	| '\\\r\n' ; // Added line
 
 ComplexDefine: '#' Whitespace? 'define' ~[#\r\n]* -> skip;
 
@@ -560,12 +532,6 @@ IncludeDirective:
 		('"' ~[\r\n]* '"')
 		| ('<' ~[\r\n]* '>')
 	) Whitespace? Newline -> skip;
-
-// ignore the following asm blocks:
-/*
- asm { mfspr x, 286; }
- */
-AsmBlock: 'asm' ~'{'* '{' ~'}'* '}' -> skip;
 
 // ignore the lines generated by c preprocessor sample line : '#line 1 "/home/dm/files/dk1.h" 1'
 LineAfterPreprocessing: '#line' Whitespace* ~[\r\n]* -> skip;
