@@ -43,8 +43,14 @@ declarator:
 
 initializer:
     assignment_expression
-//    | { <initializer-list> } // for struct and arrays initializing
+    | LeftBrace initializer_list RightBrace // for struct and arrays initializing
     ;
+
+initializer_list:
+    initializer
+    | initializer_list Comma initializer
+    ;
+
 
 assignment_expression:
     conditional_expression // Resolves into tree of operators with identifers/constants as leaf
