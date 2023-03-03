@@ -109,7 +109,7 @@ unary_expression:
     | PlusPlus unary_expression
     | MinusMinus unary_expression
     | unary_operator cast_expression
-    | Sizeof LeftParen type_name RightParen // Simplified to only primitive types
+    | Sizeof LeftParen sizeof_operands RightParen // Simplified to only primitive types
     ;
 
 unary_operator: And | Star | Plus | Minus | Not;
@@ -121,6 +121,12 @@ type_name:
     | Long
     | Float
     | Double
+    ;
+
+sizeof_operands:
+    pointer? type_name
+    | pointer? Identifier
+    | And Identifier
     ;
 
 postfix_expression:
@@ -167,11 +173,12 @@ parameter_declaration:
     ;
 
 compound_statement:
-    LeftBrace declaration* statement* RightBrace
+    LeftBrace statement* RightBrace
     ;
 
 statement:
-    expression_statement
+    declaration
+    | expression_statement
     | compound_statement
     | selection_statement
     | iteration_statement
