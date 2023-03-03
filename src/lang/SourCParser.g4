@@ -48,7 +48,7 @@ initializer:
 
 initializer_list:
     initializer
-    | initializer_list Comma initializer
+    | initializer_list Comma initializer // for struct and arrays initializing
     ;
 
 
@@ -137,7 +137,7 @@ primary_expression:
     Identifier
     | Constant
     | StringLiteral
-    | LeftParen expression RightParen // unclear what is this since we have function call above
+    | LeftParen expression RightParen // support () operator precedence
     ;
 
 expression:
