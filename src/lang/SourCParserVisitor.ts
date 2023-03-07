@@ -8,6 +8,7 @@ import { External_declarationContext } from './SourCParser'
 import { DeclarationContext } from './SourCParser'
 import { Init_declaratorContext } from './SourCParser'
 import { DeclaratorContext } from './SourCParser'
+import { Type_name_listContext } from './SourCParser'
 import { InitializerContext } from './SourCParser'
 import { Initializer_listContext } from './SourCParser'
 import { Assignment_expressionContext } from './SourCParser'
@@ -37,6 +38,8 @@ import { Expression_statementContext } from './SourCParser'
 import { Selection_statementContext } from './SourCParser'
 import { Iteration_statementContext } from './SourCParser'
 import { Jump_statementContext } from './SourCParser'
+import { Struct_specifierContext } from './SourCParser'
+import { Struct_declarationContext } from './SourCParser'
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -87,6 +90,13 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
    * @return the visitor result
    */
   visitDeclarator?: (ctx: DeclaratorContext) => Result
+
+  /**
+   * Visit a parse tree produced by `SourCParser.type_name_list`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitType_name_list?: (ctx: Type_name_listContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.initializer`.
@@ -290,4 +300,18 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
    * @return the visitor result
    */
   visitJump_statement?: (ctx: Jump_statementContext) => Result
+
+  /**
+   * Visit a parse tree produced by `SourCParser.struct_specifier`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitStruct_specifier?: (ctx: Struct_specifierContext) => Result
+
+  /**
+   * Visit a parse tree produced by `SourCParser.struct_declaration`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitStruct_declaration?: (ctx: Struct_declarationContext) => Result
 }

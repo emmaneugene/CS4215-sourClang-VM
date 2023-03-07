@@ -8,6 +8,7 @@ import { External_declarationContext } from './SourCParser'
 import { DeclarationContext } from './SourCParser'
 import { Init_declaratorContext } from './SourCParser'
 import { DeclaratorContext } from './SourCParser'
+import { Type_name_listContext } from './SourCParser'
 import { InitializerContext } from './SourCParser'
 import { Initializer_listContext } from './SourCParser'
 import { Assignment_expressionContext } from './SourCParser'
@@ -37,6 +38,8 @@ import { Expression_statementContext } from './SourCParser'
 import { Selection_statementContext } from './SourCParser'
 import { Iteration_statementContext } from './SourCParser'
 import { Jump_statementContext } from './SourCParser'
+import { Struct_specifierContext } from './SourCParser'
+import { Struct_declarationContext } from './SourCParser'
 
 /**
  * This interface defines a complete listener for a parse tree produced by
@@ -108,6 +111,17 @@ export interface SourCParserListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitDeclarator?: (ctx: DeclaratorContext) => void
+
+  /**
+   * Enter a parse tree produced by `SourCParser.type_name_list`.
+   * @param ctx the parse tree
+   */
+  enterType_name_list?: (ctx: Type_name_listContext) => void
+  /**
+   * Exit a parse tree produced by `SourCParser.type_name_list`.
+   * @param ctx the parse tree
+   */
+  exitType_name_list?: (ctx: Type_name_listContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.initializer`.
@@ -427,4 +441,26 @@ export interface SourCParserListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitJump_statement?: (ctx: Jump_statementContext) => void
+
+  /**
+   * Enter a parse tree produced by `SourCParser.struct_specifier`.
+   * @param ctx the parse tree
+   */
+  enterStruct_specifier?: (ctx: Struct_specifierContext) => void
+  /**
+   * Exit a parse tree produced by `SourCParser.struct_specifier`.
+   * @param ctx the parse tree
+   */
+  exitStruct_specifier?: (ctx: Struct_specifierContext) => void
+
+  /**
+   * Enter a parse tree produced by `SourCParser.struct_declaration`.
+   * @param ctx the parse tree
+   */
+  enterStruct_declaration?: (ctx: Struct_declarationContext) => void
+  /**
+   * Exit a parse tree produced by `SourCParser.struct_declaration`.
+   * @param ctx the parse tree
+   */
+  exitStruct_declaration?: (ctx: Struct_declarationContext) => void
 }
