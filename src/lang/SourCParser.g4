@@ -11,7 +11,7 @@ type_specifier:
     | Double
     | Signed
     | Unsigned
-//    | <struct-or-union-specifier>
+    | struct_specifier
     ;
 
 translation_unit: 
@@ -23,8 +23,11 @@ external_declaration:
     | declaration
     ;
 
+// init_declarator is optional for struct declaration
+// code like `int;` can be ignored bc it doesn't do anything
+// code like `struct X { int id; };` is correct because it is sort of a typedef
 declaration:
-    type_specifier+ init_declarator Semi
+    type_specifier+ init_declarator? Semi 
     ;
 
 init_declarator:
@@ -32,13 +35,18 @@ init_declarator:
     | declarator Assign initializer
     ;
 
-// TODO: the rule for function pointers is not quite correct
 declarator:
     Identifier // variables
     | pointer? Identifier // pointers
-    | LeftParen Star Identifier RightParen LeftParen type_name* RightParen // function pointers
+    | LeftParen Star Identifier RightParen LeftParen type_name_list? RightParen // function pointers
     | Identifier LeftBracket constant_expression? RightBracket // arrays
-    | Identifier LeftParen parameter_list* RightParen // function prototypes
+    | Identifier LeftParen parameter_list? RightParen // function prototypes
+    ;
+
+// for function pointers param list
+type_name_list:
+    type_name+ pointer?
+    | type_name+ pointer? Comma type_name_list?
     ;
 
 initializer:
@@ -204,4 +212,13 @@ jump_statement:
     Continue Semi
     | Break Semi
     | Return expression? Semi
+    ;
+
+struct_specifier:
+    Struct Identifier
+    | Struct Identifier LeftBrace struct_declaration+ RightBrace
+    ;
+
+struct_declaration:
+    type_specifier+ declarator Semi
     ;

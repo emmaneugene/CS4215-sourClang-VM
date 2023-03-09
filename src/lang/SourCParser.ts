@@ -103,35 +103,38 @@ export class SourCParser extends Parser {
   public static readonly RULE_declaration = 3
   public static readonly RULE_init_declarator = 4
   public static readonly RULE_declarator = 5
-  public static readonly RULE_initializer = 6
-  public static readonly RULE_initializer_list = 7
-  public static readonly RULE_assignment_expression = 8
-  public static readonly RULE_conditional_expression = 9
-  public static readonly RULE_logical_or_expression = 10
-  public static readonly RULE_logical_and_expression = 11
-  public static readonly RULE_equality_expression = 12
-  public static readonly RULE_relational_expression = 13
-  public static readonly RULE_additive_expression = 14
-  public static readonly RULE_multiplicative_expression = 15
-  public static readonly RULE_cast_expression = 16
-  public static readonly RULE_unary_expression = 17
-  public static readonly RULE_unary_operator = 18
-  public static readonly RULE_type_name = 19
-  public static readonly RULE_sizeof_operands = 20
-  public static readonly RULE_postfix_expression = 21
-  public static readonly RULE_primary_expression = 22
-  public static readonly RULE_expression = 23
-  public static readonly RULE_constant_expression = 24
-  public static readonly RULE_function_definition = 25
-  public static readonly RULE_pointer = 26
-  public static readonly RULE_parameter_list = 27
-  public static readonly RULE_parameter_declaration = 28
-  public static readonly RULE_compound_statement = 29
-  public static readonly RULE_statement = 30
-  public static readonly RULE_expression_statement = 31
-  public static readonly RULE_selection_statement = 32
-  public static readonly RULE_iteration_statement = 33
-  public static readonly RULE_jump_statement = 34
+  public static readonly RULE_type_name_list = 6
+  public static readonly RULE_initializer = 7
+  public static readonly RULE_initializer_list = 8
+  public static readonly RULE_assignment_expression = 9
+  public static readonly RULE_conditional_expression = 10
+  public static readonly RULE_logical_or_expression = 11
+  public static readonly RULE_logical_and_expression = 12
+  public static readonly RULE_equality_expression = 13
+  public static readonly RULE_relational_expression = 14
+  public static readonly RULE_additive_expression = 15
+  public static readonly RULE_multiplicative_expression = 16
+  public static readonly RULE_cast_expression = 17
+  public static readonly RULE_unary_expression = 18
+  public static readonly RULE_unary_operator = 19
+  public static readonly RULE_type_name = 20
+  public static readonly RULE_sizeof_operands = 21
+  public static readonly RULE_postfix_expression = 22
+  public static readonly RULE_primary_expression = 23
+  public static readonly RULE_expression = 24
+  public static readonly RULE_constant_expression = 25
+  public static readonly RULE_function_definition = 26
+  public static readonly RULE_pointer = 27
+  public static readonly RULE_parameter_list = 28
+  public static readonly RULE_parameter_declaration = 29
+  public static readonly RULE_compound_statement = 30
+  public static readonly RULE_statement = 31
+  public static readonly RULE_expression_statement = 32
+  public static readonly RULE_selection_statement = 33
+  public static readonly RULE_iteration_statement = 34
+  public static readonly RULE_jump_statement = 35
+  public static readonly RULE_struct_specifier = 36
+  public static readonly RULE_struct_declaration = 37
   // tslint:disable:no-trailing-whitespace
   public static readonly ruleNames: string[] = [
     'type_specifier',
@@ -140,6 +143,7 @@ export class SourCParser extends Parser {
     'declaration',
     'init_declarator',
     'declarator',
+    'type_name_list',
     'initializer',
     'initializer_list',
     'assignment_expression',
@@ -168,7 +172,9 @@ export class SourCParser extends Parser {
     'expression_statement',
     'selection_statement',
     'iteration_statement',
-    'jump_statement'
+    'jump_statement',
+    'struct_specifier',
+    'struct_declaration'
   ]
 
   private static readonly _LITERAL_NAMES: Array<string | undefined> = [
@@ -350,37 +356,82 @@ export class SourCParser extends Parser {
   public type_specifier(): Type_specifierContext {
     const _localctx: Type_specifierContext = new Type_specifierContext(this._ctx, this.state)
     this.enterRule(_localctx, 0, SourCParser.RULE_type_specifier)
-    let _la: number
     try {
-      this.enterOuterAlt(_localctx, 1)
-      {
-        this.state = 70
-        _la = this._input.LA(1)
-        if (
-          !(
-            (_la & ~0x1f) === 0 &&
-            ((1 << _la) &
-              ((1 << SourCParser.Char) |
-                (1 << SourCParser.Double) |
-                (1 << SourCParser.Float) |
-                (1 << SourCParser.Int) |
-                (1 << SourCParser.Long) |
-                (1 << SourCParser.Short) |
-                (1 << SourCParser.Signed) |
-                (1 << SourCParser.Unsigned) |
-                (1 << SourCParser.Void))) !==
-              0
-          )
-        ) {
-          this._errHandler.recoverInline(this)
-        } else {
-          if (this._input.LA(1) === Token.EOF) {
-            this.matchedEOF = true
+      this.state = 86
+      this._errHandler.sync(this)
+      switch (this._input.LA(1)) {
+        case SourCParser.Void:
+          this.enterOuterAlt(_localctx, 1)
+          {
+            this.state = 76
+            this.match(SourCParser.Void)
           }
-
-          this._errHandler.reportMatch(this)
-          this.consume()
-        }
+          break
+        case SourCParser.Char:
+          this.enterOuterAlt(_localctx, 2)
+          {
+            this.state = 77
+            this.match(SourCParser.Char)
+          }
+          break
+        case SourCParser.Short:
+          this.enterOuterAlt(_localctx, 3)
+          {
+            this.state = 78
+            this.match(SourCParser.Short)
+          }
+          break
+        case SourCParser.Int:
+          this.enterOuterAlt(_localctx, 4)
+          {
+            this.state = 79
+            this.match(SourCParser.Int)
+          }
+          break
+        case SourCParser.Long:
+          this.enterOuterAlt(_localctx, 5)
+          {
+            this.state = 80
+            this.match(SourCParser.Long)
+          }
+          break
+        case SourCParser.Float:
+          this.enterOuterAlt(_localctx, 6)
+          {
+            this.state = 81
+            this.match(SourCParser.Float)
+          }
+          break
+        case SourCParser.Double:
+          this.enterOuterAlt(_localctx, 7)
+          {
+            this.state = 82
+            this.match(SourCParser.Double)
+          }
+          break
+        case SourCParser.Signed:
+          this.enterOuterAlt(_localctx, 8)
+          {
+            this.state = 83
+            this.match(SourCParser.Signed)
+          }
+          break
+        case SourCParser.Unsigned:
+          this.enterOuterAlt(_localctx, 9)
+          {
+            this.state = 84
+            this.match(SourCParser.Unsigned)
+          }
+          break
+        case SourCParser.Struct:
+          this.enterOuterAlt(_localctx, 10)
+          {
+            this.state = 85
+            this.struct_specifier()
+          }
+          break
+        default:
+          throw new NoViableAltException(this)
       }
     } catch (re) {
       if (re instanceof RecognitionException) {
@@ -403,7 +454,7 @@ export class SourCParser extends Parser {
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 75
+        this.state = 91
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         while (
@@ -416,17 +467,18 @@ export class SourCParser extends Parser {
               (1 << SourCParser.Long) |
               (1 << SourCParser.Short) |
               (1 << SourCParser.Signed) |
+              (1 << SourCParser.Struct) |
               (1 << SourCParser.Unsigned) |
               (1 << SourCParser.Void))) !==
             0
         ) {
           {
             {
-              this.state = 72
+              this.state = 88
               this.external_declaration()
             }
           }
-          this.state = 77
+          this.state = 93
           this._errHandler.sync(this)
           _la = this._input.LA(1)
         }
@@ -452,13 +504,13 @@ export class SourCParser extends Parser {
     )
     this.enterRule(_localctx, 4, SourCParser.RULE_external_declaration)
     try {
-      this.state = 80
+      this.state = 96
       this._errHandler.sync(this)
-      switch (this.interpreter.adaptivePredict(this._input, 1, this._ctx)) {
+      switch (this.interpreter.adaptivePredict(this._input, 2, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 78
+            this.state = 94
             this.function_definition()
           }
           break
@@ -466,7 +518,7 @@ export class SourCParser extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 79
+            this.state = 95
             this.declaration()
           }
           break
@@ -492,17 +544,17 @@ export class SourCParser extends Parser {
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 83
+        this.state = 99
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         do {
           {
             {
-              this.state = 82
+              this.state = 98
               this.type_specifier()
             }
           }
-          this.state = 85
+          this.state = 101
           this._errHandler.sync(this)
           _la = this._input.LA(1)
         } while (
@@ -515,13 +567,26 @@ export class SourCParser extends Parser {
               (1 << SourCParser.Long) |
               (1 << SourCParser.Short) |
               (1 << SourCParser.Signed) |
+              (1 << SourCParser.Struct) |
               (1 << SourCParser.Unsigned) |
               (1 << SourCParser.Void))) !==
             0
         )
-        this.state = 87
-        this.init_declarator()
-        this.state = 88
+        this.state = 104
+        this._errHandler.sync(this)
+        _la = this._input.LA(1)
+        if (
+          _la === SourCParser.LeftParen ||
+          _la === SourCParser.Star ||
+          _la === SourCParser.Identifier
+        ) {
+          {
+            this.state = 103
+            this.init_declarator()
+          }
+        }
+
+        this.state = 106
         this.match(SourCParser.Semi)
       }
     } catch (re) {
@@ -542,13 +607,13 @@ export class SourCParser extends Parser {
     const _localctx: Init_declaratorContext = new Init_declaratorContext(this._ctx, this.state)
     this.enterRule(_localctx, 8, SourCParser.RULE_init_declarator)
     try {
-      this.state = 95
+      this.state = 113
       this._errHandler.sync(this)
-      switch (this.interpreter.adaptivePredict(this._input, 3, this._ctx)) {
+      switch (this.interpreter.adaptivePredict(this._input, 5, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 90
+            this.state = 108
             this.declarator()
           }
           break
@@ -556,11 +621,11 @@ export class SourCParser extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 91
+            this.state = 109
             this.declarator()
-            this.state = 92
+            this.state = 110
             this.match(SourCParser.Assign)
-            this.state = 93
+            this.state = 111
             this.initializer()
           }
           break
@@ -584,13 +649,13 @@ export class SourCParser extends Parser {
     this.enterRule(_localctx, 10, SourCParser.RULE_declarator)
     let _la: number
     try {
-      this.state = 129
+      this.state = 141
       this._errHandler.sync(this)
-      switch (this.interpreter.adaptivePredict(this._input, 8, this._ctx)) {
+      switch (this.interpreter.adaptivePredict(this._input, 10, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 97
+            this.state = 115
             this.match(SourCParser.Identifier)
           }
           break
@@ -598,17 +663,17 @@ export class SourCParser extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 99
+            this.state = 117
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (_la === SourCParser.Star) {
               {
-                this.state = 98
+                this.state = 116
                 this.pointer()
               }
             }
 
-            this.state = 101
+            this.state = 119
             this.match(SourCParser.Identifier)
           }
           break
@@ -616,20 +681,20 @@ export class SourCParser extends Parser {
         case 3:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 102
+            this.state = 120
             this.match(SourCParser.LeftParen)
-            this.state = 103
+            this.state = 121
             this.match(SourCParser.Star)
-            this.state = 104
+            this.state = 122
             this.match(SourCParser.Identifier)
-            this.state = 105
+            this.state = 123
             this.match(SourCParser.RightParen)
-            this.state = 106
+            this.state = 124
             this.match(SourCParser.LeftParen)
-            this.state = 110
+            this.state = 126
             this._errHandler.sync(this)
             _la = this._input.LA(1)
-            while (
+            if (
               (_la & ~0x1f) === 0 &&
               ((1 << _la) &
                 ((1 << SourCParser.Char) |
@@ -641,16 +706,12 @@ export class SourCParser extends Parser {
                 0
             ) {
               {
-                {
-                  this.state = 107
-                  this.type_name()
-                }
+                this.state = 125
+                this.type_name_list()
               }
-              this.state = 112
-              this._errHandler.sync(this)
-              _la = this._input.LA(1)
             }
-            this.state = 113
+
+            this.state = 128
             this.match(SourCParser.RightParen)
           }
           break
@@ -658,11 +719,11 @@ export class SourCParser extends Parser {
         case 4:
           this.enterOuterAlt(_localctx, 4)
           {
-            this.state = 114
+            this.state = 129
             this.match(SourCParser.Identifier)
-            this.state = 115
+            this.state = 130
             this.match(SourCParser.LeftBracket)
-            this.state = 117
+            this.state = 132
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (
@@ -683,12 +744,12 @@ export class SourCParser extends Parser {
                   0)
             ) {
               {
-                this.state = 116
+                this.state = 131
                 this.constant_expression()
               }
             }
 
-            this.state = 119
+            this.state = 134
             this.match(SourCParser.RightBracket)
           }
           break
@@ -696,14 +757,14 @@ export class SourCParser extends Parser {
         case 5:
           this.enterOuterAlt(_localctx, 5)
           {
-            this.state = 120
+            this.state = 135
             this.match(SourCParser.Identifier)
-            this.state = 121
+            this.state = 136
             this.match(SourCParser.LeftParen)
-            this.state = 125
+            this.state = 138
             this._errHandler.sync(this)
             _la = this._input.LA(1)
-            while (
+            if (
               (_la & ~0x1f) === 0 &&
               ((1 << _la) &
                 ((1 << SourCParser.Char) |
@@ -713,22 +774,141 @@ export class SourCParser extends Parser {
                   (1 << SourCParser.Long) |
                   (1 << SourCParser.Short) |
                   (1 << SourCParser.Signed) |
+                  (1 << SourCParser.Struct) |
                   (1 << SourCParser.Unsigned) |
                   (1 << SourCParser.Void))) !==
                 0
             ) {
               {
+                this.state = 137
+                this.parameter_list(0)
+              }
+            }
+
+            this.state = 140
+            this.match(SourCParser.RightParen)
+          }
+          break
+      }
+    } catch (re) {
+      if (re instanceof RecognitionException) {
+        _localctx.exception = re
+        this._errHandler.reportError(this, re)
+        this._errHandler.recover(this, re)
+      } else {
+        throw re
+      }
+    } finally {
+      this.exitRule()
+    }
+    return _localctx
+  }
+  // @RuleVersion(0)
+  public type_name_list(): Type_name_listContext {
+    const _localctx: Type_name_listContext = new Type_name_listContext(this._ctx, this.state)
+    this.enterRule(_localctx, 12, SourCParser.RULE_type_name_list)
+    let _la: number
+    try {
+      this.state = 163
+      this._errHandler.sync(this)
+      switch (this.interpreter.adaptivePredict(this._input, 16, this._ctx)) {
+        case 1:
+          this.enterOuterAlt(_localctx, 1)
+          {
+            this.state = 144
+            this._errHandler.sync(this)
+            _la = this._input.LA(1)
+            do {
+              {
                 {
-                  this.state = 122
-                  this.parameter_list(0)
+                  this.state = 143
+                  this.type_name()
                 }
               }
-              this.state = 127
+              this.state = 146
               this._errHandler.sync(this)
               _la = this._input.LA(1)
+            } while (
+              (_la & ~0x1f) === 0 &&
+              ((1 << _la) &
+                ((1 << SourCParser.Char) |
+                  (1 << SourCParser.Double) |
+                  (1 << SourCParser.Float) |
+                  (1 << SourCParser.Int) |
+                  (1 << SourCParser.Long) |
+                  (1 << SourCParser.Short))) !==
+                0
+            )
+            this.state = 149
+            this._errHandler.sync(this)
+            _la = this._input.LA(1)
+            if (_la === SourCParser.Star) {
+              {
+                this.state = 148
+                this.pointer()
+              }
             }
-            this.state = 128
-            this.match(SourCParser.RightParen)
+          }
+          break
+
+        case 2:
+          this.enterOuterAlt(_localctx, 2)
+          {
+            this.state = 152
+            this._errHandler.sync(this)
+            _la = this._input.LA(1)
+            do {
+              {
+                {
+                  this.state = 151
+                  this.type_name()
+                }
+              }
+              this.state = 154
+              this._errHandler.sync(this)
+              _la = this._input.LA(1)
+            } while (
+              (_la & ~0x1f) === 0 &&
+              ((1 << _la) &
+                ((1 << SourCParser.Char) |
+                  (1 << SourCParser.Double) |
+                  (1 << SourCParser.Float) |
+                  (1 << SourCParser.Int) |
+                  (1 << SourCParser.Long) |
+                  (1 << SourCParser.Short))) !==
+                0
+            )
+            this.state = 157
+            this._errHandler.sync(this)
+            _la = this._input.LA(1)
+            if (_la === SourCParser.Star) {
+              {
+                this.state = 156
+                this.pointer()
+              }
+            }
+
+            this.state = 159
+            this.match(SourCParser.Comma)
+            this.state = 161
+            this._errHandler.sync(this)
+            _la = this._input.LA(1)
+            if (
+              (_la & ~0x1f) === 0 &&
+              ((1 << _la) &
+                ((1 << SourCParser.Char) |
+                  (1 << SourCParser.Double) |
+                  (1 << SourCParser.Float) |
+                  (1 << SourCParser.Int) |
+                  (1 << SourCParser.Long) |
+                  (1 << SourCParser.Short))) !==
+                0
+            ) {
+              {
+                this.state = 160
+                this.type_name_list()
+              }
+            }
           }
           break
       }
@@ -748,9 +928,9 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public initializer(): InitializerContext {
     const _localctx: InitializerContext = new InitializerContext(this._ctx, this.state)
-    this.enterRule(_localctx, 12, SourCParser.RULE_initializer)
+    this.enterRule(_localctx, 14, SourCParser.RULE_initializer)
     try {
-      this.state = 136
+      this.state = 170
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser.Sizeof:
@@ -767,18 +947,18 @@ export class SourCParser extends Parser {
         case SourCParser.StringLiteral:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 131
+            this.state = 165
             this.assignment_expression()
           }
           break
         case SourCParser.LeftBrace:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 132
+            this.state = 166
             this.match(SourCParser.LeftBrace)
-            this.state = 133
+            this.state = 167
             this.initializer_list(0)
-            this.state = 134
+            this.state = 168
             this.match(SourCParser.RightBrace)
           }
           break
@@ -811,20 +991,20 @@ export class SourCParser extends Parser {
     const _parentState: number = this.state
     let _localctx: Initializer_listContext = new Initializer_listContext(this._ctx, _parentState)
     let _prevctx: Initializer_listContext = _localctx
-    const _startState: number = 14
-    this.enterRecursionRule(_localctx, 14, SourCParser.RULE_initializer_list, _p)
+    const _startState: number = 16
+    this.enterRecursionRule(_localctx, 16, SourCParser.RULE_initializer_list, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 139
+          this.state = 173
           this.initializer()
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 146
+        this.state = 180
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 10, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 18, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -839,20 +1019,20 @@ export class SourCParser extends Parser {
                   _startState,
                   SourCParser.RULE_initializer_list
                 )
-                this.state = 141
+                this.state = 175
                 if (!this.precpred(this._ctx, 1)) {
                   throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                 }
-                this.state = 142
+                this.state = 176
                 this.match(SourCParser.Comma)
-                this.state = 143
+                this.state = 177
                 this.initializer()
               }
             }
           }
-          this.state = 148
+          this.state = 182
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 10, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 18, this._ctx)
         }
       }
     } catch (re) {
@@ -874,15 +1054,15 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 16, SourCParser.RULE_assignment_expression)
+    this.enterRule(_localctx, 18, SourCParser.RULE_assignment_expression)
     try {
-      this.state = 154
+      this.state = 188
       this._errHandler.sync(this)
-      switch (this.interpreter.adaptivePredict(this._input, 11, this._ctx)) {
+      switch (this.interpreter.adaptivePredict(this._input, 19, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 149
+            this.state = 183
             this.conditional_expression()
           }
           break
@@ -890,11 +1070,11 @@ export class SourCParser extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 150
+            this.state = 184
             this.unary_expression()
-            this.state = 151
+            this.state = 185
             this.match(SourCParser.Assign)
-            this.state = 152
+            this.state = 186
             this.assignment_expression()
           }
           break
@@ -918,15 +1098,15 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 18, SourCParser.RULE_conditional_expression)
+    this.enterRule(_localctx, 20, SourCParser.RULE_conditional_expression)
     try {
-      this.state = 163
+      this.state = 197
       this._errHandler.sync(this)
-      switch (this.interpreter.adaptivePredict(this._input, 12, this._ctx)) {
+      switch (this.interpreter.adaptivePredict(this._input, 20, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 156
+            this.state = 190
             this.logical_or_expression(0)
           }
           break
@@ -934,15 +1114,15 @@ export class SourCParser extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 157
+            this.state = 191
             this.logical_or_expression(0)
-            this.state = 158
+            this.state = 192
             this.match(SourCParser.Question)
-            this.state = 159
+            this.state = 193
             this.conditional_expression()
-            this.state = 160
+            this.state = 194
             this.match(SourCParser.Colon)
-            this.state = 161
+            this.state = 195
             this.conditional_expression()
           }
           break
@@ -976,20 +1156,20 @@ export class SourCParser extends Parser {
       _parentState
     )
     let _prevctx: Logical_or_expressionContext = _localctx
-    const _startState: number = 20
-    this.enterRecursionRule(_localctx, 20, SourCParser.RULE_logical_or_expression, _p)
+    const _startState: number = 22
+    this.enterRecursionRule(_localctx, 22, SourCParser.RULE_logical_or_expression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 166
+          this.state = 200
           this.logical_and_expression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 173
+        this.state = 207
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 13, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 21, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -1004,20 +1184,20 @@ export class SourCParser extends Parser {
                   _startState,
                   SourCParser.RULE_logical_or_expression
                 )
-                this.state = 168
+                this.state = 202
                 if (!this.precpred(this._ctx, 1)) {
                   throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                 }
-                this.state = 169
+                this.state = 203
                 this.match(SourCParser.OrOr)
-                this.state = 170
+                this.state = 204
                 this.logical_and_expression(0)
               }
             }
           }
-          this.state = 175
+          this.state = 209
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 13, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 21, this._ctx)
         }
       }
     } catch (re) {
@@ -1049,20 +1229,20 @@ export class SourCParser extends Parser {
       _parentState
     )
     let _prevctx: Logical_and_expressionContext = _localctx
-    const _startState: number = 22
-    this.enterRecursionRule(_localctx, 22, SourCParser.RULE_logical_and_expression, _p)
+    const _startState: number = 24
+    this.enterRecursionRule(_localctx, 24, SourCParser.RULE_logical_and_expression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 177
+          this.state = 211
           this.equality_expression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 184
+        this.state = 218
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 14, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 22, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -1077,20 +1257,20 @@ export class SourCParser extends Parser {
                   _startState,
                   SourCParser.RULE_logical_and_expression
                 )
-                this.state = 179
+                this.state = 213
                 if (!this.precpred(this._ctx, 1)) {
                   throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                 }
-                this.state = 180
+                this.state = 214
                 this.match(SourCParser.AndAnd)
-                this.state = 181
+                this.state = 215
                 this.equality_expression(0)
               }
             }
           }
-          this.state = 186
+          this.state = 220
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 14, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 22, this._ctx)
         }
       }
     } catch (re) {
@@ -1122,20 +1302,20 @@ export class SourCParser extends Parser {
       _parentState
     )
     let _prevctx: Equality_expressionContext = _localctx
-    const _startState: number = 24
-    this.enterRecursionRule(_localctx, 24, SourCParser.RULE_equality_expression, _p)
+    const _startState: number = 26
+    this.enterRecursionRule(_localctx, 26, SourCParser.RULE_equality_expression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 188
+          this.state = 222
           this.relational_expression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 198
+        this.state = 232
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 16, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 24, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -1143,9 +1323,9 @@ export class SourCParser extends Parser {
             }
             _prevctx = _localctx
             {
-              this.state = 196
+              this.state = 230
               this._errHandler.sync(this)
-              switch (this.interpreter.adaptivePredict(this._input, 15, this._ctx)) {
+              switch (this.interpreter.adaptivePredict(this._input, 23, this._ctx)) {
                 case 1:
                   {
                     _localctx = new Equality_expressionContext(_parentctx, _parentState)
@@ -1154,13 +1334,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_equality_expression
                     )
-                    this.state = 190
+                    this.state = 224
                     if (!this.precpred(this._ctx, 2)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 2)')
                     }
-                    this.state = 191
+                    this.state = 225
                     this.match(SourCParser.Equal)
-                    this.state = 192
+                    this.state = 226
                     this.relational_expression(0)
                   }
                   break
@@ -1173,22 +1353,22 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_equality_expression
                     )
-                    this.state = 193
+                    this.state = 227
                     if (!this.precpred(this._ctx, 1)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                     }
-                    this.state = 194
+                    this.state = 228
                     this.match(SourCParser.NotEqual)
-                    this.state = 195
+                    this.state = 229
                     this.relational_expression(0)
                   }
                   break
               }
             }
           }
-          this.state = 200
+          this.state = 234
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 16, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 24, this._ctx)
         }
       }
     } catch (re) {
@@ -1220,20 +1400,20 @@ export class SourCParser extends Parser {
       _parentState
     )
     let _prevctx: Relational_expressionContext = _localctx
-    const _startState: number = 26
-    this.enterRecursionRule(_localctx, 26, SourCParser.RULE_relational_expression, _p)
+    const _startState: number = 28
+    this.enterRecursionRule(_localctx, 28, SourCParser.RULE_relational_expression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 202
+          this.state = 236
           this.additive_expression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 218
+        this.state = 252
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 18, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -1241,9 +1421,9 @@ export class SourCParser extends Parser {
             }
             _prevctx = _localctx
             {
-              this.state = 216
+              this.state = 250
               this._errHandler.sync(this)
-              switch (this.interpreter.adaptivePredict(this._input, 17, this._ctx)) {
+              switch (this.interpreter.adaptivePredict(this._input, 25, this._ctx)) {
                 case 1:
                   {
                     _localctx = new Relational_expressionContext(_parentctx, _parentState)
@@ -1252,13 +1432,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_relational_expression
                     )
-                    this.state = 204
+                    this.state = 238
                     if (!this.precpred(this._ctx, 4)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 4)')
                     }
-                    this.state = 205
+                    this.state = 239
                     this.match(SourCParser.Less)
-                    this.state = 206
+                    this.state = 240
                     this.additive_expression(0)
                   }
                   break
@@ -1271,13 +1451,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_relational_expression
                     )
-                    this.state = 207
+                    this.state = 241
                     if (!this.precpred(this._ctx, 3)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 3)')
                     }
-                    this.state = 208
+                    this.state = 242
                     this.match(SourCParser.Greater)
-                    this.state = 209
+                    this.state = 243
                     this.additive_expression(0)
                   }
                   break
@@ -1290,13 +1470,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_relational_expression
                     )
-                    this.state = 210
+                    this.state = 244
                     if (!this.precpred(this._ctx, 2)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 2)')
                     }
-                    this.state = 211
+                    this.state = 245
                     this.match(SourCParser.LessEqual)
-                    this.state = 212
+                    this.state = 246
                     this.additive_expression(0)
                   }
                   break
@@ -1309,22 +1489,22 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_relational_expression
                     )
-                    this.state = 213
+                    this.state = 247
                     if (!this.precpred(this._ctx, 1)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                     }
-                    this.state = 214
+                    this.state = 248
                     this.match(SourCParser.GreaterEqual)
-                    this.state = 215
+                    this.state = 249
                     this.additive_expression(0)
                   }
                   break
               }
             }
           }
-          this.state = 220
+          this.state = 254
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 18, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 26, this._ctx)
         }
       }
     } catch (re) {
@@ -1356,20 +1536,20 @@ export class SourCParser extends Parser {
       _parentState
     )
     let _prevctx: Additive_expressionContext = _localctx
-    const _startState: number = 28
-    this.enterRecursionRule(_localctx, 28, SourCParser.RULE_additive_expression, _p)
+    const _startState: number = 30
+    this.enterRecursionRule(_localctx, 30, SourCParser.RULE_additive_expression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 222
+          this.state = 256
           this.multiplicative_expression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 232
+        this.state = 266
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 20, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 28, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -1377,9 +1557,9 @@ export class SourCParser extends Parser {
             }
             _prevctx = _localctx
             {
-              this.state = 230
+              this.state = 264
               this._errHandler.sync(this)
-              switch (this.interpreter.adaptivePredict(this._input, 19, this._ctx)) {
+              switch (this.interpreter.adaptivePredict(this._input, 27, this._ctx)) {
                 case 1:
                   {
                     _localctx = new Additive_expressionContext(_parentctx, _parentState)
@@ -1388,13 +1568,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_additive_expression
                     )
-                    this.state = 224
+                    this.state = 258
                     if (!this.precpred(this._ctx, 2)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 2)')
                     }
-                    this.state = 225
+                    this.state = 259
                     this.match(SourCParser.Plus)
-                    this.state = 226
+                    this.state = 260
                     this.multiplicative_expression(0)
                   }
                   break
@@ -1407,22 +1587,22 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_additive_expression
                     )
-                    this.state = 227
+                    this.state = 261
                     if (!this.precpred(this._ctx, 1)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                     }
-                    this.state = 228
+                    this.state = 262
                     this.match(SourCParser.Minus)
-                    this.state = 229
+                    this.state = 263
                     this.multiplicative_expression(0)
                   }
                   break
               }
             }
           }
-          this.state = 234
+          this.state = 268
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 20, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 28, this._ctx)
         }
       }
     } catch (re) {
@@ -1454,20 +1634,20 @@ export class SourCParser extends Parser {
       _parentState
     )
     let _prevctx: Multiplicative_expressionContext = _localctx
-    const _startState: number = 30
-    this.enterRecursionRule(_localctx, 30, SourCParser.RULE_multiplicative_expression, _p)
+    const _startState: number = 32
+    this.enterRecursionRule(_localctx, 32, SourCParser.RULE_multiplicative_expression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 236
+          this.state = 270
           this.cast_expression()
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 249
+        this.state = 283
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 22, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 30, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -1475,9 +1655,9 @@ export class SourCParser extends Parser {
             }
             _prevctx = _localctx
             {
-              this.state = 247
+              this.state = 281
               this._errHandler.sync(this)
-              switch (this.interpreter.adaptivePredict(this._input, 21, this._ctx)) {
+              switch (this.interpreter.adaptivePredict(this._input, 29, this._ctx)) {
                 case 1:
                   {
                     _localctx = new Multiplicative_expressionContext(_parentctx, _parentState)
@@ -1486,13 +1666,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_multiplicative_expression
                     )
-                    this.state = 238
+                    this.state = 272
                     if (!this.precpred(this._ctx, 3)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 3)')
                     }
-                    this.state = 239
+                    this.state = 273
                     this.match(SourCParser.Star)
-                    this.state = 240
+                    this.state = 274
                     this.cast_expression()
                   }
                   break
@@ -1505,13 +1685,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_multiplicative_expression
                     )
-                    this.state = 241
+                    this.state = 275
                     if (!this.precpred(this._ctx, 2)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 2)')
                     }
-                    this.state = 242
+                    this.state = 276
                     this.match(SourCParser.Div)
-                    this.state = 243
+                    this.state = 277
                     this.cast_expression()
                   }
                   break
@@ -1524,22 +1704,22 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_multiplicative_expression
                     )
-                    this.state = 244
+                    this.state = 278
                     if (!this.precpred(this._ctx, 1)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                     }
-                    this.state = 245
+                    this.state = 279
                     this.match(SourCParser.Mod)
-                    this.state = 246
+                    this.state = 280
                     this.cast_expression()
                   }
                   break
               }
             }
           }
-          this.state = 251
+          this.state = 285
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 22, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 30, this._ctx)
         }
       }
     } catch (re) {
@@ -1558,11 +1738,11 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public cast_expression(): Cast_expressionContext {
     const _localctx: Cast_expressionContext = new Cast_expressionContext(this._ctx, this.state)
-    this.enterRule(_localctx, 32, SourCParser.RULE_cast_expression)
+    this.enterRule(_localctx, 34, SourCParser.RULE_cast_expression)
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 252
+        this.state = 286
         this.unary_expression()
       }
     } catch (re) {
@@ -1581,9 +1761,9 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public unary_expression(): Unary_expressionContext {
     const _localctx: Unary_expressionContext = new Unary_expressionContext(this._ctx, this.state)
-    this.enterRule(_localctx, 34, SourCParser.RULE_unary_expression)
+    this.enterRule(_localctx, 36, SourCParser.RULE_unary_expression)
     try {
-      this.state = 267
+      this.state = 301
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser.LeftParen:
@@ -1592,25 +1772,25 @@ export class SourCParser extends Parser {
         case SourCParser.StringLiteral:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 254
+            this.state = 288
             this.postfix_expression(0)
           }
           break
         case SourCParser.PlusPlus:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 255
+            this.state = 289
             this.match(SourCParser.PlusPlus)
-            this.state = 256
+            this.state = 290
             this.unary_expression()
           }
           break
         case SourCParser.MinusMinus:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 257
+            this.state = 291
             this.match(SourCParser.MinusMinus)
-            this.state = 258
+            this.state = 292
             this.unary_expression()
           }
           break
@@ -1621,22 +1801,22 @@ export class SourCParser extends Parser {
         case SourCParser.Not:
           this.enterOuterAlt(_localctx, 4)
           {
-            this.state = 259
+            this.state = 293
             this.unary_operator()
-            this.state = 260
+            this.state = 294
             this.cast_expression()
           }
           break
         case SourCParser.Sizeof:
           this.enterOuterAlt(_localctx, 5)
           {
-            this.state = 262
+            this.state = 296
             this.match(SourCParser.Sizeof)
-            this.state = 263
+            this.state = 297
             this.match(SourCParser.LeftParen)
-            this.state = 264
+            this.state = 298
             this.sizeof_operands()
-            this.state = 265
+            this.state = 299
             this.match(SourCParser.RightParen)
           }
           break
@@ -1659,12 +1839,12 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public unary_operator(): Unary_operatorContext {
     const _localctx: Unary_operatorContext = new Unary_operatorContext(this._ctx, this.state)
-    this.enterRule(_localctx, 36, SourCParser.RULE_unary_operator)
+    this.enterRule(_localctx, 38, SourCParser.RULE_unary_operator)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 269
+        this.state = 303
         _la = this._input.LA(1)
         if (
           !(
@@ -1704,12 +1884,12 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public type_name(): Type_nameContext {
     const _localctx: Type_nameContext = new Type_nameContext(this._ctx, this.state)
-    this.enterRule(_localctx, 38, SourCParser.RULE_type_name)
+    this.enterRule(_localctx, 40, SourCParser.RULE_type_name)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 271
+        this.state = 305
         _la = this._input.LA(1)
         if (
           !(
@@ -1750,26 +1930,26 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public sizeof_operands(): Sizeof_operandsContext {
     const _localctx: Sizeof_operandsContext = new Sizeof_operandsContext(this._ctx, this.state)
-    this.enterRule(_localctx, 40, SourCParser.RULE_sizeof_operands)
+    this.enterRule(_localctx, 42, SourCParser.RULE_sizeof_operands)
     let _la: number
     try {
-      this.state = 283
+      this.state = 317
       this._errHandler.sync(this)
-      switch (this.interpreter.adaptivePredict(this._input, 26, this._ctx)) {
+      switch (this.interpreter.adaptivePredict(this._input, 34, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 274
+            this.state = 308
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (_la === SourCParser.Star) {
               {
-                this.state = 273
+                this.state = 307
                 this.pointer()
               }
             }
 
-            this.state = 276
+            this.state = 310
             this.type_name()
           }
           break
@@ -1777,17 +1957,17 @@ export class SourCParser extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 278
+            this.state = 312
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (_la === SourCParser.Star) {
               {
-                this.state = 277
+                this.state = 311
                 this.pointer()
               }
             }
 
-            this.state = 280
+            this.state = 314
             this.match(SourCParser.Identifier)
           }
           break
@@ -1795,9 +1975,9 @@ export class SourCParser extends Parser {
         case 3:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 281
+            this.state = 315
             this.match(SourCParser.And)
-            this.state = 282
+            this.state = 316
             this.match(SourCParser.Identifier)
           }
           break
@@ -1831,21 +2011,21 @@ export class SourCParser extends Parser {
       _parentState
     )
     let _prevctx: Postfix_expressionContext = _localctx
-    const _startState: number = 42
-    this.enterRecursionRule(_localctx, 42, SourCParser.RULE_postfix_expression, _p)
+    const _startState: number = 44
+    this.enterRecursionRule(_localctx, 44, SourCParser.RULE_postfix_expression, _p)
     let _la: number
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 286
+          this.state = 320
           this.primary_expression()
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 314
+        this.state = 348
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 29, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 37, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -1853,9 +2033,9 @@ export class SourCParser extends Parser {
             }
             _prevctx = _localctx
             {
-              this.state = 312
+              this.state = 346
               this._errHandler.sync(this)
-              switch (this.interpreter.adaptivePredict(this._input, 28, this._ctx)) {
+              switch (this.interpreter.adaptivePredict(this._input, 36, this._ctx)) {
                 case 1:
                   {
                     _localctx = new Postfix_expressionContext(_parentctx, _parentState)
@@ -1864,15 +2044,15 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_postfix_expression
                     )
-                    this.state = 288
+                    this.state = 322
                     if (!this.precpred(this._ctx, 6)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 6)')
                     }
-                    this.state = 289
+                    this.state = 323
                     this.match(SourCParser.LeftBracket)
-                    this.state = 290
+                    this.state = 324
                     this.expression(0)
-                    this.state = 291
+                    this.state = 325
                     this.match(SourCParser.RightBracket)
                   }
                   break
@@ -1885,13 +2065,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_postfix_expression
                     )
-                    this.state = 293
+                    this.state = 327
                     if (!this.precpred(this._ctx, 5)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 5)')
                     }
-                    this.state = 294
+                    this.state = 328
                     this.match(SourCParser.LeftParen)
-                    this.state = 298
+                    this.state = 332
                     this._errHandler.sync(this)
                     _la = this._input.LA(1)
                     while (
@@ -1913,15 +2093,15 @@ export class SourCParser extends Parser {
                     ) {
                       {
                         {
-                          this.state = 295
+                          this.state = 329
                           this.expression(0)
                         }
                       }
-                      this.state = 300
+                      this.state = 334
                       this._errHandler.sync(this)
                       _la = this._input.LA(1)
                     }
-                    this.state = 301
+                    this.state = 335
                     this.match(SourCParser.RightParen)
                   }
                   break
@@ -1934,13 +2114,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_postfix_expression
                     )
-                    this.state = 302
+                    this.state = 336
                     if (!this.precpred(this._ctx, 4)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 4)')
                     }
-                    this.state = 303
+                    this.state = 337
                     this.match(SourCParser.Dot)
-                    this.state = 304
+                    this.state = 338
                     this.match(SourCParser.Identifier)
                   }
                   break
@@ -1953,13 +2133,13 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_postfix_expression
                     )
-                    this.state = 305
+                    this.state = 339
                     if (!this.precpred(this._ctx, 3)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 3)')
                     }
-                    this.state = 306
+                    this.state = 340
                     this.match(SourCParser.Arrow)
-                    this.state = 307
+                    this.state = 341
                     this.match(SourCParser.Identifier)
                   }
                   break
@@ -1972,11 +2152,11 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_postfix_expression
                     )
-                    this.state = 308
+                    this.state = 342
                     if (!this.precpred(this._ctx, 2)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 2)')
                     }
-                    this.state = 309
+                    this.state = 343
                     this.match(SourCParser.PlusPlus)
                   }
                   break
@@ -1989,20 +2169,20 @@ export class SourCParser extends Parser {
                       _startState,
                       SourCParser.RULE_postfix_expression
                     )
-                    this.state = 310
+                    this.state = 344
                     if (!this.precpred(this._ctx, 1)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                     }
-                    this.state = 311
+                    this.state = 345
                     this.match(SourCParser.MinusMinus)
                   }
                   break
               }
             }
           }
-          this.state = 316
+          this.state = 350
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 29, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 37, this._ctx)
         }
       }
     } catch (re) {
@@ -2024,40 +2204,40 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 44, SourCParser.RULE_primary_expression)
+    this.enterRule(_localctx, 46, SourCParser.RULE_primary_expression)
     try {
-      this.state = 324
+      this.state = 358
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser.Identifier:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 317
+            this.state = 351
             this.match(SourCParser.Identifier)
           }
           break
         case SourCParser.Constant:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 318
+            this.state = 352
             this.match(SourCParser.Constant)
           }
           break
         case SourCParser.StringLiteral:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 319
+            this.state = 353
             this.match(SourCParser.StringLiteral)
           }
           break
         case SourCParser.LeftParen:
           this.enterOuterAlt(_localctx, 4)
           {
-            this.state = 320
+            this.state = 354
             this.match(SourCParser.LeftParen)
-            this.state = 321
+            this.state = 355
             this.expression(0)
-            this.state = 322
+            this.state = 356
             this.match(SourCParser.RightParen)
           }
           break
@@ -2090,20 +2270,20 @@ export class SourCParser extends Parser {
     const _parentState: number = this.state
     let _localctx: ExpressionContext = new ExpressionContext(this._ctx, _parentState)
     let _prevctx: ExpressionContext = _localctx
-    const _startState: number = 46
-    this.enterRecursionRule(_localctx, 46, SourCParser.RULE_expression, _p)
+    const _startState: number = 48
+    this.enterRecursionRule(_localctx, 48, SourCParser.RULE_expression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 327
+          this.state = 361
           this.assignment_expression()
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 334
+        this.state = 368
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 31, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 39, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -2114,20 +2294,20 @@ export class SourCParser extends Parser {
               {
                 _localctx = new ExpressionContext(_parentctx, _parentState)
                 this.pushNewRecursionContext(_localctx, _startState, SourCParser.RULE_expression)
-                this.state = 329
+                this.state = 363
                 if (!this.precpred(this._ctx, 1)) {
                   throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                 }
-                this.state = 330
+                this.state = 364
                 this.match(SourCParser.Comma)
-                this.state = 331
+                this.state = 365
                 this.assignment_expression()
               }
             }
           }
-          this.state = 336
+          this.state = 370
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 31, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 39, this._ctx)
         }
       }
     } catch (re) {
@@ -2149,11 +2329,11 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 48, SourCParser.RULE_constant_expression)
+    this.enterRule(_localctx, 50, SourCParser.RULE_constant_expression)
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 337
+        this.state = 371
         this.conditional_expression()
       }
     } catch (re) {
@@ -2175,22 +2355,22 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 50, SourCParser.RULE_function_definition)
+    this.enterRule(_localctx, 52, SourCParser.RULE_function_definition)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 340
+        this.state = 374
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         do {
           {
             {
-              this.state = 339
+              this.state = 373
               this.type_specifier()
             }
           }
-          this.state = 342
+          this.state = 376
           this._errHandler.sync(this)
           _la = this._input.LA(1)
         } while (
@@ -2203,25 +2383,26 @@ export class SourCParser extends Parser {
               (1 << SourCParser.Long) |
               (1 << SourCParser.Short) |
               (1 << SourCParser.Signed) |
+              (1 << SourCParser.Struct) |
               (1 << SourCParser.Unsigned) |
               (1 << SourCParser.Void))) !==
             0
         )
-        this.state = 345
+        this.state = 379
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         if (_la === SourCParser.Star) {
           {
-            this.state = 344
+            this.state = 378
             this.pointer()
           }
         }
 
-        this.state = 347
+        this.state = 381
         this.match(SourCParser.Identifier)
-        this.state = 348
+        this.state = 382
         this.match(SourCParser.LeftParen)
-        this.state = 352
+        this.state = 386
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         while (
@@ -2234,23 +2415,24 @@ export class SourCParser extends Parser {
               (1 << SourCParser.Long) |
               (1 << SourCParser.Short) |
               (1 << SourCParser.Signed) |
+              (1 << SourCParser.Struct) |
               (1 << SourCParser.Unsigned) |
               (1 << SourCParser.Void))) !==
             0
         ) {
           {
             {
-              this.state = 349
+              this.state = 383
               this.parameter_list(0)
             }
           }
-          this.state = 354
+          this.state = 388
           this._errHandler.sync(this)
           _la = this._input.LA(1)
         }
-        this.state = 355
+        this.state = 389
         this.match(SourCParser.RightParen)
-        this.state = 356
+        this.state = 390
         this.compound_statement()
       }
     } catch (re) {
@@ -2269,19 +2451,19 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public pointer(): PointerContext {
     const _localctx: PointerContext = new PointerContext(this._ctx, this.state)
-    this.enterRule(_localctx, 52, SourCParser.RULE_pointer)
+    this.enterRule(_localctx, 54, SourCParser.RULE_pointer)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 358
+        this.state = 392
         this.match(SourCParser.Star)
-        this.state = 360
+        this.state = 394
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         if (_la === SourCParser.Star) {
           {
-            this.state = 359
+            this.state = 393
             this.pointer()
           }
         }
@@ -2312,20 +2494,20 @@ export class SourCParser extends Parser {
     const _parentState: number = this.state
     let _localctx: Parameter_listContext = new Parameter_listContext(this._ctx, _parentState)
     let _prevctx: Parameter_listContext = _localctx
-    const _startState: number = 54
-    this.enterRecursionRule(_localctx, 54, SourCParser.RULE_parameter_list, _p)
+    const _startState: number = 56
+    this.enterRecursionRule(_localctx, 56, SourCParser.RULE_parameter_list, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
-          this.state = 363
+          this.state = 397
           this.parameter_declaration()
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 370
+        this.state = 404
         this._errHandler.sync(this)
-        _alt = this.interpreter.adaptivePredict(this._input, 36, this._ctx)
+        _alt = this.interpreter.adaptivePredict(this._input, 44, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             if (this._parseListeners != null) {
@@ -2340,20 +2522,20 @@ export class SourCParser extends Parser {
                   _startState,
                   SourCParser.RULE_parameter_list
                 )
-                this.state = 365
+                this.state = 399
                 if (!this.precpred(this._ctx, 1)) {
                   throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
                 }
-                this.state = 366
+                this.state = 400
                 this.match(SourCParser.Comma)
-                this.state = 367
+                this.state = 401
                 this.parameter_declaration()
               }
             }
           }
-          this.state = 372
+          this.state = 406
           this._errHandler.sync(this)
-          _alt = this.interpreter.adaptivePredict(this._input, 36, this._ctx)
+          _alt = this.interpreter.adaptivePredict(this._input, 44, this._ctx)
         }
       }
     } catch (re) {
@@ -2375,22 +2557,22 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 56, SourCParser.RULE_parameter_declaration)
+    this.enterRule(_localctx, 58, SourCParser.RULE_parameter_declaration)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 374
+        this.state = 408
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         do {
           {
             {
-              this.state = 373
+              this.state = 407
               this.type_specifier()
             }
           }
-          this.state = 376
+          this.state = 410
           this._errHandler.sync(this)
           _la = this._input.LA(1)
         } while (
@@ -2403,21 +2585,22 @@ export class SourCParser extends Parser {
               (1 << SourCParser.Long) |
               (1 << SourCParser.Short) |
               (1 << SourCParser.Signed) |
+              (1 << SourCParser.Struct) |
               (1 << SourCParser.Unsigned) |
               (1 << SourCParser.Void))) !==
             0
         )
-        this.state = 379
+        this.state = 413
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         if (_la === SourCParser.Star) {
           {
-            this.state = 378
+            this.state = 412
             this.pointer()
           }
         }
 
-        this.state = 381
+        this.state = 415
         this.match(SourCParser.Identifier)
       }
     } catch (re) {
@@ -2439,14 +2622,14 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 58, SourCParser.RULE_compound_statement)
+    this.enterRule(_localctx, 60, SourCParser.RULE_compound_statement)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 383
+        this.state = 417
         this.match(SourCParser.LeftBrace)
-        this.state = 387
+        this.state = 421
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         while (
@@ -2466,6 +2649,7 @@ export class SourCParser extends Parser {
                 (1 << SourCParser.Short) |
                 (1 << SourCParser.Signed) |
                 (1 << SourCParser.Sizeof) |
+                (1 << SourCParser.Struct) |
                 (1 << SourCParser.Unsigned) |
                 (1 << SourCParser.Void) |
                 (1 << SourCParser.While) |
@@ -2489,15 +2673,15 @@ export class SourCParser extends Parser {
         ) {
           {
             {
-              this.state = 384
+              this.state = 418
               this.statement()
             }
           }
-          this.state = 389
+          this.state = 423
           this._errHandler.sync(this)
           _la = this._input.LA(1)
         }
-        this.state = 390
+        this.state = 424
         this.match(SourCParser.RightBrace)
       }
     } catch (re) {
@@ -2516,9 +2700,9 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public statement(): StatementContext {
     const _localctx: StatementContext = new StatementContext(this._ctx, this.state)
-    this.enterRule(_localctx, 60, SourCParser.RULE_statement)
+    this.enterRule(_localctx, 62, SourCParser.RULE_statement)
     try {
-      this.state = 398
+      this.state = 432
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser.Char:
@@ -2528,11 +2712,12 @@ export class SourCParser extends Parser {
         case SourCParser.Long:
         case SourCParser.Short:
         case SourCParser.Signed:
+        case SourCParser.Struct:
         case SourCParser.Unsigned:
         case SourCParser.Void:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 392
+            this.state = 426
             this.declaration()
           }
           break
@@ -2551,21 +2736,21 @@ export class SourCParser extends Parser {
         case SourCParser.StringLiteral:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 393
+            this.state = 427
             this.expression_statement()
           }
           break
         case SourCParser.LeftBrace:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 394
+            this.state = 428
             this.compound_statement()
           }
           break
         case SourCParser.If:
           this.enterOuterAlt(_localctx, 4)
           {
-            this.state = 395
+            this.state = 429
             this.selection_statement()
           }
           break
@@ -2574,7 +2759,7 @@ export class SourCParser extends Parser {
         case SourCParser.While:
           this.enterOuterAlt(_localctx, 5)
           {
-            this.state = 396
+            this.state = 430
             this.iteration_statement()
           }
           break
@@ -2583,7 +2768,7 @@ export class SourCParser extends Parser {
         case SourCParser.Return:
           this.enterOuterAlt(_localctx, 6)
           {
-            this.state = 397
+            this.state = 431
             this.jump_statement()
           }
           break
@@ -2609,12 +2794,12 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 62, SourCParser.RULE_expression_statement)
+    this.enterRule(_localctx, 64, SourCParser.RULE_expression_statement)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 401
+        this.state = 435
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         if (
@@ -2635,12 +2820,12 @@ export class SourCParser extends Parser {
               0)
         ) {
           {
-            this.state = 400
+            this.state = 434
             this.expression(0)
           }
         }
 
-        this.state = 403
+        this.state = 437
         this.match(SourCParser.Semi)
       }
     } catch (re) {
@@ -2662,23 +2847,23 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 64, SourCParser.RULE_selection_statement)
+    this.enterRule(_localctx, 66, SourCParser.RULE_selection_statement)
     try {
-      this.state = 419
+      this.state = 453
       this._errHandler.sync(this)
-      switch (this.interpreter.adaptivePredict(this._input, 42, this._ctx)) {
+      switch (this.interpreter.adaptivePredict(this._input, 50, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 405
+            this.state = 439
             this.match(SourCParser.If)
-            this.state = 406
+            this.state = 440
             this.match(SourCParser.LeftParen)
-            this.state = 407
+            this.state = 441
             this.expression(0)
-            this.state = 408
+            this.state = 442
             this.match(SourCParser.RightParen)
-            this.state = 409
+            this.state = 443
             this.statement()
           }
           break
@@ -2686,19 +2871,19 @@ export class SourCParser extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 411
+            this.state = 445
             this.match(SourCParser.If)
-            this.state = 412
+            this.state = 446
             this.match(SourCParser.LeftParen)
-            this.state = 413
+            this.state = 447
             this.expression(0)
-            this.state = 414
+            this.state = 448
             this.match(SourCParser.RightParen)
-            this.state = 415
+            this.state = 449
             this.statement()
-            this.state = 416
+            this.state = 450
             this.match(SourCParser.Else)
-            this.state = 417
+            this.state = 451
             this.statement()
           }
           break
@@ -2722,54 +2907,54 @@ export class SourCParser extends Parser {
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 66, SourCParser.RULE_iteration_statement)
+    this.enterRule(_localctx, 68, SourCParser.RULE_iteration_statement)
     let _la: number
     try {
-      this.state = 450
+      this.state = 484
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser.While:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 421
+            this.state = 455
             this.match(SourCParser.While)
-            this.state = 422
+            this.state = 456
             this.match(SourCParser.LeftParen)
-            this.state = 423
+            this.state = 457
             this.expression(0)
-            this.state = 424
+            this.state = 458
             this.match(SourCParser.RightParen)
-            this.state = 425
+            this.state = 459
             this.statement()
           }
           break
         case SourCParser.Do:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 427
+            this.state = 461
             this.match(SourCParser.Do)
-            this.state = 428
+            this.state = 462
             this.statement()
-            this.state = 429
+            this.state = 463
             this.match(SourCParser.While)
-            this.state = 430
+            this.state = 464
             this.match(SourCParser.LeftParen)
-            this.state = 431
+            this.state = 465
             this.expression(0)
-            this.state = 432
+            this.state = 466
             this.match(SourCParser.RightParen)
-            this.state = 433
+            this.state = 467
             this.match(SourCParser.Semi)
           }
           break
         case SourCParser.For:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 435
+            this.state = 469
             this.match(SourCParser.For)
-            this.state = 436
+            this.state = 470
             this.match(SourCParser.LeftParen)
-            this.state = 438
+            this.state = 472
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (
@@ -2790,14 +2975,14 @@ export class SourCParser extends Parser {
                   0)
             ) {
               {
-                this.state = 437
+                this.state = 471
                 this.expression(0)
               }
             }
 
-            this.state = 440
+            this.state = 474
             this.match(SourCParser.Semi)
-            this.state = 442
+            this.state = 476
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (
@@ -2818,14 +3003,14 @@ export class SourCParser extends Parser {
                   0)
             ) {
               {
-                this.state = 441
+                this.state = 475
                 this.expression(0)
               }
             }
 
-            this.state = 444
+            this.state = 478
             this.match(SourCParser.Semi)
-            this.state = 446
+            this.state = 480
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (
@@ -2846,14 +3031,14 @@ export class SourCParser extends Parser {
                   0)
             ) {
               {
-                this.state = 445
+                this.state = 479
                 this.expression(0)
               }
             }
 
-            this.state = 448
+            this.state = 482
             this.match(SourCParser.RightParen)
-            this.state = 449
+            this.state = 483
             this.statement()
           }
           break
@@ -2876,36 +3061,36 @@ export class SourCParser extends Parser {
   // @RuleVersion(0)
   public jump_statement(): Jump_statementContext {
     const _localctx: Jump_statementContext = new Jump_statementContext(this._ctx, this.state)
-    this.enterRule(_localctx, 68, SourCParser.RULE_jump_statement)
+    this.enterRule(_localctx, 70, SourCParser.RULE_jump_statement)
     let _la: number
     try {
-      this.state = 461
+      this.state = 495
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser.Continue:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 452
+            this.state = 486
             this.match(SourCParser.Continue)
-            this.state = 453
+            this.state = 487
             this.match(SourCParser.Semi)
           }
           break
         case SourCParser.Break:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 454
+            this.state = 488
             this.match(SourCParser.Break)
-            this.state = 455
+            this.state = 489
             this.match(SourCParser.Semi)
           }
           break
         case SourCParser.Return:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 456
+            this.state = 490
             this.match(SourCParser.Return)
-            this.state = 458
+            this.state = 492
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (
@@ -2926,12 +3111,12 @@ export class SourCParser extends Parser {
                   0)
             ) {
               {
-                this.state = 457
+                this.state = 491
                 this.expression(0)
               }
             }
 
-            this.state = 460
+            this.state = 494
             this.match(SourCParser.Semi)
           }
           break
@@ -2951,49 +3136,180 @@ export class SourCParser extends Parser {
     }
     return _localctx
   }
+  // @RuleVersion(0)
+  public struct_specifier(): Struct_specifierContext {
+    const _localctx: Struct_specifierContext = new Struct_specifierContext(this._ctx, this.state)
+    this.enterRule(_localctx, 72, SourCParser.RULE_struct_specifier)
+    let _la: number
+    try {
+      this.state = 509
+      this._errHandler.sync(this)
+      switch (this.interpreter.adaptivePredict(this._input, 58, this._ctx)) {
+        case 1:
+          this.enterOuterAlt(_localctx, 1)
+          {
+            this.state = 497
+            this.match(SourCParser.Struct)
+            this.state = 498
+            this.match(SourCParser.Identifier)
+          }
+          break
+
+        case 2:
+          this.enterOuterAlt(_localctx, 2)
+          {
+            this.state = 499
+            this.match(SourCParser.Struct)
+            this.state = 500
+            this.match(SourCParser.Identifier)
+            this.state = 501
+            this.match(SourCParser.LeftBrace)
+            this.state = 503
+            this._errHandler.sync(this)
+            _la = this._input.LA(1)
+            do {
+              {
+                {
+                  this.state = 502
+                  this.struct_declaration()
+                }
+              }
+              this.state = 505
+              this._errHandler.sync(this)
+              _la = this._input.LA(1)
+            } while (
+              (_la & ~0x1f) === 0 &&
+              ((1 << _la) &
+                ((1 << SourCParser.Char) |
+                  (1 << SourCParser.Double) |
+                  (1 << SourCParser.Float) |
+                  (1 << SourCParser.Int) |
+                  (1 << SourCParser.Long) |
+                  (1 << SourCParser.Short) |
+                  (1 << SourCParser.Signed) |
+                  (1 << SourCParser.Struct) |
+                  (1 << SourCParser.Unsigned) |
+                  (1 << SourCParser.Void))) !==
+                0
+            )
+            this.state = 507
+            this.match(SourCParser.RightBrace)
+          }
+          break
+      }
+    } catch (re) {
+      if (re instanceof RecognitionException) {
+        _localctx.exception = re
+        this._errHandler.reportError(this, re)
+        this._errHandler.recover(this, re)
+      } else {
+        throw re
+      }
+    } finally {
+      this.exitRule()
+    }
+    return _localctx
+  }
+  // @RuleVersion(0)
+  public struct_declaration(): Struct_declarationContext {
+    const _localctx: Struct_declarationContext = new Struct_declarationContext(
+      this._ctx,
+      this.state
+    )
+    this.enterRule(_localctx, 74, SourCParser.RULE_struct_declaration)
+    let _la: number
+    try {
+      this.enterOuterAlt(_localctx, 1)
+      {
+        this.state = 512
+        this._errHandler.sync(this)
+        _la = this._input.LA(1)
+        do {
+          {
+            {
+              this.state = 511
+              this.type_specifier()
+            }
+          }
+          this.state = 514
+          this._errHandler.sync(this)
+          _la = this._input.LA(1)
+        } while (
+          (_la & ~0x1f) === 0 &&
+          ((1 << _la) &
+            ((1 << SourCParser.Char) |
+              (1 << SourCParser.Double) |
+              (1 << SourCParser.Float) |
+              (1 << SourCParser.Int) |
+              (1 << SourCParser.Long) |
+              (1 << SourCParser.Short) |
+              (1 << SourCParser.Signed) |
+              (1 << SourCParser.Struct) |
+              (1 << SourCParser.Unsigned) |
+              (1 << SourCParser.Void))) !==
+            0
+        )
+        this.state = 516
+        this.declarator()
+        this.state = 517
+        this.match(SourCParser.Semi)
+      }
+    } catch (re) {
+      if (re instanceof RecognitionException) {
+        _localctx.exception = re
+        this._errHandler.reportError(this, re)
+        this._errHandler.recover(this, re)
+      } else {
+        throw re
+      }
+    } finally {
+      this.exitRule()
+    }
+    return _localctx
+  }
 
   public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
     switch (ruleIndex) {
-      case 7:
+      case 8:
         return this.initializer_list_sempred(_localctx as Initializer_listContext, predIndex)
 
-      case 10:
+      case 11:
         return this.logical_or_expression_sempred(
           _localctx as Logical_or_expressionContext,
           predIndex
         )
 
-      case 11:
+      case 12:
         return this.logical_and_expression_sempred(
           _localctx as Logical_and_expressionContext,
           predIndex
         )
 
-      case 12:
+      case 13:
         return this.equality_expression_sempred(_localctx as Equality_expressionContext, predIndex)
 
-      case 13:
+      case 14:
         return this.relational_expression_sempred(
           _localctx as Relational_expressionContext,
           predIndex
         )
 
-      case 14:
+      case 15:
         return this.additive_expression_sempred(_localctx as Additive_expressionContext, predIndex)
 
-      case 15:
+      case 16:
         return this.multiplicative_expression_sempred(
           _localctx as Multiplicative_expressionContext,
           predIndex
         )
 
-      case 21:
+      case 22:
         return this.postfix_expression_sempred(_localctx as Postfix_expressionContext, predIndex)
 
-      case 23:
+      case 24:
         return this.expression_sempred(_localctx as ExpressionContext, predIndex)
 
-      case 27:
+      case 28:
         return this.parameter_list_sempred(_localctx as Parameter_listContext, predIndex)
     }
     return true
@@ -3127,233 +3443,265 @@ export class SourCParser extends Parser {
   }
 
   public static readonly _serializedATN: string =
-    '\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03J\u01D2\x04\x02' +
+    '\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03J\u020A\x04\x02' +
     '\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07' +
     '\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04' +
     '\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x04\x11\t\x11\x04\x12\t\x12\x04' +
     '\x13\t\x13\x04\x14\t\x14\x04\x15\t\x15\x04\x16\t\x16\x04\x17\t\x17\x04' +
     '\x18\t\x18\x04\x19\t\x19\x04\x1A\t\x1A\x04\x1B\t\x1B\x04\x1C\t\x1C\x04' +
     '\x1D\t\x1D\x04\x1E\t\x1E\x04\x1F\t\x1F\x04 \t \x04!\t!\x04"\t"\x04#' +
-    '\t#\x04$\t$\x03\x02\x03\x02\x03\x03\x07\x03L\n\x03\f\x03\x0E\x03O\v\x03' +
-    '\x03\x04\x03\x04\x05\x04S\n\x04\x03\x05\x06\x05V\n\x05\r\x05\x0E\x05W' +
-    '\x03\x05\x03\x05\x03\x05\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x05\x06' +
-    'b\n\x06\x03\x07\x03\x07\x05\x07f\n\x07\x03\x07\x03\x07\x03\x07\x03\x07' +
-    '\x03\x07\x03\x07\x03\x07\x07\x07o\n\x07\f\x07\x0E\x07r\v\x07\x03\x07\x03' +
-    '\x07\x03\x07\x03\x07\x05\x07x\n\x07\x03\x07\x03\x07\x03\x07\x03\x07\x07' +
-    '\x07~\n\x07\f\x07\x0E\x07\x81\v\x07\x03\x07\x05\x07\x84\n\x07\x03\b\x03' +
-    '\b\x03\b\x03\b\x03\b\x05\b\x8B\n\b\x03\t\x03\t\x03\t\x03\t\x03\t\x03\t' +
-    '\x07\t\x93\n\t\f\t\x0E\t\x96\v\t\x03\n\x03\n\x03\n\x03\n\x03\n\x05\n\x9D' +
-    '\n\n\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x05\v\xA6\n\v\x03\f\x03' +
-    '\f\x03\f\x03\f\x03\f\x03\f\x07\f\xAE\n\f\f\f\x0E\f\xB1\v\f\x03\r\x03\r' +
-    '\x03\r\x03\r\x03\r\x03\r\x07\r\xB9\n\r\f\r\x0E\r\xBC\v\r\x03\x0E\x03\x0E' +
-    '\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x07\x0E\xC7\n' +
-    '\x0E\f\x0E\x0E\x0E\xCA\v\x0E\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03' +
-    '\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03' +
-    '\x0F\x07\x0F\xDB\n\x0F\f\x0F\x0E\x0F\xDE\v\x0F\x03\x10\x03\x10\x03\x10' +
-    '\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x07\x10\xE9\n\x10\f\x10' +
-    '\x0E\x10\xEC\v\x10\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11\x03' +
-    '\x11\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11\x07\x11\xFA\n\x11\f\x11\x0E' +
-    '\x11\xFD\v\x11\x03\x12\x03\x12\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13' +
-    '\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x05\x13' +
-    '\u010E\n\x13\x03\x14\x03\x14\x03\x15\x03\x15\x03\x16\x05\x16\u0115\n\x16' +
-    '\x03\x16\x03\x16\x05\x16\u0119\n\x16\x03\x16\x03\x16\x03\x16\x05\x16\u011E' +
-    '\n\x16\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17' +
-    '\x03\x17\x03\x17\x03\x17\x07\x17\u012B\n\x17\f\x17\x0E\x17\u012E\v\x17' +
-    '\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17\x03\x17' +
-    '\x03\x17\x03\x17\x07\x17\u013B\n\x17\f\x17\x0E\x17\u013E\v\x17\x03\x18' +
-    '\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x05\x18\u0147\n\x18\x03' +
-    '\x19\x03\x19\x03\x19\x03\x19\x03\x19\x03\x19\x07\x19\u014F\n\x19\f\x19' +
-    '\x0E\x19\u0152\v\x19\x03\x1A\x03\x1A\x03\x1B\x06\x1B\u0157\n\x1B\r\x1B' +
-    '\x0E\x1B\u0158\x03\x1B\x05\x1B\u015C\n\x1B\x03\x1B\x03\x1B\x03\x1B\x07' +
-    '\x1B\u0161\n\x1B\f\x1B\x0E\x1B\u0164\v\x1B\x03\x1B\x03\x1B\x03\x1B\x03' +
-    '\x1C\x03\x1C\x05\x1C\u016B\n\x1C\x03\x1D\x03\x1D\x03\x1D\x03\x1D\x03\x1D' +
-    '\x03\x1D\x07\x1D\u0173\n\x1D\f\x1D\x0E\x1D\u0176\v\x1D\x03\x1E\x06\x1E' +
-    '\u0179\n\x1E\r\x1E\x0E\x1E\u017A\x03\x1E\x05\x1E\u017E\n\x1E\x03\x1E\x03' +
-    '\x1E\x03\x1F\x03\x1F\x07\x1F\u0184\n\x1F\f\x1F\x0E\x1F\u0187\v\x1F\x03' +
-    '\x1F\x03\x1F\x03 \x03 \x03 \x03 \x03 \x03 \x05 \u0191\n \x03!\x05!\u0194' +
-    '\n!\x03!\x03!\x03"\x03"\x03"\x03"\x03"\x03"\x03"\x03"\x03"\x03' +
-    '"\x03"\x03"\x03"\x03"\x05"\u01A6\n"\x03#\x03#\x03#\x03#\x03#\x03' +
-    '#\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x05#\u01B9\n' +
-    '#\x03#\x03#\x05#\u01BD\n#\x03#\x03#\x05#\u01C1\n#\x03#\x03#\x05#\u01C5' +
-    '\n#\x03$\x03$\x03$\x03$\x03$\x03$\x05$\u01CD\n$\x03$\x05$\u01D0\n$\x03' +
-    '$\x02\x02\f\x10\x16\x18\x1A\x1C\x1E ,08%\x02\x02\x04\x02\x06\x02\b\x02' +
-    '\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x1C' +
-    '\x02\x1E\x02 \x02"\x02$\x02&\x02(\x02*\x02,\x02.\x020\x022\x024\x026' +
-    '\x028\x02:\x02<\x02>\x02@\x02B\x02D\x02F\x02\x02\x05\b\x02\x04\x04\b\b' +
-    '\n\n\r\x0E\x10\x11\x15\x16\x07\x02$$&&((++..\x07\x02\x04\x04\b\b\n\n\r' +
-    '\x0E\x10\x10\x02\u01F5\x02H\x03\x02\x02\x02\x04M\x03\x02\x02\x02\x06R' +
-    '\x03\x02\x02\x02\bU\x03\x02\x02\x02\na\x03\x02\x02\x02\f\x83\x03\x02\x02' +
-    '\x02\x0E\x8A\x03\x02\x02\x02\x10\x8C\x03\x02\x02\x02\x12\x9C\x03\x02\x02' +
-    '\x02\x14\xA5\x03\x02\x02\x02\x16\xA7\x03\x02\x02\x02\x18\xB2\x03\x02\x02' +
-    '\x02\x1A\xBD\x03\x02\x02\x02\x1C\xCB\x03\x02\x02\x02\x1E\xDF\x03\x02\x02' +
-    '\x02 \xED\x03\x02\x02\x02"\xFE\x03\x02\x02\x02$\u010D\x03\x02\x02\x02' +
-    '&\u010F\x03\x02\x02\x02(\u0111\x03\x02\x02\x02*\u011D\x03\x02\x02\x02' +
-    ',\u011F\x03\x02\x02\x02.\u0146\x03\x02\x02\x020\u0148\x03\x02\x02\x02' +
-    '2\u0153\x03\x02\x02\x024\u0156\x03\x02\x02\x026\u0168\x03\x02\x02\x02' +
-    '8\u016C\x03\x02\x02\x02:\u0178\x03\x02\x02\x02<\u0181\x03\x02\x02\x02' +
-    '>\u0190\x03\x02\x02\x02@\u0193\x03\x02\x02\x02B\u01A5\x03\x02\x02\x02' +
-    'D\u01C4\x03\x02\x02\x02F\u01CF\x03\x02\x02\x02HI\t\x02\x02\x02I\x03\x03' +
-    '\x02\x02\x02JL\x05\x06\x04\x02KJ\x03\x02\x02\x02LO\x03\x02\x02\x02MK\x03' +
-    '\x02\x02\x02MN\x03\x02\x02\x02N\x05\x03\x02\x02\x02OM\x03\x02\x02\x02' +
-    'PS\x054\x1B\x02QS\x05\b\x05\x02RP\x03\x02\x02\x02RQ\x03\x02\x02\x02S\x07' +
-    '\x03\x02\x02\x02TV\x05\x02\x02\x02UT\x03\x02\x02\x02VW\x03\x02\x02\x02' +
-    'WU\x03\x02\x02\x02WX\x03\x02\x02\x02XY\x03\x02\x02\x02YZ\x05\n\x06\x02' +
-    'Z[\x071\x02\x02[\t\x03\x02\x02\x02\\b\x05\f\x07\x02]^\x05\f\x07\x02^_' +
-    '\x073\x02\x02_`\x05\x0E\b\x02`b\x03\x02\x02\x02a\\\x03\x02\x02\x02a]\x03' +
-    '\x02\x02\x02b\v\x03\x02\x02\x02c\x84\x07=\x02\x02df\x056\x1C\x02ed\x03' +
-    '\x02\x02\x02ef\x03\x02\x02\x02fg\x03\x02\x02\x02g\x84\x07=\x02\x02hi\x07' +
-    '\x18\x02\x02ij\x07(\x02\x02jk\x07=\x02\x02kl\x07\x19\x02\x02lp\x07\x18' +
-    '\x02\x02mo\x05(\x15\x02nm\x03\x02\x02\x02or\x03\x02\x02\x02pn\x03\x02' +
-    '\x02\x02pq\x03\x02\x02\x02qs\x03\x02\x02\x02rp\x03\x02\x02\x02s\x84\x07' +
-    '\x19\x02\x02tu\x07=\x02\x02uw\x07\x1A\x02\x02vx\x052\x1A\x02wv\x03\x02' +
-    '\x02\x02wx\x03\x02\x02\x02xy\x03\x02\x02\x02y\x84\x07\x1B\x02\x02z{\x07' +
-    '=\x02\x02{\x7F\x07\x18\x02\x02|~\x058\x1D\x02}|\x03\x02\x02\x02~\x81\x03' +
-    '\x02\x02\x02\x7F}\x03\x02\x02\x02\x7F\x80\x03\x02\x02\x02\x80\x82\x03' +
-    '\x02\x02\x02\x81\x7F\x03\x02\x02\x02\x82\x84\x07\x19\x02\x02\x83c\x03' +
-    '\x02\x02\x02\x83e\x03\x02\x02\x02\x83h\x03\x02\x02\x02\x83t\x03\x02\x02' +
-    '\x02\x83z\x03\x02\x02\x02\x84\r\x03\x02\x02\x02\x85\x8B\x05\x12\n\x02' +
-    '\x86\x87\x07\x1C\x02\x02\x87\x88\x05\x10\t\x02\x88\x89\x07\x1D\x02\x02' +
-    '\x89\x8B\x03\x02\x02\x02\x8A\x85\x03\x02\x02\x02\x8A\x86\x03\x02\x02\x02' +
-    '\x8B\x0F\x03\x02\x02\x02\x8C\x8D\b\t\x01\x02\x8D\x8E\x05\x0E\b\x02\x8E' +
-    '\x94\x03\x02\x02\x02\x8F\x90\f\x03\x02\x02\x90\x91\x072\x02\x02\x91\x93' +
-    '\x05\x0E\b\x02\x92\x8F\x03\x02\x02\x02\x93\x96\x03\x02\x02\x02\x94\x92' +
-    '\x03\x02\x02\x02\x94\x95\x03\x02\x02\x02\x95\x11\x03\x02\x02\x02\x96\x94' +
-    '\x03\x02\x02\x02\x97\x9D\x05\x14\v\x02\x98\x99\x05$\x13\x02\x99\x9A\x07' +
-    '3\x02\x02\x9A\x9B\x05\x12\n\x02\x9B\x9D\x03\x02\x02\x02\x9C\x97\x03\x02' +
-    '\x02\x02\x9C\x98\x03\x02\x02\x02\x9D\x13\x03\x02\x02\x02\x9E\xA6\x05\x16' +
-    '\f\x02\x9F\xA0\x05\x16\f\x02\xA0\xA1\x07/\x02\x02\xA1\xA2\x05\x14\v\x02' +
-    '\xA2\xA3\x070\x02\x02\xA3\xA4\x05\x14\v\x02\xA4\xA6\x03\x02\x02\x02\xA5' +
-    '\x9E\x03\x02\x02\x02\xA5\x9F\x03\x02\x02\x02\xA6\x15\x03\x02\x02\x02\xA7' +
-    '\xA8\b\f\x01\x02\xA8\xA9\x05\x18\r\x02\xA9\xAF\x03\x02\x02\x02\xAA\xAB' +
-    '\f\x03\x02\x02\xAB\xAC\x07-\x02\x02\xAC\xAE\x05\x18\r\x02\xAD\xAA\x03' +
-    '\x02\x02\x02\xAE\xB1\x03\x02\x02\x02\xAF\xAD\x03\x02\x02\x02\xAF\xB0\x03' +
-    '\x02\x02\x02\xB0\x17\x03\x02\x02\x02\xB1\xAF\x03\x02\x02\x02\xB2\xB3\b' +
-    '\r\x01\x02\xB3\xB4\x05\x1A\x0E\x02\xB4\xBA\x03\x02\x02\x02\xB5\xB6\f\x03' +
-    '\x02\x02\xB6\xB7\x07,\x02\x02\xB7\xB9\x05\x1A\x0E\x02\xB8\xB5\x03\x02' +
-    '\x02\x02\xB9\xBC\x03\x02\x02\x02\xBA\xB8\x03\x02\x02\x02\xBA\xBB\x03\x02' +
-    '\x02\x02\xBB\x19\x03\x02\x02\x02\xBC\xBA\x03\x02\x02\x02\xBD\xBE\b\x0E' +
-    '\x01\x02\xBE\xBF\x05\x1C\x0F\x02\xBF\xC8\x03\x02\x02\x02\xC0\xC1\f\x04' +
-    '\x02\x02\xC1\xC2\x079\x02\x02\xC2\xC7\x05\x1C\x0F\x02\xC3\xC4\f\x03\x02' +
-    '\x02\xC4\xC5\x07:\x02\x02\xC5\xC7\x05\x1C\x0F\x02\xC6\xC0\x03\x02\x02' +
-    '\x02\xC6\xC3\x03\x02\x02\x02\xC7\xCA\x03\x02\x02\x02\xC8\xC6\x03\x02\x02' +
-    '\x02\xC8\xC9\x03\x02\x02\x02\xC9\x1B\x03\x02\x02\x02\xCA\xC8\x03\x02\x02' +
-    '\x02\xCB\xCC\b\x0F\x01\x02\xCC\xCD\x05\x1E\x10\x02\xCD\xDC\x03\x02\x02' +
-    '\x02\xCE\xCF\f\x06\x02\x02\xCF\xD0\x07\x1E\x02\x02\xD0\xDB\x05\x1E\x10' +
-    '\x02\xD1\xD2\f\x05\x02\x02\xD2\xD3\x07 \x02\x02\xD3\xDB\x05\x1E\x10\x02' +
-    '\xD4\xD5\f\x04\x02\x02\xD5\xD6\x07\x1F\x02\x02\xD6\xDB\x05\x1E\x10\x02' +
-    '\xD7\xD8\f\x03\x02\x02\xD8\xD9\x07!\x02\x02\xD9\xDB\x05\x1E\x10\x02\xDA' +
-    '\xCE\x03\x02\x02\x02\xDA\xD1\x03\x02\x02\x02\xDA\xD4\x03\x02\x02\x02\xDA' +
-    '\xD7\x03\x02\x02\x02\xDB\xDE\x03\x02\x02\x02\xDC\xDA\x03\x02\x02\x02\xDC' +
-    '\xDD\x03\x02\x02\x02\xDD\x1D\x03\x02\x02\x02\xDE\xDC\x03\x02\x02\x02\xDF' +
-    '\xE0\b\x10\x01\x02\xE0\xE1\x05 \x11\x02\xE1\xEA\x03\x02\x02\x02\xE2\xE3' +
-    '\f\x04\x02\x02\xE3\xE4\x07$\x02\x02\xE4\xE9\x05 \x11\x02\xE5\xE6\f\x03' +
-    '\x02\x02\xE6\xE7\x07&\x02\x02\xE7\xE9\x05 \x11\x02\xE8\xE2\x03\x02\x02' +
-    '\x02\xE8\xE5\x03\x02\x02\x02\xE9\xEC\x03\x02\x02\x02\xEA\xE8\x03\x02\x02' +
-    '\x02\xEA\xEB\x03\x02\x02\x02\xEB\x1F\x03\x02\x02\x02\xEC\xEA\x03\x02\x02' +
-    '\x02\xED\xEE\b\x11\x01\x02\xEE\xEF\x05"\x12\x02\xEF\xFB\x03\x02\x02\x02' +
-    '\xF0\xF1\f\x05\x02\x02\xF1\xF2\x07(\x02\x02\xF2\xFA\x05"\x12\x02\xF3' +
-    '\xF4\f\x04\x02\x02\xF4\xF5\x07)\x02\x02\xF5\xFA\x05"\x12\x02\xF6\xF7' +
-    '\f\x03\x02\x02\xF7\xF8\x07*\x02\x02\xF8\xFA\x05"\x12\x02\xF9\xF0\x03' +
-    '\x02\x02\x02\xF9\xF3\x03\x02\x02\x02\xF9\xF6\x03\x02\x02\x02\xFA\xFD\x03' +
-    '\x02\x02\x02\xFB\xF9\x03\x02\x02\x02\xFB\xFC\x03\x02\x02\x02\xFC!\x03' +
-    '\x02\x02\x02\xFD\xFB\x03\x02\x02\x02\xFE\xFF\x05$\x13\x02\xFF#\x03\x02' +
-    '\x02\x02\u0100\u010E\x05,\x17\x02\u0101\u0102\x07%\x02\x02\u0102\u010E' +
-    "\x05$\x13\x02\u0103\u0104\x07'\x02\x02\u0104\u010E\x05$\x13\x02\u0105" +
-    '\u0106\x05&\x14\x02\u0106\u0107\x05"\x12\x02\u0107\u010E\x03\x02\x02' +
-    '\x02\u0108\u0109\x07\x12\x02\x02\u0109\u010A\x07\x18\x02\x02\u010A\u010B' +
-    '\x05*\x16\x02\u010B\u010C\x07\x19\x02\x02\u010C\u010E\x03\x02\x02\x02' +
-    '\u010D\u0100\x03\x02\x02\x02\u010D\u0101\x03\x02\x02\x02\u010D\u0103\x03' +
-    '\x02\x02\x02\u010D\u0105\x03\x02\x02\x02\u010D\u0108\x03\x02\x02\x02\u010E' +
-    "%\x03\x02\x02\x02\u010F\u0110\t\x03\x02\x02\u0110'\x03\x02\x02\x02\u0111" +
-    '\u0112\t\x04\x02\x02\u0112)\x03\x02\x02\x02\u0113\u0115\x056\x1C\x02\u0114' +
-    '\u0113\x03\x02\x02\x02\u0114\u0115\x03\x02\x02\x02\u0115\u0116\x03\x02' +
-    '\x02\x02\u0116\u011E\x05(\x15\x02\u0117\u0119\x056\x1C\x02\u0118\u0117' +
-    '\x03\x02\x02\x02\u0118\u0119\x03\x02\x02\x02\u0119\u011A\x03\x02\x02\x02' +
-    '\u011A\u011E\x07=\x02\x02\u011B\u011C\x07+\x02\x02\u011C\u011E\x07=\x02' +
-    '\x02\u011D\u0114\x03\x02\x02\x02\u011D\u0118\x03\x02\x02\x02\u011D\u011B' +
-    '\x03\x02\x02\x02\u011E+\x03\x02\x02\x02\u011F\u0120\b\x17\x01\x02\u0120' +
-    '\u0121\x05.\x18\x02\u0121\u013C\x03\x02\x02\x02\u0122\u0123\f\b\x02\x02' +
-    '\u0123\u0124\x07\x1A\x02\x02\u0124\u0125\x050\x19\x02\u0125\u0126\x07' +
-    '\x1B\x02\x02\u0126\u013B\x03\x02\x02\x02\u0127\u0128\f\x07\x02\x02\u0128' +
-    '\u012C\x07\x18\x02\x02\u0129\u012B\x050\x19\x02\u012A\u0129\x03\x02\x02' +
-    '\x02\u012B\u012E\x03\x02\x02\x02\u012C\u012A\x03\x02\x02\x02\u012C\u012D' +
-    '\x03\x02\x02\x02\u012D\u012F\x03\x02\x02\x02\u012E\u012C\x03\x02\x02\x02' +
-    '\u012F\u013B\x07\x19\x02\x02\u0130\u0131\f\x06\x02\x02\u0131\u0132\x07' +
-    '<\x02\x02\u0132\u013B\x07=\x02\x02\u0133\u0134\f\x05\x02\x02\u0134\u0135' +
-    '\x07;\x02\x02\u0135\u013B\x07=\x02\x02\u0136\u0137\f\x04\x02\x02\u0137' +
-    "\u013B\x07%\x02\x02\u0138\u0139\f\x03\x02\x02\u0139\u013B\x07'\x02\x02" +
-    '\u013A\u0122\x03\x02\x02\x02\u013A\u0127\x03\x02\x02\x02\u013A\u0130\x03' +
-    '\x02\x02\x02\u013A\u0133\x03\x02\x02\x02\u013A\u0136\x03\x02\x02\x02\u013A' +
-    '\u0138\x03\x02\x02\x02\u013B\u013E\x03\x02\x02\x02\u013C\u013A\x03\x02' +
-    '\x02\x02\u013C\u013D\x03\x02\x02\x02\u013D-\x03\x02\x02\x02\u013E\u013C' +
-    '\x03\x02\x02\x02\u013F\u0147\x07=\x02\x02\u0140\u0147\x07>\x02\x02\u0141' +
-    '\u0147\x07@\x02\x02\u0142\u0143\x07\x18\x02\x02\u0143\u0144\x050\x19\x02' +
-    '\u0144\u0145\x07\x19\x02\x02\u0145\u0147\x03\x02\x02\x02\u0146\u013F\x03' +
-    '\x02\x02\x02\u0146\u0140\x03\x02\x02\x02\u0146\u0141\x03\x02\x02\x02\u0146' +
-    '\u0142\x03\x02\x02\x02\u0147/\x03\x02\x02\x02\u0148\u0149\b\x19\x01\x02' +
-    '\u0149\u014A\x05\x12\n\x02\u014A\u0150\x03\x02\x02\x02\u014B\u014C\f\x03' +
-    '\x02\x02\u014C\u014D\x072\x02\x02\u014D\u014F\x05\x12\n\x02\u014E\u014B' +
-    '\x03\x02\x02\x02\u014F\u0152\x03\x02\x02\x02\u0150\u014E\x03\x02\x02\x02' +
-    '\u0150\u0151\x03\x02\x02\x02\u01511\x03\x02\x02\x02\u0152\u0150\x03\x02' +
-    '\x02\x02\u0153\u0154\x05\x14\v\x02\u01543\x03\x02\x02\x02\u0155\u0157' +
-    '\x05\x02\x02\x02\u0156\u0155\x03\x02\x02\x02\u0157\u0158\x03\x02\x02\x02' +
-    '\u0158\u0156\x03\x02\x02\x02\u0158\u0159\x03\x02\x02\x02\u0159\u015B\x03' +
-    '\x02\x02\x02\u015A\u015C\x056\x1C\x02\u015B\u015A\x03\x02\x02\x02\u015B' +
-    '\u015C\x03\x02\x02\x02\u015C\u015D\x03\x02\x02\x02\u015D\u015E\x07=\x02' +
-    '\x02\u015E\u0162\x07\x18\x02\x02\u015F\u0161\x058\x1D\x02\u0160\u015F' +
-    '\x03\x02\x02\x02\u0161\u0164\x03\x02\x02\x02\u0162\u0160\x03\x02\x02\x02' +
-    '\u0162\u0163\x03\x02\x02\x02\u0163\u0165\x03\x02\x02\x02\u0164\u0162\x03' +
-    '\x02\x02\x02\u0165\u0166\x07\x19\x02\x02\u0166\u0167\x05<\x1F\x02\u0167' +
-    '5\x03\x02\x02\x02\u0168\u016A\x07(\x02\x02\u0169\u016B\x056\x1C\x02\u016A' +
-    '\u0169\x03\x02\x02\x02\u016A\u016B\x03\x02\x02\x02\u016B7\x03\x02\x02' +
-    '\x02\u016C\u016D\b\x1D\x01\x02\u016D\u016E\x05:\x1E\x02\u016E\u0174\x03' +
-    '\x02\x02\x02\u016F\u0170\f\x03\x02\x02\u0170\u0171\x072\x02\x02\u0171' +
-    '\u0173\x05:\x1E\x02\u0172\u016F\x03\x02\x02\x02\u0173\u0176\x03\x02\x02' +
-    '\x02\u0174\u0172\x03\x02\x02\x02\u0174\u0175\x03\x02\x02\x02\u01759\x03' +
-    '\x02\x02\x02\u0176\u0174\x03\x02\x02\x02\u0177\u0179\x05\x02\x02\x02\u0178' +
-    '\u0177\x03\x02\x02\x02\u0179\u017A\x03\x02\x02\x02\u017A\u0178\x03\x02' +
-    '\x02\x02\u017A\u017B\x03\x02\x02\x02\u017B\u017D\x03\x02\x02\x02\u017C' +
-    '\u017E\x056\x1C\x02\u017D\u017C\x03\x02\x02\x02\u017D\u017E\x03\x02\x02' +
-    '\x02\u017E\u017F\x03\x02\x02\x02\u017F\u0180\x07=\x02\x02\u0180;\x03\x02' +
-    '\x02\x02\u0181\u0185\x07\x1C\x02\x02\u0182\u0184\x05> \x02\u0183\u0182' +
-    '\x03\x02\x02\x02\u0184\u0187\x03\x02\x02\x02\u0185\u0183\x03\x02\x02\x02' +
-    '\u0185\u0186\x03\x02\x02\x02\u0186\u0188\x03\x02\x02\x02\u0187\u0185\x03' +
-    '\x02\x02\x02\u0188\u0189\x07\x1D\x02\x02\u0189=\x03\x02\x02\x02\u018A' +
-    '\u0191\x05\b\x05\x02\u018B\u0191\x05@!\x02\u018C\u0191\x05<\x1F\x02\u018D' +
-    '\u0191\x05B"\x02\u018E\u0191\x05D#\x02\u018F\u0191\x05F$\x02\u0190\u018A' +
-    '\x03\x02\x02\x02\u0190\u018B\x03\x02\x02\x02\u0190\u018C\x03\x02\x02\x02' +
-    '\u0190\u018D\x03\x02\x02\x02\u0190\u018E\x03\x02\x02\x02\u0190\u018F\x03' +
-    '\x02\x02\x02\u0191?\x03\x02\x02\x02\u0192\u0194\x050\x19\x02\u0193\u0192' +
-    '\x03\x02\x02\x02\u0193\u0194\x03\x02\x02\x02\u0194\u0195\x03\x02\x02\x02' +
-    '\u0195\u0196\x071\x02\x02\u0196A\x03\x02\x02\x02\u0197\u0198\x07\f\x02' +
-    '\x02\u0198\u0199\x07\x18\x02\x02\u0199\u019A\x050\x19\x02\u019A\u019B' +
-    '\x07\x19\x02\x02\u019B\u019C\x05> \x02\u019C\u01A6\x03\x02\x02\x02\u019D' +
-    '\u019E\x07\f\x02\x02\u019E\u019F\x07\x18\x02\x02\u019F\u01A0\x050\x19' +
-    '\x02\u01A0\u01A1\x07\x19\x02\x02\u01A1\u01A2\x05> \x02\u01A2\u01A3\x07' +
-    '\t\x02\x02\u01A3\u01A4\x05> \x02\u01A4\u01A6\x03\x02\x02\x02\u01A5\u0197' +
-    '\x03\x02\x02\x02\u01A5\u019D\x03\x02\x02\x02\u01A6C\x03\x02\x02\x02\u01A7' +
-    '\u01A8\x07\x17\x02\x02\u01A8\u01A9\x07\x18\x02\x02\u01A9\u01AA\x050\x19' +
-    '\x02\u01AA\u01AB\x07\x19\x02\x02\u01AB\u01AC\x05> \x02\u01AC\u01C5\x03' +
-    '\x02\x02\x02\u01AD\u01AE\x07\x07\x02\x02\u01AE\u01AF\x05> \x02\u01AF\u01B0' +
-    '\x07\x17\x02\x02\u01B0\u01B1\x07\x18\x02\x02\u01B1\u01B2\x050\x19\x02' +
-    '\u01B2\u01B3\x07\x19\x02\x02\u01B3\u01B4\x071\x02\x02\u01B4\u01C5\x03' +
-    '\x02\x02\x02\u01B5\u01B6\x07\v\x02\x02\u01B6\u01B8\x07\x18\x02\x02\u01B7' +
-    '\u01B9\x050\x19\x02\u01B8\u01B7\x03\x02\x02\x02\u01B8\u01B9\x03\x02\x02' +
-    '\x02\u01B9\u01BA\x03\x02\x02\x02\u01BA\u01BC\x071\x02\x02\u01BB\u01BD' +
-    '\x050\x19\x02\u01BC\u01BB\x03\x02\x02\x02\u01BC\u01BD\x03\x02\x02\x02' +
-    '\u01BD\u01BE\x03\x02\x02\x02\u01BE\u01C0\x071\x02\x02\u01BF\u01C1\x05' +
-    '0\x19\x02\u01C0\u01BF\x03\x02\x02\x02\u01C0\u01C1\x03\x02\x02\x02\u01C1' +
-    '\u01C2\x03\x02\x02\x02\u01C2\u01C3\x07\x19\x02\x02\u01C3\u01C5\x05> \x02' +
-    '\u01C4\u01A7\x03\x02\x02\x02\u01C4\u01AD\x03\x02\x02\x02\u01C4\u01B5\x03' +
-    '\x02\x02\x02\u01C5E\x03\x02\x02\x02\u01C6\u01C7\x07\x06\x02\x02\u01C7' +
-    '\u01D0\x071\x02\x02\u01C8\u01C9\x07\x03\x02\x02\u01C9\u01D0\x071\x02\x02' +
-    '\u01CA\u01CC\x07\x0F\x02\x02\u01CB\u01CD\x050\x19\x02\u01CC\u01CB\x03' +
-    '\x02\x02\x02\u01CC\u01CD\x03\x02\x02\x02\u01CD\u01CE\x03\x02\x02\x02\u01CE' +
-    '\u01D0\x071\x02\x02\u01CF\u01C6\x03\x02\x02\x02\u01CF\u01C8\x03\x02\x02' +
-    '\x02\u01CF\u01CA\x03\x02\x02\x02\u01D0G\x03\x02\x02\x023MRWaepw\x7F\x83' +
-    '\x8A\x94\x9C\xA5\xAF\xBA\xC6\xC8\xDA\xDC\xE8\xEA\xF9\xFB\u010D\u0114\u0118' +
-    '\u011D\u012C\u013A\u013C\u0146\u0150\u0158\u015B\u0162\u016A\u0174\u017A' +
-    '\u017D\u0185\u0190\u0193\u01A5\u01B8\u01BC\u01C0\u01C4\u01CC\u01CF'
+    "\t#\x04$\t$\x04%\t%\x04&\t&\x04'\t'\x03\x02\x03\x02\x03\x02\x03\x02" +
+    '\x03\x02\x03\x02\x03\x02\x03\x02\x03\x02\x03\x02\x05\x02Y\n\x02\x03\x03' +
+    '\x07\x03\\\n\x03\f\x03\x0E\x03_\v\x03\x03\x04\x03\x04\x05\x04c\n\x04\x03' +
+    '\x05\x06\x05f\n\x05\r\x05\x0E\x05g\x03\x05\x05\x05k\n\x05\x03\x05\x03' +
+    '\x05\x03\x06\x03\x06\x03\x06\x03\x06\x03\x06\x05\x06t\n\x06\x03\x07\x03' +
+    '\x07\x05\x07x\n\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03\x07\x03' +
+    '\x07\x05\x07\x81\n\x07\x03\x07\x03\x07\x03\x07\x03\x07\x05\x07\x87\n\x07' +
+    '\x03\x07\x03\x07\x03\x07\x03\x07\x05\x07\x8D\n\x07\x03\x07\x05\x07\x90' +
+    '\n\x07\x03\b\x06\b\x93\n\b\r\b\x0E\b\x94\x03\b\x05\b\x98\n\b\x03\b\x06' +
+    '\b\x9B\n\b\r\b\x0E\b\x9C\x03\b\x05\b\xA0\n\b\x03\b\x03\b\x05\b\xA4\n\b' +
+    '\x05\b\xA6\n\b\x03\t\x03\t\x03\t\x03\t\x03\t\x05\t\xAD\n\t\x03\n\x03\n' +
+    '\x03\n\x03\n\x03\n\x03\n\x07\n\xB5\n\n\f\n\x0E\n\xB8\v\n\x03\v\x03\v\x03' +
+    '\v\x03\v\x03\v\x05\v\xBF\n\v\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f\x03\f' +
+    '\x05\f\xC8\n\f\x03\r\x03\r\x03\r\x03\r\x03\r\x03\r\x07\r\xD0\n\r\f\r\x0E' +
+    '\r\xD3\v\r\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x07\x0E\xDB' +
+    '\n\x0E\f\x0E\x0E\x0E\xDE\v\x0E\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x03\x0F' +
+    '\x03\x0F\x03\x0F\x03\x0F\x03\x0F\x07\x0F\xE9\n\x0F\f\x0F\x0E\x0F\xEC\v' +
+    '\x0F\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x03' +
+    '\x10\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x03\x10\x07\x10\xFD\n\x10' +
+    '\f\x10\x0E\x10\u0100\v\x10\x03\x11\x03\x11\x03\x11\x03\x11\x03\x11\x03' +
+    '\x11\x03\x11\x03\x11\x03\x11\x07\x11\u010B\n\x11\f\x11\x0E\x11\u010E\v' +
+    '\x11\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03\x12\x03' +
+    '\x12\x03\x12\x03\x12\x03\x12\x07\x12\u011C\n\x12\f\x12\x0E\x12\u011F\v' +
+    '\x12\x03\x13\x03\x13\x03\x14\x03\x14\x03\x14\x03\x14\x03\x14\x03\x14\x03' +
+    '\x14\x03\x14\x03\x14\x03\x14\x03\x14\x03\x14\x03\x14\x05\x14\u0130\n\x14' +
+    '\x03\x15\x03\x15\x03\x16\x03\x16\x03\x17\x05\x17\u0137\n\x17\x03\x17\x03' +
+    '\x17\x05\x17\u013B\n\x17\x03\x17\x03\x17\x03\x17\x05\x17\u0140\n\x17\x03' +
+    '\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03' +
+    '\x18\x03\x18\x07\x18\u014D\n\x18\f\x18\x0E\x18\u0150\v\x18\x03\x18\x03' +
+    '\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03\x18\x03' +
+    '\x18\x07\x18\u015D\n\x18\f\x18\x0E\x18\u0160\v\x18\x03\x19\x03\x19\x03' +
+    '\x19\x03\x19\x03\x19\x03\x19\x03\x19\x05\x19\u0169\n\x19\x03\x1A\x03\x1A' +
+    '\x03\x1A\x03\x1A\x03\x1A\x03\x1A\x07\x1A\u0171\n\x1A\f\x1A\x0E\x1A\u0174' +
+    '\v\x1A\x03\x1B\x03\x1B\x03\x1C\x06\x1C\u0179\n\x1C\r\x1C\x0E\x1C\u017A' +
+    '\x03\x1C\x05\x1C\u017E\n\x1C\x03\x1C\x03\x1C\x03\x1C\x07\x1C\u0183\n\x1C' +
+    '\f\x1C\x0E\x1C\u0186\v\x1C\x03\x1C\x03\x1C\x03\x1C\x03\x1D\x03\x1D\x05' +
+    '\x1D\u018D\n\x1D\x03\x1E\x03\x1E\x03\x1E\x03\x1E\x03\x1E\x03\x1E\x07\x1E' +
+    '\u0195\n\x1E\f\x1E\x0E\x1E\u0198\v\x1E\x03\x1F\x06\x1F\u019B\n\x1F\r\x1F' +
+    '\x0E\x1F\u019C\x03\x1F\x05\x1F\u01A0\n\x1F\x03\x1F\x03\x1F\x03 \x03 \x07' +
+    ' \u01A6\n \f \x0E \u01A9\v \x03 \x03 \x03!\x03!\x03!\x03!\x03!\x03!\x05' +
+    '!\u01B3\n!\x03"\x05"\u01B6\n"\x03"\x03"\x03#\x03#\x03#\x03#\x03#' +
+    '\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x03#\x05#\u01C8\n#\x03$\x03$' +
+    '\x03$\x03$\x03$\x03$\x03$\x03$\x03$\x03$\x03$\x03$\x03$\x03$\x03$\x03' +
+    '$\x03$\x05$\u01DB\n$\x03$\x03$\x05$\u01DF\n$\x03$\x03$\x05$\u01E3\n$\x03' +
+    '$\x03$\x05$\u01E7\n$\x03%\x03%\x03%\x03%\x03%\x03%\x05%\u01EF\n%\x03%' +
+    '\x05%\u01F2\n%\x03&\x03&\x03&\x03&\x03&\x03&\x06&\u01FA\n&\r&\x0E&\u01FB' +
+    "\x03&\x03&\x05&\u0200\n&\x03'\x06'\u0203\n'\r'\x0E'\u0204\x03'\x03" +
+    "'\x03'\x03'\x02\x02\f\x12\x18\x1A\x1C\x1E \".2:(\x02\x02\x04\x02\x06" +
+    '\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12\x02\x14\x02\x16\x02\x18\x02' +
+    '\x1A\x02\x1C\x02\x1E\x02 \x02"\x02$\x02&\x02(\x02*\x02,\x02.\x020\x02' +
+    '2\x024\x026\x028\x02:\x02<\x02>\x02@\x02B\x02D\x02F\x02H\x02J\x02L\x02' +
+    '\x02\x04\x07\x02$$&&((++..\x07\x02\x04\x04\b\b\n\n\r\x0E\x10\x10\x02\u023D' +
+    '\x02X\x03\x02\x02\x02\x04]\x03\x02\x02\x02\x06b\x03\x02\x02\x02\be\x03' +
+    '\x02\x02\x02\ns\x03\x02\x02\x02\f\x8F\x03\x02\x02\x02\x0E\xA5\x03\x02' +
+    '\x02\x02\x10\xAC\x03\x02\x02\x02\x12\xAE\x03\x02\x02\x02\x14\xBE\x03\x02' +
+    '\x02\x02\x16\xC7\x03\x02\x02\x02\x18\xC9\x03\x02\x02\x02\x1A\xD4\x03\x02' +
+    '\x02\x02\x1C\xDF\x03\x02\x02\x02\x1E\xED\x03\x02\x02\x02 \u0101\x03\x02' +
+    '\x02\x02"\u010F\x03\x02\x02\x02$\u0120\x03\x02\x02\x02&\u012F\x03\x02' +
+    '\x02\x02(\u0131\x03\x02\x02\x02*\u0133\x03\x02\x02\x02,\u013F\x03\x02' +
+    '\x02\x02.\u0141\x03\x02\x02\x020\u0168\x03\x02\x02\x022\u016A\x03\x02' +
+    '\x02\x024\u0175\x03\x02\x02\x026\u0178\x03\x02\x02\x028\u018A\x03\x02' +
+    '\x02\x02:\u018E\x03\x02\x02\x02<\u019A\x03\x02\x02\x02>\u01A3\x03\x02' +
+    '\x02\x02@\u01B2\x03\x02\x02\x02B\u01B5\x03\x02\x02\x02D\u01C7\x03\x02' +
+    '\x02\x02F\u01E6\x03\x02\x02\x02H\u01F1\x03\x02\x02\x02J\u01FF\x03\x02' +
+    '\x02\x02L\u0202\x03\x02\x02\x02NY\x07\x16\x02\x02OY\x07\x04\x02\x02PY' +
+    '\x07\x10\x02\x02QY\x07\r\x02\x02RY\x07\x0E\x02\x02SY\x07\n\x02\x02TY\x07' +
+    '\b\x02\x02UY\x07\x11\x02\x02VY\x07\x15\x02\x02WY\x05J&\x02XN\x03\x02\x02' +
+    '\x02XO\x03\x02\x02\x02XP\x03\x02\x02\x02XQ\x03\x02\x02\x02XR\x03\x02\x02' +
+    '\x02XS\x03\x02\x02\x02XT\x03\x02\x02\x02XU\x03\x02\x02\x02XV\x03\x02\x02' +
+    '\x02XW\x03\x02\x02\x02Y\x03\x03\x02\x02\x02Z\\\x05\x06\x04\x02[Z\x03\x02' +
+    '\x02\x02\\_\x03\x02\x02\x02][\x03\x02\x02\x02]^\x03\x02\x02\x02^\x05\x03' +
+    '\x02\x02\x02_]\x03\x02\x02\x02`c\x056\x1C\x02ac\x05\b\x05\x02b`\x03\x02' +
+    '\x02\x02ba\x03\x02\x02\x02c\x07\x03\x02\x02\x02df\x05\x02\x02\x02ed\x03' +
+    '\x02\x02\x02fg\x03\x02\x02\x02ge\x03\x02\x02\x02gh\x03\x02\x02\x02hj\x03' +
+    '\x02\x02\x02ik\x05\n\x06\x02ji\x03\x02\x02\x02jk\x03\x02\x02\x02kl\x03' +
+    '\x02\x02\x02lm\x071\x02\x02m\t\x03\x02\x02\x02nt\x05\f\x07\x02op\x05\f' +
+    '\x07\x02pq\x073\x02\x02qr\x05\x10\t\x02rt\x03\x02\x02\x02sn\x03\x02\x02' +
+    '\x02so\x03\x02\x02\x02t\v\x03\x02\x02\x02u\x90\x07=\x02\x02vx\x058\x1D' +
+    '\x02wv\x03\x02\x02\x02wx\x03\x02\x02\x02xy\x03\x02\x02\x02y\x90\x07=\x02' +
+    '\x02z{\x07\x18\x02\x02{|\x07(\x02\x02|}\x07=\x02\x02}~\x07\x19\x02\x02' +
+    '~\x80\x07\x18\x02\x02\x7F\x81\x05\x0E\b\x02\x80\x7F\x03\x02\x02\x02\x80' +
+    '\x81\x03\x02\x02\x02\x81\x82\x03\x02\x02\x02\x82\x90\x07\x19\x02\x02\x83' +
+    '\x84\x07=\x02\x02\x84\x86\x07\x1A\x02\x02\x85\x87\x054\x1B\x02\x86\x85' +
+    '\x03\x02\x02\x02\x86\x87\x03\x02\x02\x02\x87\x88\x03\x02\x02\x02\x88\x90' +
+    '\x07\x1B\x02\x02\x89\x8A\x07=\x02\x02\x8A\x8C\x07\x18\x02\x02\x8B\x8D' +
+    '\x05:\x1E\x02\x8C\x8B\x03\x02\x02\x02\x8C\x8D\x03\x02\x02\x02\x8D\x8E' +
+    '\x03\x02\x02\x02\x8E\x90\x07\x19\x02\x02\x8Fu\x03\x02\x02\x02\x8Fw\x03' +
+    '\x02\x02\x02\x8Fz\x03\x02\x02\x02\x8F\x83\x03\x02\x02\x02\x8F\x89\x03' +
+    '\x02\x02\x02\x90\r\x03\x02\x02\x02\x91\x93\x05*\x16\x02\x92\x91\x03\x02' +
+    '\x02\x02\x93\x94\x03\x02\x02\x02\x94\x92\x03\x02\x02\x02\x94\x95\x03\x02' +
+    '\x02\x02\x95\x97\x03\x02\x02\x02\x96\x98\x058\x1D\x02\x97\x96\x03\x02' +
+    '\x02\x02\x97\x98\x03\x02\x02\x02\x98\xA6\x03\x02\x02\x02\x99\x9B\x05*' +
+    '\x16\x02\x9A\x99\x03\x02\x02\x02\x9B\x9C\x03\x02\x02\x02\x9C\x9A\x03\x02' +
+    '\x02\x02\x9C\x9D\x03\x02\x02\x02\x9D\x9F\x03\x02\x02\x02\x9E\xA0\x058' +
+    '\x1D\x02\x9F\x9E\x03\x02\x02\x02\x9F\xA0\x03\x02\x02\x02\xA0\xA1\x03\x02' +
+    '\x02\x02\xA1\xA3\x072\x02\x02\xA2\xA4\x05\x0E\b\x02\xA3\xA2\x03\x02\x02' +
+    '\x02\xA3\xA4\x03\x02\x02\x02\xA4\xA6\x03\x02\x02\x02\xA5\x92\x03\x02\x02' +
+    '\x02\xA5\x9A\x03\x02\x02\x02\xA6\x0F\x03\x02\x02\x02\xA7\xAD\x05\x14\v' +
+    '\x02\xA8\xA9\x07\x1C\x02\x02\xA9\xAA\x05\x12\n\x02\xAA\xAB\x07\x1D\x02' +
+    '\x02\xAB\xAD\x03\x02\x02\x02\xAC\xA7\x03\x02\x02\x02\xAC\xA8\x03\x02\x02' +
+    '\x02\xAD\x11\x03\x02\x02\x02\xAE\xAF\b\n\x01\x02\xAF\xB0\x05\x10\t\x02' +
+    '\xB0\xB6\x03\x02\x02\x02\xB1\xB2\f\x03\x02\x02\xB2\xB3\x072\x02\x02\xB3' +
+    '\xB5\x05\x10\t\x02\xB4\xB1\x03\x02\x02\x02\xB5\xB8\x03\x02\x02\x02\xB6' +
+    '\xB4\x03\x02\x02\x02\xB6\xB7\x03\x02\x02\x02\xB7\x13\x03\x02\x02\x02\xB8' +
+    '\xB6\x03\x02\x02\x02\xB9\xBF\x05\x16\f\x02\xBA\xBB\x05&\x14\x02\xBB\xBC' +
+    '\x073\x02\x02\xBC\xBD\x05\x14\v\x02\xBD\xBF\x03\x02\x02\x02\xBE\xB9\x03' +
+    '\x02\x02\x02\xBE\xBA\x03\x02\x02\x02\xBF\x15\x03\x02\x02\x02\xC0\xC8\x05' +
+    '\x18\r\x02\xC1\xC2\x05\x18\r\x02\xC2\xC3\x07/\x02\x02\xC3\xC4\x05\x16' +
+    '\f\x02\xC4\xC5\x070\x02\x02\xC5\xC6\x05\x16\f\x02\xC6\xC8\x03\x02\x02' +
+    '\x02\xC7\xC0\x03\x02\x02\x02\xC7\xC1\x03\x02\x02\x02\xC8\x17\x03\x02\x02' +
+    '\x02\xC9\xCA\b\r\x01\x02\xCA\xCB\x05\x1A\x0E\x02\xCB\xD1\x03\x02\x02\x02' +
+    '\xCC\xCD\f\x03\x02\x02\xCD\xCE\x07-\x02\x02\xCE\xD0\x05\x1A\x0E\x02\xCF' +
+    '\xCC\x03\x02\x02\x02\xD0\xD3\x03\x02\x02\x02\xD1\xCF\x03\x02\x02\x02\xD1' +
+    '\xD2\x03\x02\x02\x02\xD2\x19\x03\x02\x02\x02\xD3\xD1\x03\x02\x02\x02\xD4' +
+    '\xD5\b\x0E\x01\x02\xD5\xD6\x05\x1C\x0F\x02\xD6\xDC\x03\x02\x02\x02\xD7' +
+    '\xD8\f\x03\x02\x02\xD8\xD9\x07,\x02\x02\xD9\xDB\x05\x1C\x0F\x02\xDA\xD7' +
+    '\x03\x02\x02\x02\xDB\xDE\x03\x02\x02\x02\xDC\xDA\x03\x02\x02\x02\xDC\xDD' +
+    '\x03\x02\x02\x02\xDD\x1B\x03\x02\x02\x02\xDE\xDC\x03\x02\x02\x02\xDF\xE0' +
+    '\b\x0F\x01\x02\xE0\xE1\x05\x1E\x10\x02\xE1\xEA\x03\x02\x02\x02\xE2\xE3' +
+    '\f\x04\x02\x02\xE3\xE4\x079\x02\x02\xE4\xE9\x05\x1E\x10\x02\xE5\xE6\f' +
+    '\x03\x02\x02\xE6\xE7\x07:\x02\x02\xE7\xE9\x05\x1E\x10\x02\xE8\xE2\x03' +
+    '\x02\x02\x02\xE8\xE5\x03\x02\x02\x02\xE9\xEC\x03\x02\x02\x02\xEA\xE8\x03' +
+    '\x02\x02\x02\xEA\xEB\x03\x02\x02\x02\xEB\x1D\x03\x02\x02\x02\xEC\xEA\x03' +
+    '\x02\x02\x02\xED\xEE\b\x10\x01\x02\xEE\xEF\x05 \x11\x02\xEF\xFE\x03\x02' +
+    '\x02\x02\xF0\xF1\f\x06\x02\x02\xF1\xF2\x07\x1E\x02\x02\xF2\xFD\x05 \x11' +
+    '\x02\xF3\xF4\f\x05\x02\x02\xF4\xF5\x07 \x02\x02\xF5\xFD\x05 \x11\x02\xF6' +
+    '\xF7\f\x04\x02\x02\xF7\xF8\x07\x1F\x02\x02\xF8\xFD\x05 \x11\x02\xF9\xFA' +
+    '\f\x03\x02\x02\xFA\xFB\x07!\x02\x02\xFB\xFD\x05 \x11\x02\xFC\xF0\x03\x02' +
+    '\x02\x02\xFC\xF3\x03\x02\x02\x02\xFC\xF6\x03\x02\x02\x02\xFC\xF9\x03\x02' +
+    '\x02\x02\xFD\u0100\x03\x02\x02\x02\xFE\xFC\x03\x02\x02\x02\xFE\xFF\x03' +
+    '\x02\x02\x02\xFF\x1F\x03\x02\x02\x02\u0100\xFE\x03\x02\x02\x02\u0101\u0102' +
+    '\b\x11\x01\x02\u0102\u0103\x05"\x12\x02\u0103\u010C\x03\x02\x02\x02\u0104' +
+    '\u0105\f\x04\x02\x02\u0105\u0106\x07$\x02\x02\u0106\u010B\x05"\x12\x02' +
+    '\u0107\u0108\f\x03\x02\x02\u0108\u0109\x07&\x02\x02\u0109\u010B\x05"' +
+    '\x12\x02\u010A\u0104\x03\x02\x02\x02\u010A\u0107\x03\x02\x02\x02\u010B' +
+    '\u010E\x03\x02\x02\x02\u010C\u010A\x03\x02\x02\x02\u010C\u010D\x03\x02' +
+    '\x02\x02\u010D!\x03\x02\x02\x02\u010E\u010C\x03\x02\x02\x02\u010F\u0110' +
+    '\b\x12\x01\x02\u0110\u0111\x05$\x13\x02\u0111\u011D\x03\x02\x02\x02\u0112' +
+    '\u0113\f\x05\x02\x02\u0113\u0114\x07(\x02\x02\u0114\u011C\x05$\x13\x02' +
+    '\u0115\u0116\f\x04\x02\x02\u0116\u0117\x07)\x02\x02\u0117\u011C\x05$\x13' +
+    '\x02\u0118\u0119\f\x03\x02\x02\u0119\u011A\x07*\x02\x02\u011A\u011C\x05' +
+    '$\x13\x02\u011B\u0112\x03\x02\x02\x02\u011B\u0115\x03\x02\x02\x02\u011B' +
+    '\u0118\x03\x02\x02\x02\u011C\u011F\x03\x02\x02\x02\u011D\u011B\x03\x02' +
+    '\x02\x02\u011D\u011E\x03\x02\x02\x02\u011E#\x03\x02\x02\x02\u011F\u011D' +
+    '\x03\x02\x02\x02\u0120\u0121\x05&\x14\x02\u0121%\x03\x02\x02\x02\u0122' +
+    '\u0130\x05.\x18\x02\u0123\u0124\x07%\x02\x02\u0124\u0130\x05&\x14\x02' +
+    "\u0125\u0126\x07'\x02\x02\u0126\u0130\x05&\x14\x02\u0127\u0128\x05(\x15" +
+    '\x02\u0128\u0129\x05$\x13\x02\u0129\u0130\x03\x02\x02\x02\u012A\u012B' +
+    '\x07\x12\x02\x02\u012B\u012C\x07\x18\x02\x02\u012C\u012D\x05,\x17\x02' +
+    '\u012D\u012E\x07\x19\x02\x02\u012E\u0130\x03\x02\x02\x02\u012F\u0122\x03' +
+    '\x02\x02\x02\u012F\u0123\x03\x02\x02\x02\u012F\u0125\x03\x02\x02\x02\u012F' +
+    "\u0127\x03\x02\x02\x02\u012F\u012A\x03\x02\x02\x02\u0130'\x03\x02\x02" +
+    '\x02\u0131\u0132\t\x02\x02\x02\u0132)\x03\x02\x02\x02\u0133\u0134\t\x03' +
+    '\x02\x02\u0134+\x03\x02\x02\x02\u0135\u0137\x058\x1D\x02\u0136\u0135\x03' +
+    '\x02\x02\x02\u0136\u0137\x03\x02\x02\x02\u0137\u0138\x03\x02\x02\x02\u0138' +
+    '\u0140\x05*\x16\x02\u0139\u013B\x058\x1D\x02\u013A\u0139\x03\x02\x02\x02' +
+    '\u013A\u013B\x03\x02\x02\x02\u013B\u013C\x03\x02\x02\x02\u013C\u0140\x07' +
+    '=\x02\x02\u013D\u013E\x07+\x02\x02\u013E\u0140\x07=\x02\x02\u013F\u0136' +
+    '\x03\x02\x02\x02\u013F\u013A\x03\x02\x02\x02\u013F\u013D\x03\x02\x02\x02' +
+    '\u0140-\x03\x02\x02\x02\u0141\u0142\b\x18\x01\x02\u0142\u0143\x050\x19' +
+    '\x02\u0143\u015E\x03\x02\x02\x02\u0144\u0145\f\b\x02\x02\u0145\u0146\x07' +
+    '\x1A\x02\x02\u0146\u0147\x052\x1A\x02\u0147\u0148\x07\x1B\x02\x02\u0148' +
+    '\u015D\x03\x02\x02\x02\u0149\u014A\f\x07\x02\x02\u014A\u014E\x07\x18\x02' +
+    '\x02\u014B\u014D\x052\x1A\x02\u014C\u014B\x03\x02\x02\x02\u014D\u0150' +
+    '\x03\x02\x02\x02\u014E\u014C\x03\x02\x02\x02\u014E\u014F\x03\x02\x02\x02' +
+    '\u014F\u0151\x03\x02\x02\x02\u0150\u014E\x03\x02\x02\x02\u0151\u015D\x07' +
+    '\x19\x02\x02\u0152\u0153\f\x06\x02\x02\u0153\u0154\x07<\x02\x02\u0154' +
+    '\u015D\x07=\x02\x02\u0155\u0156\f\x05\x02\x02\u0156\u0157\x07;\x02\x02' +
+    '\u0157\u015D\x07=\x02\x02\u0158\u0159\f\x04\x02\x02\u0159\u015D\x07%\x02' +
+    "\x02\u015A\u015B\f\x03\x02\x02\u015B\u015D\x07'\x02\x02\u015C\u0144\x03" +
+    '\x02\x02\x02\u015C\u0149\x03\x02\x02\x02\u015C\u0152\x03\x02\x02\x02\u015C' +
+    '\u0155\x03\x02\x02\x02\u015C\u0158\x03\x02\x02\x02\u015C\u015A\x03\x02' +
+    '\x02\x02\u015D\u0160\x03\x02\x02\x02\u015E\u015C\x03\x02\x02\x02\u015E' +
+    '\u015F\x03\x02\x02\x02\u015F/\x03\x02\x02\x02\u0160\u015E\x03\x02\x02' +
+    '\x02\u0161\u0169\x07=\x02\x02\u0162\u0169\x07>\x02\x02\u0163\u0169\x07' +
+    '@\x02\x02\u0164\u0165\x07\x18\x02\x02\u0165\u0166\x052\x1A\x02\u0166\u0167' +
+    '\x07\x19\x02\x02\u0167\u0169\x03\x02\x02\x02\u0168\u0161\x03\x02\x02\x02' +
+    '\u0168\u0162\x03\x02\x02\x02\u0168\u0163\x03\x02\x02\x02\u0168\u0164\x03' +
+    '\x02\x02\x02\u01691\x03\x02\x02\x02\u016A\u016B\b\x1A\x01\x02\u016B\u016C' +
+    '\x05\x14\v\x02\u016C\u0172\x03\x02\x02\x02\u016D\u016E\f\x03\x02\x02\u016E' +
+    '\u016F\x072\x02\x02\u016F\u0171\x05\x14\v\x02\u0170\u016D\x03\x02\x02' +
+    '\x02\u0171\u0174\x03\x02\x02\x02\u0172\u0170\x03\x02\x02\x02\u0172\u0173' +
+    '\x03\x02\x02\x02\u01733\x03\x02\x02\x02\u0174\u0172\x03\x02\x02\x02\u0175' +
+    '\u0176\x05\x16\f\x02\u01765\x03\x02\x02\x02\u0177\u0179\x05\x02\x02\x02' +
+    '\u0178\u0177\x03\x02\x02\x02\u0179\u017A\x03\x02\x02\x02\u017A\u0178\x03' +
+    '\x02\x02\x02\u017A\u017B\x03\x02\x02\x02\u017B\u017D\x03\x02\x02\x02\u017C' +
+    '\u017E\x058\x1D\x02\u017D\u017C\x03\x02\x02\x02\u017D\u017E\x03\x02\x02' +
+    '\x02\u017E\u017F\x03\x02\x02\x02\u017F\u0180\x07=\x02\x02\u0180\u0184' +
+    '\x07\x18\x02\x02\u0181\u0183\x05:\x1E\x02\u0182\u0181\x03\x02\x02\x02' +
+    '\u0183\u0186\x03\x02\x02\x02\u0184\u0182\x03\x02\x02\x02\u0184\u0185\x03' +
+    '\x02\x02\x02\u0185\u0187\x03\x02\x02\x02\u0186\u0184\x03\x02\x02\x02\u0187' +
+    '\u0188\x07\x19\x02\x02\u0188\u0189\x05> \x02\u01897\x03\x02\x02\x02\u018A' +
+    '\u018C\x07(\x02\x02\u018B\u018D\x058\x1D\x02\u018C\u018B\x03\x02\x02\x02' +
+    '\u018C\u018D\x03\x02\x02\x02\u018D9\x03\x02\x02\x02\u018E\u018F\b\x1E' +
+    '\x01\x02\u018F\u0190\x05<\x1F\x02\u0190\u0196\x03\x02\x02\x02\u0191\u0192' +
+    '\f\x03\x02\x02\u0192\u0193\x072\x02\x02\u0193\u0195\x05<\x1F\x02\u0194' +
+    '\u0191\x03\x02\x02\x02\u0195\u0198\x03\x02\x02\x02\u0196\u0194\x03\x02' +
+    '\x02\x02\u0196\u0197\x03\x02\x02\x02\u0197;\x03\x02\x02\x02\u0198\u0196' +
+    '\x03\x02\x02\x02\u0199\u019B\x05\x02\x02\x02\u019A\u0199\x03\x02\x02\x02' +
+    '\u019B\u019C\x03\x02\x02\x02\u019C\u019A\x03\x02\x02\x02\u019C\u019D\x03' +
+    '\x02\x02\x02\u019D\u019F\x03\x02\x02\x02\u019E\u01A0\x058\x1D\x02\u019F' +
+    '\u019E\x03\x02\x02\x02\u019F\u01A0\x03\x02\x02\x02\u01A0\u01A1\x03\x02' +
+    '\x02\x02\u01A1\u01A2\x07=\x02\x02\u01A2=\x03\x02\x02\x02\u01A3\u01A7\x07' +
+    '\x1C\x02\x02\u01A4\u01A6\x05@!\x02\u01A5\u01A4\x03\x02\x02\x02\u01A6\u01A9' +
+    '\x03\x02\x02\x02\u01A7\u01A5\x03\x02\x02\x02\u01A7\u01A8\x03\x02\x02\x02' +
+    '\u01A8\u01AA\x03\x02\x02\x02\u01A9\u01A7\x03\x02\x02\x02\u01AA\u01AB\x07' +
+    '\x1D\x02\x02\u01AB?\x03\x02\x02\x02\u01AC\u01B3\x05\b\x05\x02\u01AD\u01B3' +
+    '\x05B"\x02\u01AE\u01B3\x05> \x02\u01AF\u01B3\x05D#\x02\u01B0\u01B3\x05' +
+    'F$\x02\u01B1\u01B3\x05H%\x02\u01B2\u01AC\x03\x02\x02\x02\u01B2\u01AD\x03' +
+    '\x02\x02\x02\u01B2\u01AE\x03\x02\x02\x02\u01B2\u01AF\x03\x02\x02\x02\u01B2' +
+    '\u01B0\x03\x02\x02\x02\u01B2\u01B1\x03\x02\x02\x02\u01B3A\x03\x02\x02' +
+    '\x02\u01B4\u01B6\x052\x1A\x02\u01B5\u01B4\x03\x02\x02\x02\u01B5\u01B6' +
+    '\x03\x02\x02\x02\u01B6\u01B7\x03\x02\x02\x02\u01B7\u01B8\x071\x02\x02' +
+    '\u01B8C\x03\x02\x02\x02\u01B9\u01BA\x07\f\x02\x02\u01BA\u01BB\x07\x18' +
+    '\x02\x02\u01BB\u01BC\x052\x1A\x02\u01BC\u01BD\x07\x19\x02\x02\u01BD\u01BE' +
+    '\x05@!\x02\u01BE\u01C8\x03\x02\x02\x02\u01BF\u01C0\x07\f\x02\x02\u01C0' +
+    '\u01C1\x07\x18\x02\x02\u01C1\u01C2\x052\x1A\x02\u01C2\u01C3\x07\x19\x02' +
+    '\x02\u01C3\u01C4\x05@!\x02\u01C4\u01C5\x07\t\x02\x02\u01C5\u01C6\x05@' +
+    '!\x02\u01C6\u01C8\x03\x02\x02\x02\u01C7\u01B9\x03\x02\x02\x02\u01C7\u01BF' +
+    '\x03\x02\x02\x02\u01C8E\x03\x02\x02\x02\u01C9\u01CA\x07\x17\x02\x02\u01CA' +
+    '\u01CB\x07\x18\x02\x02\u01CB\u01CC\x052\x1A\x02\u01CC\u01CD\x07\x19\x02' +
+    '\x02\u01CD\u01CE\x05@!\x02\u01CE\u01E7\x03\x02\x02\x02\u01CF\u01D0\x07' +
+    '\x07\x02\x02\u01D0\u01D1\x05@!\x02\u01D1\u01D2\x07\x17\x02\x02\u01D2\u01D3' +
+    '\x07\x18\x02\x02\u01D3\u01D4\x052\x1A\x02\u01D4\u01D5\x07\x19\x02\x02' +
+    '\u01D5\u01D6\x071\x02\x02\u01D6\u01E7\x03\x02\x02\x02\u01D7\u01D8\x07' +
+    '\v\x02\x02\u01D8\u01DA\x07\x18\x02\x02\u01D9\u01DB\x052\x1A\x02\u01DA' +
+    '\u01D9\x03\x02\x02\x02\u01DA\u01DB\x03\x02\x02\x02\u01DB\u01DC\x03\x02' +
+    '\x02\x02\u01DC\u01DE\x071\x02\x02\u01DD\u01DF\x052\x1A\x02\u01DE\u01DD' +
+    '\x03\x02\x02\x02\u01DE\u01DF\x03\x02\x02\x02\u01DF\u01E0\x03\x02\x02\x02' +
+    '\u01E0\u01E2\x071\x02\x02\u01E1\u01E3\x052\x1A\x02\u01E2\u01E1\x03\x02' +
+    '\x02\x02\u01E2\u01E3\x03\x02\x02\x02\u01E3\u01E4\x03\x02\x02\x02\u01E4' +
+    '\u01E5\x07\x19\x02\x02\u01E5\u01E7\x05@!\x02\u01E6\u01C9\x03\x02\x02\x02' +
+    '\u01E6\u01CF\x03\x02\x02\x02\u01E6\u01D7\x03\x02\x02\x02\u01E7G\x03\x02' +
+    '\x02\x02\u01E8\u01E9\x07\x06\x02\x02\u01E9\u01F2\x071\x02\x02\u01EA\u01EB' +
+    '\x07\x03\x02\x02\u01EB\u01F2\x071\x02\x02\u01EC\u01EE\x07\x0F\x02\x02' +
+    '\u01ED\u01EF\x052\x1A\x02\u01EE\u01ED\x03\x02\x02\x02\u01EE\u01EF\x03' +
+    '\x02\x02\x02\u01EF\u01F0\x03\x02\x02\x02\u01F0\u01F2\x071\x02\x02\u01F1' +
+    '\u01E8\x03\x02\x02\x02\u01F1\u01EA\x03\x02\x02\x02\u01F1\u01EC\x03\x02' +
+    '\x02\x02\u01F2I\x03\x02\x02\x02\u01F3\u01F4\x07\x13\x02\x02\u01F4\u0200' +
+    '\x07=\x02\x02\u01F5\u01F6\x07\x13\x02\x02\u01F6\u01F7\x07=\x02\x02\u01F7' +
+    "\u01F9\x07\x1C\x02\x02\u01F8\u01FA\x05L'\x02\u01F9\u01F8\x03\x02\x02" +
+    '\x02\u01FA\u01FB\x03\x02\x02\x02\u01FB\u01F9\x03\x02\x02\x02\u01FB\u01FC' +
+    '\x03\x02\x02\x02\u01FC\u01FD\x03\x02\x02\x02\u01FD\u01FE\x07\x1D\x02\x02' +
+    '\u01FE\u0200\x03\x02\x02\x02\u01FF\u01F3\x03\x02\x02\x02\u01FF\u01F5\x03' +
+    '\x02\x02\x02\u0200K\x03\x02\x02\x02\u0201\u0203\x05\x02\x02\x02\u0202' +
+    '\u0201\x03\x02\x02\x02\u0203\u0204\x03\x02\x02\x02\u0204\u0202\x03\x02' +
+    '\x02\x02\u0204\u0205\x03\x02\x02\x02\u0205\u0206\x03\x02\x02\x02\u0206' +
+    '\u0207\x05\f\x07\x02\u0207\u0208\x071\x02\x02\u0208M\x03\x02\x02\x02>' +
+    'X]bgjsw\x80\x86\x8C\x8F\x94\x97\x9C\x9F\xA3\xA5\xAC\xB6\xBE\xC7\xD1\xDC' +
+    '\xE8\xEA\xFC\xFE\u010A\u010C\u011B\u011D\u012F\u0136\u013A\u013F\u014E' +
+    '\u015C\u015E\u0168\u0172\u017A\u017D\u0184\u018C\u0196\u019C\u019F\u01A7' +
+    '\u01B2\u01B5\u01C7\u01DA\u01DE\u01E2\u01E6\u01EE\u01F1\u01FB\u01FF\u0204'
   public static __ATN: ATN
   public static get _ATN(): ATN {
     if (!SourCParser.__ATN) {
@@ -3393,6 +3741,9 @@ export class Type_specifierContext extends ParserRuleContext {
   }
   public Unsigned(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Unsigned, 0)
+  }
+  public struct_specifier(): Struct_specifierContext | undefined {
+    return this.tryGetRuleContext(0, Struct_specifierContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
@@ -3501,9 +3852,6 @@ export class External_declarationContext extends ParserRuleContext {
 }
 
 export class DeclarationContext extends ParserRuleContext {
-  public init_declarator(): Init_declaratorContext {
-    return this.getRuleContext(0, Init_declaratorContext)
-  }
   public Semi(): TerminalNode {
     return this.getToken(SourCParser.Semi, 0)
   }
@@ -3515,6 +3863,9 @@ export class DeclarationContext extends ParserRuleContext {
     } else {
       return this.getRuleContext(i, Type_specifierContext)
     }
+  }
+  public init_declarator(): Init_declaratorContext | undefined {
+    return this.tryGetRuleContext(0, Init_declaratorContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
@@ -3612,14 +3963,8 @@ export class DeclaratorContext extends ParserRuleContext {
       return this.getToken(SourCParser.RightParen, i)
     }
   }
-  public type_name(): Type_nameContext[]
-  public type_name(i: number): Type_nameContext
-  public type_name(i?: number): Type_nameContext | Type_nameContext[] {
-    if (i === undefined) {
-      return this.getRuleContexts(Type_nameContext)
-    } else {
-      return this.getRuleContext(i, Type_nameContext)
-    }
+  public type_name_list(): Type_name_listContext | undefined {
+    return this.tryGetRuleContext(0, Type_name_listContext)
   }
   public LeftBracket(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.LeftBracket, 0)
@@ -3630,14 +3975,8 @@ export class DeclaratorContext extends ParserRuleContext {
   public constant_expression(): Constant_expressionContext | undefined {
     return this.tryGetRuleContext(0, Constant_expressionContext)
   }
-  public parameter_list(): Parameter_listContext[]
-  public parameter_list(i: number): Parameter_listContext
-  public parameter_list(i?: number): Parameter_listContext | Parameter_listContext[] {
-    if (i === undefined) {
-      return this.getRuleContexts(Parameter_listContext)
-    } else {
-      return this.getRuleContext(i, Parameter_listContext)
-    }
+  public parameter_list(): Parameter_listContext | undefined {
+    return this.tryGetRuleContext(0, Parameter_listContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
@@ -3662,6 +4001,54 @@ export class DeclaratorContext extends ParserRuleContext {
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
     if (visitor.visitDeclarator) {
       return visitor.visitDeclarator(this)
+    } else {
+      return visitor.visitChildren(this)
+    }
+  }
+}
+
+export class Type_name_listContext extends ParserRuleContext {
+  public type_name(): Type_nameContext[]
+  public type_name(i: number): Type_nameContext
+  public type_name(i?: number): Type_nameContext | Type_nameContext[] {
+    if (i === undefined) {
+      return this.getRuleContexts(Type_nameContext)
+    } else {
+      return this.getRuleContext(i, Type_nameContext)
+    }
+  }
+  public pointer(): PointerContext | undefined {
+    return this.tryGetRuleContext(0, PointerContext)
+  }
+  public Comma(): TerminalNode | undefined {
+    return this.tryGetToken(SourCParser.Comma, 0)
+  }
+  public type_name_list(): Type_name_listContext | undefined {
+    return this.tryGetRuleContext(0, Type_name_listContext)
+  }
+  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+    super(parent, invokingState)
+  }
+  // @Override
+  public get ruleIndex(): number {
+    return SourCParser.RULE_type_name_list
+  }
+  // @Override
+  public enterRule(listener: SourCParserListener): void {
+    if (listener.enterType_name_list) {
+      listener.enterType_name_list(this)
+    }
+  }
+  // @Override
+  public exitRule(listener: SourCParserListener): void {
+    if (listener.exitType_name_list) {
+      listener.exitType_name_list(this)
+    }
+  }
+  // @Override
+  public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
+    if (visitor.visitType_name_list) {
+      return visitor.visitType_name_list(this)
     } else {
       return visitor.visitChildren(this)
     }
@@ -4987,6 +5374,102 @@ export class Jump_statementContext extends ParserRuleContext {
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
     if (visitor.visitJump_statement) {
       return visitor.visitJump_statement(this)
+    } else {
+      return visitor.visitChildren(this)
+    }
+  }
+}
+
+export class Struct_specifierContext extends ParserRuleContext {
+  public Struct(): TerminalNode {
+    return this.getToken(SourCParser.Struct, 0)
+  }
+  public Identifier(): TerminalNode {
+    return this.getToken(SourCParser.Identifier, 0)
+  }
+  public LeftBrace(): TerminalNode | undefined {
+    return this.tryGetToken(SourCParser.LeftBrace, 0)
+  }
+  public RightBrace(): TerminalNode | undefined {
+    return this.tryGetToken(SourCParser.RightBrace, 0)
+  }
+  public struct_declaration(): Struct_declarationContext[]
+  public struct_declaration(i: number): Struct_declarationContext
+  public struct_declaration(i?: number): Struct_declarationContext | Struct_declarationContext[] {
+    if (i === undefined) {
+      return this.getRuleContexts(Struct_declarationContext)
+    } else {
+      return this.getRuleContext(i, Struct_declarationContext)
+    }
+  }
+  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+    super(parent, invokingState)
+  }
+  // @Override
+  public get ruleIndex(): number {
+    return SourCParser.RULE_struct_specifier
+  }
+  // @Override
+  public enterRule(listener: SourCParserListener): void {
+    if (listener.enterStruct_specifier) {
+      listener.enterStruct_specifier(this)
+    }
+  }
+  // @Override
+  public exitRule(listener: SourCParserListener): void {
+    if (listener.exitStruct_specifier) {
+      listener.exitStruct_specifier(this)
+    }
+  }
+  // @Override
+  public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
+    if (visitor.visitStruct_specifier) {
+      return visitor.visitStruct_specifier(this)
+    } else {
+      return visitor.visitChildren(this)
+    }
+  }
+}
+
+export class Struct_declarationContext extends ParserRuleContext {
+  public declarator(): DeclaratorContext {
+    return this.getRuleContext(0, DeclaratorContext)
+  }
+  public Semi(): TerminalNode {
+    return this.getToken(SourCParser.Semi, 0)
+  }
+  public type_specifier(): Type_specifierContext[]
+  public type_specifier(i: number): Type_specifierContext
+  public type_specifier(i?: number): Type_specifierContext | Type_specifierContext[] {
+    if (i === undefined) {
+      return this.getRuleContexts(Type_specifierContext)
+    } else {
+      return this.getRuleContext(i, Type_specifierContext)
+    }
+  }
+  constructor(parent: ParserRuleContext | undefined, invokingState: number) {
+    super(parent, invokingState)
+  }
+  // @Override
+  public get ruleIndex(): number {
+    return SourCParser.RULE_struct_declaration
+  }
+  // @Override
+  public enterRule(listener: SourCParserListener): void {
+    if (listener.enterStruct_declaration) {
+      listener.enterStruct_declaration(this)
+    }
+  }
+  // @Override
+  public exitRule(listener: SourCParserListener): void {
+    if (listener.exitStruct_declaration) {
+      listener.exitStruct_declaration(this)
+    }
+  }
+  // @Override
+  public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
+    if (visitor.visitStruct_declaration) {
+      return visitor.visitStruct_declaration(this)
     } else {
       return visitor.visitChildren(this)
     }
