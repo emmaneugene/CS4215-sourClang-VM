@@ -97,84 +97,84 @@ export class SourCParser extends Parser {
   public static readonly Newline = 70
   public static readonly BlockComment = 71
   public static readonly LineComment = 72
-  public static readonly RULE_type_specifier = 0
-  public static readonly RULE_translation_unit = 1
-  public static readonly RULE_external_declaration = 2
+  public static readonly RULE_typeSpecifier = 0
+  public static readonly RULE_translationUnit = 1
+  public static readonly RULE_externalDeclaration = 2
   public static readonly RULE_declaration = 3
-  public static readonly RULE_init_declarator = 4
+  public static readonly RULE_initDeclarator = 4
   public static readonly RULE_declarator = 5
-  public static readonly RULE_type_name_list = 6
+  public static readonly RULE_typeNameList = 6
   public static readonly RULE_initializer = 7
-  public static readonly RULE_initializer_list = 8
-  public static readonly RULE_assignment_expression = 9
-  public static readonly RULE_conditional_expression = 10
-  public static readonly RULE_logical_or_expression = 11
-  public static readonly RULE_logical_and_expression = 12
-  public static readonly RULE_equality_expression = 13
-  public static readonly RULE_relational_expression = 14
-  public static readonly RULE_additive_expression = 15
-  public static readonly RULE_multiplicative_expression = 16
-  public static readonly RULE_cast_expression = 17
-  public static readonly RULE_unary_expression = 18
-  public static readonly RULE_unary_operator = 19
-  public static readonly RULE_type_name = 20
-  public static readonly RULE_sizeof_operands = 21
-  public static readonly RULE_postfix_expression = 22
-  public static readonly RULE_primary_expression = 23
+  public static readonly RULE_initializerList = 8
+  public static readonly RULE_assignmentExpression = 9
+  public static readonly RULE_conditionalExpression = 10
+  public static readonly RULE_logicalOrExpression = 11
+  public static readonly RULE_logicalAndExpression = 12
+  public static readonly RULE_equalityExpression = 13
+  public static readonly RULE_relationalExpression = 14
+  public static readonly RULE_additiveExpression = 15
+  public static readonly RULE_multiplicativeExpression = 16
+  public static readonly RULE_castExpression = 17
+  public static readonly RULE_unaryExpression = 18
+  public static readonly RULE_unaryOperator = 19
+  public static readonly RULE_typeName = 20
+  public static readonly RULE_sizeofOperands = 21
+  public static readonly RULE_postfixExpression = 22
+  public static readonly RULE_primaryExpression = 23
   public static readonly RULE_expression = 24
-  public static readonly RULE_constant_expression = 25
-  public static readonly RULE_function_definition = 26
+  public static readonly RULE_constantExpression = 25
+  public static readonly RULE_functionDefinition = 26
   public static readonly RULE_pointer = 27
-  public static readonly RULE_parameter_list = 28
-  public static readonly RULE_parameter_declaration = 29
-  public static readonly RULE_compound_statement = 30
+  public static readonly RULE_parameterList = 28
+  public static readonly RULE_parameterDeclaration = 29
+  public static readonly RULE_compoundStatement = 30
   public static readonly RULE_statement = 31
-  public static readonly RULE_expression_statement = 32
-  public static readonly RULE_selection_statement = 33
-  public static readonly RULE_iteration_statement = 34
-  public static readonly RULE_jump_statement = 35
-  public static readonly RULE_struct_specifier = 36
-  public static readonly RULE_struct_declaration = 37
+  public static readonly RULE_expressionStatement = 32
+  public static readonly RULE_selectionStatement = 33
+  public static readonly RULE_iterationStatement = 34
+  public static readonly RULE_jumpStatement = 35
+  public static readonly RULE_structSpecifier = 36
+  public static readonly RULE_structDeclaration = 37
   // tslint:disable:no-trailing-whitespace
   public static readonly ruleNames: string[] = [
-    'type_specifier',
-    'translation_unit',
-    'external_declaration',
+    'typeSpecifier',
+    'translationUnit',
+    'externalDeclaration',
     'declaration',
-    'init_declarator',
+    'initDeclarator',
     'declarator',
-    'type_name_list',
+    'typeNameList',
     'initializer',
-    'initializer_list',
-    'assignment_expression',
-    'conditional_expression',
-    'logical_or_expression',
-    'logical_and_expression',
-    'equality_expression',
-    'relational_expression',
-    'additive_expression',
-    'multiplicative_expression',
-    'cast_expression',
-    'unary_expression',
-    'unary_operator',
-    'type_name',
-    'sizeof_operands',
-    'postfix_expression',
-    'primary_expression',
+    'initializerList',
+    'assignmentExpression',
+    'conditionalExpression',
+    'logicalOrExpression',
+    'logicalAndExpression',
+    'equalityExpression',
+    'relationalExpression',
+    'additiveExpression',
+    'multiplicativeExpression',
+    'castExpression',
+    'unaryExpression',
+    'unaryOperator',
+    'typeName',
+    'sizeofOperands',
+    'postfixExpression',
+    'primaryExpression',
     'expression',
-    'constant_expression',
-    'function_definition',
+    'constantExpression',
+    'functionDefinition',
     'pointer',
-    'parameter_list',
-    'parameter_declaration',
-    'compound_statement',
+    'parameterList',
+    'parameterDeclaration',
+    'compoundStatement',
     'statement',
-    'expression_statement',
-    'selection_statement',
-    'iteration_statement',
-    'jump_statement',
-    'struct_specifier',
-    'struct_declaration'
+    'expressionStatement',
+    'selectionStatement',
+    'iterationStatement',
+    'jumpStatement',
+    'structSpecifier',
+    'structDeclaration'
   ]
 
   private static readonly _LITERAL_NAMES: Array<string | undefined> = [
@@ -353,9 +353,9 @@ export class SourCParser extends Parser {
     this._interp = new ParserATNSimulator(SourCParser._ATN, this)
   }
   // @RuleVersion(0)
-  public type_specifier(): Type_specifierContext {
-    const _localctx: Type_specifierContext = new Type_specifierContext(this._ctx, this.state)
-    this.enterRule(_localctx, 0, SourCParser.RULE_type_specifier)
+  public typeSpecifier(): TypeSpecifierContext {
+    const _localctx: TypeSpecifierContext = new TypeSpecifierContext(this._ctx, this.state)
+    this.enterRule(_localctx, 0, SourCParser.RULE_typeSpecifier)
     try {
       this.state = 86
       this._errHandler.sync(this)
@@ -427,7 +427,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 10)
           {
             this.state = 85
-            this.struct_specifier()
+            this.structSpecifier()
           }
           break
         default:
@@ -447,9 +447,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public translation_unit(): Translation_unitContext {
-    const _localctx: Translation_unitContext = new Translation_unitContext(this._ctx, this.state)
-    this.enterRule(_localctx, 2, SourCParser.RULE_translation_unit)
+  public translationUnit(): TranslationUnitContext {
+    const _localctx: TranslationUnitContext = new TranslationUnitContext(this._ctx, this.state)
+    this.enterRule(_localctx, 2, SourCParser.RULE_translationUnit)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -475,7 +475,7 @@ export class SourCParser extends Parser {
           {
             {
               this.state = 88
-              this.external_declaration()
+              this.externalDeclaration()
             }
           }
           this.state = 93
@@ -497,12 +497,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public external_declaration(): External_declarationContext {
-    const _localctx: External_declarationContext = new External_declarationContext(
+  public externalDeclaration(): ExternalDeclarationContext {
+    const _localctx: ExternalDeclarationContext = new ExternalDeclarationContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 4, SourCParser.RULE_external_declaration)
+    this.enterRule(_localctx, 4, SourCParser.RULE_externalDeclaration)
     try {
       this.state = 96
       this._errHandler.sync(this)
@@ -511,7 +511,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 1)
           {
             this.state = 94
-            this.function_definition()
+            this.functionDefinition()
           }
           break
 
@@ -551,7 +551,7 @@ export class SourCParser extends Parser {
           {
             {
               this.state = 98
-              this.type_specifier()
+              this.typeSpecifier()
             }
           }
           this.state = 101
@@ -582,7 +582,7 @@ export class SourCParser extends Parser {
         ) {
           {
             this.state = 103
-            this.init_declarator()
+            this.initDeclarator()
           }
         }
 
@@ -603,9 +603,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public init_declarator(): Init_declaratorContext {
-    const _localctx: Init_declaratorContext = new Init_declaratorContext(this._ctx, this.state)
-    this.enterRule(_localctx, 8, SourCParser.RULE_init_declarator)
+  public initDeclarator(): InitDeclaratorContext {
+    const _localctx: InitDeclaratorContext = new InitDeclaratorContext(this._ctx, this.state)
+    this.enterRule(_localctx, 8, SourCParser.RULE_initDeclarator)
     try {
       this.state = 113
       this._errHandler.sync(this)
@@ -707,7 +707,7 @@ export class SourCParser extends Parser {
             ) {
               {
                 this.state = 125
-                this.type_name_list()
+                this.typeNameList()
               }
             }
 
@@ -745,7 +745,7 @@ export class SourCParser extends Parser {
             ) {
               {
                 this.state = 131
-                this.constant_expression()
+                this.constantExpression()
               }
             }
 
@@ -781,7 +781,7 @@ export class SourCParser extends Parser {
             ) {
               {
                 this.state = 137
-                this.parameter_list(0)
+                this.parameterList(0)
               }
             }
 
@@ -804,9 +804,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public type_name_list(): Type_name_listContext {
-    const _localctx: Type_name_listContext = new Type_name_listContext(this._ctx, this.state)
-    this.enterRule(_localctx, 12, SourCParser.RULE_type_name_list)
+  public typeNameList(): TypeNameListContext {
+    const _localctx: TypeNameListContext = new TypeNameListContext(this._ctx, this.state)
+    this.enterRule(_localctx, 12, SourCParser.RULE_typeNameList)
     let _la: number
     try {
       this.state = 163
@@ -822,7 +822,7 @@ export class SourCParser extends Parser {
               {
                 {
                   this.state = 143
-                  this.type_name()
+                  this.typeName()
                 }
               }
               this.state = 146
@@ -861,7 +861,7 @@ export class SourCParser extends Parser {
               {
                 {
                   this.state = 151
-                  this.type_name()
+                  this.typeName()
                 }
               }
               this.state = 154
@@ -906,7 +906,7 @@ export class SourCParser extends Parser {
             ) {
               {
                 this.state = 160
-                this.type_name_list()
+                this.typeNameList()
               }
             }
           }
@@ -948,7 +948,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 1)
           {
             this.state = 165
-            this.assignment_expression()
+            this.assignmentExpression()
           }
           break
         case SourCParser.LeftBrace:
@@ -957,7 +957,7 @@ export class SourCParser extends Parser {
             this.state = 166
             this.match(SourCParser.LeftBrace)
             this.state = 167
-            this.initializer_list(0)
+            this.initializerList(0)
             this.state = 168
             this.match(SourCParser.RightBrace)
           }
@@ -979,20 +979,20 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public initializer_list(): Initializer_listContext
-  public initializer_list(_p: number): Initializer_listContext
+  public initializerList(): InitializerListContext
+  public initializerList(_p: number): InitializerListContext
   // @RuleVersion(0)
-  public initializer_list(_p?: number): Initializer_listContext {
+  public initializerList(_p?: number): InitializerListContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Initializer_listContext = new Initializer_listContext(this._ctx, _parentState)
-    let _prevctx: Initializer_listContext = _localctx
+    let _localctx: InitializerListContext = new InitializerListContext(this._ctx, _parentState)
+    let _prevctx: InitializerListContext = _localctx
     const _startState: number = 16
-    this.enterRecursionRule(_localctx, 16, SourCParser.RULE_initializer_list, _p)
+    this.enterRecursionRule(_localctx, 16, SourCParser.RULE_initializerList, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
@@ -1013,11 +1013,11 @@ export class SourCParser extends Parser {
             _prevctx = _localctx
             {
               {
-                _localctx = new Initializer_listContext(_parentctx, _parentState)
+                _localctx = new InitializerListContext(_parentctx, _parentState)
                 this.pushNewRecursionContext(
                   _localctx,
                   _startState,
-                  SourCParser.RULE_initializer_list
+                  SourCParser.RULE_initializerList
                 )
                 this.state = 175
                 if (!this.precpred(this._ctx, 1)) {
@@ -1049,12 +1049,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public assignment_expression(): Assignment_expressionContext {
-    const _localctx: Assignment_expressionContext = new Assignment_expressionContext(
+  public assignmentExpression(): AssignmentExpressionContext {
+    const _localctx: AssignmentExpressionContext = new AssignmentExpressionContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 18, SourCParser.RULE_assignment_expression)
+    this.enterRule(_localctx, 18, SourCParser.RULE_assignmentExpression)
     try {
       this.state = 188
       this._errHandler.sync(this)
@@ -1063,7 +1063,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 1)
           {
             this.state = 183
-            this.conditional_expression()
+            this.conditionalExpression()
           }
           break
 
@@ -1071,11 +1071,11 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 2)
           {
             this.state = 184
-            this.unary_expression()
+            this.unaryExpression()
             this.state = 185
             this.match(SourCParser.Assign)
             this.state = 186
-            this.assignment_expression()
+            this.assignmentExpression()
           }
           break
       }
@@ -1093,12 +1093,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public conditional_expression(): Conditional_expressionContext {
-    const _localctx: Conditional_expressionContext = new Conditional_expressionContext(
+  public conditionalExpression(): ConditionalExpressionContext {
+    const _localctx: ConditionalExpressionContext = new ConditionalExpressionContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 20, SourCParser.RULE_conditional_expression)
+    this.enterRule(_localctx, 20, SourCParser.RULE_conditionalExpression)
     try {
       this.state = 197
       this._errHandler.sync(this)
@@ -1107,7 +1107,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 1)
           {
             this.state = 190
-            this.logical_or_expression(0)
+            this.logicalOrExpression(0)
           }
           break
 
@@ -1115,15 +1115,15 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 2)
           {
             this.state = 191
-            this.logical_or_expression(0)
+            this.logicalOrExpression(0)
             this.state = 192
             this.match(SourCParser.Question)
             this.state = 193
-            this.conditional_expression()
+            this.conditionalExpression()
             this.state = 194
             this.match(SourCParser.Colon)
             this.state = 195
-            this.conditional_expression()
+            this.conditionalExpression()
           }
           break
       }
@@ -1141,30 +1141,30 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public logical_or_expression(): Logical_or_expressionContext
-  public logical_or_expression(_p: number): Logical_or_expressionContext
+  public logicalOrExpression(): LogicalOrExpressionContext
+  public logicalOrExpression(_p: number): LogicalOrExpressionContext
   // @RuleVersion(0)
-  public logical_or_expression(_p?: number): Logical_or_expressionContext {
+  public logicalOrExpression(_p?: number): LogicalOrExpressionContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Logical_or_expressionContext = new Logical_or_expressionContext(
+    let _localctx: LogicalOrExpressionContext = new LogicalOrExpressionContext(
       this._ctx,
       _parentState
     )
-    let _prevctx: Logical_or_expressionContext = _localctx
+    let _prevctx: LogicalOrExpressionContext = _localctx
     const _startState: number = 22
-    this.enterRecursionRule(_localctx, 22, SourCParser.RULE_logical_or_expression, _p)
+    this.enterRecursionRule(_localctx, 22, SourCParser.RULE_logicalOrExpression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
           this.state = 200
-          this.logical_and_expression(0)
+          this.logicalAndExpression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 207
@@ -1178,11 +1178,11 @@ export class SourCParser extends Parser {
             _prevctx = _localctx
             {
               {
-                _localctx = new Logical_or_expressionContext(_parentctx, _parentState)
+                _localctx = new LogicalOrExpressionContext(_parentctx, _parentState)
                 this.pushNewRecursionContext(
                   _localctx,
                   _startState,
-                  SourCParser.RULE_logical_or_expression
+                  SourCParser.RULE_logicalOrExpression
                 )
                 this.state = 202
                 if (!this.precpred(this._ctx, 1)) {
@@ -1191,7 +1191,7 @@ export class SourCParser extends Parser {
                 this.state = 203
                 this.match(SourCParser.OrOr)
                 this.state = 204
-                this.logical_and_expression(0)
+                this.logicalAndExpression(0)
               }
             }
           }
@@ -1214,30 +1214,30 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public logical_and_expression(): Logical_and_expressionContext
-  public logical_and_expression(_p: number): Logical_and_expressionContext
+  public logicalAndExpression(): LogicalAndExpressionContext
+  public logicalAndExpression(_p: number): LogicalAndExpressionContext
   // @RuleVersion(0)
-  public logical_and_expression(_p?: number): Logical_and_expressionContext {
+  public logicalAndExpression(_p?: number): LogicalAndExpressionContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Logical_and_expressionContext = new Logical_and_expressionContext(
+    let _localctx: LogicalAndExpressionContext = new LogicalAndExpressionContext(
       this._ctx,
       _parentState
     )
-    let _prevctx: Logical_and_expressionContext = _localctx
+    let _prevctx: LogicalAndExpressionContext = _localctx
     const _startState: number = 24
-    this.enterRecursionRule(_localctx, 24, SourCParser.RULE_logical_and_expression, _p)
+    this.enterRecursionRule(_localctx, 24, SourCParser.RULE_logicalAndExpression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
           this.state = 211
-          this.equality_expression(0)
+          this.equalityExpression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 218
@@ -1251,11 +1251,11 @@ export class SourCParser extends Parser {
             _prevctx = _localctx
             {
               {
-                _localctx = new Logical_and_expressionContext(_parentctx, _parentState)
+                _localctx = new LogicalAndExpressionContext(_parentctx, _parentState)
                 this.pushNewRecursionContext(
                   _localctx,
                   _startState,
-                  SourCParser.RULE_logical_and_expression
+                  SourCParser.RULE_logicalAndExpression
                 )
                 this.state = 213
                 if (!this.precpred(this._ctx, 1)) {
@@ -1264,7 +1264,7 @@ export class SourCParser extends Parser {
                 this.state = 214
                 this.match(SourCParser.AndAnd)
                 this.state = 215
-                this.equality_expression(0)
+                this.equalityExpression(0)
               }
             }
           }
@@ -1287,30 +1287,30 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public equality_expression(): Equality_expressionContext
-  public equality_expression(_p: number): Equality_expressionContext
+  public equalityExpression(): EqualityExpressionContext
+  public equalityExpression(_p: number): EqualityExpressionContext
   // @RuleVersion(0)
-  public equality_expression(_p?: number): Equality_expressionContext {
+  public equalityExpression(_p?: number): EqualityExpressionContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Equality_expressionContext = new Equality_expressionContext(
+    let _localctx: EqualityExpressionContext = new EqualityExpressionContext(
       this._ctx,
       _parentState
     )
-    let _prevctx: Equality_expressionContext = _localctx
+    let _prevctx: EqualityExpressionContext = _localctx
     const _startState: number = 26
-    this.enterRecursionRule(_localctx, 26, SourCParser.RULE_equality_expression, _p)
+    this.enterRecursionRule(_localctx, 26, SourCParser.RULE_equalityExpression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
           this.state = 222
-          this.relational_expression(0)
+          this.relationalExpression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 232
@@ -1328,11 +1328,11 @@ export class SourCParser extends Parser {
               switch (this.interpreter.adaptivePredict(this._input, 23, this._ctx)) {
                 case 1:
                   {
-                    _localctx = new Equality_expressionContext(_parentctx, _parentState)
+                    _localctx = new EqualityExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_equality_expression
+                      SourCParser.RULE_equalityExpression
                     )
                     this.state = 224
                     if (!this.precpred(this._ctx, 2)) {
@@ -1341,17 +1341,17 @@ export class SourCParser extends Parser {
                     this.state = 225
                     this.match(SourCParser.Equal)
                     this.state = 226
-                    this.relational_expression(0)
+                    this.relationalExpression(0)
                   }
                   break
 
                 case 2:
                   {
-                    _localctx = new Equality_expressionContext(_parentctx, _parentState)
+                    _localctx = new EqualityExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_equality_expression
+                      SourCParser.RULE_equalityExpression
                     )
                     this.state = 227
                     if (!this.precpred(this._ctx, 1)) {
@@ -1360,7 +1360,7 @@ export class SourCParser extends Parser {
                     this.state = 228
                     this.match(SourCParser.NotEqual)
                     this.state = 229
-                    this.relational_expression(0)
+                    this.relationalExpression(0)
                   }
                   break
               }
@@ -1385,30 +1385,30 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public relational_expression(): Relational_expressionContext
-  public relational_expression(_p: number): Relational_expressionContext
+  public relationalExpression(): RelationalExpressionContext
+  public relationalExpression(_p: number): RelationalExpressionContext
   // @RuleVersion(0)
-  public relational_expression(_p?: number): Relational_expressionContext {
+  public relationalExpression(_p?: number): RelationalExpressionContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Relational_expressionContext = new Relational_expressionContext(
+    let _localctx: RelationalExpressionContext = new RelationalExpressionContext(
       this._ctx,
       _parentState
     )
-    let _prevctx: Relational_expressionContext = _localctx
+    let _prevctx: RelationalExpressionContext = _localctx
     const _startState: number = 28
-    this.enterRecursionRule(_localctx, 28, SourCParser.RULE_relational_expression, _p)
+    this.enterRecursionRule(_localctx, 28, SourCParser.RULE_relationalExpression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
           this.state = 236
-          this.additive_expression(0)
+          this.additiveExpression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 252
@@ -1426,11 +1426,11 @@ export class SourCParser extends Parser {
               switch (this.interpreter.adaptivePredict(this._input, 25, this._ctx)) {
                 case 1:
                   {
-                    _localctx = new Relational_expressionContext(_parentctx, _parentState)
+                    _localctx = new RelationalExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_relational_expression
+                      SourCParser.RULE_relationalExpression
                     )
                     this.state = 238
                     if (!this.precpred(this._ctx, 4)) {
@@ -1439,17 +1439,17 @@ export class SourCParser extends Parser {
                     this.state = 239
                     this.match(SourCParser.Less)
                     this.state = 240
-                    this.additive_expression(0)
+                    this.additiveExpression(0)
                   }
                   break
 
                 case 2:
                   {
-                    _localctx = new Relational_expressionContext(_parentctx, _parentState)
+                    _localctx = new RelationalExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_relational_expression
+                      SourCParser.RULE_relationalExpression
                     )
                     this.state = 241
                     if (!this.precpred(this._ctx, 3)) {
@@ -1458,17 +1458,17 @@ export class SourCParser extends Parser {
                     this.state = 242
                     this.match(SourCParser.Greater)
                     this.state = 243
-                    this.additive_expression(0)
+                    this.additiveExpression(0)
                   }
                   break
 
                 case 3:
                   {
-                    _localctx = new Relational_expressionContext(_parentctx, _parentState)
+                    _localctx = new RelationalExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_relational_expression
+                      SourCParser.RULE_relationalExpression
                     )
                     this.state = 244
                     if (!this.precpred(this._ctx, 2)) {
@@ -1477,17 +1477,17 @@ export class SourCParser extends Parser {
                     this.state = 245
                     this.match(SourCParser.LessEqual)
                     this.state = 246
-                    this.additive_expression(0)
+                    this.additiveExpression(0)
                   }
                   break
 
                 case 4:
                   {
-                    _localctx = new Relational_expressionContext(_parentctx, _parentState)
+                    _localctx = new RelationalExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_relational_expression
+                      SourCParser.RULE_relationalExpression
                     )
                     this.state = 247
                     if (!this.precpred(this._ctx, 1)) {
@@ -1496,7 +1496,7 @@ export class SourCParser extends Parser {
                     this.state = 248
                     this.match(SourCParser.GreaterEqual)
                     this.state = 249
-                    this.additive_expression(0)
+                    this.additiveExpression(0)
                   }
                   break
               }
@@ -1521,30 +1521,30 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public additive_expression(): Additive_expressionContext
-  public additive_expression(_p: number): Additive_expressionContext
+  public additiveExpression(): AdditiveExpressionContext
+  public additiveExpression(_p: number): AdditiveExpressionContext
   // @RuleVersion(0)
-  public additive_expression(_p?: number): Additive_expressionContext {
+  public additiveExpression(_p?: number): AdditiveExpressionContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Additive_expressionContext = new Additive_expressionContext(
+    let _localctx: AdditiveExpressionContext = new AdditiveExpressionContext(
       this._ctx,
       _parentState
     )
-    let _prevctx: Additive_expressionContext = _localctx
+    let _prevctx: AdditiveExpressionContext = _localctx
     const _startState: number = 30
-    this.enterRecursionRule(_localctx, 30, SourCParser.RULE_additive_expression, _p)
+    this.enterRecursionRule(_localctx, 30, SourCParser.RULE_additiveExpression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
           this.state = 256
-          this.multiplicative_expression(0)
+          this.multiplicativeExpression(0)
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 266
@@ -1562,11 +1562,11 @@ export class SourCParser extends Parser {
               switch (this.interpreter.adaptivePredict(this._input, 27, this._ctx)) {
                 case 1:
                   {
-                    _localctx = new Additive_expressionContext(_parentctx, _parentState)
+                    _localctx = new AdditiveExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_additive_expression
+                      SourCParser.RULE_additiveExpression
                     )
                     this.state = 258
                     if (!this.precpred(this._ctx, 2)) {
@@ -1575,17 +1575,17 @@ export class SourCParser extends Parser {
                     this.state = 259
                     this.match(SourCParser.Plus)
                     this.state = 260
-                    this.multiplicative_expression(0)
+                    this.multiplicativeExpression(0)
                   }
                   break
 
                 case 2:
                   {
-                    _localctx = new Additive_expressionContext(_parentctx, _parentState)
+                    _localctx = new AdditiveExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_additive_expression
+                      SourCParser.RULE_additiveExpression
                     )
                     this.state = 261
                     if (!this.precpred(this._ctx, 1)) {
@@ -1594,7 +1594,7 @@ export class SourCParser extends Parser {
                     this.state = 262
                     this.match(SourCParser.Minus)
                     this.state = 263
-                    this.multiplicative_expression(0)
+                    this.multiplicativeExpression(0)
                   }
                   break
               }
@@ -1619,30 +1619,30 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public multiplicative_expression(): Multiplicative_expressionContext
-  public multiplicative_expression(_p: number): Multiplicative_expressionContext
+  public multiplicativeExpression(): MultiplicativeExpressionContext
+  public multiplicativeExpression(_p: number): MultiplicativeExpressionContext
   // @RuleVersion(0)
-  public multiplicative_expression(_p?: number): Multiplicative_expressionContext {
+  public multiplicativeExpression(_p?: number): MultiplicativeExpressionContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Multiplicative_expressionContext = new Multiplicative_expressionContext(
+    let _localctx: MultiplicativeExpressionContext = new MultiplicativeExpressionContext(
       this._ctx,
       _parentState
     )
-    let _prevctx: Multiplicative_expressionContext = _localctx
+    let _prevctx: MultiplicativeExpressionContext = _localctx
     const _startState: number = 32
-    this.enterRecursionRule(_localctx, 32, SourCParser.RULE_multiplicative_expression, _p)
+    this.enterRecursionRule(_localctx, 32, SourCParser.RULE_multiplicativeExpression, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
           this.state = 270
-          this.cast_expression()
+          this.castExpression()
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 283
@@ -1660,11 +1660,11 @@ export class SourCParser extends Parser {
               switch (this.interpreter.adaptivePredict(this._input, 29, this._ctx)) {
                 case 1:
                   {
-                    _localctx = new Multiplicative_expressionContext(_parentctx, _parentState)
+                    _localctx = new MultiplicativeExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_multiplicative_expression
+                      SourCParser.RULE_multiplicativeExpression
                     )
                     this.state = 272
                     if (!this.precpred(this._ctx, 3)) {
@@ -1673,17 +1673,17 @@ export class SourCParser extends Parser {
                     this.state = 273
                     this.match(SourCParser.Star)
                     this.state = 274
-                    this.cast_expression()
+                    this.castExpression()
                   }
                   break
 
                 case 2:
                   {
-                    _localctx = new Multiplicative_expressionContext(_parentctx, _parentState)
+                    _localctx = new MultiplicativeExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_multiplicative_expression
+                      SourCParser.RULE_multiplicativeExpression
                     )
                     this.state = 275
                     if (!this.precpred(this._ctx, 2)) {
@@ -1692,17 +1692,17 @@ export class SourCParser extends Parser {
                     this.state = 276
                     this.match(SourCParser.Div)
                     this.state = 277
-                    this.cast_expression()
+                    this.castExpression()
                   }
                   break
 
                 case 3:
                   {
-                    _localctx = new Multiplicative_expressionContext(_parentctx, _parentState)
+                    _localctx = new MultiplicativeExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_multiplicative_expression
+                      SourCParser.RULE_multiplicativeExpression
                     )
                     this.state = 278
                     if (!this.precpred(this._ctx, 1)) {
@@ -1711,7 +1711,7 @@ export class SourCParser extends Parser {
                     this.state = 279
                     this.match(SourCParser.Mod)
                     this.state = 280
-                    this.cast_expression()
+                    this.castExpression()
                   }
                   break
               }
@@ -1736,14 +1736,14 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public cast_expression(): Cast_expressionContext {
-    const _localctx: Cast_expressionContext = new Cast_expressionContext(this._ctx, this.state)
-    this.enterRule(_localctx, 34, SourCParser.RULE_cast_expression)
+  public castExpression(): CastExpressionContext {
+    const _localctx: CastExpressionContext = new CastExpressionContext(this._ctx, this.state)
+    this.enterRule(_localctx, 34, SourCParser.RULE_castExpression)
     try {
       this.enterOuterAlt(_localctx, 1)
       {
         this.state = 286
-        this.unary_expression()
+        this.unaryExpression()
       }
     } catch (re) {
       if (re instanceof RecognitionException) {
@@ -1759,9 +1759,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public unary_expression(): Unary_expressionContext {
-    const _localctx: Unary_expressionContext = new Unary_expressionContext(this._ctx, this.state)
-    this.enterRule(_localctx, 36, SourCParser.RULE_unary_expression)
+  public unaryExpression(): UnaryExpressionContext {
+    const _localctx: UnaryExpressionContext = new UnaryExpressionContext(this._ctx, this.state)
+    this.enterRule(_localctx, 36, SourCParser.RULE_unaryExpression)
     try {
       this.state = 301
       this._errHandler.sync(this)
@@ -1773,7 +1773,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 1)
           {
             this.state = 288
-            this.postfix_expression(0)
+            this.postfixExpression(0)
           }
           break
         case SourCParser.PlusPlus:
@@ -1782,7 +1782,7 @@ export class SourCParser extends Parser {
             this.state = 289
             this.match(SourCParser.PlusPlus)
             this.state = 290
-            this.unary_expression()
+            this.unaryExpression()
           }
           break
         case SourCParser.MinusMinus:
@@ -1791,7 +1791,7 @@ export class SourCParser extends Parser {
             this.state = 291
             this.match(SourCParser.MinusMinus)
             this.state = 292
-            this.unary_expression()
+            this.unaryExpression()
           }
           break
         case SourCParser.Plus:
@@ -1802,9 +1802,9 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 4)
           {
             this.state = 293
-            this.unary_operator()
+            this.unaryOperator()
             this.state = 294
-            this.cast_expression()
+            this.castExpression()
           }
           break
         case SourCParser.Sizeof:
@@ -1815,7 +1815,7 @@ export class SourCParser extends Parser {
             this.state = 297
             this.match(SourCParser.LeftParen)
             this.state = 298
-            this.sizeof_operands()
+            this.sizeofOperands()
             this.state = 299
             this.match(SourCParser.RightParen)
           }
@@ -1837,9 +1837,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public unary_operator(): Unary_operatorContext {
-    const _localctx: Unary_operatorContext = new Unary_operatorContext(this._ctx, this.state)
-    this.enterRule(_localctx, 38, SourCParser.RULE_unary_operator)
+  public unaryOperator(): UnaryOperatorContext {
+    const _localctx: UnaryOperatorContext = new UnaryOperatorContext(this._ctx, this.state)
+    this.enterRule(_localctx, 38, SourCParser.RULE_unaryOperator)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -1882,9 +1882,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public type_name(): Type_nameContext {
-    const _localctx: Type_nameContext = new Type_nameContext(this._ctx, this.state)
-    this.enterRule(_localctx, 40, SourCParser.RULE_type_name)
+  public typeName(): TypeNameContext {
+    const _localctx: TypeNameContext = new TypeNameContext(this._ctx, this.state)
+    this.enterRule(_localctx, 40, SourCParser.RULE_typeName)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -1928,9 +1928,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public sizeof_operands(): Sizeof_operandsContext {
-    const _localctx: Sizeof_operandsContext = new Sizeof_operandsContext(this._ctx, this.state)
-    this.enterRule(_localctx, 42, SourCParser.RULE_sizeof_operands)
+  public sizeofOperands(): SizeofOperandsContext {
+    const _localctx: SizeofOperandsContext = new SizeofOperandsContext(this._ctx, this.state)
+    this.enterRule(_localctx, 42, SourCParser.RULE_sizeofOperands)
     let _la: number
     try {
       this.state = 317
@@ -1950,7 +1950,7 @@ export class SourCParser extends Parser {
             }
 
             this.state = 310
-            this.type_name()
+            this.typeName()
           }
           break
 
@@ -1996,23 +1996,20 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public postfix_expression(): Postfix_expressionContext
-  public postfix_expression(_p: number): Postfix_expressionContext
+  public postfixExpression(): PostfixExpressionContext
+  public postfixExpression(_p: number): PostfixExpressionContext
   // @RuleVersion(0)
-  public postfix_expression(_p?: number): Postfix_expressionContext {
+  public postfixExpression(_p?: number): PostfixExpressionContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Postfix_expressionContext = new Postfix_expressionContext(
-      this._ctx,
-      _parentState
-    )
-    let _prevctx: Postfix_expressionContext = _localctx
+    let _localctx: PostfixExpressionContext = new PostfixExpressionContext(this._ctx, _parentState)
+    let _prevctx: PostfixExpressionContext = _localctx
     const _startState: number = 44
-    this.enterRecursionRule(_localctx, 44, SourCParser.RULE_postfix_expression, _p)
+    this.enterRecursionRule(_localctx, 44, SourCParser.RULE_postfixExpression, _p)
     let _la: number
     try {
       let _alt: number
@@ -2020,7 +2017,7 @@ export class SourCParser extends Parser {
       {
         {
           this.state = 320
-          this.primary_expression()
+          this.primaryExpression()
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 348
@@ -2038,11 +2035,11 @@ export class SourCParser extends Parser {
               switch (this.interpreter.adaptivePredict(this._input, 36, this._ctx)) {
                 case 1:
                   {
-                    _localctx = new Postfix_expressionContext(_parentctx, _parentState)
+                    _localctx = new PostfixExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_postfix_expression
+                      SourCParser.RULE_postfixExpression
                     )
                     this.state = 322
                     if (!this.precpred(this._ctx, 6)) {
@@ -2059,11 +2056,11 @@ export class SourCParser extends Parser {
 
                 case 2:
                   {
-                    _localctx = new Postfix_expressionContext(_parentctx, _parentState)
+                    _localctx = new PostfixExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_postfix_expression
+                      SourCParser.RULE_postfixExpression
                     )
                     this.state = 327
                     if (!this.precpred(this._ctx, 5)) {
@@ -2108,11 +2105,11 @@ export class SourCParser extends Parser {
 
                 case 3:
                   {
-                    _localctx = new Postfix_expressionContext(_parentctx, _parentState)
+                    _localctx = new PostfixExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_postfix_expression
+                      SourCParser.RULE_postfixExpression
                     )
                     this.state = 336
                     if (!this.precpred(this._ctx, 4)) {
@@ -2127,11 +2124,11 @@ export class SourCParser extends Parser {
 
                 case 4:
                   {
-                    _localctx = new Postfix_expressionContext(_parentctx, _parentState)
+                    _localctx = new PostfixExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_postfix_expression
+                      SourCParser.RULE_postfixExpression
                     )
                     this.state = 339
                     if (!this.precpred(this._ctx, 3)) {
@@ -2146,11 +2143,11 @@ export class SourCParser extends Parser {
 
                 case 5:
                   {
-                    _localctx = new Postfix_expressionContext(_parentctx, _parentState)
+                    _localctx = new PostfixExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_postfix_expression
+                      SourCParser.RULE_postfixExpression
                     )
                     this.state = 342
                     if (!this.precpred(this._ctx, 2)) {
@@ -2163,11 +2160,11 @@ export class SourCParser extends Parser {
 
                 case 6:
                   {
-                    _localctx = new Postfix_expressionContext(_parentctx, _parentState)
+                    _localctx = new PostfixExpressionContext(_parentctx, _parentState)
                     this.pushNewRecursionContext(
                       _localctx,
                       _startState,
-                      SourCParser.RULE_postfix_expression
+                      SourCParser.RULE_postfixExpression
                     )
                     this.state = 344
                     if (!this.precpred(this._ctx, 1)) {
@@ -2199,12 +2196,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public primary_expression(): Primary_expressionContext {
-    const _localctx: Primary_expressionContext = new Primary_expressionContext(
-      this._ctx,
-      this.state
-    )
-    this.enterRule(_localctx, 46, SourCParser.RULE_primary_expression)
+  public primaryExpression(): PrimaryExpressionContext {
+    const _localctx: PrimaryExpressionContext = new PrimaryExpressionContext(this._ctx, this.state)
+    this.enterRule(_localctx, 46, SourCParser.RULE_primaryExpression)
     try {
       this.state = 358
       this._errHandler.sync(this)
@@ -2278,7 +2272,7 @@ export class SourCParser extends Parser {
       {
         {
           this.state = 361
-          this.assignment_expression()
+          this.assignmentExpression()
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 368
@@ -2301,7 +2295,7 @@ export class SourCParser extends Parser {
                 this.state = 364
                 this.match(SourCParser.Comma)
                 this.state = 365
-                this.assignment_expression()
+                this.assignmentExpression()
               }
             }
           }
@@ -2324,17 +2318,17 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public constant_expression(): Constant_expressionContext {
-    const _localctx: Constant_expressionContext = new Constant_expressionContext(
+  public constantExpression(): ConstantExpressionContext {
+    const _localctx: ConstantExpressionContext = new ConstantExpressionContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 50, SourCParser.RULE_constant_expression)
+    this.enterRule(_localctx, 50, SourCParser.RULE_constantExpression)
     try {
       this.enterOuterAlt(_localctx, 1)
       {
         this.state = 371
-        this.conditional_expression()
+        this.conditionalExpression()
       }
     } catch (re) {
       if (re instanceof RecognitionException) {
@@ -2350,12 +2344,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public function_definition(): Function_definitionContext {
-    const _localctx: Function_definitionContext = new Function_definitionContext(
+  public functionDefinition(): FunctionDefinitionContext {
+    const _localctx: FunctionDefinitionContext = new FunctionDefinitionContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 52, SourCParser.RULE_function_definition)
+    this.enterRule(_localctx, 52, SourCParser.RULE_functionDefinition)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -2367,7 +2361,7 @@ export class SourCParser extends Parser {
           {
             {
               this.state = 373
-              this.type_specifier()
+              this.typeSpecifier()
             }
           }
           this.state = 376
@@ -2423,7 +2417,7 @@ export class SourCParser extends Parser {
           {
             {
               this.state = 383
-              this.parameter_list(0)
+              this.parameterList(0)
             }
           }
           this.state = 388
@@ -2433,7 +2427,7 @@ export class SourCParser extends Parser {
         this.state = 389
         this.match(SourCParser.RightParen)
         this.state = 390
-        this.compound_statement()
+        this.compoundStatement()
       }
     } catch (re) {
       if (re instanceof RecognitionException) {
@@ -2482,27 +2476,27 @@ export class SourCParser extends Parser {
     return _localctx
   }
 
-  public parameter_list(): Parameter_listContext
-  public parameter_list(_p: number): Parameter_listContext
+  public parameterList(): ParameterListContext
+  public parameterList(_p: number): ParameterListContext
   // @RuleVersion(0)
-  public parameter_list(_p?: number): Parameter_listContext {
+  public parameterList(_p?: number): ParameterListContext {
     if (_p === undefined) {
       _p = 0
     }
 
     const _parentctx: ParserRuleContext = this._ctx
     const _parentState: number = this.state
-    let _localctx: Parameter_listContext = new Parameter_listContext(this._ctx, _parentState)
-    let _prevctx: Parameter_listContext = _localctx
+    let _localctx: ParameterListContext = new ParameterListContext(this._ctx, _parentState)
+    let _prevctx: ParameterListContext = _localctx
     const _startState: number = 56
-    this.enterRecursionRule(_localctx, 56, SourCParser.RULE_parameter_list, _p)
+    this.enterRecursionRule(_localctx, 56, SourCParser.RULE_parameterList, _p)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
         {
           this.state = 397
-          this.parameter_declaration()
+          this.parameterDeclaration()
         }
         this._ctx._stop = this._input.tryLT(-1)
         this.state = 404
@@ -2516,12 +2510,8 @@ export class SourCParser extends Parser {
             _prevctx = _localctx
             {
               {
-                _localctx = new Parameter_listContext(_parentctx, _parentState)
-                this.pushNewRecursionContext(
-                  _localctx,
-                  _startState,
-                  SourCParser.RULE_parameter_list
-                )
+                _localctx = new ParameterListContext(_parentctx, _parentState)
+                this.pushNewRecursionContext(_localctx, _startState, SourCParser.RULE_parameterList)
                 this.state = 399
                 if (!this.precpred(this._ctx, 1)) {
                   throw this.createFailedPredicateException('this.precpred(this._ctx, 1)')
@@ -2529,7 +2519,7 @@ export class SourCParser extends Parser {
                 this.state = 400
                 this.match(SourCParser.Comma)
                 this.state = 401
-                this.parameter_declaration()
+                this.parameterDeclaration()
               }
             }
           }
@@ -2552,12 +2542,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public parameter_declaration(): Parameter_declarationContext {
-    const _localctx: Parameter_declarationContext = new Parameter_declarationContext(
+  public parameterDeclaration(): ParameterDeclarationContext {
+    const _localctx: ParameterDeclarationContext = new ParameterDeclarationContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 58, SourCParser.RULE_parameter_declaration)
+    this.enterRule(_localctx, 58, SourCParser.RULE_parameterDeclaration)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -2569,7 +2559,7 @@ export class SourCParser extends Parser {
           {
             {
               this.state = 407
-              this.type_specifier()
+              this.typeSpecifier()
             }
           }
           this.state = 410
@@ -2617,12 +2607,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public compound_statement(): Compound_statementContext {
-    const _localctx: Compound_statementContext = new Compound_statementContext(
-      this._ctx,
-      this.state
-    )
-    this.enterRule(_localctx, 60, SourCParser.RULE_compound_statement)
+  public compoundStatement(): CompoundStatementContext {
+    const _localctx: CompoundStatementContext = new CompoundStatementContext(this._ctx, this.state)
+    this.enterRule(_localctx, 60, SourCParser.RULE_compoundStatement)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -2737,21 +2724,21 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 2)
           {
             this.state = 427
-            this.expression_statement()
+            this.expressionStatement()
           }
           break
         case SourCParser.LeftBrace:
           this.enterOuterAlt(_localctx, 3)
           {
             this.state = 428
-            this.compound_statement()
+            this.compoundStatement()
           }
           break
         case SourCParser.If:
           this.enterOuterAlt(_localctx, 4)
           {
             this.state = 429
-            this.selection_statement()
+            this.selectionStatement()
           }
           break
         case SourCParser.Do:
@@ -2760,7 +2747,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 5)
           {
             this.state = 430
-            this.iteration_statement()
+            this.iterationStatement()
           }
           break
         case SourCParser.Break:
@@ -2769,7 +2756,7 @@ export class SourCParser extends Parser {
           this.enterOuterAlt(_localctx, 6)
           {
             this.state = 431
-            this.jump_statement()
+            this.jumpStatement()
           }
           break
         default:
@@ -2789,12 +2776,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public expression_statement(): Expression_statementContext {
-    const _localctx: Expression_statementContext = new Expression_statementContext(
+  public expressionStatement(): ExpressionStatementContext {
+    const _localctx: ExpressionStatementContext = new ExpressionStatementContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 64, SourCParser.RULE_expression_statement)
+    this.enterRule(_localctx, 64, SourCParser.RULE_expressionStatement)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -2842,12 +2829,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public selection_statement(): Selection_statementContext {
-    const _localctx: Selection_statementContext = new Selection_statementContext(
+  public selectionStatement(): SelectionStatementContext {
+    const _localctx: SelectionStatementContext = new SelectionStatementContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 66, SourCParser.RULE_selection_statement)
+    this.enterRule(_localctx, 66, SourCParser.RULE_selectionStatement)
     try {
       this.state = 453
       this._errHandler.sync(this)
@@ -2902,12 +2889,12 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public iteration_statement(): Iteration_statementContext {
-    const _localctx: Iteration_statementContext = new Iteration_statementContext(
+  public iterationStatement(): IterationStatementContext {
+    const _localctx: IterationStatementContext = new IterationStatementContext(
       this._ctx,
       this.state
     )
-    this.enterRule(_localctx, 68, SourCParser.RULE_iteration_statement)
+    this.enterRule(_localctx, 68, SourCParser.RULE_iterationStatement)
     let _la: number
     try {
       this.state = 484
@@ -3059,9 +3046,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public jump_statement(): Jump_statementContext {
-    const _localctx: Jump_statementContext = new Jump_statementContext(this._ctx, this.state)
-    this.enterRule(_localctx, 70, SourCParser.RULE_jump_statement)
+  public jumpStatement(): JumpStatementContext {
+    const _localctx: JumpStatementContext = new JumpStatementContext(this._ctx, this.state)
+    this.enterRule(_localctx, 70, SourCParser.RULE_jumpStatement)
     let _la: number
     try {
       this.state = 495
@@ -3137,9 +3124,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public struct_specifier(): Struct_specifierContext {
-    const _localctx: Struct_specifierContext = new Struct_specifierContext(this._ctx, this.state)
-    this.enterRule(_localctx, 72, SourCParser.RULE_struct_specifier)
+  public structSpecifier(): StructSpecifierContext {
+    const _localctx: StructSpecifierContext = new StructSpecifierContext(this._ctx, this.state)
+    this.enterRule(_localctx, 72, SourCParser.RULE_structSpecifier)
     let _la: number
     try {
       this.state = 509
@@ -3171,7 +3158,7 @@ export class SourCParser extends Parser {
               {
                 {
                   this.state = 502
-                  this.struct_declaration()
+                  this.structDeclaration()
                 }
               }
               this.state = 505
@@ -3211,12 +3198,9 @@ export class SourCParser extends Parser {
     return _localctx
   }
   // @RuleVersion(0)
-  public struct_declaration(): Struct_declarationContext {
-    const _localctx: Struct_declarationContext = new Struct_declarationContext(
-      this._ctx,
-      this.state
-    )
-    this.enterRule(_localctx, 74, SourCParser.RULE_struct_declaration)
+  public structDeclaration(): StructDeclarationContext {
+    const _localctx: StructDeclarationContext = new StructDeclarationContext(this._ctx, this.state)
+    this.enterRule(_localctx, 74, SourCParser.RULE_structDeclaration)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -3228,7 +3212,7 @@ export class SourCParser extends Parser {
           {
             {
               this.state = 511
-              this.type_specifier()
+              this.typeSpecifier()
             }
           }
           this.state = 514
@@ -3271,58 +3255,55 @@ export class SourCParser extends Parser {
   public sempred(_localctx: RuleContext, ruleIndex: number, predIndex: number): boolean {
     switch (ruleIndex) {
       case 8:
-        return this.initializer_list_sempred(_localctx as Initializer_listContext, predIndex)
+        return this.initializerList_sempred(_localctx as InitializerListContext, predIndex)
 
       case 11:
-        return this.logical_or_expression_sempred(
-          _localctx as Logical_or_expressionContext,
-          predIndex
-        )
+        return this.logicalOrExpression_sempred(_localctx as LogicalOrExpressionContext, predIndex)
 
       case 12:
-        return this.logical_and_expression_sempred(
-          _localctx as Logical_and_expressionContext,
+        return this.logicalAndExpression_sempred(
+          _localctx as LogicalAndExpressionContext,
           predIndex
         )
 
       case 13:
-        return this.equality_expression_sempred(_localctx as Equality_expressionContext, predIndex)
+        return this.equalityExpression_sempred(_localctx as EqualityExpressionContext, predIndex)
 
       case 14:
-        return this.relational_expression_sempred(
-          _localctx as Relational_expressionContext,
+        return this.relationalExpression_sempred(
+          _localctx as RelationalExpressionContext,
           predIndex
         )
 
       case 15:
-        return this.additive_expression_sempred(_localctx as Additive_expressionContext, predIndex)
+        return this.additiveExpression_sempred(_localctx as AdditiveExpressionContext, predIndex)
 
       case 16:
-        return this.multiplicative_expression_sempred(
-          _localctx as Multiplicative_expressionContext,
+        return this.multiplicativeExpression_sempred(
+          _localctx as MultiplicativeExpressionContext,
           predIndex
         )
 
       case 22:
-        return this.postfix_expression_sempred(_localctx as Postfix_expressionContext, predIndex)
+        return this.postfixExpression_sempred(_localctx as PostfixExpressionContext, predIndex)
 
       case 24:
         return this.expression_sempred(_localctx as ExpressionContext, predIndex)
 
       case 28:
-        return this.parameter_list_sempred(_localctx as Parameter_listContext, predIndex)
+        return this.parameterList_sempred(_localctx as ParameterListContext, predIndex)
     }
     return true
   }
-  private initializer_list_sempred(_localctx: Initializer_listContext, predIndex: number): boolean {
+  private initializerList_sempred(_localctx: InitializerListContext, predIndex: number): boolean {
     switch (predIndex) {
       case 0:
         return this.precpred(this._ctx, 1)
     }
     return true
   }
-  private logical_or_expression_sempred(
-    _localctx: Logical_or_expressionContext,
+  private logicalOrExpression_sempred(
+    _localctx: LogicalOrExpressionContext,
     predIndex: number
   ): boolean {
     switch (predIndex) {
@@ -3331,8 +3312,8 @@ export class SourCParser extends Parser {
     }
     return true
   }
-  private logical_and_expression_sempred(
-    _localctx: Logical_and_expressionContext,
+  private logicalAndExpression_sempred(
+    _localctx: LogicalAndExpressionContext,
     predIndex: number
   ): boolean {
     switch (predIndex) {
@@ -3341,8 +3322,8 @@ export class SourCParser extends Parser {
     }
     return true
   }
-  private equality_expression_sempred(
-    _localctx: Equality_expressionContext,
+  private equalityExpression_sempred(
+    _localctx: EqualityExpressionContext,
     predIndex: number
   ): boolean {
     switch (predIndex) {
@@ -3354,8 +3335,8 @@ export class SourCParser extends Parser {
     }
     return true
   }
-  private relational_expression_sempred(
-    _localctx: Relational_expressionContext,
+  private relationalExpression_sempred(
+    _localctx: RelationalExpressionContext,
     predIndex: number
   ): boolean {
     switch (predIndex) {
@@ -3373,8 +3354,8 @@ export class SourCParser extends Parser {
     }
     return true
   }
-  private additive_expression_sempred(
-    _localctx: Additive_expressionContext,
+  private additiveExpression_sempred(
+    _localctx: AdditiveExpressionContext,
     predIndex: number
   ): boolean {
     switch (predIndex) {
@@ -3386,8 +3367,8 @@ export class SourCParser extends Parser {
     }
     return true
   }
-  private multiplicative_expression_sempred(
-    _localctx: Multiplicative_expressionContext,
+  private multiplicativeExpression_sempred(
+    _localctx: MultiplicativeExpressionContext,
     predIndex: number
   ): boolean {
     switch (predIndex) {
@@ -3402,8 +3383,8 @@ export class SourCParser extends Parser {
     }
     return true
   }
-  private postfix_expression_sempred(
-    _localctx: Postfix_expressionContext,
+  private postfixExpression_sempred(
+    _localctx: PostfixExpressionContext,
     predIndex: number
   ): boolean {
     switch (predIndex) {
@@ -3434,7 +3415,7 @@ export class SourCParser extends Parser {
     }
     return true
   }
-  private parameter_list_sempred(_localctx: Parameter_listContext, predIndex: number): boolean {
+  private parameterList_sempred(_localctx: ParameterListContext, predIndex: number): boolean {
     switch (predIndex) {
       case 21:
         return this.precpred(this._ctx, 1)
@@ -3714,7 +3695,7 @@ export class SourCParser extends Parser {
   }
 }
 
-export class Type_specifierContext extends ParserRuleContext {
+export class TypeSpecifierContext extends ParserRuleContext {
   public Void(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Void, 0)
   }
@@ -3742,48 +3723,48 @@ export class Type_specifierContext extends ParserRuleContext {
   public Unsigned(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Unsigned, 0)
   }
-  public struct_specifier(): Struct_specifierContext | undefined {
-    return this.tryGetRuleContext(0, Struct_specifierContext)
+  public structSpecifier(): StructSpecifierContext | undefined {
+    return this.tryGetRuleContext(0, StructSpecifierContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_type_specifier
+    return SourCParser.RULE_typeSpecifier
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterType_specifier) {
-      listener.enterType_specifier(this)
+    if (listener.enterTypeSpecifier) {
+      listener.enterTypeSpecifier(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitType_specifier) {
-      listener.exitType_specifier(this)
+    if (listener.exitTypeSpecifier) {
+      listener.exitTypeSpecifier(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitType_specifier) {
-      return visitor.visitType_specifier(this)
+    if (visitor.visitTypeSpecifier) {
+      return visitor.visitTypeSpecifier(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Translation_unitContext extends ParserRuleContext {
-  public external_declaration(): External_declarationContext[]
-  public external_declaration(i: number): External_declarationContext
-  public external_declaration(
+export class TranslationUnitContext extends ParserRuleContext {
+  public externalDeclaration(): ExternalDeclarationContext[]
+  public externalDeclaration(i: number): ExternalDeclarationContext
+  public externalDeclaration(
     i?: number
-  ): External_declarationContext | External_declarationContext[] {
+  ): ExternalDeclarationContext | ExternalDeclarationContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(External_declarationContext)
+      return this.getRuleContexts(ExternalDeclarationContext)
     } else {
-      return this.getRuleContext(i, External_declarationContext)
+      return this.getRuleContext(i, ExternalDeclarationContext)
     }
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
@@ -3791,33 +3772,33 @@ export class Translation_unitContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_translation_unit
+    return SourCParser.RULE_translationUnit
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterTranslation_unit) {
-      listener.enterTranslation_unit(this)
+    if (listener.enterTranslationUnit) {
+      listener.enterTranslationUnit(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitTranslation_unit) {
-      listener.exitTranslation_unit(this)
+    if (listener.exitTranslationUnit) {
+      listener.exitTranslationUnit(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitTranslation_unit) {
-      return visitor.visitTranslation_unit(this)
+    if (visitor.visitTranslationUnit) {
+      return visitor.visitTranslationUnit(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class External_declarationContext extends ParserRuleContext {
-  public function_definition(): Function_definitionContext | undefined {
-    return this.tryGetRuleContext(0, Function_definitionContext)
+export class ExternalDeclarationContext extends ParserRuleContext {
+  public functionDefinition(): FunctionDefinitionContext | undefined {
+    return this.tryGetRuleContext(0, FunctionDefinitionContext)
   }
   public declaration(): DeclarationContext | undefined {
     return this.tryGetRuleContext(0, DeclarationContext)
@@ -3827,24 +3808,24 @@ export class External_declarationContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_external_declaration
+    return SourCParser.RULE_externalDeclaration
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterExternal_declaration) {
-      listener.enterExternal_declaration(this)
+    if (listener.enterExternalDeclaration) {
+      listener.enterExternalDeclaration(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitExternal_declaration) {
-      listener.exitExternal_declaration(this)
+    if (listener.exitExternalDeclaration) {
+      listener.exitExternalDeclaration(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitExternal_declaration) {
-      return visitor.visitExternal_declaration(this)
+    if (visitor.visitExternalDeclaration) {
+      return visitor.visitExternalDeclaration(this)
     } else {
       return visitor.visitChildren(this)
     }
@@ -3855,17 +3836,17 @@ export class DeclarationContext extends ParserRuleContext {
   public Semi(): TerminalNode {
     return this.getToken(SourCParser.Semi, 0)
   }
-  public type_specifier(): Type_specifierContext[]
-  public type_specifier(i: number): Type_specifierContext
-  public type_specifier(i?: number): Type_specifierContext | Type_specifierContext[] {
+  public typeSpecifier(): TypeSpecifierContext[]
+  public typeSpecifier(i: number): TypeSpecifierContext
+  public typeSpecifier(i?: number): TypeSpecifierContext | TypeSpecifierContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Type_specifierContext)
+      return this.getRuleContexts(TypeSpecifierContext)
     } else {
-      return this.getRuleContext(i, Type_specifierContext)
+      return this.getRuleContext(i, TypeSpecifierContext)
     }
   }
-  public init_declarator(): Init_declaratorContext | undefined {
-    return this.tryGetRuleContext(0, Init_declaratorContext)
+  public initDeclarator(): InitDeclaratorContext | undefined {
+    return this.tryGetRuleContext(0, InitDeclaratorContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
@@ -3896,7 +3877,7 @@ export class DeclarationContext extends ParserRuleContext {
   }
 }
 
-export class Init_declaratorContext extends ParserRuleContext {
+export class InitDeclaratorContext extends ParserRuleContext {
   public declarator(): DeclaratorContext {
     return this.getRuleContext(0, DeclaratorContext)
   }
@@ -3911,24 +3892,24 @@ export class Init_declaratorContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_init_declarator
+    return SourCParser.RULE_initDeclarator
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterInit_declarator) {
-      listener.enterInit_declarator(this)
+    if (listener.enterInitDeclarator) {
+      listener.enterInitDeclarator(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitInit_declarator) {
-      listener.exitInit_declarator(this)
+    if (listener.exitInitDeclarator) {
+      listener.exitInitDeclarator(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitInit_declarator) {
-      return visitor.visitInit_declarator(this)
+    if (visitor.visitInitDeclarator) {
+      return visitor.visitInitDeclarator(this)
     } else {
       return visitor.visitChildren(this)
     }
@@ -3963,8 +3944,8 @@ export class DeclaratorContext extends ParserRuleContext {
       return this.getToken(SourCParser.RightParen, i)
     }
   }
-  public type_name_list(): Type_name_listContext | undefined {
-    return this.tryGetRuleContext(0, Type_name_listContext)
+  public typeNameList(): TypeNameListContext | undefined {
+    return this.tryGetRuleContext(0, TypeNameListContext)
   }
   public LeftBracket(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.LeftBracket, 0)
@@ -3972,11 +3953,11 @@ export class DeclaratorContext extends ParserRuleContext {
   public RightBracket(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.RightBracket, 0)
   }
-  public constant_expression(): Constant_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Constant_expressionContext)
+  public constantExpression(): ConstantExpressionContext | undefined {
+    return this.tryGetRuleContext(0, ConstantExpressionContext)
   }
-  public parameter_list(): Parameter_listContext | undefined {
-    return this.tryGetRuleContext(0, Parameter_listContext)
+  public parameterList(): ParameterListContext | undefined {
+    return this.tryGetRuleContext(0, ParameterListContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
@@ -4007,14 +3988,14 @@ export class DeclaratorContext extends ParserRuleContext {
   }
 }
 
-export class Type_name_listContext extends ParserRuleContext {
-  public type_name(): Type_nameContext[]
-  public type_name(i: number): Type_nameContext
-  public type_name(i?: number): Type_nameContext | Type_nameContext[] {
+export class TypeNameListContext extends ParserRuleContext {
+  public typeName(): TypeNameContext[]
+  public typeName(i: number): TypeNameContext
+  public typeName(i?: number): TypeNameContext | TypeNameContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Type_nameContext)
+      return this.getRuleContexts(TypeNameContext)
     } else {
-      return this.getRuleContext(i, Type_nameContext)
+      return this.getRuleContext(i, TypeNameContext)
     }
   }
   public pointer(): PointerContext | undefined {
@@ -4023,32 +4004,32 @@ export class Type_name_listContext extends ParserRuleContext {
   public Comma(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Comma, 0)
   }
-  public type_name_list(): Type_name_listContext | undefined {
-    return this.tryGetRuleContext(0, Type_name_listContext)
+  public typeNameList(): TypeNameListContext | undefined {
+    return this.tryGetRuleContext(0, TypeNameListContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_type_name_list
+    return SourCParser.RULE_typeNameList
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterType_name_list) {
-      listener.enterType_name_list(this)
+    if (listener.enterTypeNameList) {
+      listener.enterTypeNameList(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitType_name_list) {
-      listener.exitType_name_list(this)
+    if (listener.exitTypeNameList) {
+      listener.exitTypeNameList(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitType_name_list) {
-      return visitor.visitType_name_list(this)
+    if (visitor.visitTypeNameList) {
+      return visitor.visitTypeNameList(this)
     } else {
       return visitor.visitChildren(this)
     }
@@ -4056,14 +4037,14 @@ export class Type_name_listContext extends ParserRuleContext {
 }
 
 export class InitializerContext extends ParserRuleContext {
-  public assignment_expression(): Assignment_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Assignment_expressionContext)
+  public assignmentExpression(): AssignmentExpressionContext | undefined {
+    return this.tryGetRuleContext(0, AssignmentExpressionContext)
   }
   public LeftBrace(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.LeftBrace, 0)
   }
-  public initializer_list(): Initializer_listContext | undefined {
-    return this.tryGetRuleContext(0, Initializer_listContext)
+  public initializerList(): InitializerListContext | undefined {
+    return this.tryGetRuleContext(0, InitializerListContext)
   }
   public RightBrace(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.RightBrace, 0)
@@ -4097,12 +4078,12 @@ export class InitializerContext extends ParserRuleContext {
   }
 }
 
-export class Initializer_listContext extends ParserRuleContext {
+export class InitializerListContext extends ParserRuleContext {
   public initializer(): InitializerContext {
     return this.getRuleContext(0, InitializerContext)
   }
-  public initializer_list(): Initializer_listContext | undefined {
-    return this.tryGetRuleContext(0, Initializer_listContext)
+  public initializerList(): InitializerListContext | undefined {
+    return this.tryGetRuleContext(0, InitializerListContext)
   }
   public Comma(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Comma, 0)
@@ -4112,88 +4093,88 @@ export class Initializer_listContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_initializer_list
+    return SourCParser.RULE_initializerList
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterInitializer_list) {
-      listener.enterInitializer_list(this)
+    if (listener.enterInitializerList) {
+      listener.enterInitializerList(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitInitializer_list) {
-      listener.exitInitializer_list(this)
+    if (listener.exitInitializerList) {
+      listener.exitInitializerList(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitInitializer_list) {
-      return visitor.visitInitializer_list(this)
+    if (visitor.visitInitializerList) {
+      return visitor.visitInitializerList(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Assignment_expressionContext extends ParserRuleContext {
-  public conditional_expression(): Conditional_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Conditional_expressionContext)
+export class AssignmentExpressionContext extends ParserRuleContext {
+  public conditionalExpression(): ConditionalExpressionContext | undefined {
+    return this.tryGetRuleContext(0, ConditionalExpressionContext)
   }
-  public unary_expression(): Unary_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Unary_expressionContext)
+  public unaryExpression(): UnaryExpressionContext | undefined {
+    return this.tryGetRuleContext(0, UnaryExpressionContext)
   }
   public Assign(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Assign, 0)
   }
-  public assignment_expression(): Assignment_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Assignment_expressionContext)
+  public assignmentExpression(): AssignmentExpressionContext | undefined {
+    return this.tryGetRuleContext(0, AssignmentExpressionContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_assignment_expression
+    return SourCParser.RULE_assignmentExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterAssignment_expression) {
-      listener.enterAssignment_expression(this)
+    if (listener.enterAssignmentExpression) {
+      listener.enterAssignmentExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitAssignment_expression) {
-      listener.exitAssignment_expression(this)
+    if (listener.exitAssignmentExpression) {
+      listener.exitAssignmentExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitAssignment_expression) {
-      return visitor.visitAssignment_expression(this)
+    if (visitor.visitAssignmentExpression) {
+      return visitor.visitAssignmentExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Conditional_expressionContext extends ParserRuleContext {
-  public logical_or_expression(): Logical_or_expressionContext {
-    return this.getRuleContext(0, Logical_or_expressionContext)
+export class ConditionalExpressionContext extends ParserRuleContext {
+  public logicalOrExpression(): LogicalOrExpressionContext {
+    return this.getRuleContext(0, LogicalOrExpressionContext)
   }
   public Question(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Question, 0)
   }
-  public conditional_expression(): Conditional_expressionContext[]
-  public conditional_expression(i: number): Conditional_expressionContext
-  public conditional_expression(
+  public conditionalExpression(): ConditionalExpressionContext[]
+  public conditionalExpression(i: number): ConditionalExpressionContext
+  public conditionalExpression(
     i?: number
-  ): Conditional_expressionContext | Conditional_expressionContext[] {
+  ): ConditionalExpressionContext | ConditionalExpressionContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Conditional_expressionContext)
+      return this.getRuleContexts(ConditionalExpressionContext)
     } else {
-      return this.getRuleContext(i, Conditional_expressionContext)
+      return this.getRuleContext(i, ConditionalExpressionContext)
     }
   }
   public Colon(): TerminalNode | undefined {
@@ -4204,36 +4185,36 @@ export class Conditional_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_conditional_expression
+    return SourCParser.RULE_conditionalExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterConditional_expression) {
-      listener.enterConditional_expression(this)
+    if (listener.enterConditionalExpression) {
+      listener.enterConditionalExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitConditional_expression) {
-      listener.exitConditional_expression(this)
+    if (listener.exitConditionalExpression) {
+      listener.exitConditionalExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitConditional_expression) {
-      return visitor.visitConditional_expression(this)
+    if (visitor.visitConditionalExpression) {
+      return visitor.visitConditionalExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Logical_or_expressionContext extends ParserRuleContext {
-  public logical_and_expression(): Logical_and_expressionContext {
-    return this.getRuleContext(0, Logical_and_expressionContext)
+export class LogicalOrExpressionContext extends ParserRuleContext {
+  public logicalAndExpression(): LogicalAndExpressionContext {
+    return this.getRuleContext(0, LogicalAndExpressionContext)
   }
-  public logical_or_expression(): Logical_or_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Logical_or_expressionContext)
+  public logicalOrExpression(): LogicalOrExpressionContext | undefined {
+    return this.tryGetRuleContext(0, LogicalOrExpressionContext)
   }
   public OrOr(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.OrOr, 0)
@@ -4243,36 +4224,36 @@ export class Logical_or_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_logical_or_expression
+    return SourCParser.RULE_logicalOrExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterLogical_or_expression) {
-      listener.enterLogical_or_expression(this)
+    if (listener.enterLogicalOrExpression) {
+      listener.enterLogicalOrExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitLogical_or_expression) {
-      listener.exitLogical_or_expression(this)
+    if (listener.exitLogicalOrExpression) {
+      listener.exitLogicalOrExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitLogical_or_expression) {
-      return visitor.visitLogical_or_expression(this)
+    if (visitor.visitLogicalOrExpression) {
+      return visitor.visitLogicalOrExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Logical_and_expressionContext extends ParserRuleContext {
-  public equality_expression(): Equality_expressionContext {
-    return this.getRuleContext(0, Equality_expressionContext)
+export class LogicalAndExpressionContext extends ParserRuleContext {
+  public equalityExpression(): EqualityExpressionContext {
+    return this.getRuleContext(0, EqualityExpressionContext)
   }
-  public logical_and_expression(): Logical_and_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Logical_and_expressionContext)
+  public logicalAndExpression(): LogicalAndExpressionContext | undefined {
+    return this.tryGetRuleContext(0, LogicalAndExpressionContext)
   }
   public AndAnd(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.AndAnd, 0)
@@ -4282,36 +4263,36 @@ export class Logical_and_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_logical_and_expression
+    return SourCParser.RULE_logicalAndExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterLogical_and_expression) {
-      listener.enterLogical_and_expression(this)
+    if (listener.enterLogicalAndExpression) {
+      listener.enterLogicalAndExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitLogical_and_expression) {
-      listener.exitLogical_and_expression(this)
+    if (listener.exitLogicalAndExpression) {
+      listener.exitLogicalAndExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitLogical_and_expression) {
-      return visitor.visitLogical_and_expression(this)
+    if (visitor.visitLogicalAndExpression) {
+      return visitor.visitLogicalAndExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Equality_expressionContext extends ParserRuleContext {
-  public relational_expression(): Relational_expressionContext {
-    return this.getRuleContext(0, Relational_expressionContext)
+export class EqualityExpressionContext extends ParserRuleContext {
+  public relationalExpression(): RelationalExpressionContext {
+    return this.getRuleContext(0, RelationalExpressionContext)
   }
-  public equality_expression(): Equality_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Equality_expressionContext)
+  public equalityExpression(): EqualityExpressionContext | undefined {
+    return this.tryGetRuleContext(0, EqualityExpressionContext)
   }
   public Equal(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Equal, 0)
@@ -4324,36 +4305,36 @@ export class Equality_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_equality_expression
+    return SourCParser.RULE_equalityExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterEquality_expression) {
-      listener.enterEquality_expression(this)
+    if (listener.enterEqualityExpression) {
+      listener.enterEqualityExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitEquality_expression) {
-      listener.exitEquality_expression(this)
+    if (listener.exitEqualityExpression) {
+      listener.exitEqualityExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitEquality_expression) {
-      return visitor.visitEquality_expression(this)
+    if (visitor.visitEqualityExpression) {
+      return visitor.visitEqualityExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Relational_expressionContext extends ParserRuleContext {
-  public additive_expression(): Additive_expressionContext {
-    return this.getRuleContext(0, Additive_expressionContext)
+export class RelationalExpressionContext extends ParserRuleContext {
+  public additiveExpression(): AdditiveExpressionContext {
+    return this.getRuleContext(0, AdditiveExpressionContext)
   }
-  public relational_expression(): Relational_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Relational_expressionContext)
+  public relationalExpression(): RelationalExpressionContext | undefined {
+    return this.tryGetRuleContext(0, RelationalExpressionContext)
   }
   public Less(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Less, 0)
@@ -4372,36 +4353,36 @@ export class Relational_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_relational_expression
+    return SourCParser.RULE_relationalExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterRelational_expression) {
-      listener.enterRelational_expression(this)
+    if (listener.enterRelationalExpression) {
+      listener.enterRelationalExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitRelational_expression) {
-      listener.exitRelational_expression(this)
+    if (listener.exitRelationalExpression) {
+      listener.exitRelationalExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitRelational_expression) {
-      return visitor.visitRelational_expression(this)
+    if (visitor.visitRelationalExpression) {
+      return visitor.visitRelationalExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Additive_expressionContext extends ParserRuleContext {
-  public multiplicative_expression(): Multiplicative_expressionContext {
-    return this.getRuleContext(0, Multiplicative_expressionContext)
+export class AdditiveExpressionContext extends ParserRuleContext {
+  public multiplicativeExpression(): MultiplicativeExpressionContext {
+    return this.getRuleContext(0, MultiplicativeExpressionContext)
   }
-  public additive_expression(): Additive_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Additive_expressionContext)
+  public additiveExpression(): AdditiveExpressionContext | undefined {
+    return this.tryGetRuleContext(0, AdditiveExpressionContext)
   }
   public Plus(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Plus, 0)
@@ -4414,36 +4395,36 @@ export class Additive_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_additive_expression
+    return SourCParser.RULE_additiveExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterAdditive_expression) {
-      listener.enterAdditive_expression(this)
+    if (listener.enterAdditiveExpression) {
+      listener.enterAdditiveExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitAdditive_expression) {
-      listener.exitAdditive_expression(this)
+    if (listener.exitAdditiveExpression) {
+      listener.exitAdditiveExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitAdditive_expression) {
-      return visitor.visitAdditive_expression(this)
+    if (visitor.visitAdditiveExpression) {
+      return visitor.visitAdditiveExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Multiplicative_expressionContext extends ParserRuleContext {
-  public cast_expression(): Cast_expressionContext {
-    return this.getRuleContext(0, Cast_expressionContext)
+export class MultiplicativeExpressionContext extends ParserRuleContext {
+  public castExpression(): CastExpressionContext {
+    return this.getRuleContext(0, CastExpressionContext)
   }
-  public multiplicative_expression(): Multiplicative_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Multiplicative_expressionContext)
+  public multiplicativeExpression(): MultiplicativeExpressionContext | undefined {
+    return this.tryGetRuleContext(0, MultiplicativeExpressionContext)
   }
   public Star(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Star, 0)
@@ -4459,81 +4440,81 @@ export class Multiplicative_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_multiplicative_expression
+    return SourCParser.RULE_multiplicativeExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterMultiplicative_expression) {
-      listener.enterMultiplicative_expression(this)
+    if (listener.enterMultiplicativeExpression) {
+      listener.enterMultiplicativeExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitMultiplicative_expression) {
-      listener.exitMultiplicative_expression(this)
+    if (listener.exitMultiplicativeExpression) {
+      listener.exitMultiplicativeExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitMultiplicative_expression) {
-      return visitor.visitMultiplicative_expression(this)
+    if (visitor.visitMultiplicativeExpression) {
+      return visitor.visitMultiplicativeExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Cast_expressionContext extends ParserRuleContext {
-  public unary_expression(): Unary_expressionContext {
-    return this.getRuleContext(0, Unary_expressionContext)
+export class CastExpressionContext extends ParserRuleContext {
+  public unaryExpression(): UnaryExpressionContext {
+    return this.getRuleContext(0, UnaryExpressionContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_cast_expression
+    return SourCParser.RULE_castExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterCast_expression) {
-      listener.enterCast_expression(this)
+    if (listener.enterCastExpression) {
+      listener.enterCastExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitCast_expression) {
-      listener.exitCast_expression(this)
+    if (listener.exitCastExpression) {
+      listener.exitCastExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitCast_expression) {
-      return visitor.visitCast_expression(this)
+    if (visitor.visitCastExpression) {
+      return visitor.visitCastExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Unary_expressionContext extends ParserRuleContext {
-  public postfix_expression(): Postfix_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Postfix_expressionContext)
+export class UnaryExpressionContext extends ParserRuleContext {
+  public postfixExpression(): PostfixExpressionContext | undefined {
+    return this.tryGetRuleContext(0, PostfixExpressionContext)
   }
   public PlusPlus(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.PlusPlus, 0)
   }
-  public unary_expression(): Unary_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Unary_expressionContext)
+  public unaryExpression(): UnaryExpressionContext | undefined {
+    return this.tryGetRuleContext(0, UnaryExpressionContext)
   }
   public MinusMinus(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.MinusMinus, 0)
   }
-  public unary_operator(): Unary_operatorContext | undefined {
-    return this.tryGetRuleContext(0, Unary_operatorContext)
+  public unaryOperator(): UnaryOperatorContext | undefined {
+    return this.tryGetRuleContext(0, UnaryOperatorContext)
   }
-  public cast_expression(): Cast_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Cast_expressionContext)
+  public castExpression(): CastExpressionContext | undefined {
+    return this.tryGetRuleContext(0, CastExpressionContext)
   }
   public Sizeof(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Sizeof, 0)
@@ -4541,8 +4522,8 @@ export class Unary_expressionContext extends ParserRuleContext {
   public LeftParen(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.LeftParen, 0)
   }
-  public sizeof_operands(): Sizeof_operandsContext | undefined {
-    return this.tryGetRuleContext(0, Sizeof_operandsContext)
+  public sizeofOperands(): SizeofOperandsContext | undefined {
+    return this.tryGetRuleContext(0, SizeofOperandsContext)
   }
   public RightParen(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.RightParen, 0)
@@ -4552,31 +4533,31 @@ export class Unary_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_unary_expression
+    return SourCParser.RULE_unaryExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterUnary_expression) {
-      listener.enterUnary_expression(this)
+    if (listener.enterUnaryExpression) {
+      listener.enterUnaryExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitUnary_expression) {
-      listener.exitUnary_expression(this)
+    if (listener.exitUnaryExpression) {
+      listener.exitUnaryExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitUnary_expression) {
-      return visitor.visitUnary_expression(this)
+    if (visitor.visitUnaryExpression) {
+      return visitor.visitUnaryExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Unary_operatorContext extends ParserRuleContext {
+export class UnaryOperatorContext extends ParserRuleContext {
   public And(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.And, 0)
   }
@@ -4597,31 +4578,31 @@ export class Unary_operatorContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_unary_operator
+    return SourCParser.RULE_unaryOperator
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterUnary_operator) {
-      listener.enterUnary_operator(this)
+    if (listener.enterUnaryOperator) {
+      listener.enterUnaryOperator(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitUnary_operator) {
-      listener.exitUnary_operator(this)
+    if (listener.exitUnaryOperator) {
+      listener.exitUnaryOperator(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitUnary_operator) {
-      return visitor.visitUnary_operator(this)
+    if (visitor.visitUnaryOperator) {
+      return visitor.visitUnaryOperator(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Type_nameContext extends ParserRuleContext {
+export class TypeNameContext extends ParserRuleContext {
   public Char(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Char, 0)
   }
@@ -4645,33 +4626,33 @@ export class Type_nameContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_type_name
+    return SourCParser.RULE_typeName
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterType_name) {
-      listener.enterType_name(this)
+    if (listener.enterTypeName) {
+      listener.enterTypeName(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitType_name) {
-      listener.exitType_name(this)
+    if (listener.exitTypeName) {
+      listener.exitTypeName(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitType_name) {
-      return visitor.visitType_name(this)
+    if (visitor.visitTypeName) {
+      return visitor.visitTypeName(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Sizeof_operandsContext extends ParserRuleContext {
-  public type_name(): Type_nameContext | undefined {
-    return this.tryGetRuleContext(0, Type_nameContext)
+export class SizeofOperandsContext extends ParserRuleContext {
+  public typeName(): TypeNameContext | undefined {
+    return this.tryGetRuleContext(0, TypeNameContext)
   }
   public pointer(): PointerContext | undefined {
     return this.tryGetRuleContext(0, PointerContext)
@@ -4687,36 +4668,36 @@ export class Sizeof_operandsContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_sizeof_operands
+    return SourCParser.RULE_sizeofOperands
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterSizeof_operands) {
-      listener.enterSizeof_operands(this)
+    if (listener.enterSizeofOperands) {
+      listener.enterSizeofOperands(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitSizeof_operands) {
-      listener.exitSizeof_operands(this)
+    if (listener.exitSizeofOperands) {
+      listener.exitSizeofOperands(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitSizeof_operands) {
-      return visitor.visitSizeof_operands(this)
+    if (visitor.visitSizeofOperands) {
+      return visitor.visitSizeofOperands(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Postfix_expressionContext extends ParserRuleContext {
-  public primary_expression(): Primary_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Primary_expressionContext)
+export class PostfixExpressionContext extends ParserRuleContext {
+  public primaryExpression(): PrimaryExpressionContext | undefined {
+    return this.tryGetRuleContext(0, PrimaryExpressionContext)
   }
-  public postfix_expression(): Postfix_expressionContext | undefined {
-    return this.tryGetRuleContext(0, Postfix_expressionContext)
+  public postfixExpression(): PostfixExpressionContext | undefined {
+    return this.tryGetRuleContext(0, PostfixExpressionContext)
   }
   public LeftBracket(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.LeftBracket, 0)
@@ -4759,31 +4740,31 @@ export class Postfix_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_postfix_expression
+    return SourCParser.RULE_postfixExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterPostfix_expression) {
-      listener.enterPostfix_expression(this)
+    if (listener.enterPostfixExpression) {
+      listener.enterPostfixExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitPostfix_expression) {
-      listener.exitPostfix_expression(this)
+    if (listener.exitPostfixExpression) {
+      listener.exitPostfixExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitPostfix_expression) {
-      return visitor.visitPostfix_expression(this)
+    if (visitor.visitPostfixExpression) {
+      return visitor.visitPostfixExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Primary_expressionContext extends ParserRuleContext {
+export class PrimaryExpressionContext extends ParserRuleContext {
   public Identifier(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Identifier, 0)
   }
@@ -4807,24 +4788,24 @@ export class Primary_expressionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_primary_expression
+    return SourCParser.RULE_primaryExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterPrimary_expression) {
-      listener.enterPrimary_expression(this)
+    if (listener.enterPrimaryExpression) {
+      listener.enterPrimaryExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitPrimary_expression) {
-      listener.exitPrimary_expression(this)
+    if (listener.exitPrimaryExpression) {
+      listener.exitPrimaryExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitPrimary_expression) {
-      return visitor.visitPrimary_expression(this)
+    if (visitor.visitPrimaryExpression) {
+      return visitor.visitPrimaryExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
@@ -4832,8 +4813,8 @@ export class Primary_expressionContext extends ParserRuleContext {
 }
 
 export class ExpressionContext extends ParserRuleContext {
-  public assignment_expression(): Assignment_expressionContext {
-    return this.getRuleContext(0, Assignment_expressionContext)
+  public assignmentExpression(): AssignmentExpressionContext {
+    return this.getRuleContext(0, AssignmentExpressionContext)
   }
   public expression(): ExpressionContext | undefined {
     return this.tryGetRuleContext(0, ExpressionContext)
@@ -4870,40 +4851,40 @@ export class ExpressionContext extends ParserRuleContext {
   }
 }
 
-export class Constant_expressionContext extends ParserRuleContext {
-  public conditional_expression(): Conditional_expressionContext {
-    return this.getRuleContext(0, Conditional_expressionContext)
+export class ConstantExpressionContext extends ParserRuleContext {
+  public conditionalExpression(): ConditionalExpressionContext {
+    return this.getRuleContext(0, ConditionalExpressionContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_constant_expression
+    return SourCParser.RULE_constantExpression
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterConstant_expression) {
-      listener.enterConstant_expression(this)
+    if (listener.enterConstantExpression) {
+      listener.enterConstantExpression(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitConstant_expression) {
-      listener.exitConstant_expression(this)
+    if (listener.exitConstantExpression) {
+      listener.exitConstantExpression(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitConstant_expression) {
-      return visitor.visitConstant_expression(this)
+    if (visitor.visitConstantExpression) {
+      return visitor.visitConstantExpression(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Function_definitionContext extends ParserRuleContext {
+export class FunctionDefinitionContext extends ParserRuleContext {
   public Identifier(): TerminalNode {
     return this.getToken(SourCParser.Identifier, 0)
   }
@@ -4913,28 +4894,28 @@ export class Function_definitionContext extends ParserRuleContext {
   public RightParen(): TerminalNode {
     return this.getToken(SourCParser.RightParen, 0)
   }
-  public compound_statement(): Compound_statementContext {
-    return this.getRuleContext(0, Compound_statementContext)
+  public compoundStatement(): CompoundStatementContext {
+    return this.getRuleContext(0, CompoundStatementContext)
   }
-  public type_specifier(): Type_specifierContext[]
-  public type_specifier(i: number): Type_specifierContext
-  public type_specifier(i?: number): Type_specifierContext | Type_specifierContext[] {
+  public typeSpecifier(): TypeSpecifierContext[]
+  public typeSpecifier(i: number): TypeSpecifierContext
+  public typeSpecifier(i?: number): TypeSpecifierContext | TypeSpecifierContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Type_specifierContext)
+      return this.getRuleContexts(TypeSpecifierContext)
     } else {
-      return this.getRuleContext(i, Type_specifierContext)
+      return this.getRuleContext(i, TypeSpecifierContext)
     }
   }
   public pointer(): PointerContext | undefined {
     return this.tryGetRuleContext(0, PointerContext)
   }
-  public parameter_list(): Parameter_listContext[]
-  public parameter_list(i: number): Parameter_listContext
-  public parameter_list(i?: number): Parameter_listContext | Parameter_listContext[] {
+  public parameterList(): ParameterListContext[]
+  public parameterList(i: number): ParameterListContext
+  public parameterList(i?: number): ParameterListContext | ParameterListContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Parameter_listContext)
+      return this.getRuleContexts(ParameterListContext)
     } else {
-      return this.getRuleContext(i, Parameter_listContext)
+      return this.getRuleContext(i, ParameterListContext)
     }
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
@@ -4942,24 +4923,24 @@ export class Function_definitionContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_function_definition
+    return SourCParser.RULE_functionDefinition
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterFunction_definition) {
-      listener.enterFunction_definition(this)
+    if (listener.enterFunctionDefinition) {
+      listener.enterFunctionDefinition(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitFunction_definition) {
-      listener.exitFunction_definition(this)
+    if (listener.exitFunctionDefinition) {
+      listener.exitFunctionDefinition(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitFunction_definition) {
-      return visitor.visitFunction_definition(this)
+    if (visitor.visitFunctionDefinition) {
+      return visitor.visitFunctionDefinition(this)
     } else {
       return visitor.visitChildren(this)
     }
@@ -5002,12 +4983,12 @@ export class PointerContext extends ParserRuleContext {
   }
 }
 
-export class Parameter_listContext extends ParserRuleContext {
-  public parameter_declaration(): Parameter_declarationContext {
-    return this.getRuleContext(0, Parameter_declarationContext)
+export class ParameterListContext extends ParserRuleContext {
+  public parameterDeclaration(): ParameterDeclarationContext {
+    return this.getRuleContext(0, ParameterDeclarationContext)
   }
-  public parameter_list(): Parameter_listContext | undefined {
-    return this.tryGetRuleContext(0, Parameter_listContext)
+  public parameterList(): ParameterListContext | undefined {
+    return this.tryGetRuleContext(0, ParameterListContext)
   }
   public Comma(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Comma, 0)
@@ -5017,41 +4998,41 @@ export class Parameter_listContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_parameter_list
+    return SourCParser.RULE_parameterList
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterParameter_list) {
-      listener.enterParameter_list(this)
+    if (listener.enterParameterList) {
+      listener.enterParameterList(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitParameter_list) {
-      listener.exitParameter_list(this)
+    if (listener.exitParameterList) {
+      listener.exitParameterList(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitParameter_list) {
-      return visitor.visitParameter_list(this)
+    if (visitor.visitParameterList) {
+      return visitor.visitParameterList(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Parameter_declarationContext extends ParserRuleContext {
+export class ParameterDeclarationContext extends ParserRuleContext {
   public Identifier(): TerminalNode {
     return this.getToken(SourCParser.Identifier, 0)
   }
-  public type_specifier(): Type_specifierContext[]
-  public type_specifier(i: number): Type_specifierContext
-  public type_specifier(i?: number): Type_specifierContext | Type_specifierContext[] {
+  public typeSpecifier(): TypeSpecifierContext[]
+  public typeSpecifier(i: number): TypeSpecifierContext
+  public typeSpecifier(i?: number): TypeSpecifierContext | TypeSpecifierContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Type_specifierContext)
+      return this.getRuleContexts(TypeSpecifierContext)
     } else {
-      return this.getRuleContext(i, Type_specifierContext)
+      return this.getRuleContext(i, TypeSpecifierContext)
     }
   }
   public pointer(): PointerContext | undefined {
@@ -5062,31 +5043,31 @@ export class Parameter_declarationContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_parameter_declaration
+    return SourCParser.RULE_parameterDeclaration
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterParameter_declaration) {
-      listener.enterParameter_declaration(this)
+    if (listener.enterParameterDeclaration) {
+      listener.enterParameterDeclaration(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitParameter_declaration) {
-      listener.exitParameter_declaration(this)
+    if (listener.exitParameterDeclaration) {
+      listener.exitParameterDeclaration(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitParameter_declaration) {
-      return visitor.visitParameter_declaration(this)
+    if (visitor.visitParameterDeclaration) {
+      return visitor.visitParameterDeclaration(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Compound_statementContext extends ParserRuleContext {
+export class CompoundStatementContext extends ParserRuleContext {
   public LeftBrace(): TerminalNode {
     return this.getToken(SourCParser.LeftBrace, 0)
   }
@@ -5107,24 +5088,24 @@ export class Compound_statementContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_compound_statement
+    return SourCParser.RULE_compoundStatement
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterCompound_statement) {
-      listener.enterCompound_statement(this)
+    if (listener.enterCompoundStatement) {
+      listener.enterCompoundStatement(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitCompound_statement) {
-      listener.exitCompound_statement(this)
+    if (listener.exitCompoundStatement) {
+      listener.exitCompoundStatement(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitCompound_statement) {
-      return visitor.visitCompound_statement(this)
+    if (visitor.visitCompoundStatement) {
+      return visitor.visitCompoundStatement(this)
     } else {
       return visitor.visitChildren(this)
     }
@@ -5135,20 +5116,20 @@ export class StatementContext extends ParserRuleContext {
   public declaration(): DeclarationContext | undefined {
     return this.tryGetRuleContext(0, DeclarationContext)
   }
-  public expression_statement(): Expression_statementContext | undefined {
-    return this.tryGetRuleContext(0, Expression_statementContext)
+  public expressionStatement(): ExpressionStatementContext | undefined {
+    return this.tryGetRuleContext(0, ExpressionStatementContext)
   }
-  public compound_statement(): Compound_statementContext | undefined {
-    return this.tryGetRuleContext(0, Compound_statementContext)
+  public compoundStatement(): CompoundStatementContext | undefined {
+    return this.tryGetRuleContext(0, CompoundStatementContext)
   }
-  public selection_statement(): Selection_statementContext | undefined {
-    return this.tryGetRuleContext(0, Selection_statementContext)
+  public selectionStatement(): SelectionStatementContext | undefined {
+    return this.tryGetRuleContext(0, SelectionStatementContext)
   }
-  public iteration_statement(): Iteration_statementContext | undefined {
-    return this.tryGetRuleContext(0, Iteration_statementContext)
+  public iterationStatement(): IterationStatementContext | undefined {
+    return this.tryGetRuleContext(0, IterationStatementContext)
   }
-  public jump_statement(): Jump_statementContext | undefined {
-    return this.tryGetRuleContext(0, Jump_statementContext)
+  public jumpStatement(): JumpStatementContext | undefined {
+    return this.tryGetRuleContext(0, JumpStatementContext)
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
     super(parent, invokingState)
@@ -5179,7 +5160,7 @@ export class StatementContext extends ParserRuleContext {
   }
 }
 
-export class Expression_statementContext extends ParserRuleContext {
+export class ExpressionStatementContext extends ParserRuleContext {
   public Semi(): TerminalNode {
     return this.getToken(SourCParser.Semi, 0)
   }
@@ -5191,31 +5172,31 @@ export class Expression_statementContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_expression_statement
+    return SourCParser.RULE_expressionStatement
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterExpression_statement) {
-      listener.enterExpression_statement(this)
+    if (listener.enterExpressionStatement) {
+      listener.enterExpressionStatement(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitExpression_statement) {
-      listener.exitExpression_statement(this)
+    if (listener.exitExpressionStatement) {
+      listener.exitExpressionStatement(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitExpression_statement) {
-      return visitor.visitExpression_statement(this)
+    if (visitor.visitExpressionStatement) {
+      return visitor.visitExpressionStatement(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Selection_statementContext extends ParserRuleContext {
+export class SelectionStatementContext extends ParserRuleContext {
   public If(): TerminalNode {
     return this.getToken(SourCParser.If, 0)
   }
@@ -5245,31 +5226,31 @@ export class Selection_statementContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_selection_statement
+    return SourCParser.RULE_selectionStatement
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterSelection_statement) {
-      listener.enterSelection_statement(this)
+    if (listener.enterSelectionStatement) {
+      listener.enterSelectionStatement(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitSelection_statement) {
-      listener.exitSelection_statement(this)
+    if (listener.exitSelectionStatement) {
+      listener.exitSelectionStatement(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitSelection_statement) {
-      return visitor.visitSelection_statement(this)
+    if (visitor.visitSelectionStatement) {
+      return visitor.visitSelectionStatement(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Iteration_statementContext extends ParserRuleContext {
+export class IterationStatementContext extends ParserRuleContext {
   public While(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.While, 0)
   }
@@ -5311,31 +5292,31 @@ export class Iteration_statementContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_iteration_statement
+    return SourCParser.RULE_iterationStatement
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterIteration_statement) {
-      listener.enterIteration_statement(this)
+    if (listener.enterIterationStatement) {
+      listener.enterIterationStatement(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitIteration_statement) {
-      listener.exitIteration_statement(this)
+    if (listener.exitIterationStatement) {
+      listener.exitIterationStatement(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitIteration_statement) {
-      return visitor.visitIteration_statement(this)
+    if (visitor.visitIterationStatement) {
+      return visitor.visitIterationStatement(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Jump_statementContext extends ParserRuleContext {
+export class JumpStatementContext extends ParserRuleContext {
   public Continue(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.Continue, 0)
   }
@@ -5356,31 +5337,31 @@ export class Jump_statementContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_jump_statement
+    return SourCParser.RULE_jumpStatement
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterJump_statement) {
-      listener.enterJump_statement(this)
+    if (listener.enterJumpStatement) {
+      listener.enterJumpStatement(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitJump_statement) {
-      listener.exitJump_statement(this)
+    if (listener.exitJumpStatement) {
+      listener.exitJumpStatement(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitJump_statement) {
-      return visitor.visitJump_statement(this)
+    if (visitor.visitJumpStatement) {
+      return visitor.visitJumpStatement(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Struct_specifierContext extends ParserRuleContext {
+export class StructSpecifierContext extends ParserRuleContext {
   public Struct(): TerminalNode {
     return this.getToken(SourCParser.Struct, 0)
   }
@@ -5393,13 +5374,13 @@ export class Struct_specifierContext extends ParserRuleContext {
   public RightBrace(): TerminalNode | undefined {
     return this.tryGetToken(SourCParser.RightBrace, 0)
   }
-  public struct_declaration(): Struct_declarationContext[]
-  public struct_declaration(i: number): Struct_declarationContext
-  public struct_declaration(i?: number): Struct_declarationContext | Struct_declarationContext[] {
+  public structDeclaration(): StructDeclarationContext[]
+  public structDeclaration(i: number): StructDeclarationContext
+  public structDeclaration(i?: number): StructDeclarationContext | StructDeclarationContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Struct_declarationContext)
+      return this.getRuleContexts(StructDeclarationContext)
     } else {
-      return this.getRuleContext(i, Struct_declarationContext)
+      return this.getRuleContext(i, StructDeclarationContext)
     }
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
@@ -5407,44 +5388,44 @@ export class Struct_specifierContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_struct_specifier
+    return SourCParser.RULE_structSpecifier
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterStruct_specifier) {
-      listener.enterStruct_specifier(this)
+    if (listener.enterStructSpecifier) {
+      listener.enterStructSpecifier(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitStruct_specifier) {
-      listener.exitStruct_specifier(this)
+    if (listener.exitStructSpecifier) {
+      listener.exitStructSpecifier(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitStruct_specifier) {
-      return visitor.visitStruct_specifier(this)
+    if (visitor.visitStructSpecifier) {
+      return visitor.visitStructSpecifier(this)
     } else {
       return visitor.visitChildren(this)
     }
   }
 }
 
-export class Struct_declarationContext extends ParserRuleContext {
+export class StructDeclarationContext extends ParserRuleContext {
   public declarator(): DeclaratorContext {
     return this.getRuleContext(0, DeclaratorContext)
   }
   public Semi(): TerminalNode {
     return this.getToken(SourCParser.Semi, 0)
   }
-  public type_specifier(): Type_specifierContext[]
-  public type_specifier(i: number): Type_specifierContext
-  public type_specifier(i?: number): Type_specifierContext | Type_specifierContext[] {
+  public typeSpecifier(): TypeSpecifierContext[]
+  public typeSpecifier(i: number): TypeSpecifierContext
+  public typeSpecifier(i?: number): TypeSpecifierContext | TypeSpecifierContext[] {
     if (i === undefined) {
-      return this.getRuleContexts(Type_specifierContext)
+      return this.getRuleContexts(TypeSpecifierContext)
     } else {
-      return this.getRuleContext(i, Type_specifierContext)
+      return this.getRuleContext(i, TypeSpecifierContext)
     }
   }
   constructor(parent: ParserRuleContext | undefined, invokingState: number) {
@@ -5452,24 +5433,24 @@ export class Struct_declarationContext extends ParserRuleContext {
   }
   // @Override
   public get ruleIndex(): number {
-    return SourCParser.RULE_struct_declaration
+    return SourCParser.RULE_structDeclaration
   }
   // @Override
   public enterRule(listener: SourCParserListener): void {
-    if (listener.enterStruct_declaration) {
-      listener.enterStruct_declaration(this)
+    if (listener.enterStructDeclaration) {
+      listener.enterStructDeclaration(this)
     }
   }
   // @Override
   public exitRule(listener: SourCParserListener): void {
-    if (listener.exitStruct_declaration) {
-      listener.exitStruct_declaration(this)
+    if (listener.exitStructDeclaration) {
+      listener.exitStructDeclaration(this)
     }
   }
   // @Override
   public accept<Result>(visitor: SourCParserVisitor<Result>): Result {
-    if (visitor.visitStruct_declaration) {
-      return visitor.visitStruct_declaration(this)
+    if (visitor.visitStructDeclaration) {
+      return visitor.visitStructDeclaration(this)
     } else {
       return visitor.visitChildren(this)
     }

@@ -2,44 +2,44 @@
 
 import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener'
 
-import { Type_specifierContext } from './SourCParser'
-import { Translation_unitContext } from './SourCParser'
-import { External_declarationContext } from './SourCParser'
+import { TypeSpecifierContext } from './SourCParser'
+import { TranslationUnitContext } from './SourCParser'
+import { ExternalDeclarationContext } from './SourCParser'
 import { DeclarationContext } from './SourCParser'
-import { Init_declaratorContext } from './SourCParser'
+import { InitDeclaratorContext } from './SourCParser'
 import { DeclaratorContext } from './SourCParser'
-import { Type_name_listContext } from './SourCParser'
+import { TypeNameListContext } from './SourCParser'
 import { InitializerContext } from './SourCParser'
-import { Initializer_listContext } from './SourCParser'
-import { Assignment_expressionContext } from './SourCParser'
-import { Conditional_expressionContext } from './SourCParser'
-import { Logical_or_expressionContext } from './SourCParser'
-import { Logical_and_expressionContext } from './SourCParser'
-import { Equality_expressionContext } from './SourCParser'
-import { Relational_expressionContext } from './SourCParser'
-import { Additive_expressionContext } from './SourCParser'
-import { Multiplicative_expressionContext } from './SourCParser'
-import { Cast_expressionContext } from './SourCParser'
-import { Unary_expressionContext } from './SourCParser'
-import { Unary_operatorContext } from './SourCParser'
-import { Type_nameContext } from './SourCParser'
-import { Sizeof_operandsContext } from './SourCParser'
-import { Postfix_expressionContext } from './SourCParser'
-import { Primary_expressionContext } from './SourCParser'
+import { InitializerListContext } from './SourCParser'
+import { AssignmentExpressionContext } from './SourCParser'
+import { ConditionalExpressionContext } from './SourCParser'
+import { LogicalOrExpressionContext } from './SourCParser'
+import { LogicalAndExpressionContext } from './SourCParser'
+import { EqualityExpressionContext } from './SourCParser'
+import { RelationalExpressionContext } from './SourCParser'
+import { AdditiveExpressionContext } from './SourCParser'
+import { MultiplicativeExpressionContext } from './SourCParser'
+import { CastExpressionContext } from './SourCParser'
+import { UnaryExpressionContext } from './SourCParser'
+import { UnaryOperatorContext } from './SourCParser'
+import { TypeNameContext } from './SourCParser'
+import { SizeofOperandsContext } from './SourCParser'
+import { PostfixExpressionContext } from './SourCParser'
+import { PrimaryExpressionContext } from './SourCParser'
 import { ExpressionContext } from './SourCParser'
-import { Constant_expressionContext } from './SourCParser'
-import { Function_definitionContext } from './SourCParser'
+import { ConstantExpressionContext } from './SourCParser'
+import { FunctionDefinitionContext } from './SourCParser'
 import { PointerContext } from './SourCParser'
-import { Parameter_listContext } from './SourCParser'
-import { Parameter_declarationContext } from './SourCParser'
-import { Compound_statementContext } from './SourCParser'
+import { ParameterListContext } from './SourCParser'
+import { ParameterDeclarationContext } from './SourCParser'
+import { CompoundStatementContext } from './SourCParser'
 import { StatementContext } from './SourCParser'
-import { Expression_statementContext } from './SourCParser'
-import { Selection_statementContext } from './SourCParser'
-import { Iteration_statementContext } from './SourCParser'
-import { Jump_statementContext } from './SourCParser'
-import { Struct_specifierContext } from './SourCParser'
-import { Struct_declarationContext } from './SourCParser'
+import { ExpressionStatementContext } from './SourCParser'
+import { SelectionStatementContext } from './SourCParser'
+import { IterationStatementContext } from './SourCParser'
+import { JumpStatementContext } from './SourCParser'
+import { StructSpecifierContext } from './SourCParser'
+import { StructDeclarationContext } from './SourCParser'
 
 /**
  * This interface defines a complete listener for a parse tree produced by
@@ -47,37 +47,37 @@ import { Struct_declarationContext } from './SourCParser'
  */
 export interface SourCParserListener extends ParseTreeListener {
   /**
-   * Enter a parse tree produced by `SourCParser.type_specifier`.
+   * Enter a parse tree produced by `SourCParser.typeSpecifier`.
    * @param ctx the parse tree
    */
-  enterType_specifier?: (ctx: Type_specifierContext) => void
+  enterTypeSpecifier?: (ctx: TypeSpecifierContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.type_specifier`.
+   * Exit a parse tree produced by `SourCParser.typeSpecifier`.
    * @param ctx the parse tree
    */
-  exitType_specifier?: (ctx: Type_specifierContext) => void
+  exitTypeSpecifier?: (ctx: TypeSpecifierContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.translation_unit`.
+   * Enter a parse tree produced by `SourCParser.translationUnit`.
    * @param ctx the parse tree
    */
-  enterTranslation_unit?: (ctx: Translation_unitContext) => void
+  enterTranslationUnit?: (ctx: TranslationUnitContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.translation_unit`.
+   * Exit a parse tree produced by `SourCParser.translationUnit`.
    * @param ctx the parse tree
    */
-  exitTranslation_unit?: (ctx: Translation_unitContext) => void
+  exitTranslationUnit?: (ctx: TranslationUnitContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.external_declaration`.
+   * Enter a parse tree produced by `SourCParser.externalDeclaration`.
    * @param ctx the parse tree
    */
-  enterExternal_declaration?: (ctx: External_declarationContext) => void
+  enterExternalDeclaration?: (ctx: ExternalDeclarationContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.external_declaration`.
+   * Exit a parse tree produced by `SourCParser.externalDeclaration`.
    * @param ctx the parse tree
    */
-  exitExternal_declaration?: (ctx: External_declarationContext) => void
+  exitExternalDeclaration?: (ctx: ExternalDeclarationContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.declaration`.
@@ -91,15 +91,15 @@ export interface SourCParserListener extends ParseTreeListener {
   exitDeclaration?: (ctx: DeclarationContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.init_declarator`.
+   * Enter a parse tree produced by `SourCParser.initDeclarator`.
    * @param ctx the parse tree
    */
-  enterInit_declarator?: (ctx: Init_declaratorContext) => void
+  enterInitDeclarator?: (ctx: InitDeclaratorContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.init_declarator`.
+   * Exit a parse tree produced by `SourCParser.initDeclarator`.
    * @param ctx the parse tree
    */
-  exitInit_declarator?: (ctx: Init_declaratorContext) => void
+  exitInitDeclarator?: (ctx: InitDeclaratorContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.declarator`.
@@ -113,15 +113,15 @@ export interface SourCParserListener extends ParseTreeListener {
   exitDeclarator?: (ctx: DeclaratorContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.type_name_list`.
+   * Enter a parse tree produced by `SourCParser.typeNameList`.
    * @param ctx the parse tree
    */
-  enterType_name_list?: (ctx: Type_name_listContext) => void
+  enterTypeNameList?: (ctx: TypeNameListContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.type_name_list`.
+   * Exit a parse tree produced by `SourCParser.typeNameList`.
    * @param ctx the parse tree
    */
-  exitType_name_list?: (ctx: Type_name_listContext) => void
+  exitTypeNameList?: (ctx: TypeNameListContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.initializer`.
@@ -135,180 +135,180 @@ export interface SourCParserListener extends ParseTreeListener {
   exitInitializer?: (ctx: InitializerContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.initializer_list`.
+   * Enter a parse tree produced by `SourCParser.initializerList`.
    * @param ctx the parse tree
    */
-  enterInitializer_list?: (ctx: Initializer_listContext) => void
+  enterInitializerList?: (ctx: InitializerListContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.initializer_list`.
+   * Exit a parse tree produced by `SourCParser.initializerList`.
    * @param ctx the parse tree
    */
-  exitInitializer_list?: (ctx: Initializer_listContext) => void
+  exitInitializerList?: (ctx: InitializerListContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.assignment_expression`.
+   * Enter a parse tree produced by `SourCParser.assignmentExpression`.
    * @param ctx the parse tree
    */
-  enterAssignment_expression?: (ctx: Assignment_expressionContext) => void
+  enterAssignmentExpression?: (ctx: AssignmentExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.assignment_expression`.
+   * Exit a parse tree produced by `SourCParser.assignmentExpression`.
    * @param ctx the parse tree
    */
-  exitAssignment_expression?: (ctx: Assignment_expressionContext) => void
+  exitAssignmentExpression?: (ctx: AssignmentExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.conditional_expression`.
+   * Enter a parse tree produced by `SourCParser.conditionalExpression`.
    * @param ctx the parse tree
    */
-  enterConditional_expression?: (ctx: Conditional_expressionContext) => void
+  enterConditionalExpression?: (ctx: ConditionalExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.conditional_expression`.
+   * Exit a parse tree produced by `SourCParser.conditionalExpression`.
    * @param ctx the parse tree
    */
-  exitConditional_expression?: (ctx: Conditional_expressionContext) => void
+  exitConditionalExpression?: (ctx: ConditionalExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.logical_or_expression`.
+   * Enter a parse tree produced by `SourCParser.logicalOrExpression`.
    * @param ctx the parse tree
    */
-  enterLogical_or_expression?: (ctx: Logical_or_expressionContext) => void
+  enterLogicalOrExpression?: (ctx: LogicalOrExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.logical_or_expression`.
+   * Exit a parse tree produced by `SourCParser.logicalOrExpression`.
    * @param ctx the parse tree
    */
-  exitLogical_or_expression?: (ctx: Logical_or_expressionContext) => void
+  exitLogicalOrExpression?: (ctx: LogicalOrExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.logical_and_expression`.
+   * Enter a parse tree produced by `SourCParser.logicalAndExpression`.
    * @param ctx the parse tree
    */
-  enterLogical_and_expression?: (ctx: Logical_and_expressionContext) => void
+  enterLogicalAndExpression?: (ctx: LogicalAndExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.logical_and_expression`.
+   * Exit a parse tree produced by `SourCParser.logicalAndExpression`.
    * @param ctx the parse tree
    */
-  exitLogical_and_expression?: (ctx: Logical_and_expressionContext) => void
+  exitLogicalAndExpression?: (ctx: LogicalAndExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.equality_expression`.
+   * Enter a parse tree produced by `SourCParser.equalityExpression`.
    * @param ctx the parse tree
    */
-  enterEquality_expression?: (ctx: Equality_expressionContext) => void
+  enterEqualityExpression?: (ctx: EqualityExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.equality_expression`.
+   * Exit a parse tree produced by `SourCParser.equalityExpression`.
    * @param ctx the parse tree
    */
-  exitEquality_expression?: (ctx: Equality_expressionContext) => void
+  exitEqualityExpression?: (ctx: EqualityExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.relational_expression`.
+   * Enter a parse tree produced by `SourCParser.relationalExpression`.
    * @param ctx the parse tree
    */
-  enterRelational_expression?: (ctx: Relational_expressionContext) => void
+  enterRelationalExpression?: (ctx: RelationalExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.relational_expression`.
+   * Exit a parse tree produced by `SourCParser.relationalExpression`.
    * @param ctx the parse tree
    */
-  exitRelational_expression?: (ctx: Relational_expressionContext) => void
+  exitRelationalExpression?: (ctx: RelationalExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.additive_expression`.
+   * Enter a parse tree produced by `SourCParser.additiveExpression`.
    * @param ctx the parse tree
    */
-  enterAdditive_expression?: (ctx: Additive_expressionContext) => void
+  enterAdditiveExpression?: (ctx: AdditiveExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.additive_expression`.
+   * Exit a parse tree produced by `SourCParser.additiveExpression`.
    * @param ctx the parse tree
    */
-  exitAdditive_expression?: (ctx: Additive_expressionContext) => void
+  exitAdditiveExpression?: (ctx: AdditiveExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.multiplicative_expression`.
+   * Enter a parse tree produced by `SourCParser.multiplicativeExpression`.
    * @param ctx the parse tree
    */
-  enterMultiplicative_expression?: (ctx: Multiplicative_expressionContext) => void
+  enterMultiplicativeExpression?: (ctx: MultiplicativeExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.multiplicative_expression`.
+   * Exit a parse tree produced by `SourCParser.multiplicativeExpression`.
    * @param ctx the parse tree
    */
-  exitMultiplicative_expression?: (ctx: Multiplicative_expressionContext) => void
+  exitMultiplicativeExpression?: (ctx: MultiplicativeExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.cast_expression`.
+   * Enter a parse tree produced by `SourCParser.castExpression`.
    * @param ctx the parse tree
    */
-  enterCast_expression?: (ctx: Cast_expressionContext) => void
+  enterCastExpression?: (ctx: CastExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.cast_expression`.
+   * Exit a parse tree produced by `SourCParser.castExpression`.
    * @param ctx the parse tree
    */
-  exitCast_expression?: (ctx: Cast_expressionContext) => void
+  exitCastExpression?: (ctx: CastExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.unary_expression`.
+   * Enter a parse tree produced by `SourCParser.unaryExpression`.
    * @param ctx the parse tree
    */
-  enterUnary_expression?: (ctx: Unary_expressionContext) => void
+  enterUnaryExpression?: (ctx: UnaryExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.unary_expression`.
+   * Exit a parse tree produced by `SourCParser.unaryExpression`.
    * @param ctx the parse tree
    */
-  exitUnary_expression?: (ctx: Unary_expressionContext) => void
+  exitUnaryExpression?: (ctx: UnaryExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.unary_operator`.
+   * Enter a parse tree produced by `SourCParser.unaryOperator`.
    * @param ctx the parse tree
    */
-  enterUnary_operator?: (ctx: Unary_operatorContext) => void
+  enterUnaryOperator?: (ctx: UnaryOperatorContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.unary_operator`.
+   * Exit a parse tree produced by `SourCParser.unaryOperator`.
    * @param ctx the parse tree
    */
-  exitUnary_operator?: (ctx: Unary_operatorContext) => void
+  exitUnaryOperator?: (ctx: UnaryOperatorContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.type_name`.
+   * Enter a parse tree produced by `SourCParser.typeName`.
    * @param ctx the parse tree
    */
-  enterType_name?: (ctx: Type_nameContext) => void
+  enterTypeName?: (ctx: TypeNameContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.type_name`.
+   * Exit a parse tree produced by `SourCParser.typeName`.
    * @param ctx the parse tree
    */
-  exitType_name?: (ctx: Type_nameContext) => void
+  exitTypeName?: (ctx: TypeNameContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.sizeof_operands`.
+   * Enter a parse tree produced by `SourCParser.sizeofOperands`.
    * @param ctx the parse tree
    */
-  enterSizeof_operands?: (ctx: Sizeof_operandsContext) => void
+  enterSizeofOperands?: (ctx: SizeofOperandsContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.sizeof_operands`.
+   * Exit a parse tree produced by `SourCParser.sizeofOperands`.
    * @param ctx the parse tree
    */
-  exitSizeof_operands?: (ctx: Sizeof_operandsContext) => void
+  exitSizeofOperands?: (ctx: SizeofOperandsContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.postfix_expression`.
+   * Enter a parse tree produced by `SourCParser.postfixExpression`.
    * @param ctx the parse tree
    */
-  enterPostfix_expression?: (ctx: Postfix_expressionContext) => void
+  enterPostfixExpression?: (ctx: PostfixExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.postfix_expression`.
+   * Exit a parse tree produced by `SourCParser.postfixExpression`.
    * @param ctx the parse tree
    */
-  exitPostfix_expression?: (ctx: Postfix_expressionContext) => void
+  exitPostfixExpression?: (ctx: PostfixExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.primary_expression`.
+   * Enter a parse tree produced by `SourCParser.primaryExpression`.
    * @param ctx the parse tree
    */
-  enterPrimary_expression?: (ctx: Primary_expressionContext) => void
+  enterPrimaryExpression?: (ctx: PrimaryExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.primary_expression`.
+   * Exit a parse tree produced by `SourCParser.primaryExpression`.
    * @param ctx the parse tree
    */
-  exitPrimary_expression?: (ctx: Primary_expressionContext) => void
+  exitPrimaryExpression?: (ctx: PrimaryExpressionContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.expression`.
@@ -322,26 +322,26 @@ export interface SourCParserListener extends ParseTreeListener {
   exitExpression?: (ctx: ExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.constant_expression`.
+   * Enter a parse tree produced by `SourCParser.constantExpression`.
    * @param ctx the parse tree
    */
-  enterConstant_expression?: (ctx: Constant_expressionContext) => void
+  enterConstantExpression?: (ctx: ConstantExpressionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.constant_expression`.
+   * Exit a parse tree produced by `SourCParser.constantExpression`.
    * @param ctx the parse tree
    */
-  exitConstant_expression?: (ctx: Constant_expressionContext) => void
+  exitConstantExpression?: (ctx: ConstantExpressionContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.function_definition`.
+   * Enter a parse tree produced by `SourCParser.functionDefinition`.
    * @param ctx the parse tree
    */
-  enterFunction_definition?: (ctx: Function_definitionContext) => void
+  enterFunctionDefinition?: (ctx: FunctionDefinitionContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.function_definition`.
+   * Exit a parse tree produced by `SourCParser.functionDefinition`.
    * @param ctx the parse tree
    */
-  exitFunction_definition?: (ctx: Function_definitionContext) => void
+  exitFunctionDefinition?: (ctx: FunctionDefinitionContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.pointer`.
@@ -355,37 +355,37 @@ export interface SourCParserListener extends ParseTreeListener {
   exitPointer?: (ctx: PointerContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.parameter_list`.
+   * Enter a parse tree produced by `SourCParser.parameterList`.
    * @param ctx the parse tree
    */
-  enterParameter_list?: (ctx: Parameter_listContext) => void
+  enterParameterList?: (ctx: ParameterListContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.parameter_list`.
+   * Exit a parse tree produced by `SourCParser.parameterList`.
    * @param ctx the parse tree
    */
-  exitParameter_list?: (ctx: Parameter_listContext) => void
+  exitParameterList?: (ctx: ParameterListContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.parameter_declaration`.
+   * Enter a parse tree produced by `SourCParser.parameterDeclaration`.
    * @param ctx the parse tree
    */
-  enterParameter_declaration?: (ctx: Parameter_declarationContext) => void
+  enterParameterDeclaration?: (ctx: ParameterDeclarationContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.parameter_declaration`.
+   * Exit a parse tree produced by `SourCParser.parameterDeclaration`.
    * @param ctx the parse tree
    */
-  exitParameter_declaration?: (ctx: Parameter_declarationContext) => void
+  exitParameterDeclaration?: (ctx: ParameterDeclarationContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.compound_statement`.
+   * Enter a parse tree produced by `SourCParser.compoundStatement`.
    * @param ctx the parse tree
    */
-  enterCompound_statement?: (ctx: Compound_statementContext) => void
+  enterCompoundStatement?: (ctx: CompoundStatementContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.compound_statement`.
+   * Exit a parse tree produced by `SourCParser.compoundStatement`.
    * @param ctx the parse tree
    */
-  exitCompound_statement?: (ctx: Compound_statementContext) => void
+  exitCompoundStatement?: (ctx: CompoundStatementContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.statement`.
@@ -399,68 +399,68 @@ export interface SourCParserListener extends ParseTreeListener {
   exitStatement?: (ctx: StatementContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.expression_statement`.
+   * Enter a parse tree produced by `SourCParser.expressionStatement`.
    * @param ctx the parse tree
    */
-  enterExpression_statement?: (ctx: Expression_statementContext) => void
+  enterExpressionStatement?: (ctx: ExpressionStatementContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.expression_statement`.
+   * Exit a parse tree produced by `SourCParser.expressionStatement`.
    * @param ctx the parse tree
    */
-  exitExpression_statement?: (ctx: Expression_statementContext) => void
+  exitExpressionStatement?: (ctx: ExpressionStatementContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.selection_statement`.
+   * Enter a parse tree produced by `SourCParser.selectionStatement`.
    * @param ctx the parse tree
    */
-  enterSelection_statement?: (ctx: Selection_statementContext) => void
+  enterSelectionStatement?: (ctx: SelectionStatementContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.selection_statement`.
+   * Exit a parse tree produced by `SourCParser.selectionStatement`.
    * @param ctx the parse tree
    */
-  exitSelection_statement?: (ctx: Selection_statementContext) => void
+  exitSelectionStatement?: (ctx: SelectionStatementContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.iteration_statement`.
+   * Enter a parse tree produced by `SourCParser.iterationStatement`.
    * @param ctx the parse tree
    */
-  enterIteration_statement?: (ctx: Iteration_statementContext) => void
+  enterIterationStatement?: (ctx: IterationStatementContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.iteration_statement`.
+   * Exit a parse tree produced by `SourCParser.iterationStatement`.
    * @param ctx the parse tree
    */
-  exitIteration_statement?: (ctx: Iteration_statementContext) => void
+  exitIterationStatement?: (ctx: IterationStatementContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.jump_statement`.
+   * Enter a parse tree produced by `SourCParser.jumpStatement`.
    * @param ctx the parse tree
    */
-  enterJump_statement?: (ctx: Jump_statementContext) => void
+  enterJumpStatement?: (ctx: JumpStatementContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.jump_statement`.
+   * Exit a parse tree produced by `SourCParser.jumpStatement`.
    * @param ctx the parse tree
    */
-  exitJump_statement?: (ctx: Jump_statementContext) => void
+  exitJumpStatement?: (ctx: JumpStatementContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.struct_specifier`.
+   * Enter a parse tree produced by `SourCParser.structSpecifier`.
    * @param ctx the parse tree
    */
-  enterStruct_specifier?: (ctx: Struct_specifierContext) => void
+  enterStructSpecifier?: (ctx: StructSpecifierContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.struct_specifier`.
+   * Exit a parse tree produced by `SourCParser.structSpecifier`.
    * @param ctx the parse tree
    */
-  exitStruct_specifier?: (ctx: Struct_specifierContext) => void
+  exitStructSpecifier?: (ctx: StructSpecifierContext) => void
 
   /**
-   * Enter a parse tree produced by `SourCParser.struct_declaration`.
+   * Enter a parse tree produced by `SourCParser.structDeclaration`.
    * @param ctx the parse tree
    */
-  enterStruct_declaration?: (ctx: Struct_declarationContext) => void
+  enterStructDeclaration?: (ctx: StructDeclarationContext) => void
   /**
-   * Exit a parse tree produced by `SourCParser.struct_declaration`.
+   * Exit a parse tree produced by `SourCParser.structDeclaration`.
    * @param ctx the parse tree
    */
-  exitStruct_declaration?: (ctx: Struct_declarationContext) => void
+  exitStructDeclaration?: (ctx: StructDeclarationContext) => void
 }
