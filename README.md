@@ -4,7 +4,7 @@ A web-based explicit control evaluator for C
 
 ### Overview
 
-The C-interpreter project applies the notion of an [explicit-control evaluator](https://sourceacademy.nus.edu.sg/sicpjs/5.4) to the language C. Baseline expectations:
+The C-interpreter project applies the notion of an [explicit-control evaluator](https://sourceacademy.nus.edu.sg/sicpjs/5.4) to the C programming language. Baseline expectations:
 
 - Web-based implementation based on [Source Academy](https://github.com/source-academy) frontend and js-slang
 
