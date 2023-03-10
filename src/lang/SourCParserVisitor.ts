@@ -2,44 +2,44 @@
 
 import { ParseTreeVisitor } from 'antlr4ts/tree/ParseTreeVisitor'
 
-import { Type_specifierContext } from './SourCParser'
-import { Translation_unitContext } from './SourCParser'
-import { External_declarationContext } from './SourCParser'
+import { TypeSpecifierContext } from './SourCParser'
+import { TranslationUnitContext } from './SourCParser'
+import { ExternalDeclarationContext } from './SourCParser'
 import { DeclarationContext } from './SourCParser'
-import { Init_declaratorContext } from './SourCParser'
+import { InitDeclaratorContext } from './SourCParser'
 import { DeclaratorContext } from './SourCParser'
-import { Type_name_listContext } from './SourCParser'
+import { TypeNameListContext } from './SourCParser'
 import { InitializerContext } from './SourCParser'
-import { Initializer_listContext } from './SourCParser'
-import { Assignment_expressionContext } from './SourCParser'
-import { Conditional_expressionContext } from './SourCParser'
-import { Logical_or_expressionContext } from './SourCParser'
-import { Logical_and_expressionContext } from './SourCParser'
-import { Equality_expressionContext } from './SourCParser'
-import { Relational_expressionContext } from './SourCParser'
-import { Additive_expressionContext } from './SourCParser'
-import { Multiplicative_expressionContext } from './SourCParser'
-import { Cast_expressionContext } from './SourCParser'
-import { Unary_expressionContext } from './SourCParser'
-import { Unary_operatorContext } from './SourCParser'
-import { Type_nameContext } from './SourCParser'
-import { Sizeof_operandsContext } from './SourCParser'
-import { Postfix_expressionContext } from './SourCParser'
-import { Primary_expressionContext } from './SourCParser'
+import { InitializerListContext } from './SourCParser'
+import { AssignmentExpressionContext } from './SourCParser'
+import { ConditionalExpressionContext } from './SourCParser'
+import { LogicalOrExpressionContext } from './SourCParser'
+import { LogicalAndExpressionContext } from './SourCParser'
+import { EqualityExpressionContext } from './SourCParser'
+import { RelationalExpressionContext } from './SourCParser'
+import { AdditiveExpressionContext } from './SourCParser'
+import { MultiplicativeExpressionContext } from './SourCParser'
+import { CastExpressionContext } from './SourCParser'
+import { UnaryExpressionContext } from './SourCParser'
+import { UnaryOperatorContext } from './SourCParser'
+import { TypeNameContext } from './SourCParser'
+import { SizeofOperandsContext } from './SourCParser'
+import { PostfixExpressionContext } from './SourCParser'
+import { PrimaryExpressionContext } from './SourCParser'
 import { ExpressionContext } from './SourCParser'
-import { Constant_expressionContext } from './SourCParser'
-import { Function_definitionContext } from './SourCParser'
+import { ConstantExpressionContext } from './SourCParser'
+import { FunctionDefinitionContext } from './SourCParser'
 import { PointerContext } from './SourCParser'
-import { Parameter_listContext } from './SourCParser'
-import { Parameter_declarationContext } from './SourCParser'
-import { Compound_statementContext } from './SourCParser'
+import { ParameterListContext } from './SourCParser'
+import { ParameterDeclarationContext } from './SourCParser'
+import { CompoundStatementContext } from './SourCParser'
 import { StatementContext } from './SourCParser'
-import { Expression_statementContext } from './SourCParser'
-import { Selection_statementContext } from './SourCParser'
-import { Iteration_statementContext } from './SourCParser'
-import { Jump_statementContext } from './SourCParser'
-import { Struct_specifierContext } from './SourCParser'
-import { Struct_declarationContext } from './SourCParser'
+import { ExpressionStatementContext } from './SourCParser'
+import { SelectionStatementContext } from './SourCParser'
+import { IterationStatementContext } from './SourCParser'
+import { JumpStatementContext } from './SourCParser'
+import { StructSpecifierContext } from './SourCParser'
+import { StructDeclarationContext } from './SourCParser'
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -50,25 +50,25 @@ import { Struct_declarationContext } from './SourCParser'
  */
 export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
   /**
-   * Visit a parse tree produced by `SourCParser.type_specifier`.
+   * Visit a parse tree produced by `SourCParser.typeSpecifier`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitType_specifier?: (ctx: Type_specifierContext) => Result
+  visitTypeSpecifier?: (ctx: TypeSpecifierContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.translation_unit`.
+   * Visit a parse tree produced by `SourCParser.translationUnit`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitTranslation_unit?: (ctx: Translation_unitContext) => Result
+  visitTranslationUnit?: (ctx: TranslationUnitContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.external_declaration`.
+   * Visit a parse tree produced by `SourCParser.externalDeclaration`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitExternal_declaration?: (ctx: External_declarationContext) => Result
+  visitExternalDeclaration?: (ctx: ExternalDeclarationContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.declaration`.
@@ -78,11 +78,11 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
   visitDeclaration?: (ctx: DeclarationContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.init_declarator`.
+   * Visit a parse tree produced by `SourCParser.initDeclarator`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitInit_declarator?: (ctx: Init_declaratorContext) => Result
+  visitInitDeclarator?: (ctx: InitDeclaratorContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.declarator`.
@@ -92,11 +92,11 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
   visitDeclarator?: (ctx: DeclaratorContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.type_name_list`.
+   * Visit a parse tree produced by `SourCParser.typeNameList`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitType_name_list?: (ctx: Type_name_listContext) => Result
+  visitTypeNameList?: (ctx: TypeNameListContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.initializer`.
@@ -106,116 +106,116 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
   visitInitializer?: (ctx: InitializerContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.initializer_list`.
+   * Visit a parse tree produced by `SourCParser.initializerList`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitInitializer_list?: (ctx: Initializer_listContext) => Result
+  visitInitializerList?: (ctx: InitializerListContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.assignment_expression`.
+   * Visit a parse tree produced by `SourCParser.assignmentExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitAssignment_expression?: (ctx: Assignment_expressionContext) => Result
+  visitAssignmentExpression?: (ctx: AssignmentExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.conditional_expression`.
+   * Visit a parse tree produced by `SourCParser.conditionalExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitConditional_expression?: (ctx: Conditional_expressionContext) => Result
+  visitConditionalExpression?: (ctx: ConditionalExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.logical_or_expression`.
+   * Visit a parse tree produced by `SourCParser.logicalOrExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitLogical_or_expression?: (ctx: Logical_or_expressionContext) => Result
+  visitLogicalOrExpression?: (ctx: LogicalOrExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.logical_and_expression`.
+   * Visit a parse tree produced by `SourCParser.logicalAndExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitLogical_and_expression?: (ctx: Logical_and_expressionContext) => Result
+  visitLogicalAndExpression?: (ctx: LogicalAndExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.equality_expression`.
+   * Visit a parse tree produced by `SourCParser.equalityExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitEquality_expression?: (ctx: Equality_expressionContext) => Result
+  visitEqualityExpression?: (ctx: EqualityExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.relational_expression`.
+   * Visit a parse tree produced by `SourCParser.relationalExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitRelational_expression?: (ctx: Relational_expressionContext) => Result
+  visitRelationalExpression?: (ctx: RelationalExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.additive_expression`.
+   * Visit a parse tree produced by `SourCParser.additiveExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitAdditive_expression?: (ctx: Additive_expressionContext) => Result
+  visitAdditiveExpression?: (ctx: AdditiveExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.multiplicative_expression`.
+   * Visit a parse tree produced by `SourCParser.multiplicativeExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitMultiplicative_expression?: (ctx: Multiplicative_expressionContext) => Result
+  visitMultiplicativeExpression?: (ctx: MultiplicativeExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.cast_expression`.
+   * Visit a parse tree produced by `SourCParser.castExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitCast_expression?: (ctx: Cast_expressionContext) => Result
+  visitCastExpression?: (ctx: CastExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.unary_expression`.
+   * Visit a parse tree produced by `SourCParser.unaryExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitUnary_expression?: (ctx: Unary_expressionContext) => Result
+  visitUnaryExpression?: (ctx: UnaryExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.unary_operator`.
+   * Visit a parse tree produced by `SourCParser.unaryOperator`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitUnary_operator?: (ctx: Unary_operatorContext) => Result
+  visitUnaryOperator?: (ctx: UnaryOperatorContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.type_name`.
+   * Visit a parse tree produced by `SourCParser.typeName`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitType_name?: (ctx: Type_nameContext) => Result
+  visitTypeName?: (ctx: TypeNameContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.sizeof_operands`.
+   * Visit a parse tree produced by `SourCParser.sizeofOperands`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitSizeof_operands?: (ctx: Sizeof_operandsContext) => Result
+  visitSizeofOperands?: (ctx: SizeofOperandsContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.postfix_expression`.
+   * Visit a parse tree produced by `SourCParser.postfixExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitPostfix_expression?: (ctx: Postfix_expressionContext) => Result
+  visitPostfixExpression?: (ctx: PostfixExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.primary_expression`.
+   * Visit a parse tree produced by `SourCParser.primaryExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitPrimary_expression?: (ctx: Primary_expressionContext) => Result
+  visitPrimaryExpression?: (ctx: PrimaryExpressionContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.expression`.
@@ -225,18 +225,18 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
   visitExpression?: (ctx: ExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.constant_expression`.
+   * Visit a parse tree produced by `SourCParser.constantExpression`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitConstant_expression?: (ctx: Constant_expressionContext) => Result
+  visitConstantExpression?: (ctx: ConstantExpressionContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.function_definition`.
+   * Visit a parse tree produced by `SourCParser.functionDefinition`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitFunction_definition?: (ctx: Function_definitionContext) => Result
+  visitFunctionDefinition?: (ctx: FunctionDefinitionContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.pointer`.
@@ -246,25 +246,25 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
   visitPointer?: (ctx: PointerContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.parameter_list`.
+   * Visit a parse tree produced by `SourCParser.parameterList`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitParameter_list?: (ctx: Parameter_listContext) => Result
+  visitParameterList?: (ctx: ParameterListContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.parameter_declaration`.
+   * Visit a parse tree produced by `SourCParser.parameterDeclaration`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitParameter_declaration?: (ctx: Parameter_declarationContext) => Result
+  visitParameterDeclaration?: (ctx: ParameterDeclarationContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.compound_statement`.
+   * Visit a parse tree produced by `SourCParser.compoundStatement`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitCompound_statement?: (ctx: Compound_statementContext) => Result
+  visitCompoundStatement?: (ctx: CompoundStatementContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.statement`.
@@ -274,44 +274,44 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
   visitStatement?: (ctx: StatementContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.expression_statement`.
+   * Visit a parse tree produced by `SourCParser.expressionStatement`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitExpression_statement?: (ctx: Expression_statementContext) => Result
+  visitExpressionStatement?: (ctx: ExpressionStatementContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.selection_statement`.
+   * Visit a parse tree produced by `SourCParser.selectionStatement`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitSelection_statement?: (ctx: Selection_statementContext) => Result
+  visitSelectionStatement?: (ctx: SelectionStatementContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.iteration_statement`.
+   * Visit a parse tree produced by `SourCParser.iterationStatement`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitIteration_statement?: (ctx: Iteration_statementContext) => Result
+  visitIterationStatement?: (ctx: IterationStatementContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.jump_statement`.
+   * Visit a parse tree produced by `SourCParser.jumpStatement`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitJump_statement?: (ctx: Jump_statementContext) => Result
+  visitJumpStatement?: (ctx: JumpStatementContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.struct_specifier`.
+   * Visit a parse tree produced by `SourCParser.structSpecifier`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitStruct_specifier?: (ctx: Struct_specifierContext) => Result
+  visitStructSpecifier?: (ctx: StructSpecifierContext) => Result
 
   /**
-   * Visit a parse tree produced by `SourCParser.struct_declaration`.
+   * Visit a parse tree produced by `SourCParser.structDeclaration`.
    * @param ctx the parse tree
    * @return the visitor result
    */
-  visitStruct_declaration?: (ctx: Struct_declarationContext) => Result
+  visitStructDeclaration?: (ctx: StructDeclarationContext) => Result
 }
