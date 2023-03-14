@@ -12,6 +12,7 @@ import {
   ConstantExpressionContext,
   EqualityExpressionContext,
   ExpressionContext,
+  FunctionCallArgContext,
   InitializerContext,
   InitializerListContext,
   LogicalAndExpressionContext,
@@ -304,23 +305,23 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
       throw new InvalidConfigError()
     }
 
-    if (ctx.LeftBracket() && ctx.expression() && ctx.expression()[0] && ctx.RightBracket()) {
+    if (ctx.LeftBracket() && ctx.expression() && ctx.RightBracket()) {
       // Array access
       return {
         type: 'MemberExpression',
         object: ctx.postfixExpression()!.accept(this),
-        property: ctx.expression()[0]!.accept(this),
+        property: ctx.expression()!.accept(this),
         computed: true, // If this is true, it is array access
         optional: false // Not sure what this means in the JS context
       }
     }
 
-    if (ctx.LeftParen() && ctx.expression() && ctx.RightParen()) {
+    if (ctx.LeftParen() && ctx.functionCallArg() && ctx.RightParen()) {
       // Function call
       return {
         type: 'CallExpression',
         callee: ctx.postfixExpression()!.accept(this),
-        arguments: ctx.expression().map(arg => arg.accept(this)),
+        arguments: this.visitFunctionCallArg(ctx.functionCallArg()!).expressions,
         optional: false // Not sure what this means in the JS context
       }
     }
@@ -366,6 +367,23 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
     throw new InvalidConfigError()
   }
 
+  visitFunctionCallArg(ctx: FunctionCallArgContext): es.SequenceExpression {
+    if (ctx.Comma() && ctx.functionCallArg()) {
+      return {
+        type: 'SequenceExpression',
+        expressions: [
+          ...this.visitFunctionCallArg(ctx.functionCallArg()!).expressions,
+          ctx.assignmentExpression().accept(this)
+        ]
+      }
+    }
+
+    return {
+      type: 'SequenceExpression',
+      expressions: [ctx.assignmentExpression().accept(this)]
+    }
+  }
+
   visitPrimaryExpression(ctx: PrimaryExpressionContext): es.Expression {
     if (ctx.Identifier()) {
       return {
@@ -392,12 +410,7 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
     }
 
     if (ctx.LeftParen() && ctx.expression() && ctx.RightParen()) {
-      const result = ctx.expression()!.accept(this) as es.SequenceExpression
-      if (result.expressions.length !== 1) {
-        throw new InvalidConfigError()
-      }
-
-      return result.expressions[0]
+      return ctx.expression()!.accept(this)
     }
 
     throw new InvalidConfigError()
@@ -407,20 +420,8 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
    * Most of the action for the ExpressionGenerator is here.
    * It is up to the context/parent to determine if this makes semantic sense.
    */
-  visitExpression(ctx: ExpressionContext): es.SequenceExpression {
-    if (ctx.expression() && ctx.Comma()) {
-      const otherExprs = ctx.expression()!.accept(this) as es.SequenceExpression
-
-      return {
-        type: 'SequenceExpression',
-        expressions: [...otherExprs.expressions, ctx.assignmentExpression().accept(this)]
-      }
-    }
-
-    return {
-      type: 'SequenceExpression',
-      expressions: [ctx.assignmentExpression().accept(this)]
-    }
+  visitExpression(ctx: ExpressionContext): es.Expression {
+    return ctx.assignmentExpression().accept(this)
   }
 
   visitConstantExpression(ctx: ConstantExpressionContext): es.Expression {

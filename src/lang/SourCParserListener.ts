@@ -25,6 +25,7 @@ import { UnaryOperatorContext } from './SourCParser'
 import { TypeNameContext } from './SourCParser'
 import { SizeofOperandsContext } from './SourCParser'
 import { PostfixExpressionContext } from './SourCParser'
+import { FunctionCallArgContext } from './SourCParser'
 import { PrimaryExpressionContext } from './SourCParser'
 import { ExpressionContext } from './SourCParser'
 import { ConstantExpressionContext } from './SourCParser'
@@ -298,6 +299,17 @@ export interface SourCParserListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitPostfixExpression?: (ctx: PostfixExpressionContext) => void
+
+  /**
+   * Enter a parse tree produced by `SourCParser.functionCallArg`.
+   * @param ctx the parse tree
+   */
+  enterFunctionCallArg?: (ctx: FunctionCallArgContext) => void
+  /**
+   * Exit a parse tree produced by `SourCParser.functionCallArg`.
+   * @param ctx the parse tree
+   */
+  exitFunctionCallArg?: (ctx: FunctionCallArgContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.primaryExpression`.

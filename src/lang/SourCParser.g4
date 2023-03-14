@@ -138,11 +138,16 @@ sizeofOperands:
 postfixExpression:
     primaryExpression
     | postfixExpression LeftBracket expression RightBracket // array access
-    | postfixExpression LeftParen expression* RightParen // function call
+    | postfixExpression LeftParen functionCallArg? RightParen // function call
     | postfixExpression Dot Identifier // struct access
     | postfixExpression Arrow Identifier // struct access
     | postfixExpression PlusPlus
     | postfixExpression MinusMinus
+    ;
+
+functionCallArg:
+    assignmentExpression
+    | functionCallArg Comma assignmentExpression
     ;
 
 primaryExpression:
@@ -154,7 +159,6 @@ primaryExpression:
 
 expression:
     assignmentExpression
-    | expression Comma assignmentExpression
     ;
 
 constantExpression:
