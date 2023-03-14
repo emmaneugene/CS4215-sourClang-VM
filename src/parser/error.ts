@@ -101,3 +101,16 @@ export class InvalidConfigError implements SourceError {
     return 'Please check the stacktrace'
   }
 }
+
+export class InvalidDataType implements SourceError {
+  type: ErrorType
+  severity: ErrorSeverity
+  location: es.SourceLocation
+
+  explain(): string {
+    return 'This datatype is not supported'
+  }
+  elaborate(): string {
+    return 'Please check the declared datatype'
+  }
+}

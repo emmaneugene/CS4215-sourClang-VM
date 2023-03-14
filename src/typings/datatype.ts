@@ -1,4 +1,5 @@
 export enum DataType {
+  VOID = 'void',
   CHAR = 'char',
   UNSIGNED_CHAR = 'unsigned_char',
   SHORT = 'short',

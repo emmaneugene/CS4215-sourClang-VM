@@ -41,6 +41,7 @@ export function parse(source: string, context: Context) {
     }
     const hasErrors = context.errors.find(m => m.severity === ErrorSeverity.ERROR)
     if (program && !hasErrors) {
+      console.log(JSON.stringify(program, null, 2))
       return program
     } else {
       return undefined

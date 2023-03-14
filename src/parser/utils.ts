@@ -9,6 +9,7 @@ import {
   SizeofOperandsContext,
   TypeSpecifierContext
 } from './../lang/SourCParser'
+import { InvalidDataType } from './error'
 
 /* Gets the token location. */
 export function contextToLocation(ctx: ParserRuleContext): es.SourceLocation {
@@ -35,7 +36,84 @@ export function getPointerList(ctx: PointerContext | undefined): es.PointerList 
 
 /* Gets the datatype. */
 export function getDatatype(ctx: TypeSpecifierContext[]): DataType {
-  return DataType.INT
+  if (ctx.length > 2) {
+    throw new InvalidDataType()
+  }
+
+  if (ctx.length === 1) {
+    const t1 = ctx[0]
+
+    if (t1.Char()) {
+      return DataType.CHAR
+    }
+    if (t1.Short()) {
+      return DataType.SHORT
+    }
+    if (t1.Int()) {
+      return DataType.INT
+    }
+    if (t1.Long()) {
+      return DataType.LONG
+    }
+    if (t1.Float()) {
+      return DataType.FLOAT
+    }
+    if (t1.Double()) {
+      return DataType.DOUBLE
+    }
+    if (t1.Void()) {
+      return DataType.VOID
+    }
+
+    if (t1.structSpecifier()) {
+      // TODO: support structs
+    }
+
+    throw new InvalidDataType()
+  }
+
+  if (ctx.length === 2) {
+    const t1 = ctx[0]
+    const t2 = ctx[1]
+
+    if (t2.Char()) {
+      if (t1.Unsigned()) {
+        return DataType.UNSIGNED_CHAR
+      }
+      if (t1.Signed()) {
+        return DataType.CHAR
+      }
+    }
+
+    if (t2.Short()) {
+      if (t1.Unsigned()) {
+        return DataType.UNSIGNED_SHORT
+      }
+      if (t1.Signed()) {
+        return DataType.SHORT
+      }
+    }
+
+    if (t2.Int()) {
+      if (t1.Unsigned()) {
+        return DataType.UNSIGNED_INT
+      }
+      if (t1.Signed()) {
+        return DataType.INT
+      }
+    }
+
+    if (t2.Long()) {
+      if (t1.Unsigned()) {
+        return DataType.UNSIGNED_LONG
+      }
+      if (t1.Signed()) {
+        return DataType.LONG
+      }
+    }
+  }
+
+  throw new InvalidDataType()
 }
 
 /* Flattens the parameter list. */
@@ -55,9 +133,11 @@ export function getParameterList(ctx: ParameterListContext | undefined): es.Iden
 }
 
 export function getSizeofOperands(ctx: SizeofOperandsContext): DataType {
+  // TODO:
   return DataType.INT
 }
 
 export function getTypeName(ctx: TerminalNode): DataType {
+  // TODO:
   return DataType.INT
 }
