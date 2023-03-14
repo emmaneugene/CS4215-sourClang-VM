@@ -21,6 +21,8 @@ import { AdditiveExpressionContext } from './SourCParser'
 import { MultiplicativeExpressionContext } from './SourCParser'
 import { CastExpressionContext } from './SourCParser'
 import { UnaryExpressionContext } from './SourCParser'
+import { UnaryOperatorContext } from './SourCParser'
+import { TypeNameContext } from './SourCParser'
 import { SizeofOperandsContext } from './SourCParser'
 import { PostfixExpressionContext } from './SourCParser'
 import { PrimaryExpressionContext } from './SourCParser'
@@ -252,6 +254,28 @@ export interface SourCParserListener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitUnaryExpression?: (ctx: UnaryExpressionContext) => void
+
+  /**
+   * Enter a parse tree produced by `SourCParser.unaryOperator`.
+   * @param ctx the parse tree
+   */
+  enterUnaryOperator?: (ctx: UnaryOperatorContext) => void
+  /**
+   * Exit a parse tree produced by `SourCParser.unaryOperator`.
+   * @param ctx the parse tree
+   */
+  exitUnaryOperator?: (ctx: UnaryOperatorContext) => void
+
+  /**
+   * Enter a parse tree produced by `SourCParser.typeName`.
+   * @param ctx the parse tree
+   */
+  enterTypeName?: (ctx: TypeNameContext) => void
+  /**
+   * Exit a parse tree produced by `SourCParser.typeName`.
+   * @param ctx the parse tree
+   */
+  exitTypeName?: (ctx: TypeNameContext) => void
 
   /**
    * Enter a parse tree produced by `SourCParser.sizeofOperands`.

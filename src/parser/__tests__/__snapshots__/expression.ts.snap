@@ -1,0 +1,468 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`3Operands When_'-1/a % 4'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "left": Object {
+      "argument": Object {
+        "raw": "1",
+        "type": "Literal",
+        "value": 1,
+      },
+      "operator": "-",
+      "prefix": true,
+      "type": "UnaryExpression",
+    },
+    "operator": "/",
+    "right": Object {
+      "datatype": "unknown",
+      "name": "a",
+      "type": "Identifier",
+    },
+    "type": "BinaryExpression",
+  },
+  "operator": "%",
+  "right": Object {
+    "raw": "4",
+    "type": "Literal",
+    "value": 4,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`3Operands When_'1/2 + 4000'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "left": Object {
+      "raw": "1",
+      "type": "Literal",
+      "value": 1,
+    },
+    "operator": "/",
+    "right": Object {
+      "raw": "2",
+      "type": "Literal",
+      "value": 2,
+    },
+    "type": "BinaryExpression",
+  },
+  "operator": "+",
+  "right": Object {
+    "raw": "4000",
+    "type": "Literal",
+    "value": 4000,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`3Operands When_'abc/def + (-1) * ((-1) * x)'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "left": Object {
+      "datatype": "unknown",
+      "name": "abc",
+      "type": "Identifier",
+    },
+    "operator": "/",
+    "right": Object {
+      "datatype": "unknown",
+      "name": "def",
+      "type": "Identifier",
+    },
+    "type": "BinaryExpression",
+  },
+  "operator": "+",
+  "right": Object {
+    "left": Object {
+      "argument": Object {
+        "raw": "1",
+        "type": "Literal",
+        "value": 1,
+      },
+      "operator": "-",
+      "prefix": true,
+      "type": "UnaryExpression",
+    },
+    "operator": "*",
+    "right": Object {
+      "left": Object {
+        "argument": Object {
+          "raw": "1",
+          "type": "Literal",
+          "value": 1,
+        },
+        "operator": "-",
+        "prefix": true,
+        "type": "UnaryExpression",
+      },
+      "operator": "*",
+      "right": Object {
+        "datatype": "unknown",
+        "name": "x",
+        "type": "Identifier",
+      },
+      "type": "BinaryExpression",
+    },
+    "type": "BinaryExpression",
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`3Operands When_'x/5 + 0'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "left": Object {
+      "datatype": "unknown",
+      "name": "x",
+      "type": "Identifier",
+    },
+    "operator": "/",
+    "right": Object {
+      "raw": "5",
+      "type": "Literal",
+      "value": 5,
+    },
+    "type": "BinaryExpression",
+  },
+  "operator": "+",
+  "right": Object {
+    "raw": "0",
+    "type": "Literal",
+    "value": 0,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`3Operands When_'y/10 * 9'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "left": Object {
+      "datatype": "unknown",
+      "name": "y",
+      "type": "Identifier",
+    },
+    "operator": "/",
+    "right": Object {
+      "raw": "10",
+      "type": "Literal",
+      "value": 10,
+    },
+    "type": "BinaryExpression",
+  },
+  "operator": "*",
+  "right": Object {
+    "raw": "9",
+    "type": "Literal",
+    "value": 9,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Addition When_'1+2'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "raw": "1",
+    "type": "Literal",
+    "value": 1,
+  },
+  "operator": "+",
+  "right": Object {
+    "raw": "2",
+    "type": "Literal",
+    "value": 2,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Addition When_'abc+def'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "abc",
+    "type": "Identifier",
+  },
+  "operator": "+",
+  "right": Object {
+    "datatype": "unknown",
+    "name": "def",
+    "type": "Identifier",
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Addition When_'x+5'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "x",
+    "type": "Identifier",
+  },
+  "operator": "+",
+  "right": Object {
+    "raw": "5",
+    "type": "Literal",
+    "value": 5,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Division When_'-1/a'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "argument": Object {
+      "raw": "1",
+      "type": "Literal",
+      "value": 1,
+    },
+    "operator": "-",
+    "prefix": true,
+    "type": "UnaryExpression",
+  },
+  "operator": "/",
+  "right": Object {
+    "datatype": "unknown",
+    "name": "a",
+    "type": "Identifier",
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Division When_'1/2'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "raw": "1",
+    "type": "Literal",
+    "value": 1,
+  },
+  "operator": "/",
+  "right": Object {
+    "raw": "2",
+    "type": "Literal",
+    "value": 2,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Division When_'abc/def'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "abc",
+    "type": "Identifier",
+  },
+  "operator": "/",
+  "right": Object {
+    "datatype": "unknown",
+    "name": "def",
+    "type": "Identifier",
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Division When_'x/5'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "x",
+    "type": "Identifier",
+  },
+  "operator": "/",
+  "right": Object {
+    "raw": "5",
+    "type": "Literal",
+    "value": 5,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Division When_'y/10'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "y",
+    "type": "Identifier",
+  },
+  "operator": "/",
+  "right": Object {
+    "raw": "10",
+    "type": "Literal",
+    "value": 10,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Multiplication When_'-1*a'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "argument": Object {
+      "raw": "1",
+      "type": "Literal",
+      "value": 1,
+    },
+    "operator": "-",
+    "prefix": true,
+    "type": "UnaryExpression",
+  },
+  "operator": "*",
+  "right": Object {
+    "datatype": "unknown",
+    "name": "a",
+    "type": "Identifier",
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Multiplication When_'1*2'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "raw": "1",
+    "type": "Literal",
+    "value": 1,
+  },
+  "operator": "*",
+  "right": Object {
+    "raw": "2",
+    "type": "Literal",
+    "value": 2,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Multiplication When_'abc*def'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "abc",
+    "type": "Identifier",
+  },
+  "operator": "*",
+  "right": Object {
+    "datatype": "unknown",
+    "name": "def",
+    "type": "Identifier",
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Multiplication When_'x*5'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "x",
+    "type": "Identifier",
+  },
+  "operator": "*",
+  "right": Object {
+    "raw": "5",
+    "type": "Literal",
+    "value": 5,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Multiplication When_'y*10'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "y",
+    "type": "Identifier",
+  },
+  "operator": "*",
+  "right": Object {
+    "raw": "10",
+    "type": "Literal",
+    "value": 10,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Subtraction When_'-x-5'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "argument": Object {
+      "datatype": "unknown",
+      "name": "x",
+      "type": "Identifier",
+    },
+    "operator": "-",
+    "prefix": true,
+    "type": "UnaryExpression",
+  },
+  "operator": "-",
+  "right": Object {
+    "raw": "5",
+    "type": "Literal",
+    "value": 5,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Subtraction When_'1-2'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "raw": "1",
+    "type": "Literal",
+    "value": 1,
+  },
+  "operator": "-",
+  "right": Object {
+    "raw": "2",
+    "type": "Literal",
+    "value": 2,
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Subtraction When_'abc-def'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "abc",
+    "type": "Identifier",
+  },
+  "operator": "-",
+  "right": Object {
+    "datatype": "unknown",
+    "name": "def",
+    "type": "Identifier",
+  },
+  "type": "BinaryExpression",
+}
+`;
+
+exports[`Subtraction When_'x-5'_Should_ParseSuccessfully 1`] = `
+Object {
+  "left": Object {
+    "datatype": "unknown",
+    "name": "x",
+    "type": "Identifier",
+  },
+  "operator": "-",
+  "right": Object {
+    "raw": "5",
+    "type": "Literal",
+    "value": 5,
+  },
+  "type": "BinaryExpression",
+}
+`;

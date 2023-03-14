@@ -21,6 +21,8 @@ import { AdditiveExpressionContext } from './SourCParser'
 import { MultiplicativeExpressionContext } from './SourCParser'
 import { CastExpressionContext } from './SourCParser'
 import { UnaryExpressionContext } from './SourCParser'
+import { UnaryOperatorContext } from './SourCParser'
+import { TypeNameContext } from './SourCParser'
 import { SizeofOperandsContext } from './SourCParser'
 import { PostfixExpressionContext } from './SourCParser'
 import { PrimaryExpressionContext } from './SourCParser'
@@ -179,6 +181,20 @@ export interface SourCParserVisitor<Result> extends ParseTreeVisitor<Result> {
    * @return the visitor result
    */
   visitUnaryExpression?: (ctx: UnaryExpressionContext) => Result
+
+  /**
+   * Visit a parse tree produced by `SourCParser.unaryOperator`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitUnaryOperator?: (ctx: UnaryOperatorContext) => Result
+
+  /**
+   * Visit a parse tree produced by `SourCParser.typeName`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitTypeName?: (ctx: TypeNameContext) => Result
 
   /**
    * Visit a parse tree produced by `SourCParser.sizeofOperands`.

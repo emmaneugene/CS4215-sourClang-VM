@@ -24,20 +24,28 @@ import {
 } from '../lang/SourCParser'
 import { SourCParserVisitor } from '../lang/SourCParserVisitor'
 import { DataType } from '../typings/datatype'
+import { UnaryOperatorContext } from './../lang/SourCParser'
 import { InvalidConfigError } from './error'
 import { getSizeofOperands, getTypeName } from './utils'
 
 type EsTreeUnaryOperator = '+' | '-' | '!'
 
-function validateUnaryOperator(symbol: string | undefined): EsTreeUnaryOperator | undefined {
+function validateUnaryOperator(
+  symbol: UnaryOperatorContext | undefined
+): EsTreeUnaryOperator | undefined {
   if (!symbol) {
     return undefined
   }
 
-  const operators = ['+', '-', '!']
-  const index = operators.indexOf(symbol)
+  if (symbol.Plus()) {
+    return '+'
+  } else if (symbol.Minus()) {
+    return '-'
+  } else if (symbol.Not()) {
+    return '!'
+  }
 
-  return index >= 0 ? (operators[index] as EsTreeUnaryOperator) : undefined
+  return undefined
 }
 
 class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
@@ -233,7 +241,7 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
       return ctx.postfixExpression()!.accept(this)
     }
 
-    if (ctx.PlusPlus() && ctx.UnaryOperator() && ctx.unaryExpression()) {
+    if (ctx.PlusPlus() && ctx.unaryOperator() && ctx.unaryExpression()) {
       return {
         type: 'UpdateExpression',
         operator: '++',
@@ -242,7 +250,7 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
       }
     }
 
-    if (ctx.MinusMinus() && ctx.UnaryOperator() && ctx.unaryExpression()) {
+    if (ctx.MinusMinus() && ctx.unaryOperator() && ctx.unaryExpression()) {
       return {
         type: 'UpdateExpression',
         operator: '--',
@@ -258,25 +266,25 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
       }
     }
 
-    if (ctx.UnaryOperator() && ctx.unaryExpression()) {
-      const symbol = ctx.UnaryOperator()!.symbol.text
+    if (ctx.unaryOperator() && ctx.castExpression()) {
+      const op = ctx.unaryOperator()!
 
-      if (symbol === '*') {
+      if (op.Star()) {
         return {
           type: 'ValueofExpression',
-          expression: ctx.unaryExpression()!.accept(this)
+          expression: ctx.castExpression()!.accept(this)
         }
-      } else if (symbol === '&') {
+      } else if (op.And()) {
         return {
           type: 'AddressofExpression',
-          expression: ctx.unaryExpression()!.accept(this)
+          expression: ctx.castExpression()!.accept(this)
         }
-      } else if (validateUnaryOperator(symbol)) {
+      } else if (validateUnaryOperator(op)) {
         return {
           type: 'UnaryExpression',
-          operator: validateUnaryOperator(symbol)!,
+          operator: validateUnaryOperator(op)!,
           prefix: true,
-          argument: ctx.unaryExpression()!.accept(this)
+          argument: ctx.castExpression()!.accept(this)
         }
       } else {
         throw new Error('Method not implemented yet')
@@ -384,7 +392,12 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
     }
 
     if (ctx.LeftParen() && ctx.expression() && ctx.RightParen()) {
-      return ctx.expression()!.accept(this)
+      const result = ctx.expression()!.accept(this) as es.SequenceExpression
+      if (result.expressions.length !== 1) {
+        throw new InvalidConfigError()
+      }
+
+      return result.expressions[0]
     }
 
     throw new InvalidConfigError()

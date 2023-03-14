@@ -69,17 +69,6 @@ NotEqual: '!=';
 Arrow: '->';
 Dot: '.';
 
-UnaryOperator: And | Star | Plus | Minus | Not;
-
-TypeName:
-    Char
-    | Short
-    | Int
-    | Long
-    | Float
-    | Double
-    ;
-
 /*
  * List of symbols used to parse ints, variable names. Also helps to parse declarations like 0xffff
  * and 0b1010.

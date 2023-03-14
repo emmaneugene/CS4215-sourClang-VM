@@ -44,8 +44,8 @@ declarator:
 
 // for function pointers param list
 typeNameList:
-    TypeName+ pointer?
-    | TypeName+ pointer? Comma typeNameList?
+    typeName+ pointer?
+    | typeName+ pointer? Comma typeNameList?
     ;
 
 initializer:
@@ -114,12 +114,23 @@ unaryExpression:
     postfixExpression
     | PlusPlus unaryExpression
     | MinusMinus unaryExpression
-    | UnaryOperator castExpression
+    | unaryOperator castExpression
     | Sizeof LeftParen sizeofOperands RightParen // Simplified to only primitive types
     ;
 
+unaryOperator: And | Star | Plus | Minus | Not;
+
+typeName:
+    Char
+    | Short
+    | Int
+    | Long
+    | Float
+    | Double
+    ;
+
 sizeofOperands:
-    pointer? TypeName
+    pointer? typeName
     | pointer? Identifier
     | And Identifier
     ;
