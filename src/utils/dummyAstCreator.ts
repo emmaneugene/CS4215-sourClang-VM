@@ -1,6 +1,7 @@
 import * as es from 'estree'
 
 import { BlockExpression } from '../types'
+import { DataType } from '../typings/datatype'
 
 const DUMMY_STRING = '__DUMMY__'
 const DUMMY_UNARY_OPERATOR = '!'
@@ -14,7 +15,8 @@ export const dummyLocation = (): es.SourceLocation => ({
 
 export const dummyIdentifier = (): es.Identifier => ({
   type: 'Identifier',
-  name: DUMMY_STRING
+  name: DUMMY_STRING,
+  datatype: DataType.UNKNOWN
 })
 
 export const dummyLiteral = (): es.Literal => ({

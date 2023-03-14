@@ -1,11 +1,57 @@
-/* tslint:disable:max-classes-per-file */
 import { CharStreams, CommonTokenStream } from 'antlr4ts'
-import { ErrorNode } from 'antlr4ts/tree/ErrorNode'
-import { ParseTree } from 'antlr4ts/tree/ParseTree'
-import { RuleNode } from 'antlr4ts/tree/RuleNode'
-import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
+import { SourCLexer } from '../lang/SourCLexer'
+import { Context, ErrorSeverity } from '../types'
+import { SourCParser, TranslationUnitContext } from './../lang/SourCParser'
+import { FatalSyntaxError } from './error'
+import StatementGenerator from './statementGenerator'
+
+function convertStatement(translationUnit: TranslationUnitContext): es.Statement {
+  const generator = new StatementGenerator()
+  return translationUnit.accept(generator)
+}
+
+function convertSource(translationUnit: TranslationUnitContext): es.Program {
+  return {
+    type: 'Program',
+    sourceType: 'script',
+    body: [convertStatement(translationUnit)]
+  }
+}
+
+export function parse(source: string, context: Context) {
+  let program: es.Program | undefined
+
+  if (context.variant === 'calc') {
+    const inputStream = CharStreams.fromString(source)
+    const lexer = new SourCLexer(inputStream)
+    const tokenStream = new CommonTokenStream(lexer)
+    const parser = new SourCParser(tokenStream)
+    parser.buildParseTree = true
+    try {
+      const tree = parser.translationUnit()
+      program = convertSource(tree)
+    } catch (error) {
+      if (error instanceof FatalSyntaxError) {
+        context.errors.push(error)
+      } else {
+        throw error
+      }
+    }
+    const hasErrors = context.errors.find(m => m.severity === ErrorSeverity.ERROR)
+    if (program && !hasErrors) {
+      console.log(JSON.stringify(program, null, 2))
+      return program
+    } else {
+      return undefined
+    }
+  } else {
+    return undefined
+  }
+}
+
+/*
 import { CalcLexer } from '../lang/CalcLexer'
 import {
   AdditionContext,
@@ -20,106 +66,7 @@ import {
   SubtractionContext
 } from '../lang/CalcParser'
 import { CalcVisitor } from '../lang/CalcVisitor'
-import { Context, ErrorSeverity, ErrorType, SourceError } from '../types'
-import { stripIndent } from '../utils/formatters'
 
-export class DisallowedConstructError implements SourceError {
-  public type = ErrorType.SYNTAX
-  public severity = ErrorSeverity.ERROR
-  public nodeType: string
-
-  constructor(public node: es.Node) {
-    this.nodeType = this.formatNodeType(this.node.type)
-  }
-
-  get location() {
-    return this.node.loc!
-  }
-
-  public explain() {
-    return `${this.nodeType} are not allowed`
-  }
-
-  public elaborate() {
-    return stripIndent`
-      You are trying to use ${this.nodeType}, which is not allowed (yet).
-    `
-  }
-
-  /**
-   * Converts estree node.type into english
-   * e.g. ThisExpression -> 'this' expressions
-   *      Property -> Properties
-   *      EmptyStatement -> Empty Statements
-   */
-  private formatNodeType(nodeType: string) {
-    switch (nodeType) {
-      case 'ThisExpression':
-        return "'this' expressions"
-      case 'Property':
-        return 'Properties'
-      default: {
-        const words = nodeType.split(/(?=[A-Z])/)
-        return words.map((word, i) => (i === 0 ? word : word.toLowerCase())).join(' ') + 's'
-      }
-    }
-  }
-}
-
-export class FatalSyntaxError implements SourceError {
-  public type = ErrorType.SYNTAX
-  public severity = ErrorSeverity.ERROR
-  public constructor(public location: es.SourceLocation, public message: string) {}
-
-  public explain() {
-    return this.message
-  }
-
-  public elaborate() {
-    return 'There is a syntax error in your program'
-  }
-}
-
-export class MissingSemicolonError implements SourceError {
-  public type = ErrorType.SYNTAX
-  public severity = ErrorSeverity.ERROR
-  public constructor(public location: es.SourceLocation) {}
-
-  public explain() {
-    return 'Missing semicolon at the end of statement'
-  }
-
-  public elaborate() {
-    return 'Every statement must be terminated by a semicolon.'
-  }
-}
-
-export class TrailingCommaError implements SourceError {
-  public type: ErrorType.SYNTAX
-  public severity: ErrorSeverity.WARNING
-  public constructor(public location: es.SourceLocation) {}
-
-  public explain() {
-    return 'Trailing comma'
-  }
-
-  public elaborate() {
-    return 'Please remove the trailing comma'
-  }
-}
-
-function contextToLocation(ctx: ExpressionContext): es.SourceLocation {
-  return {
-    start: {
-      line: ctx.start.line,
-      column: ctx.start.charPositionInLine
-    },
-    end: {
-      line: ctx.stop ? ctx.stop.line : ctx.start.line,
-      column: ctx.stop ? ctx.stop.charPositionInLine : ctx.start.charPositionInLine
-    }
-  }
-}
 class ExpressionGenerator implements CalcVisitor<es.Expression> {
   visitNumber(ctx: NumberContext): es.Expression {
     return {
@@ -221,46 +168,4 @@ function convertExpression(expression: ExpressionContext): es.Expression {
   const generator = new ExpressionGenerator()
   return expression.accept(generator)
 }
-
-function convertSource(expression: ExpressionContext): es.Program {
-  return {
-    type: 'Program',
-    sourceType: 'script',
-    body: [
-      {
-        type: 'ExpressionStatement',
-        expression: convertExpression(expression)
-      }
-    ]
-  }
-}
-
-export function parse(source: string, context: Context) {
-  let program: es.Program | undefined
-
-  if (context.variant === 'calc') {
-    const inputStream = CharStreams.fromString(source)
-    const lexer = new CalcLexer(inputStream)
-    const tokenStream = new CommonTokenStream(lexer)
-    const parser = new CalcParser(tokenStream)
-    parser.buildParseTree = true
-    try {
-      const tree = parser.expression()
-      program = convertSource(tree)
-    } catch (error) {
-      if (error instanceof FatalSyntaxError) {
-        context.errors.push(error)
-      } else {
-        throw error
-      }
-    }
-    const hasErrors = context.errors.find(m => m.severity === ErrorSeverity.ERROR)
-    if (program && !hasErrors) {
-      return program
-    } else {
-      return undefined
-    }
-  } else {
-    return undefined
-  }
-}
+*/

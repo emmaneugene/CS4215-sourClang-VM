@@ -1,0 +1,332 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SamplePrograms When_'
+int main() {
+  int num1;
+  int num2;
+  printf("Enter two numbers: ");
+  scanf("%d %d", &num1, &num2);
+  printf("Before swap: num1 = %d, num2 = %d", num1, num2);
+  swap(&num1, &num2);
+  printf("After swap: num1 = %d, num2 = %d", num1, num2);
+  return 0;
+}
+void swap(int *a, int *b) {
+  int temp;
+  temp = *a;
+  *a = *b;
+  *b = temp;
+}
+'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "body": Object {
+            "body": Array [
+              Object {
+                "declarations": Array [
+                  Object {
+                    "id": Object {
+                      "datatype": "int",
+                      "name": "num1",
+                      "pointerList": undefined,
+                      "type": "Identifier",
+                    },
+                    "init": null,
+                    "type": "VariableDeclarator",
+                  },
+                ],
+                "kind": "var",
+                "type": "VariableDeclaration",
+              },
+              Object {
+                "declarations": Array [
+                  Object {
+                    "id": Object {
+                      "datatype": "int",
+                      "name": "num2",
+                      "pointerList": undefined,
+                      "type": "Identifier",
+                    },
+                    "init": null,
+                    "type": "VariableDeclarator",
+                  },
+                ],
+                "kind": "var",
+                "type": "VariableDeclaration",
+              },
+              Object {
+                "expression": Object {
+                  "arguments": Array [
+                    Object {
+                      "raw": "\\"Enter two numbers: \\"",
+                      "type": "Literal",
+                      "value": "\\"Enter two numbers: \\"",
+                    },
+                  ],
+                  "callee": Object {
+                    "datatype": "unknown",
+                    "name": "printf",
+                    "type": "Identifier",
+                  },
+                  "optional": false,
+                  "type": "CallExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+              Object {
+                "expression": Object {
+                  "arguments": Array [
+                    Object {
+                      "raw": "\\"%d %d\\"",
+                      "type": "Literal",
+                      "value": "\\"%d %d\\"",
+                    },
+                    Object {
+                      "expression": Object {
+                        "datatype": "unknown",
+                        "name": "num1",
+                        "type": "Identifier",
+                      },
+                      "type": "AddressofExpression",
+                    },
+                    Object {
+                      "expression": Object {
+                        "datatype": "unknown",
+                        "name": "num2",
+                        "type": "Identifier",
+                      },
+                      "type": "AddressofExpression",
+                    },
+                  ],
+                  "callee": Object {
+                    "datatype": "unknown",
+                    "name": "scanf",
+                    "type": "Identifier",
+                  },
+                  "optional": false,
+                  "type": "CallExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+              Object {
+                "expression": Object {
+                  "arguments": Array [
+                    Object {
+                      "raw": "\\"Before swap: num1 = %d, num2 = %d\\"",
+                      "type": "Literal",
+                      "value": "\\"Before swap: num1 = %d, num2 = %d\\"",
+                    },
+                    Object {
+                      "datatype": "unknown",
+                      "name": "num1",
+                      "type": "Identifier",
+                    },
+                    Object {
+                      "datatype": "unknown",
+                      "name": "num2",
+                      "type": "Identifier",
+                    },
+                  ],
+                  "callee": Object {
+                    "datatype": "unknown",
+                    "name": "printf",
+                    "type": "Identifier",
+                  },
+                  "optional": false,
+                  "type": "CallExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+              Object {
+                "expression": Object {
+                  "arguments": Array [
+                    Object {
+                      "expression": Object {
+                        "datatype": "unknown",
+                        "name": "num1",
+                        "type": "Identifier",
+                      },
+                      "type": "AddressofExpression",
+                    },
+                    Object {
+                      "expression": Object {
+                        "datatype": "unknown",
+                        "name": "num2",
+                        "type": "Identifier",
+                      },
+                      "type": "AddressofExpression",
+                    },
+                  ],
+                  "callee": Object {
+                    "datatype": "unknown",
+                    "name": "swap",
+                    "type": "Identifier",
+                  },
+                  "optional": false,
+                  "type": "CallExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+              Object {
+                "expression": Object {
+                  "arguments": Array [
+                    Object {
+                      "raw": "\\"After swap: num1 = %d, num2 = %d\\"",
+                      "type": "Literal",
+                      "value": "\\"After swap: num1 = %d, num2 = %d\\"",
+                    },
+                    Object {
+                      "datatype": "unknown",
+                      "name": "num1",
+                      "type": "Identifier",
+                    },
+                    Object {
+                      "datatype": "unknown",
+                      "name": "num2",
+                      "type": "Identifier",
+                    },
+                  ],
+                  "callee": Object {
+                    "datatype": "unknown",
+                    "name": "printf",
+                    "type": "Identifier",
+                  },
+                  "optional": false,
+                  "type": "CallExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+              Object {
+                "argument": Object {
+                  "raw": "0",
+                  "type": "Literal",
+                  "value": 0,
+                },
+                "type": "ReturnStatement",
+              },
+            ],
+            "type": "BlockStatement",
+          },
+          "id": Object {
+            "datatype": "int",
+            "name": "main",
+            "type": "Identifier",
+          },
+          "params": Array [],
+          "type": "FunctionDeclaration",
+        },
+        Object {
+          "body": Object {
+            "body": Array [
+              Object {
+                "declarations": Array [
+                  Object {
+                    "id": Object {
+                      "datatype": "int",
+                      "name": "temp",
+                      "pointerList": undefined,
+                      "type": "Identifier",
+                    },
+                    "init": null,
+                    "type": "VariableDeclarator",
+                  },
+                ],
+                "kind": "var",
+                "type": "VariableDeclaration",
+              },
+              Object {
+                "expression": Object {
+                  "left": Object {
+                    "datatype": "unknown",
+                    "name": "temp",
+                    "type": "Identifier",
+                  },
+                  "operator": "=",
+                  "right": Object {
+                    "expression": Object {
+                      "datatype": "unknown",
+                      "name": "a",
+                      "type": "Identifier",
+                    },
+                    "type": "ValueofExpression",
+                  },
+                  "type": "FlexiAssignmentExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+              Object {
+                "expression": Object {
+                  "left": Object {
+                    "expression": Object {
+                      "datatype": "unknown",
+                      "name": "a",
+                      "type": "Identifier",
+                    },
+                    "type": "ValueofExpression",
+                  },
+                  "operator": "=",
+                  "right": Object {
+                    "expression": Object {
+                      "datatype": "unknown",
+                      "name": "b",
+                      "type": "Identifier",
+                    },
+                    "type": "ValueofExpression",
+                  },
+                  "type": "FlexiAssignmentExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+              Object {
+                "expression": Object {
+                  "left": Object {
+                    "expression": Object {
+                      "datatype": "unknown",
+                      "name": "b",
+                      "type": "Identifier",
+                    },
+                    "type": "ValueofExpression",
+                  },
+                  "operator": "=",
+                  "right": Object {
+                    "datatype": "unknown",
+                    "name": "temp",
+                    "type": "Identifier",
+                  },
+                  "type": "FlexiAssignmentExpression",
+                },
+                "type": "ExpressionStatement",
+              },
+            ],
+            "type": "BlockStatement",
+          },
+          "id": Object {
+            "datatype": "void",
+            "name": "swap",
+            "type": "Identifier",
+          },
+          "params": Array [
+            Object {
+              "datatype": "int",
+              "name": "b",
+              "type": "Identifier",
+            },
+            Object {
+              "datatype": "int",
+              "name": "a",
+              "type": "Identifier",
+            },
+          ],
+          "type": "FunctionDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;

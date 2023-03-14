@@ -36,11 +36,10 @@ initDeclarator:
     ;
 
 declarator:
-    Identifier // variables
-    | pointer? Identifier // pointers
-    | LeftParen Star Identifier RightParen LeftParen typeNameList? RightParen // function pointers
-    | Identifier LeftBracket constantExpression? RightBracket // arrays
-    | Identifier LeftParen parameterList? RightParen // function prototypes
+    pointer? var=Identifier // Variables
+    | LeftParen Star funcPointer=Identifier RightParen LeftParen typeNameList? RightParen // FunctionPointers
+    | array=Identifier LeftBracket constantExpression? RightBracket // Arrays
+    | funcProto=Identifier LeftParen parameterList? RightParen // FunctionPrototypes
     ;
 
 // for function pointers param list
@@ -59,7 +58,6 @@ initializerList:
     | initializerList Comma initializer // for struct and arrays initializing
     ;
 
-
 assignmentExpression:
     conditionalExpression // Resolves into tree of operators with identifers/constants as leaf
     | unaryExpression Assign assignmentExpression
@@ -67,7 +65,7 @@ assignmentExpression:
 
 conditionalExpression:
     logicalOrExpression
-    | logicalOrExpression Question conditionalExpression Colon conditionalExpression
+    | logicalOrExpression Question cons=conditionalExpression Colon alt=conditionalExpression
     ;
 
 logicalOrExpression:
@@ -109,7 +107,7 @@ multiplicativeExpression:
 
 castExpression:
     unaryExpression
-//    | ( <type-name> ) <cast-expression>
+    | LeftParen typeName RightParen castExpression
     ;
 
 unaryExpression:
@@ -140,11 +138,16 @@ sizeofOperands:
 postfixExpression:
     primaryExpression
     | postfixExpression LeftBracket expression RightBracket // array access
-    | postfixExpression LeftParen expression* RightParen // function call
+    | postfixExpression LeftParen functionCallArg? RightParen // function call
     | postfixExpression Dot Identifier // struct access
     | postfixExpression Arrow Identifier // struct access
     | postfixExpression PlusPlus
     | postfixExpression MinusMinus
+    ;
+
+functionCallArg:
+    assignmentExpression
+    | functionCallArg Comma assignmentExpression
     ;
 
 primaryExpression:
@@ -156,7 +159,6 @@ primaryExpression:
 
 expression:
     assignmentExpression
-    | expression Comma assignmentExpression
     ;
 
 constantExpression:
@@ -164,7 +166,7 @@ constantExpression:
     ;
 
 functionDefinition:
-    typeSpecifier+ pointer? Identifier LeftParen parameterList* RightParen compoundStatement
+    typeSpecifier+ pointer? Identifier LeftParen parameterList? RightParen compoundStatement
     ;
 
 pointer:
@@ -198,14 +200,13 @@ expressionStatement:
     ;
 
 selectionStatement:
-    If LeftParen expression RightParen statement
-    | If LeftParen expression RightParen statement Else statement
+    If LeftParen expression RightParen cons=statement (Else alt=statement)?
     ;
 
 iterationStatement:
     While LeftParen expression RightParen statement
     | Do statement While LeftParen expression RightParen Semi
-    | For LeftParen expression? Semi expression? Semi expression? RightParen statement
+    | For LeftParen init=expression? Semi test=expression? Semi step=expression? RightParen statement
     ;
 
 jumpStatement:

@@ -1,6 +1,7 @@
 import * as es from 'estree'
 
 import { AllowedDeclarations, BlockExpression, FunctionDeclarationExpression } from '../types'
+import { DataType } from '../typings/datatype'
 
 export const getVariableDecarationName = (decl: es.VariableDeclaration) =>
   (decl.declarations[0].id as es.Identifier).name
@@ -11,7 +12,8 @@ export const locationDummyNode = (line: number, column: number) =>
 export const identifier = (name: string, loc?: es.SourceLocation | null): es.Identifier => ({
   type: 'Identifier',
   name,
-  loc
+  loc,
+  datatype: DataType.UNKNOWN
 })
 
 export const literal = (

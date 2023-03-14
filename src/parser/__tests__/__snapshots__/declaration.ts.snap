@@ -1,0 +1,1013 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Char When_'char * x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "char",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "32767",
+                "type": "Literal",
+                "value": 32767,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Char When_'char x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "char",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "32767",
+                "type": "Literal",
+                "value": 32767,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Char When_'signed char ** x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "char",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  Array [
+                    "*",
+                    undefined,
+                  ],
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "32767",
+                "type": "Literal",
+                "value": 32767,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Char When_'signed char x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "char",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "32767",
+                "type": "Literal",
+                "value": 32767,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Char When_'unsigned char * x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_char",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "32767",
+                "type": "Literal",
+                "value": 32767,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Char When_'unsigned char x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_char",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "32767",
+                "type": "Literal",
+                "value": 32767,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Double When_'double * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "double",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Double When_'double x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "double",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Float When_'float *** x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "float",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  Array [
+                    "*",
+                    Array [
+                      "*",
+                      undefined,
+                    ],
+                  ],
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Float When_'float x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "float",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Int When_'int * * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "int",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  Array [
+                    "*",
+                    undefined,
+                  ],
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Int When_'int x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "int",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Int When_'signed int * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "int",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Int When_'signed int x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "int",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Int When_'unsigned int * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_int",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Int When_'unsigned int x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_int",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Long When_'long * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "long",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Long When_'long x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "long",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Long When_'signed long * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "long",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Long When_'signed long x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "long",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Long When_'unsigned long * * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_long",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  Array [
+                    "*",
+                    undefined,
+                  ],
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Long When_'unsigned long x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_long",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Short When_'short * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "short",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Short When_'short x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "short",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Short When_'signed short * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "short",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  undefined,
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Short When_'signed short x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "short",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Short When_'unsigned short ** x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_short",
+                "name": "x",
+                "pointerList": Array [
+                  "*",
+                  Array [
+                    "*",
+                    undefined,
+                  ],
+                ],
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`Short When_'unsigned short x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "datatype": "unsigned_short",
+                "name": "x",
+                "pointerList": undefined,
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "65535",
+                "type": "Literal",
+                "value": 65535,
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
