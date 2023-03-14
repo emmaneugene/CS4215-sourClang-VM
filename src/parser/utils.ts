@@ -7,6 +7,7 @@ import {
   ParameterListContext,
   PointerContext,
   SizeofOperandsContext,
+  TypeNameContext,
   TypeSpecifierContext
 } from './../lang/SourCParser'
 import { InvalidDataType } from './error'
@@ -137,7 +138,7 @@ export function getSizeofOperands(ctx: SizeofOperandsContext): DataType {
   return DataType.INT
 }
 
-export function getTypeName(ctx: TerminalNode): DataType {
+export function getTypeName(ctx: TypeNameContext): DataType {
   // TODO:
   return DataType.INT
 }

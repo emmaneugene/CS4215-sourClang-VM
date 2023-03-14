@@ -222,10 +222,10 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
   }
 
   visitCastExpression(ctx: CastExpressionContext): es.Expression {
-    if (ctx.LeftParen() && ctx.TypeName() && ctx.RightParen() && ctx.castExpression()) {
+    if (ctx.LeftParen() && ctx.typeName() && ctx.RightParen() && ctx.castExpression()) {
       return {
         type: 'CastExpression',
-        targetType: getTypeName(ctx.TypeName()!),
+        targetType: getTypeName(ctx.typeName()!),
         expression: ctx.castExpression()!.accept(this)
       }
     }

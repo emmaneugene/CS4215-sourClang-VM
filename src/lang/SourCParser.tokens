@@ -70,7 +70,6 @@ Whitespace=69
 Newline=70
 BlockComment=71
 LineComment=72
-TypeName=73
 'break'=1
 'char'=2
 'const'=3

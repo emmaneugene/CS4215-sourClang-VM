@@ -107,7 +107,7 @@ multiplicativeExpression:
 
 castExpression:
     unaryExpression
-    | LeftParen TypeName RightParen castExpression
+    | LeftParen typeName RightParen castExpression
     ;
 
 unaryExpression:
