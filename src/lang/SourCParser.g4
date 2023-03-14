@@ -36,17 +36,16 @@ initDeclarator:
     ;
 
 declarator:
-    Identifier // variables
-    | pointer? Identifier // pointers
-    | LeftParen Star Identifier RightParen LeftParen typeNameList? RightParen // function pointers
-    | Identifier LeftBracket constantExpression? RightBracket // arrays
-    | Identifier LeftParen parameterList? RightParen // function prototypes
+    pointer? var=Identifier // Variables
+    | LeftParen Star funcPointer=Identifier RightParen LeftParen typeNameList? RightParen // FunctionPointers
+    | array=Identifier LeftBracket constantExpression? RightBracket // Arrays
+    | funcProto=Identifier LeftParen parameterList? RightParen // FunctionPrototypes
     ;
 
 // for function pointers param list
 typeNameList:
-    typeName+ pointer?
-    | typeName+ pointer? Comma typeNameList?
+    TypeName+ pointer?
+    | TypeName+ pointer? Comma typeNameList?
     ;
 
 initializer:
@@ -59,7 +58,6 @@ initializerList:
     | initializerList Comma initializer // for struct and arrays initializing
     ;
 
-
 assignmentExpression:
     conditionalExpression // Resolves into tree of operators with identifers/constants as leaf
     | unaryExpression Assign assignmentExpression
@@ -67,7 +65,7 @@ assignmentExpression:
 
 conditionalExpression:
     logicalOrExpression
-    | logicalOrExpression Question conditionalExpression Colon conditionalExpression
+    | logicalOrExpression Question cons=conditionalExpression Colon alt=conditionalExpression
     ;
 
 logicalOrExpression:
@@ -109,30 +107,19 @@ multiplicativeExpression:
 
 castExpression:
     unaryExpression
-//    | ( <type-name> ) <cast-expression>
+    | LeftParen TypeName RightParen castExpression
     ;
 
 unaryExpression:
     postfixExpression
     | PlusPlus unaryExpression
     | MinusMinus unaryExpression
-    | unaryOperator castExpression
+    | UnaryOperator castExpression
     | Sizeof LeftParen sizeofOperands RightParen // Simplified to only primitive types
     ;
 
-unaryOperator: And | Star | Plus | Minus | Not;
-
-typeName:
-    Char
-    | Short
-    | Int
-    | Long
-    | Float
-    | Double
-    ;
-
 sizeofOperands:
-    pointer? typeName
+    pointer? TypeName
     | pointer? Identifier
     | And Identifier
     ;
@@ -164,7 +151,7 @@ constantExpression:
     ;
 
 functionDefinition:
-    typeSpecifier+ pointer? Identifier LeftParen parameterList* RightParen compoundStatement
+    typeSpecifier+ pointer? Identifier LeftParen parameterList? RightParen compoundStatement
     ;
 
 pointer:
@@ -198,14 +185,13 @@ expressionStatement:
     ;
 
 selectionStatement:
-    If LeftParen expression RightParen statement
-    | If LeftParen expression RightParen statement Else statement
+    If LeftParen expression RightParen cons=statement (Else alt=statement)?
     ;
 
 iterationStatement:
     While LeftParen expression RightParen statement
     | Do statement While LeftParen expression RightParen Semi
-    | For LeftParen expression? Semi expression? Semi expression? RightParen statement
+    | For LeftParen init=expression? Semi test=expression? Semi step=expression? RightParen statement
     ;
 
 jumpStatement:
