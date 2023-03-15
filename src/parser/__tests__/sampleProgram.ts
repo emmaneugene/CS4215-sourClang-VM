@@ -89,7 +89,40 @@ void swap(int *a, int *b) {
 }
 `
 
-const TEST_CASES = [prog6]
+const prog7 = `
+int main() {
+  int list[3];
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = i * 10;
+  }
+  return 0;
+}
+`
+
+const prog8 = `
+int main() {
+  int list[3] = { 1 };
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = i * 10;
+  }
+  return 0;
+}
+`
+
+const prog9 = `
+int main() {
+  int list[] = {1, 2, 3};
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = list[i + (-1) + 1] * 10;
+  }
+  return 0;
+}
+`
+
+const TEST_CASES = [prog1, prog2, prog3, prog4, prog5, prog6, prog7, prog8, prog9]
 
 const f = (when: string, should: string) => `When_\'${when}\'_Should_${should}`
 
