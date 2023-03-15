@@ -1,6 +1,7 @@
 import * as es from 'estree'
 
 import { IOptions, Result } from '..'
+import { compile } from '../compiler/compiler'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
 import { hoistAndMergeImports } from '../localImports/transformers/hoistAndMergeImports'
@@ -9,7 +10,9 @@ import { removeNonSourceModuleImports } from '../localImports/transformers/remov
 import { parse } from '../parser/parser'
 import { PreemptiveScheduler } from '../schedulers'
 import { Context, Scheduler, Variant } from '../types'
+import { RuntimeContext } from '../typings/runtime-context'
 import { validateAndAnnotate } from '../validator/validator'
+import { Microcode } from './../typings/microcode'
 import { determineVariant, resolvedErrorPromise } from './utils'
 
 const DEFAULT_SOURCE_OPTIONS: IOptions = {
@@ -24,8 +27,38 @@ const DEFAULT_SOURCE_OPTIONS: IOptions = {
   throwInfiniteLoops: true
 }
 
-function runInterpreter(program: es.Program, context: Context, options: IOptions): Promise<Result> {
-  const it = evaluate(program, context)
+/* Setup the memory context, dataview (binary values), etc. */
+function setupContext(program: Array<Microcode>, context: Context): Context<RuntimeContext> {
+  // TODO: Setup the memory context
+
+  const runtimeContext: RuntimeContext = {
+    isRunning: true,
+    PC: 0,
+    programReturnValue: -1,
+    dataview: new DataView(new ArrayBuffer(10))
+  }
+
+  context.externalContext = runtimeContext
+
+  return context
+}
+
+function runInterpreter(
+  program: Array<Microcode>,
+  context: Context,
+  options: IOptions
+): Promise<Result> {
+  // previous:
+  // function runInterpreter(program: es.Program, context: Context, options: IOptions): Promise<Result> {
+  //   const it = evaluate(program, context)
+  //   const scheduler: Scheduler = new PreemptiveScheduler(options.steps)
+  //   return scheduler.run(it, context)
+  // }
+
+  const runtimeCtx: Context<RuntimeContext> = setupContext(program, context)
+
+  const it = evaluate(runtimeCtx)
+
   const scheduler: Scheduler = new PreemptiveScheduler(options.steps)
   return scheduler.run(it, context)
 }
@@ -67,7 +100,9 @@ export async function sourceRunner(
     return sourceRunner(code, context, options)
   }
 
-  return runInterpreter(program, context, theOptions)
+  const microcode = compile(program)
+
+  return runInterpreter(microcode, context, theOptions)
 }
 
 export async function sourceFilesRunner(
