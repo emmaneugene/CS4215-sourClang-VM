@@ -3,16 +3,46 @@ import { ParseTree } from 'antlr4ts/tree/ParseTree'
 import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
+import { isNumber } from 'lodash'
 
 import { DeclaratorContext } from '../lang/SourCParser'
 import { SourCParserVisitor } from '../lang/SourCParserVisitor'
+import { InvalidConfigError } from './error'
+import ExpressionGenerator from './expressionGenerator'
 import { getPointerList } from './utils'
 
+function getArraySize(exp: es.Expression): number {
+  if (exp.type !== 'Literal') {
+    return -1
+  }
+
+  const casted: es.Literal = exp as es.Literal
+  const value = casted.value
+  if (!value || !isNumber(value) || value < 0) {
+    return -1
+  }
+
+  return value
+}
+
 class IdentifierGenerator implements SourCParserVisitor<Omit<es.Identifier, 'datatype'>> {
+  private readonly expressionGenerator = new ExpressionGenerator()
+
   visitDeclarator(ctx: DeclaratorContext): Omit<es.Identifier, 'datatype'> {
     if (ctx._array) {
-      // array
-      throw new Error('Method not implemented')
+      const sizeCtx = ctx.constantExpression()
+      let arraySize: number | undefined
+      if (sizeCtx) {
+        const sizeExp = this.expressionGenerator.visitConstantExpression(sizeCtx)
+        arraySize = getArraySize(sizeExp)
+      }
+
+      return {
+        type: 'Identifier',
+        isArray: true,
+        arraySize,
+        name: ctx.Identifier().text
+      }
     }
 
     if (ctx._funcPointer) {

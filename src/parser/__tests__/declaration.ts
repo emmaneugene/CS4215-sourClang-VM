@@ -108,6 +108,32 @@ describe('Double', () => {
   }
 })
 
+const PASS_ARR_TEST_CASES: string[] = [
+  'int x[] = {1, 2, 3};',
+  'int x[3];',
+  'int x[3] = {1, 2};',
+  'int x[3] = "123";'
+]
+
+describe('GoodArray', () => {
+  for (const source of PASS_ARR_TEST_CASES) {
+    it(f(source, 'ParseSuccessfully'), () => {
+      const result = parse(source, context)
+      expect(result).toMatchSnapshot()
+    })
+  }
+})
+
+const FAIL_ARR_TEST_CASES: string[] = ['int x[];']
+
+describe('BadArray', () => {
+  for (const source of FAIL_ARR_TEST_CASES) {
+    it(f(source, 'ParseSuccessfully'), () => {
+      expect(() => parse(source, context)).toThrow()
+    })
+  }
+})
+
 const FAIL_TEST_CASE: string[] = [
   'unsigned float x = 1;',
   'unsigned double x = 1;',
