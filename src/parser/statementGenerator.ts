@@ -17,10 +17,77 @@ import {
   TranslationUnitContext
 } from '../lang/SourCParser'
 import { SourCParserVisitor } from '../lang/SourCParserVisitor'
+import { DataType } from '../typings/datatype'
 import { InvalidConfigError } from './error'
 import ExpressionGenerator from './expressionGenerator'
 import IdentifierGenerator from './identifierGenerator'
 import { getDatatype, getParameterList } from './utils'
+
+function validateDeclaration(
+  declarator: Omit<es.Identifier, 'datatype'>,
+  datatype: DataType,
+  init: es.Expression | null
+): es.VariableDeclaration {
+  const result: es.VariableDeclaration = {
+    type: 'VariableDeclaration',
+    kind: 'var',
+    declarations: [
+      {
+        type: 'VariableDeclarator',
+        id: {
+          ...declarator,
+          datatype
+        },
+        init
+      }
+    ]
+  }
+
+  // Validate arrays (i.e. `datatype identifier[]` syntax)
+  // We need to know the size on declaration. 2 possibilities:
+  // * The init expression can give us a size, or
+  // * Check that there is either a size (>=0) in the identifier
+  if (declarator.isArray) {
+    const { arraySize } = declarator
+
+    if (!init && !arraySize) {
+      throw new InvalidConfigError()
+    }
+
+    if (!init && arraySize && arraySize >= 0) {
+      return result
+    }
+
+    if (init && !arraySize) {
+      if (init.type !== 'SequenceExpression') {
+        throw new InvalidConfigError()
+      }
+
+      // Include the size into the identifier
+      const updatedDeclarator: es.VariableDeclarator = {
+        type: 'VariableDeclarator',
+        id: {
+          ...declarator,
+          datatype,
+          arraySize: (init as es.SequenceExpression).expressions.length
+        },
+        init
+      }
+      result.declarations = [updatedDeclarator]
+
+      return result
+    }
+
+    if (init && arraySize && arraySize >= 0) {
+      // The number of expressions can be different from
+      // the declared size. It is up to the interpreter to determine
+      // how to handle this.
+      return result
+    }
+  }
+
+  return result
+}
 
 class StatementGenerator implements SourCParserVisitor<es.Statement> {
   private readonly exprGenerator = new ExpressionGenerator()
@@ -60,20 +127,8 @@ class StatementGenerator implements SourCParserVisitor<es.Statement> {
       init = this.exprGenerator.visitInitializer(initializer)
     }
 
-    return {
-      type: 'VariableDeclaration',
-      kind: 'var',
-      declarations: [
-        {
-          type: 'VariableDeclarator',
-          id: {
-            ...declarator,
-            datatype: getDatatype(ctx.typeSpecifier())
-          },
-          init
-        }
-      ]
-    }
+    // Check that the declaration makes sense
+    return validateDeclaration(declarator, getDatatype(ctx.typeSpecifier()), init)
   }
 
   visitFunctionDefinition(ctx: FunctionDefinitionContext): es.Statement {

@@ -364,6 +364,167 @@ Object {
 }
 `;
 
+exports[`GoodArray When_'int x[] = {1, 2, 3};'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "arraySize": 3,
+                "datatype": "int",
+                "isArray": true,
+                "name": "x",
+                "type": "Identifier",
+              },
+              "init": Object {
+                "expressions": Array [
+                  Object {
+                    "raw": "1",
+                    "type": "Literal",
+                    "value": 1,
+                  },
+                  Object {
+                    "raw": "2",
+                    "type": "Literal",
+                    "value": 2,
+                  },
+                  Object {
+                    "raw": "3",
+                    "type": "Literal",
+                    "value": 3,
+                  },
+                ],
+                "type": "SequenceExpression",
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`GoodArray When_'int x[3] = "123";'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "arraySize": 3,
+                "datatype": "int",
+                "isArray": true,
+                "name": "x",
+                "type": "Identifier",
+              },
+              "init": Object {
+                "raw": "\\"123\\"",
+                "type": "Literal",
+                "value": "\\"123\\"",
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`GoodArray When_'int x[3] = {1, 2};'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "arraySize": 3,
+                "datatype": "int",
+                "isArray": true,
+                "name": "x",
+                "type": "Identifier",
+              },
+              "init": Object {
+                "expressions": Array [
+                  Object {
+                    "raw": "1",
+                    "type": "Literal",
+                    "value": 1,
+                  },
+                  Object {
+                    "raw": "2",
+                    "type": "Literal",
+                    "value": 2,
+                  },
+                ],
+                "type": "SequenceExpression",
+              },
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
+exports[`GoodArray When_'int x[3];'_Should_ParseSuccessfully 1`] = `
+Object {
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "declarations": Array [
+            Object {
+              "id": Object {
+                "arraySize": 3,
+                "datatype": "int",
+                "isArray": true,
+                "name": "x",
+                "type": "Identifier",
+              },
+              "init": null,
+              "type": "VariableDeclarator",
+            },
+          ],
+          "kind": "var",
+          "type": "VariableDeclaration",
+        },
+      ],
+      "type": "BlockStatement",
+    },
+  ],
+  "sourceType": "script",
+  "type": "Program",
+}
+`;
+
 exports[`Int When_'int * * x = 65535;'_Should_ParseSuccessfully 1`] = `
 Object {
   "body": Array [

@@ -442,7 +442,7 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
   }
 
   /* The main point of this method is to flatten the recursive definition */
-  visitInitializerList(ctx: InitializerListContext): es.Expression {
+  visitInitializerList(ctx: InitializerListContext): es.SequenceExpression {
     // base case
     if (!ctx.Comma()) {
       return {
@@ -452,7 +452,7 @@ class ExpressionGenerator implements SourCParserVisitor<es.Expression> {
     }
 
     if (ctx.initializerList()) {
-      const remaining = ctx.initializerList()!.accept(this) as es.SequenceExpression
+      const remaining = this.visitInitializerList(ctx.initializerList()!)
       return {
         type: 'SequenceExpression',
         expressions: [...remaining.expressions, ctx.initializer().accept(this)]

@@ -10,6 +10,12 @@ declare module 'estree' {
     /** Extends the existing estree Identifier interface with datatype. */
     datatype: DataType
 
+    /** Reflects if this is an array declaration. Defaults to false. */
+    isArray?: boolean | undefined
+
+    /** Reflects size of array, if this identifier is an array */
+    arraySize?: number | undefined
+
     /** Extends the existing estree Identifier interface with pointer. */
     pointerList?: PointerList
   }
