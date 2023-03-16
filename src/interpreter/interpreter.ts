@@ -33,7 +33,7 @@ export function* evaluate(context: Context<RuntimeContext>) {
     }
 
     // Execute `cmd` and amend `context` accordingly
-    yield* MACHINE[cmd.type](rtCtx)
+    yield* MACHINE[cmd.type](cmd, rtCtx)
 
     // Update the `rtCtx` variable in this scope
     rtCtx = context.externalContext
@@ -49,15 +49,25 @@ function* leave(context: Context) {
   yield context
 }
 
+let i = 0 // TODO: for testing only
+
 function decodePC(ctx: RuntimeContext, pc: number): Microcode | undefined {
   // TODO: Incomplete
+  if (i === 0) {
+    i++
+    return {
+      type: 'CallCommand',
+      instr: 10
+    }
+  }
+
   return {
     type: 'ReturnCommand'
   }
 }
 
 /* Supporting typedef for MACHINE. */
-type EvaluatorFunction = (rtCtx: RuntimeContext) => IterableIterator<Value>
+type EvaluatorFunction = (cmd: Microcode, rtCtx: RuntimeContext) => IterableIterator<Value>
 
 /**
  * The virtual machine used for execution
@@ -72,10 +82,14 @@ type EvaluatorFunction = (rtCtx: RuntimeContext) => IterableIterator<Value>
  * See: https://github.com/webpack/webpack/issues/7566
  */
 const MACHINE: { [microcode: string]: EvaluatorFunction } = {
-  ReturnCommand: function* (rtCtx) {
+  ReturnCommand: function* (cmd, rtCtx) {
     rtCtx.isRunning = false
     rtCtx.programReturnValue = 0
     return
+  },
+
+  CallCommand: function* (cmd, rtCtx) {
+    console.log('hellllllooooooo', { cmd })
   }
 }
 
