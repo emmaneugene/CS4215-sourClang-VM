@@ -1,6 +1,9 @@
-import { Program } from 'estree'
+import * as es from 'estree'
 
 import { Microcode } from './../typings/microcode'
+import { compileFunctionDefinition } from './compileStmt'
+import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
+import { CompileTimeError } from './error'
 
 /**
  * Converts the AST (from `./parser`) into
@@ -8,14 +11,38 @@ import { Microcode } from './../typings/microcode'
  *
  * This is the integration point between the "compiler" and the rest of this codebase.
  */
-export function compile(ast: Program): Array<Microcode> {
-  return [
-    {
-      type: 'CallCommand',
-      addr: 10
-    },
-    {
-      type: 'ExitCommand'
+export function compile(ast: es.Program): Array<Microcode> {
+  const stmts = ast.body as es.Statement[]
+  const gEnv = new GlobalCTE()
+
+  for (const stmtRaw of stmts) {
+    if (stmtRaw.type === 'FunctionDeclaration') {
+      const stmt = stmtRaw as es.FunctionDeclaration
+
+      const { name, datatype } = stmt.id!
+      const fEnv = new FunctionCTE(name, datatype)
+
+      compileFunctionDefinition(stmtRaw as es.FunctionDeclaration, fEnv, gEnv)
+      gEnv.functions[fEnv.name] = fEnv
+      continue
     }
-  ]
+
+    if (stmtRaw.type === 'VariableDeclaration') {
+      throw new CompileTimeError()
+    }
+
+    throw new CompileTimeError()
+  }
+
+  // Handle the case when it is an empty program
+  if (Object.keys(gEnv.functions).length === 0) {
+    return []
+  }
+
+  const main = gEnv.functions['main']
+  if (!main) {
+    throw new CompileTimeError()
+  }
+
+  return main.instrs
 }

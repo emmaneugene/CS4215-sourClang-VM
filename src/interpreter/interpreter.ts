@@ -1,6 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import { Context, Value } from '../types'
-import { Microcode } from './../typings/microcode'
+import { Microcode, MovImmediateCommand } from './../typings/microcode'
 
 export function* evaluate(context: Context) {
   // previous impl:
@@ -72,6 +72,20 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     }
 
     ctx.cVmContext.PC++
+  },
+
+  MovImmediateCommand: function* (cmd, ctx) {
+    const immCmd = cmd as MovImmediateCommand
+    debugPrint(immCmd.type + ' ' + immCmd.value + ' ' + immCmd.encoding, ctx)
+    ctx.cVmContext.PC++
+  }
+}
+
+function debugPrint(str: string, ctx: Context): void {
+  if (ctx.externalBuiltIns?.rawDisplay) {
+    ctx.externalBuiltIns.rawDisplay(undefined, str, ctx)
+  } else {
+    console.log(str)
   }
 }
 

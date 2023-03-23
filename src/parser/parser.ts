@@ -13,10 +13,11 @@ function convertStatement(translationUnit: TranslationUnitContext): es.Statement
 }
 
 function convertSource(translationUnit: TranslationUnitContext): es.Program {
+  const blockStmt = convertStatement(translationUnit) as es.BlockStatement
   return {
     type: 'Program',
     sourceType: 'script',
-    body: [convertStatement(translationUnit)]
+    body: blockStmt.body
   }
 }
 

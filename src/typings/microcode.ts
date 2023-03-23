@@ -63,7 +63,7 @@ export interface OffsetRspCommand extends BaseCommand {
  */
 export interface BinopCommand extends BaseCommand {
   type: 'BinopCommand'
-  op: '+' | '-' | '*' | '/' | '%' | '>' | '>=' | '<' | '<='
+  op: '+' | '-' | '*' | '/' | '%' | '>' | '>=' | '<' | '<=' | '==' | '!=' | '||' | '&&'
 }
 
 /**
