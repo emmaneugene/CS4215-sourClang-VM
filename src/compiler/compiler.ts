@@ -9,5 +9,13 @@ import { Microcode } from './../typings/microcode'
  * This is the integration point between the "compiler" and the rest of this codebase.
  */
 export function compile(ast: Program): Array<Microcode> {
-  return []
+  return [
+    {
+      type: 'CallCommand',
+      addr: 10
+    },
+    {
+      type: 'ExitCommand'
+    }
+  ]
 }

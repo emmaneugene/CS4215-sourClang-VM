@@ -1,9 +1,8 @@
 /* tslint:disable:max-classes-per-file */
 import { Context, Value } from '../types'
 import { Microcode } from './../typings/microcode'
-import { RuntimeContext } from './../typings/runtime-context'
 
-export function* evaluate(context: Context<RuntimeContext>) {
+export function* evaluate(context: Context) {
   // previous impl:
   // export function* evaluate(node: es.Node, context: Context) {
   //   const result = yield* evaluators[node.type](node, context)
@@ -11,32 +10,22 @@ export function* evaluate(context: Context<RuntimeContext>) {
   //   return result
   // }
 
-  let { externalContext: rtCtx } = context
   let returnValue: number | undefined
-
   while (true) {
-    // Guard clause.
-    if (!rtCtx) {
-      break
-    }
-
-    if (!rtCtx.isRunning) {
+    if (!context.cVmContext.isRunning) {
       // TODO: should get the actual
       // return value of main
       returnValue = 1
       break
     }
 
-    const cmd: Microcode | undefined = decodePC(rtCtx, rtCtx.PC)
+    const cmd: Microcode | undefined = decodePC(context, context.cVmContext.PC)
     if (!cmd) {
       break
     }
 
     // Execute `cmd` and amend `context` accordingly
-    yield* MACHINE[cmd.type](cmd, rtCtx)
-
-    // Update the `rtCtx` variable in this scope
-    rtCtx = context.externalContext
+    yield* MACHINE[cmd.type](cmd, context)
   }
 
   yield* leave(context)
@@ -49,25 +38,12 @@ function* leave(context: Context) {
   yield context
 }
 
-let i = 0 // TODO: for testing only
-
-function decodePC(ctx: RuntimeContext, pc: number): Microcode | undefined {
-  // TODO: Incomplete
-  if (i === 0) {
-    i++
-    return {
-      type: 'CallCommand',
-      addr: 10
-    }
-  }
-
-  return {
-    type: 'ExitCommand'
-  }
+function decodePC(ctx: Context, pc: number): Microcode | undefined {
+  return ctx.cVmContext.instrs[pc]
 }
 
 /* Supporting typedef for MACHINE. */
-type EvaluatorFunction = (cmd: Microcode, rtCtx: RuntimeContext) => IterableIterator<Value>
+type EvaluatorFunction = (cmd: Microcode, ctx: Context) => IterableIterator<Value>
 
 /**
  * The virtual machine used for execution
@@ -82,14 +58,20 @@ type EvaluatorFunction = (cmd: Microcode, rtCtx: RuntimeContext) => IterableIter
  * See: https://github.com/webpack/webpack/issues/7566
  */
 const MACHINE: { [microcode: string]: EvaluatorFunction } = {
-  ExitCommand: function* (cmd, rtCtx) {
-    rtCtx.isRunning = false
-    rtCtx.returnValue = 0
+  ExitCommand: function* (cmd, ctx) {
+    ctx.cVmContext.isRunning = false
+    ctx.cVmContext.returnValue = 0
     return
   },
 
-  CallCommand: function* (cmd, rtCtx) {
-    console.log('hellllllooooooo', { cmd })
+  CallCommand: function* (cmd, ctx) {
+    if (ctx.externalBuiltIns?.rawDisplay) {
+      ctx.externalBuiltIns.rawDisplay(undefined, `${cmd.type}`, ctx)
+    } else {
+      console.log('hellllllooooooo', { cmd })
+    }
+
+    ctx.cVmContext.PC++
   }
 }
 

@@ -1,6 +1,6 @@
 /*
-	This file contains definitions of some interfaces and classes that are used in Source (such as
-	error-related classes).
+  This file contains definitions of some interfaces and classes that are used in Source (such as
+  error-related classes).
 */
 
 /* tslint:disable:max-classes-per-file */
@@ -9,6 +9,7 @@ import { SourceLocation } from 'acorn'
 import * as es from 'estree'
 
 import { EnvTree } from './createContext'
+import { CVMContext } from './typings/runtime-context'
 
 /**
  * Defines functions that act as built-ins, but might rely on
@@ -141,6 +142,18 @@ export interface Context<T = any> {
    * Code previously executed in this context
    */
   previousCode: string[]
+
+  /**
+   * External builtins.
+   * If defined, the user should call the appropriate method instead.
+   * E.g. display in web application
+   */
+  externalBuiltIns?: CustomBuiltIns
+
+  /**
+   * SourC's context
+   */
+  cVmContext: CVMContext
 }
 
 export type ModuleContext = {
@@ -217,8 +230,8 @@ export interface Scheduler {
 }
 
 /*
-	Although the ESTree specifications supposedly provide a Directive interface, the index file does not seem to export it.
-	As such this interface was created here to fulfil the same purpose.
+  Although the ESTree specifications supposedly provide a Directive interface, the index file does not seem to export it.
+  As such this interface was created here to fulfil the same purpose.
  */
 export interface Directive extends es.ExpressionStatement {
   type: 'ExpressionStatement'

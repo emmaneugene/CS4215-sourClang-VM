@@ -4,14 +4,12 @@ import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
-import { DEFAULT_RUNTIME_CTX } from '../interpreter/runtimeContext'
 import { hoistAndMergeImports } from '../localImports/transformers/hoistAndMergeImports'
 import { removeExports } from '../localImports/transformers/removeExports'
 import { removeNonSourceModuleImports } from '../localImports/transformers/removeNonSourceModuleImports'
 import { parse } from '../parser/parser'
 import { PreemptiveScheduler } from '../schedulers'
 import { Context, Scheduler, Variant } from '../types'
-import { RuntimeContext } from '../typings/runtime-context'
 import { validateAndAnnotate } from '../validator/validator'
 import { Microcode } from './../typings/microcode'
 import { determineVariant, resolvedErrorPromise } from './utils'
@@ -28,12 +26,15 @@ const DEFAULT_SOURCE_OPTIONS: IOptions = {
   throwInfiniteLoops: true
 }
 
-/* Setup the memory context, dataview (binary values), etc. */
-function setupContext(program: Array<Microcode>, context: Context): Context<RuntimeContext> {
-  // TODO: Setup the memory context
-  context.externalContext = { ...DEFAULT_RUNTIME_CTX }
-
-  return context
+function updateContext(instrs: Microcode[], ctx: Context): void {
+  ctx.cVmContext = {
+    ...ctx.cVmContext,
+    instrs,
+    isRunning: true,
+    PC: 0,
+    returnValue: -1,
+    dataview: new DataView(new ArrayBuffer(64))
+  }
 }
 
 function runInterpreter(
@@ -48,9 +49,7 @@ function runInterpreter(
   //   return scheduler.run(it, context)
   // }
 
-  const runtimeCtx: Context<RuntimeContext> = setupContext(program, context)
-
-  const it = evaluate(runtimeCtx)
+  const it = evaluate(context)
 
   const scheduler: Scheduler = new PreemptiveScheduler(options.steps)
   return scheduler.run(it, context)
@@ -94,6 +93,7 @@ export async function sourceRunner(
   }
 
   const microcode = compile(program)
+  updateContext(microcode, context)
 
   return runInterpreter(microcode, context, theOptions)
 }

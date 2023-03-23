@@ -1,12 +1,9 @@
+import { Microcode } from './microcode'
 /**
- * Represents the runtime context, which is passed
+ * Represents the VM needed for C to run, which is passed
  * around during evaluation.
- *
- * This is embedded into Context.
- *
- * See also: `Context.externalContext`
  */
-export interface RuntimeContext {
+export interface CVMContext {
   /* Determines if the virtual machine is still running. */
   isRunning: boolean
 
@@ -22,6 +19,12 @@ export interface RuntimeContext {
 
   /** The returned value of `main` */
   returnValue: number
+
+  /**
+   * List of instructions.
+   * TODO: Should go into dataview?
+   */
+  instrs: Microcode[]
 
   dataview: DataView
 }
