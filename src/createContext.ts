@@ -1,6 +1,6 @@
 // Variable determining chapter of Source is contained in this file.
 
-import { Context, Environment, Variant } from './types'
+import { Context, CustomBuiltIns, Environment, Variant } from './types'
 
 export class LazyBuiltIn {
   func: (...arg0: any) => any
@@ -90,7 +90,8 @@ export const createGlobalEnvironment = (): Environment => ({
 export const createEmptyContext = <T>(
   variant: Variant,
   externalSymbols: string[],
-  externalContext?: T
+  externalContext?: T,
+  externalBuiltIns?: CustomBuiltIns
 ): Context<T> => {
   return {
     externalSymbols,
@@ -103,7 +104,15 @@ export const createEmptyContext = <T>(
     variant,
     moduleContexts: {},
     unTypecheckedCode: [],
-    previousCode: []
+    previousCode: [],
+    externalBuiltIns,
+    cVmContext: {
+      instrs: [],
+      isRunning: false,
+      PC: 0,
+      returnValue: -1,
+      dataview: new DataView(new ArrayBuffer(0))
+    }
   }
 }
 
@@ -127,9 +136,10 @@ export const ensureGlobalEnvironmentExist = (context: Context) => {
 const createContext = <T>(
   variant: Variant = Variant.DEFAULT,
   externalSymbols: string[] = [],
-  externalContext?: T
+  externalContext?: T,
+  externalBuiltIns?: CustomBuiltIns
 ): Context => {
-  const context = createEmptyContext(variant, externalSymbols, externalContext)
+  const context = createEmptyContext(variant, externalSymbols, externalContext, externalBuiltIns)
 
   return context
 }
