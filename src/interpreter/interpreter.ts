@@ -57,12 +57,12 @@ function decodePC(ctx: RuntimeContext, pc: number): Microcode | undefined {
     i++
     return {
       type: 'CallCommand',
-      instr: 10
+      addr: 10
     }
   }
 
   return {
-    type: 'ReturnCommand'
+    type: 'ExitCommand'
   }
 }
 
@@ -82,7 +82,7 @@ type EvaluatorFunction = (cmd: Microcode, rtCtx: RuntimeContext) => IterableIter
  * See: https://github.com/webpack/webpack/issues/7566
  */
 const MACHINE: { [microcode: string]: EvaluatorFunction } = {
-  ReturnCommand: function* (cmd, rtCtx) {
+  ExitCommand: function* (cmd, rtCtx) {
     rtCtx.isRunning = false
     rtCtx.returnValue = 0
     return
