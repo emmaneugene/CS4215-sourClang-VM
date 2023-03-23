@@ -21,7 +21,7 @@ export interface RuntimeContext {
   PC: number
 
   /** The returned value of `main` */
-  programReturnValue: number
+  returnValue: number
 
   dataview: DataView
 }

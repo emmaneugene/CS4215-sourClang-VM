@@ -84,7 +84,7 @@ type EvaluatorFunction = (cmd: Microcode, rtCtx: RuntimeContext) => IterableIter
 const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   ReturnCommand: function* (cmd, rtCtx) {
     rtCtx.isRunning = false
-    rtCtx.programReturnValue = 0
+    rtCtx.returnValue = 0
     return
   },
 

@@ -4,6 +4,7 @@ import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
+import { DEFAULT_RUNTIME_CTX } from '../interpreter/runtimeContext'
 import { hoistAndMergeImports } from '../localImports/transformers/hoistAndMergeImports'
 import { removeExports } from '../localImports/transformers/removeExports'
 import { removeNonSourceModuleImports } from '../localImports/transformers/removeNonSourceModuleImports'
@@ -30,15 +31,7 @@ const DEFAULT_SOURCE_OPTIONS: IOptions = {
 /* Setup the memory context, dataview (binary values), etc. */
 function setupContext(program: Array<Microcode>, context: Context): Context<RuntimeContext> {
   // TODO: Setup the memory context
-
-  const runtimeContext: RuntimeContext = {
-    isRunning: true,
-    PC: 0,
-    programReturnValue: -1,
-    dataview: new DataView(new ArrayBuffer(10))
-  }
-
-  context.externalContext = runtimeContext
+  context.externalContext = { ...DEFAULT_RUNTIME_CTX }
 
   return context
 }
