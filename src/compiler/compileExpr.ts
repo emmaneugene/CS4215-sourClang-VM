@@ -4,31 +4,31 @@ import { BinopCommand } from './../typings/microcode'
 import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
-export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): FunctionCTE {
+export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   if (node.type === 'Literal') {
-    const expr = node as es.Literal
-    return compileLit(expr, fEnv, gEnv)
+    return compileLit(node, fEnv, gEnv)
   }
 
-  if (node.type === 'ConditionalExpression') {
-    const expr = node as es.ConditionalExpression
-    return compileCondExpr(expr, fEnv, gEnv)
+  if (node.type === 'Identifier') {
+    return compileIdent(node, fEnv, gEnv)
   }
 
   if (node.type === 'LogicalExpression') {
-    const expr = node as es.LogicalExpression
-    return compileLogicalExpr(expr, fEnv, gEnv)
+    return compileLogicalExpr(node, fEnv, gEnv)
   }
 
   if (node.type === 'BinaryExpression') {
-    const expr = node as es.BinaryExpression
-    return compileBinaryExpr(expr, fEnv, gEnv)
+    return compileBinaryExpr(node, fEnv, gEnv)
   }
 
   if (node.type === 'FlexiAssignmentExpression') {
     // TODO: settle left and right
     const expr = node as es.FlexiAssignmentExpression
     return compileExpr(expr.right, fEnv, gEnv)
+  }
+
+  if (node.type === 'ConditionalExpression') {
+    return compileCondExpr(node, fEnv, gEnv)
   }
 
   if (node.type === 'CastExpression') {
@@ -74,7 +74,7 @@ export function compileCondExpr(
   node: es.ConditionalExpression,
   fEnv: FunctionCTE,
   gCTE: GlobalCTE
-): FunctionCTE {
+): void {
   throw new CompileTimeError()
 }
 
@@ -82,7 +82,7 @@ export function compileLogicalExpr(
   expr: es.LogicalExpression,
   fEnv: FunctionCTE,
   gEnv: GlobalCTE
-): FunctionCTE {
+): void {
   const op = expr.operator
 
   if (op !== '||' && op !== '&&') {
@@ -95,14 +95,13 @@ export function compileLogicalExpr(
     type: 'BinopCommand',
     op: expr.operator as '||' | '&&' // TODO: validate
   })
-  return fEnv
 }
 
 export function compileBinaryExpr(
   expr: es.BinaryExpression,
   fEnv: FunctionCTE,
   gEnv: GlobalCTE
-): FunctionCTE {
+): void {
   const op = expr.operator as BinopCommand['op']
 
   compileExpr(expr.left, fEnv, gEnv)
@@ -111,18 +110,49 @@ export function compileBinaryExpr(
     type: 'BinopCommand',
     op // TODO: validate
   })
-
-  return fEnv
 }
 
-export function compileLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): FunctionCTE {
+export function compileLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   if (typeof expr.value === 'number') {
     fEnv.instrs.push({
       type: 'MovImmediateCommand',
       value: expr.value,
       encoding: '2s' // TODO
     })
-    return fEnv
+    return
   }
+
   throw new CompileTimeError()
+}
+
+export function compileIdent(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+  const { name } = expr
+
+  let varInfo = fEnv.getVar(name)
+  if (!varInfo) {
+    varInfo = gEnv.getVar(name)
+  }
+  if (!varInfo) {
+    throw new CompileTimeError()
+  }
+
+  fEnv.instrs.push(
+    {
+      type: 'MovCommand',
+      from: {
+        type: 'relative',
+        reg: 'rbp',
+        offset: varInfo.offset
+      },
+      to: {
+        type: 'relative',
+        reg: 'rsp',
+        offset: 0
+      }
+    },
+    {
+      type: 'OffsetRSP',
+      value: 8
+    }
+  )
 }

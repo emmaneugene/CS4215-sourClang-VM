@@ -1,8 +1,8 @@
 import * as es from 'estree'
 
 import { Microcode } from './../typings/microcode'
-import { compileFunctionDefinition } from './compileStmt'
-import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
+import { compileFunctionDef } from './compileFunctionDef'
+import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
 /**
@@ -15,19 +15,13 @@ export function compile(ast: es.Program): Array<Microcode> {
   const stmts = ast.body as es.Statement[]
   const gEnv = new GlobalCTE()
 
-  for (const stmtRaw of stmts) {
-    if (stmtRaw.type === 'FunctionDeclaration') {
-      const stmt = stmtRaw as es.FunctionDeclaration
-
-      const { name, datatype } = stmt.id!
-      const fEnv = new FunctionCTE(name, datatype)
-
-      compileFunctionDefinition(stmtRaw as es.FunctionDeclaration, fEnv, gEnv)
-      gEnv.functions[fEnv.name] = fEnv
+  for (const stmt of stmts) {
+    if (stmt.type === 'FunctionDeclaration') {
+      compileFunctionDef(stmt, gEnv)
       continue
     }
 
-    if (stmtRaw.type === 'VariableDeclaration') {
+    if (stmt.type === 'VariableDeclaration') {
       throw new CompileTimeError()
     }
 
@@ -43,6 +37,8 @@ export function compile(ast: es.Program): Array<Microcode> {
   if (!main) {
     throw new CompileTimeError()
   }
+
+  console.log(main.instrs)
 
   return main.instrs
 }
