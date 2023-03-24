@@ -2,67 +2,94 @@ import * as es from 'estree'
 
 import { compileExpr } from './compileExpr'
 import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
+import { compileVariableDeclaration } from './compileVariableDef'
 import { CompileTimeError } from './error'
 
-export function compileFunctionDefinition(
-  node: es.FunctionDeclaration,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
-): FunctionCTE {
-  const body = node.body
-  return compileCompoundStatement(body, fEnv, gEnv)
-}
-
-export function compileCompoundStatement(
+export function compileBlockStatement(
   node: es.BlockStatement,
   fEnv: FunctionCTE,
   gEnv: GlobalCTE
-): FunctionCTE {
-  for (const stmtRaw of node.body) {
-    if (stmtRaw.type === 'VariableDeclaration') {
-      throw new CompileTimeError()
-    }
+): void {
+  let blockNum = 0
 
-    if (stmtRaw.type === 'ExpressionStatement') {
-      const stmt = stmtRaw as es.ExpressionStatement
-      compileExpr(stmt.expression, fEnv, gEnv)
+  for (const stmt of node.body) {
+    if (stmt.type === 'VariableDeclaration') {
+      compileVariableDeclaration(stmt, fEnv, gEnv)
       continue
     }
 
-    if (stmtRaw.type === 'BlockStatement') {
+    if (stmt.type === 'ExpressionStatement') {
+      compileExprStatement(stmt, fEnv, gEnv)
+      continue
+    }
+
+    if (stmt.type === 'BlockStatement') {
+      fEnv.enterBlock(blockNum)
+      blockNum++
+      compileBlockStatement(stmt, fEnv, gEnv)
+      fEnv.exitBlock()
+      continue
+    }
+
+    if (stmt.type === 'IfStatement') {
+      // consequent's block
+      fEnv.enterBlock(blockNum)
+      blockNum++
+      // compileStmt(stmt.consequent, fEnv, gEnv)
+      fEnv.exitBlock()
+
+      if (stmt.alternate) {
+        fEnv.enterBlock(blockNum)
+        blockNum++
+        // compileStmt(stmt.alternate, fEnv, gEnv)
+        fEnv.exitBlock()
+      }
+
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'IfStatement') {
+    if (stmt.type === 'WhileStatement') {
+      fEnv.enterBlock(blockNum)
+      blockNum++
+      // compileStmt(stmt.body, fEnv, gEnv)
+      fEnv.exitBlock()
+
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'WhileStatement') {
+    if (stmt.type === 'ForStatement') {
+      fEnv.enterBlock(blockNum)
+      blockNum++
+      // compileStmt(stmt.body, fEnv, gEnv)
+      fEnv.exitBlock()
+
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'ForStatement') {
+    if (stmt.type === 'ReturnStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'ReturnStatement') {
+    if (stmt.type === 'BreakStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'BreakStatement') {
+    if (stmt.type === 'ContinueStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'ContinueStatement') {
-      throw new CompileTimeError()
-    }
-
-    if (stmtRaw.type === 'EmptyStatement') {
+    if (stmt.type === 'EmptyStatement') {
       continue
     }
 
     throw new CompileTimeError()
   }
+}
 
-  return fEnv
+function compileExprStatement(
+  node: es.ExpressionStatement,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): FunctionCTE {
+  return compileExpr(node.expression, fEnv, gEnv)
 }

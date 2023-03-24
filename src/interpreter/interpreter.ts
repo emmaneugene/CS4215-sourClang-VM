@@ -1,6 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import { Context, Value } from '../types'
-import { Microcode, MovImmediateCommand } from './../typings/microcode'
+import { BinopCommand, Microcode, MovImmediateCommand } from './../typings/microcode'
 
 export function* evaluate(context: Context) {
   // previous impl:
@@ -77,6 +77,11 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   MovImmediateCommand: function* (cmd, ctx) {
     const immCmd = cmd as MovImmediateCommand
     debugPrint(immCmd.type + ' ' + immCmd.value + ' ' + immCmd.encoding, ctx)
+    ctx.cVmContext.PC++
+  },
+
+  BinopCommand: function* (cmd, ctx) {
+    const binop = cmd as BinopCommand
     ctx.cVmContext.PC++
   }
 }

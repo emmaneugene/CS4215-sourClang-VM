@@ -94,6 +94,7 @@ export async function sourceRunner(
 
   const microcode = compile(program)
   updateContext(microcode, context)
+  console.log({ microcode })
 
   return runInterpreter(microcode, context, theOptions)
 }

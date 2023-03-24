@@ -1,8 +1,8 @@
 import * as es from 'estree'
 
 import { Microcode } from './../typings/microcode'
-import { compileFunctionDefinition } from './compileStmt'
-import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
+import { compileFunctionDefinition } from './compileFunctionDef'
+import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
 /**
@@ -11,19 +11,13 @@ import { CompileTimeError } from './error'
  *
  * This is the integration point between the "compiler" and the rest of this codebase.
  */
-export function compile(ast: es.Program): Array<Microcode> {
+export function compile(ast: es.Program): Microcode[] {
   const stmts = ast.body as es.Statement[]
   const gEnv = new GlobalCTE()
 
   for (const stmtRaw of stmts) {
     if (stmtRaw.type === 'FunctionDeclaration') {
-      const stmt = stmtRaw as es.FunctionDeclaration
-
-      const { name, datatype } = stmt.id!
-      const fEnv = new FunctionCTE(name, datatype)
-
-      compileFunctionDefinition(stmtRaw as es.FunctionDeclaration, fEnv, gEnv)
-      gEnv.functions[fEnv.name] = fEnv
+      compileFunctionDefinition(stmtRaw, gEnv)
       continue
     }
 

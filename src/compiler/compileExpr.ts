@@ -5,16 +5,18 @@ import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
 export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): FunctionCTE {
+  /* Literals */
   if (node.type === 'Literal') {
     const expr = node as es.Literal
     return compileLit(expr, fEnv, gEnv)
   }
 
-  if (node.type === 'ConditionalExpression') {
-    const expr = node as es.ConditionalExpression
-    return compileCondExpr(expr, fEnv, gEnv)
+  if (node.type === 'Identifier') {
+    const expr = node as es.Identifier
+    return compileIdent(expr, fEnv, gEnv)
   }
 
+  /* Binary Operations */
   if (node.type === 'LogicalExpression') {
     const expr = node as es.LogicalExpression
     return compileLogicalExpr(expr, fEnv, gEnv)
@@ -25,12 +27,7 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
     return compileBinaryExpr(expr, fEnv, gEnv)
   }
 
-  if (node.type === 'FlexiAssignmentExpression') {
-    // TODO: settle left and right
-    const expr = node as es.FlexiAssignmentExpression
-    return compileExpr(expr.right, fEnv, gEnv)
-  }
-
+  /* Unary Operations */
   if (node.type === 'CastExpression') {
     throw new CompileTimeError()
   }
@@ -55,19 +52,77 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
     throw new CompileTimeError()
   }
 
-  if (node.type === 'MemberExpression') {
-    throw new CompileTimeError()
-  }
-
+  /* Call expressions */
   if (node.type === 'CallExpression') {
     throw new CompileTimeError()
   }
 
+  if (node.type === 'MemberExpression') {
+    throw new CompileTimeError()
+  }
+
+  /* Sequence Expression */
   if (node.type === 'SequenceExpression') {
     throw new CompileTimeError()
   }
 
+  /* Assignment Expression */
+  if (node.type === 'FlexiAssignmentExpression') {
+    // TODO: settle left and right
+    const expr = node as es.FlexiAssignmentExpression
+    return compileExpr(expr.right, fEnv, gEnv)
+  }
+
+  if (node.type === 'ConditionalExpression') {
+    const expr = node as es.ConditionalExpression
+    return compileCondExpr(expr, fEnv, gEnv)
+  }
+
   throw new CompileTimeError()
+}
+
+export function compileLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): FunctionCTE {
+  if (typeof expr.value === 'number') {
+    fEnv.instrs.push(
+      {
+        type: 'MovImmediateCommand',
+        value: expr.value,
+        encoding: '2s' // TODO
+      },
+      {
+        type: 'OffsetRSP',
+        value: 8
+      }
+    )
+    return fEnv
+  }
+
+  throw new CompileTimeError()
+}
+
+export function compileIdent(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): FunctionCTE {
+  const { name } = expr
+  const varInfo = fEnv.getVariable(name)
+  fEnv.instrs.push(
+    {
+      type: 'MovCommand',
+      from: {
+        type: 'relative',
+        reg: 'rbp',
+        offset: varInfo.offset
+      },
+      to: {
+        type: 'relative',
+        reg: 'rsp',
+        offset: 0
+      }
+    },
+    {
+      type: 'OffsetRSP',
+      value: 8
+    }
+  )
+  return fEnv
 }
 
 export function compileCondExpr(
@@ -113,16 +168,4 @@ export function compileBinaryExpr(
   })
 
   return fEnv
-}
-
-export function compileLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): FunctionCTE {
-  if (typeof expr.value === 'number') {
-    fEnv.instrs.push({
-      type: 'MovImmediateCommand',
-      value: expr.value,
-      encoding: '2s' // TODO
-    })
-    return fEnv
-  }
-  throw new CompileTimeError()
 }
