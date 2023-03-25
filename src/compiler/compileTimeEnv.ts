@@ -93,3 +93,15 @@ export class GlobalCTE {
     return
   }
 }
+
+export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): VariableInfo {
+  let varInfo = fEnv.getVar(name)
+  if (!varInfo) {
+    varInfo = gEnv.getVar(name)
+  }
+
+  if (!varInfo) {
+    throw new CompileTimeError()
+  }
+  return varInfo
+}
