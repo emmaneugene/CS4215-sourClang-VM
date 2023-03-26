@@ -24,10 +24,35 @@ Optional components:
 
 - Function pointers
 
-# calc-slang
+# sourc-slang
 
-Calculator language modified from js-slang.
+C language modified from js-slang.
 
+# Using sourc-slang in your local Source Academy
+
+(sourc is the name of your language)
+
+A common issue when developing modifications to js-slang is how to test it using
+your own local frontend. Assume that you have built your own frontend locally,
+here is how you can make it use your own sourc-slang, instead of the one that the
+Source Academy team has deployed to npm.
+
+First, build and link your local sourc-slang: (don't forget to modify the "calc-slang" in both projects)
+
+```{.}
+$ cd sourc-slang
+$ yarn build
+$ yarn link
+```
+
+Then, from your local copy of frontend:
+
+```{.}
+$ cd frontend
+$ yarn link "sourc-slang"
+```
+
+Then start the frontend and the new js-slang will be used.
 ## Possible Issues (and manual solutions)
 
 * If you failed to execute the `jsdoc.sh` in your bash
@@ -40,11 +65,12 @@ Calculator language modified from js-slang.
 
 - [CS4215-project](#cs4215-project)
     - [Overview](#overview)
-- [calc-slang](#calc-slang)
+- [sourc-slang](#sourc-slang)
+- [Using sourc-slang in your local Source Academy](#using-sourc-slang-in-your-local-source-academy)
   - [Possible Issues (and manual solutions)](#possible-issues-and-manual-solutions)
 - [Table of Contents](#table-of-contents)
 - [Requirements](#requirements)
-- [Usage](#usage)
+- [Usage (for calc-slang, do not use this)](#usage-for-calc-slang-do-not-use-this)
 - [Documentation](#documentation)
 - [Requirements](#requirements-1)
 - [Testing](#testing)
@@ -57,7 +83,7 @@ Calculator language modified from js-slang.
 
 - node: known working version: v16.14.0
 
-# Usage
+# Usage (for calc-slang, do not use this)
 
 To build,
 
