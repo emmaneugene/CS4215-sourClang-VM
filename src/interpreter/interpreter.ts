@@ -13,9 +13,7 @@ export function* evaluate(context: Context) {
   let returnValue: number | undefined
   while (true) {
     if (!context.cVmContext.isRunning) {
-      // TODO: should get the actual
-      // return value of main
-      returnValue = 1
+      returnValue = context.cVmContext.AX
       break
     }
 
@@ -60,7 +58,6 @@ type EvaluatorFunction = (cmd: Microcode, ctx: Context) => IterableIterator<Valu
 const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   ExitCommand: function* (cmd, ctx) {
     ctx.cVmContext.isRunning = false
-    ctx.cVmContext.AX = 0
     return
   },
 

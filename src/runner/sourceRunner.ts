@@ -7,7 +7,7 @@ import { evaluate } from '../interpreter/interpreter'
 import { parse } from '../parser/parser'
 import { PreemptiveScheduler } from '../schedulers'
 import { Context, Scheduler, Variant } from '../types'
-import { Microcode } from './../typings/microcode'
+import { GlobalCTE } from './../compiler/compileTimeEnv'
 import { determineVariant, resolvedErrorPromise } from './utils'
 
 const DEFAULT_SOURCE_OPTIONS: IOptions = {
@@ -22,24 +22,20 @@ const DEFAULT_SOURCE_OPTIONS: IOptions = {
   throwInfiniteLoops: true
 }
 
-function updateContext(instrs: Microcode[], ctx: Context): void {
+function updateContext(gEnv: GlobalCTE, ctx: Context): void {
   ctx.cVmContext = {
     ...ctx.cVmContext,
-    instrs,
+    instrs: gEnv.combinedInstrs,
     isRunning: true,
-    PC: 0,
+    PC: gEnv.getFunctionAddr('main'),
     BP: 0,
     SP: 0,
-    AX: -1,
+    AX: 0,
     dataview: new DataView(new ArrayBuffer(64))
   }
 }
 
-function runInterpreter(
-  program: Array<Microcode>,
-  context: Context,
-  options: IOptions
-): Promise<Result> {
+function runInterpreter(context: Context, options: IOptions): Promise<Result> {
   // previous:
   // function runInterpreter(program: es.Program, context: Context, options: IOptions): Promise<Result> {
   //   const it = evaluate(program, context)
@@ -90,10 +86,12 @@ export async function sourceRunner(
   //   return sourceRunner(code, context, options)
   // }
 
-  const microcode = compile(program)
-  updateContext(microcode, context)
+  const globalCte = compile(program)
+  if (globalCte) {
+    updateContext(globalCte, context)
+  }
 
-  return runInterpreter(microcode, context, theOptions)
+  return runInterpreter(context, theOptions)
 }
 
 export async function sourceFilesRunner(

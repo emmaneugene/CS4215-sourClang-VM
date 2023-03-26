@@ -112,7 +112,7 @@ export const createEmptyContext = <T>(
       PC: 0,
       BP: 0,
       SP: 0,
-      AX: -1,
+      AX: 1,
       dataview: new DataView(new ArrayBuffer(0))
     }
   }

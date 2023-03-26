@@ -89,8 +89,32 @@ export class FunctionCTE {
 export class GlobalCTE {
   functions: Record<string, FunctionCTE> = {}
 
+  functionAddr: Record<string, number> = {}
+
+  combinedInstrs: Microcode[] = []
+
   getVar(sym: string): VariableInfo | undefined {
     return
+  }
+
+  addFunction(fEnv: FunctionCTE): void {
+    this.functions[fEnv.name] = fEnv
+
+    if (fEnv.instrs.length === 0) {
+      return
+    }
+
+    const prevLength = this.combinedInstrs.length
+    this.combinedInstrs.push(...fEnv.instrs)
+    this.functionAddr[fEnv.name] = prevLength
+  }
+
+  getFunctionAddr(sym: string): number {
+    if (this.functionAddr[sym] === undefined) {
+      throw new CompileTimeError()
+    }
+
+    return this.functionAddr[sym]
   }
 }
 

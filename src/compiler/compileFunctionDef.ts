@@ -17,7 +17,7 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
   })
   compileBlkStmt(node.body, fEnv, gEnv)
 
-  gEnv.functions[fEnv.name] = fEnv
+  gEnv.addFunction(fEnv)
 }
 
 function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {

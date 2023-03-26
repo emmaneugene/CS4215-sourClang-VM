@@ -11,7 +11,7 @@ import { CompileTimeError } from './error'
  *
  * This is the integration point between the "compiler" and the rest of this codebase.
  */
-export function compile(ast: es.Program): Array<Microcode> {
+export function compile(ast: es.Program): GlobalCTE | undefined {
   const stmts = ast.body as es.Statement[]
   const gEnv = new GlobalCTE()
 
@@ -30,7 +30,7 @@ export function compile(ast: es.Program): Array<Microcode> {
 
   // Handle the case when it is an empty program
   if (Object.keys(gEnv.functions).length === 0) {
-    return []
+    return
   }
 
   const main = gEnv.functions['main']
@@ -38,7 +38,5 @@ export function compile(ast: es.Program): Array<Microcode> {
     throw new CompileTimeError()
   }
 
-  console.log(main.instrs)
-
-  return main.instrs
+  return gEnv
 }
