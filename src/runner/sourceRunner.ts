@@ -8,6 +8,7 @@ import { parse } from '../parser/parser'
 import { PreemptiveScheduler } from '../schedulers'
 import { Context, Scheduler, Variant } from '../types'
 import { GlobalCTE } from './../compiler/compileTimeEnv'
+import { MemoryModel } from './../typings/runtime-context'
 import { determineVariant, resolvedErrorPromise } from './utils'
 
 const DEFAULT_SOURCE_OPTIONS: IOptions = {
@@ -31,7 +32,7 @@ function updateContext(gEnv: GlobalCTE, ctx: Context): void {
     BP: 0,
     SP: 0,
     AX: 0,
-    dataview: new DataView(new ArrayBuffer(64))
+    dataview: new MemoryModel()
   }
 }
 

@@ -1,6 +1,7 @@
 // Variable determining chapter of Source is contained in this file.
 
 import { Context, CustomBuiltIns, Environment, Variant } from './types'
+import { MemoryModel } from './typings/runtime-context'
 
 export class LazyBuiltIn {
   func: (...arg0: any) => any
@@ -113,7 +114,7 @@ export const createEmptyContext = <T>(
       BP: 0,
       SP: 0,
       AX: 1,
-      dataview: new DataView(new ArrayBuffer(0))
+      dataview: new MemoryModel()
     }
   }
 }
