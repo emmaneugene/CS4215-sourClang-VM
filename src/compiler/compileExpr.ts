@@ -88,18 +88,18 @@ function compileLogicalExpr(expr: es.LogicalExpression, fEnv: FunctionCTE, gEnv:
 
   compileExpr(expr.left, fEnv, gEnv)
   compileExpr(expr.right, fEnv, gEnv)
-  fEnv.instrs.push(binop(expr.operator))
+  fEnv.instrs.push(util.binop(expr.operator))
 }
 
 function compileBinaryExpr(expr: es.BinaryExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   compileExpr(expr.left, fEnv, gEnv)
   compileExpr(expr.right, fEnv, gEnv)
-  fEnv.instrs.push(binop(expr.operator))
+  fEnv.instrs.push(util.binop(expr.operator))
 }
 
 function compileLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   if (typeof expr.value === 'number') {
-    fEnv.instrs.push(movImm(expr.value, '2s'))
+    fEnv.instrs.push(util.movImm(expr.value, '2s'))
     return
   }
 
@@ -109,7 +109,10 @@ function compileLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): void 
 function compileIdent(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   const { name } = expr
 
-  fEnv.instrs.push(movRel2Rel(['rbp', getVar(name, fEnv, gEnv).offset], ['rsp', 0]), offsetRSP(8))
+  fEnv.instrs.push(
+    util.movRel2Rel(['rbp', getVar(name, fEnv, gEnv).offset], ['rsp', 0]),
+    util.offsetRSP(8)
+  )
 }
 
 function compileFlexAssignExpr(
@@ -126,8 +129,8 @@ function compileFlexAssignExpr(
 
   if (left.type === 'Identifier') {
     fEnv.instrs.push(
-      movRel2Rel(['rsp', -8], ['rbp', getVar(left.name, fEnv, gEnv).offset]),
-      offsetRSP(-8)
+      util.movRel2Rel(['rsp', -8], ['rbp', getVar(left.name, fEnv, gEnv).offset]),
+      util.offsetRSP(-8)
     )
   } else if (left.type === 'UnaryExpression') {
     // load in some mem address into M[rsp-8]
@@ -136,7 +139,7 @@ function compileFlexAssignExpr(
 
     // The effect should be
     // M[M[rsp-8]] = M[rsp-16]
-    fEnv.instrs.push(movRel2Abs(['rsp', -16], ['rsp', -8]), offsetRSP(-16))
+    fEnv.instrs.push(util.movRel2Abs(['rsp', -16], ['rsp', -8]), util.offsetRSP(-16))
   } else {
     throw new CompileTimeError()
   }
@@ -157,22 +160,22 @@ function compileUpdateExpr(expr: es.UpdateExpression, fEnv: FunctionCTE, gEnv: G
   // TODO: This does not consider prefix or post
   // This field is found in `expr`
   fEnv.instrs.push(
-    movImm(8, '2s'),
-    binop('+'),
-    movRel2Rel(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
-    offsetRSP(-8)
+    util.movImm(8, '2s'),
+    util.binop('+'),
+    util.movRel2Rel(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
+    util.offsetRSP(-8)
   )
 }
 
 function compileSizeofExpr(expr: es.SizeofExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
-  fEnv.instrs.push(movImm(8, '2s'))
+  fEnv.instrs.push(util.movImm(8, '2s'))
 }
 
 function compileAddrOfExpr(expr: es.AddressofExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   if (expr.expression.type === 'Identifier') {
     fEnv.instrs.push(
-      leal(['rbp', getVar(expr.expression.name, fEnv, gEnv).offset], ['rsp', 0]),
-      offsetRSP(8)
+      util.leal(['rbp', getVar(expr.expression.name, fEnv, gEnv).offset], ['rsp', 0]),
+      util.offsetRSP(8)
     )
   }
 
@@ -186,7 +189,7 @@ function compileValueOfExpr(expr: es.ValueofExpression, fEnv: FunctionCTE, gEnv:
   // This should place a memory address on the M[rsp-8]
   compileExpr(expr.expression, fEnv, gEnv)
 
-  fEnv.instrs.push(movAbs2Rel(['rsp', -8], ['rsp', -8]))
+  fEnv.instrs.push(util.movAbs2Rel(['rsp', -8], ['rsp', -8]))
 }
 
 function compileUnaryExpr(expr: es.UnaryExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
@@ -195,99 +198,101 @@ function compileUnaryExpr(expr: es.UnaryExpression, fEnv: FunctionCTE, gEnv: Glo
   }
 
   compileExpr(expr.argument, fEnv, gEnv)
-  fEnv.instrs.push(unop(expr.operator))
-}
-
-function movImm(value: number, encoding: '2s' | 'ieee'): MovImmediateCommand {
-  return {
-    type: 'MovImmediateCommand',
-    value,
-    encoding
-  }
+  fEnv.instrs.push(util.unop(expr.operator))
 }
 
 type RegOffset = ['rsp' | 'rbp', number]
 
-function movRel2Rel(from: RegOffset, to: RegOffset): MovCommand {
-  return {
-    type: 'MovCommand',
-    from: {
-      type: 'relative',
-      reg: from[0],
-      offset: from[1]
-    },
-    to: {
-      type: 'relative',
-      reg: to[0],
-      offset: to[1]
+const util = {
+  movImm: (value: number, encoding: '2s' | 'ieee'): MovImmediateCommand => {
+    return {
+      type: 'MovImmediateCommand',
+      value,
+      encoding
     }
-  }
-}
+  },
 
-function movRel2Abs(from: RegOffset, to: RegOffset): MovCommand {
-  return {
-    type: 'MovCommand',
-    from: {
-      type: 'relative',
-      reg: from[0],
-      offset: from[1]
-    },
-    to: {
-      type: 'absolute',
-      reg: to[0],
-      offset: to[1]
+  movRel2Rel: (from: RegOffset, to: RegOffset): MovCommand => {
+    return {
+      type: 'MovCommand',
+      from: {
+        type: 'relative',
+        reg: from[0],
+        offset: from[1]
+      },
+      to: {
+        type: 'relative',
+        reg: to[0],
+        offset: to[1]
+      }
     }
-  }
-}
+  },
 
-function movAbs2Rel(from: RegOffset, to: RegOffset): MovCommand {
-  return {
-    type: 'MovCommand',
-    from: {
-      type: 'absolute',
-      reg: from[0],
-      offset: from[1]
-    },
-    to: {
-      type: 'relative',
-      reg: to[0],
-      offset: to[1]
+  movRel2Abs: (from: RegOffset, to: RegOffset): MovCommand => {
+    return {
+      type: 'MovCommand',
+      from: {
+        type: 'relative',
+        reg: from[0],
+        offset: from[1]
+      },
+      to: {
+        type: 'absolute',
+        reg: to[0],
+        offset: to[1]
+      }
     }
-  }
-}
+  },
 
-function offsetRSP(value: number): OffsetRspCommand {
-  return {
-    type: 'OffsetRSP',
-    value
-  }
-}
-
-function binop(op: string): BinopCommand {
-  // TODO: Validate
-  return {
-    type: 'BinopCommand',
-    op: op as BinopCommand['op']
-  }
-}
-
-function leal(from: RegOffset, to: RegOffset): LealCommand {
-  return {
-    type: 'LealCommand',
-    value: {
-      reg: from[0],
-      offset: from[1]
-    },
-    dest: {
-      reg: to[0],
-      offset: to[1]
+  movAbs2Rel: (from: RegOffset, to: RegOffset): MovCommand => {
+    return {
+      type: 'MovCommand',
+      from: {
+        type: 'absolute',
+        reg: from[0],
+        offset: from[1]
+      },
+      to: {
+        type: 'relative',
+        reg: to[0],
+        offset: to[1]
+      }
     }
-  }
-}
+  },
 
-function unop(op: '!' | '-'): UnopCommand {
-  return {
-    type: 'UnopCommand',
-    op
+  offsetRSP: (value: number): OffsetRspCommand => {
+    return {
+      type: 'OffsetRSP',
+      value
+    }
+  },
+
+  binop: (op: string): BinopCommand => {
+    // TODO: Validate
+    return {
+      type: 'BinopCommand',
+      op: op as BinopCommand['op']
+    }
+  },
+
+  leal: (from: RegOffset, to: RegOffset): LealCommand => {
+    return {
+      type: 'LealCommand',
+      value: {
+        reg: from[0],
+        offset: from[1]
+      },
+      dest: {
+        reg: to[0],
+        offset: to[1]
+      }
+    }
+  },
+
+  unop: (op: '!' | '-'): UnopCommand => {
+    return {
+      type: 'UnopCommand',
+      op
+    }
   }
 }
