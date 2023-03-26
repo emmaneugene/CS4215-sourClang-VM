@@ -1,6 +1,11 @@
 /* tslint:disable:max-classes-per-file */
 import { Context, Value } from '../types'
-import { Microcode, MovCommand, MovImmediateCommand } from './../typings/microcode'
+import {
+  Microcode,
+  MovCommand,
+  MovImmediateCommand,
+  OffsetRspCommand
+} from './../typings/microcode'
 
 export function* evaluate(context: Context) {
   // previous impl:
@@ -24,6 +29,10 @@ export function* evaluate(context: Context) {
 
     // Execute `cmd` and amend `context` accordingly
     yield* MACHINE[cmd.type](cmd, context)
+
+    // debug
+    const { SP } = context.cVmContext
+    console.log(context.cVmContext.dataview.debug(SP, SP - 40, SP + 40))
   }
 
   yield* leave(context)
@@ -74,18 +83,41 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   MovImmediateCommand: function* (cmd, ctx) {
     const immCmd = cmd as MovImmediateCommand
     debugPrint(immCmd.type + ' ' + immCmd.value + ' ' + immCmd.encoding, ctx)
+    const { dataview } = ctx.cVmContext
+
+    dataview.setBytesAt(lea(ctx, 'rsp', 0), BigInt(immCmd.value))
+    ctx.cVmContext.SP += 8
+
     ctx.cVmContext.PC++
   },
 
   MovCommand: function* (cmd, ctx) {
     const movCmd = cmd as MovCommand
+    const { dataview } = ctx.cVmContext
     const { from, to } = movCmd
-    const { reg: fReg, offset: fOffset } = from
-    const { reg: tReg, offset: tOffset } = to
+    const fromAddr = lea(ctx, from.reg, from.offset)
+    const toAddr = lea(ctx, to.reg, to.offset)
 
     if (from.type === 'relative' && to.type === 'relative') {
+      dataview.setBytesAt(toAddr, dataview.getBytesAt(fromAddr))
     }
 
+    if (from.type === 'relative' && to.type === 'absolute') {
+    }
+
+    if (from.type === 'absolute' && to.type === 'relative') {
+    }
+
+    if (from.type === 'absolute' && to.type === 'absolute') {
+    }
+
+    ctx.cVmContext.PC++
+    dataview.debug()
+  },
+
+  OffsetRspCommand: function* (cmd, ctx) {
+    const offsetCmd = cmd as OffsetRspCommand
+    ctx.cVmContext.SP += offsetCmd.value
     ctx.cVmContext.PC++
   }
 }
@@ -96,6 +128,18 @@ function debugPrint(str: string, ctx: Context): void {
   } else {
     console.log(str)
   }
+}
+
+function lea(ctx: Context, reg: 'rbp' | 'rsp', offset: number) {
+  if (reg === 'rbp') {
+    return ctx.cVmContext.BP + offset
+  }
+
+  if (reg === 'rsp') {
+    return ctx.cVmContext.SP + offset
+  }
+
+  throw new Error()
 }
 
 // import * as es from 'estree'

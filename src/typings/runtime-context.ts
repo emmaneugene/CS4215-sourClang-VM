@@ -34,5 +34,40 @@ export interface CVMContext {
    */
   instrs: Microcode[]
 
-  dataview: DataView
+  dataview: MemoryModel
+}
+
+export class MemoryModel {
+  private dv: DataView
+
+  private SIZE: number
+
+  /**
+   * @param size Defaults to 1KB
+   */
+  constructor(size: number = 2 ** 10) {
+    this.dv = new DataView(new ArrayBuffer(size))
+    this.SIZE = size
+  }
+
+  getBytesAt(addr: number): bigint {
+    return this.dv.getBigUint64(addr)
+  }
+
+  setBytesAt(addr: number, v: bigint): void {
+    this.dv.setBigUint64(addr, v)
+  }
+
+  debug(sp?: number, from: number = 0, to: number = this.SIZE): string {
+    let rv = ''
+    for (let i = Math.max(from, 0); i < Math.min(to, this.SIZE); i += 8) {
+      const hexStr = this.dv.getBigUint64(i).toString(16).padStart(8, '0')
+      let s = ''
+      for (let j = 0; j < hexStr.length; j += 2) {
+        s += hexStr.substring(j, j + 2) + ' '
+      }
+      rv += `${i}\t: ${s} ${sp === i ? '<-- SP' : ''}\n`
+    }
+    return rv
+  }
 }
