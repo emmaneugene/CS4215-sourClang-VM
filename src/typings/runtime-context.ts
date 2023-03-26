@@ -8,17 +8,25 @@ export interface CVMContext {
   isRunning: boolean
 
   /**
-   * Program counter. This number should be an address/index
-   * into the dataview. The value at dataview should point to
-   * some valid instruction location.
-   *
-   * In other words:
-   * dataview[PC] = <some instruction node>
+   * Program counter. This number should be an index
+   * into the `instrs`.
    */
   PC: number
 
-  /** The returned value of `main` */
-  returnValue: number
+  /**
+   * Base pointer of the current function.
+   */
+  BP: number
+
+  /**
+   * Current top of the operand stack.
+   */
+  SP: number
+
+  /**
+   * The return value.
+   */
+  AX: number
 
   /**
    * List of instructions.

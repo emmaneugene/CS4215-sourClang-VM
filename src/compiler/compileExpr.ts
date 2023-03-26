@@ -2,7 +2,7 @@ import * as es from 'estree'
 
 import {
   BinopCommand,
-  LealCommand,
+  LeaCommand,
   MovCommand,
   MovImmediateCommand,
   OffsetRspCommand,
@@ -262,7 +262,7 @@ const util = {
 
   offsetRSP: (value: number): OffsetRspCommand => {
     return {
-      type: 'OffsetRSP',
+      type: 'OffsetRspCommand',
       value
     }
   },
@@ -275,9 +275,9 @@ const util = {
     }
   },
 
-  leal: (from: RegOffset, to: RegOffset): LealCommand => {
+  leal: (from: RegOffset, to: RegOffset): LeaCommand => {
     return {
-      type: 'LealCommand',
+      type: 'LeaCommand',
       value: {
         reg: from[0],
         offset: from[1]

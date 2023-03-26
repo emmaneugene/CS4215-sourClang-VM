@@ -82,7 +82,7 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
         }
       },
       {
-        type: 'OffsetRSP',
+        type: 'OffsetRspCommand',
         value: -8
       }
     )

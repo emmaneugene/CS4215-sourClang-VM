@@ -12,7 +12,7 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
   const fEnv = new FunctionCTE(name, datatype, paramLs, localVarSize)
 
   fEnv.instrs.push({
-    type: 'OffsetRSP',
+    type: 'OffsetRspCommand',
     value: localVarSize
   })
   compileBlkStmt(node.body, fEnv, gEnv)

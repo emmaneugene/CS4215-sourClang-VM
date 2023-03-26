@@ -6,7 +6,7 @@
 export interface MicrocodeMap {
   MovImmediateCommand: MovImmediateCommand
   MovCommand: MovCommand
-  LealCommand: LealCommand
+  LeaCommand: LeaCommand
   OffsetRspCommand: OffsetRspCommand
   BinopCommand: BinopCommand
   UnopCommand: UnopCommand
@@ -55,7 +55,7 @@ export interface MovCommand extends BaseCommand {
  * `rsp = rsp + value`
  */
 export interface OffsetRspCommand extends BaseCommand {
-  type: 'OffsetRSP'
+  type: 'OffsetRspCommand'
   value: number
 }
 
@@ -84,8 +84,8 @@ export interface UnopCommand extends BaseCommand {
  * Should evaluate to:
  * `M[dest.reg + dest.offset] = value.reg + offset`
  */
-export interface LealCommand extends BaseCommand {
-  type: 'LealCommand'
+export interface LeaCommand extends BaseCommand {
+  type: 'LeaCommand'
   value: {
     reg: 'rbp' | 'rsp'
     offset: number

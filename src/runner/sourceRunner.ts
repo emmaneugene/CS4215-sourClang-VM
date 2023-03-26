@@ -28,7 +28,9 @@ function updateContext(instrs: Microcode[], ctx: Context): void {
     instrs,
     isRunning: true,
     PC: 0,
-    returnValue: -1,
+    BP: 0,
+    SP: 0,
+    AX: -1,
     dataview: new DataView(new ArrayBuffer(64))
   }
 }

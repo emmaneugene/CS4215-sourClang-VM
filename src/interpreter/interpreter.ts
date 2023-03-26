@@ -1,6 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 import { Context, Value } from '../types'
-import { Microcode, MovImmediateCommand } from './../typings/microcode'
+import { Microcode, MovCommand, MovImmediateCommand } from './../typings/microcode'
 
 export function* evaluate(context: Context) {
   // previous impl:
@@ -60,7 +60,7 @@ type EvaluatorFunction = (cmd: Microcode, ctx: Context) => IterableIterator<Valu
 const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   ExitCommand: function* (cmd, ctx) {
     ctx.cVmContext.isRunning = false
-    ctx.cVmContext.returnValue = 0
+    ctx.cVmContext.AX = 0
     return
   },
 
@@ -77,6 +77,18 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   MovImmediateCommand: function* (cmd, ctx) {
     const immCmd = cmd as MovImmediateCommand
     debugPrint(immCmd.type + ' ' + immCmd.value + ' ' + immCmd.encoding, ctx)
+    ctx.cVmContext.PC++
+  },
+
+  MovCommand: function* (cmd, ctx) {
+    const movCmd = cmd as MovCommand
+    const { from, to } = movCmd
+    const { reg: fReg, offset: fOffset } = from
+    const { reg: tReg, offset: tOffset } = to
+
+    if (from.type === 'relative' && to.type === 'relative') {
+    }
+
     ctx.cVmContext.PC++
   }
 }
