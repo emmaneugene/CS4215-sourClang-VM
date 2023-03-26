@@ -110,7 +110,9 @@ export const createEmptyContext = <T>(
       instrs: [],
       isRunning: false,
       PC: 0,
-      returnValue: -1,
+      BP: 0,
+      SP: 0,
+      AX: 1,
       dataview: new DataView(new ArrayBuffer(0))
     }
   }

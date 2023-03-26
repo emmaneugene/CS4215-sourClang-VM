@@ -6,6 +6,7 @@
 export interface MicrocodeMap {
   MovImmediateCommand: MovImmediateCommand
   MovCommand: MovCommand
+  LeaCommand: LeaCommand
   OffsetRspCommand: OffsetRspCommand
   BinopCommand: BinopCommand
   UnopCommand: UnopCommand
@@ -54,7 +55,7 @@ export interface MovCommand extends BaseCommand {
  * `rsp = rsp + value`
  */
 export interface OffsetRspCommand extends BaseCommand {
-  type: 'OffsetRSP'
+  type: 'OffsetRspCommand'
   value: number
 }
 
@@ -77,6 +78,25 @@ export interface UnopCommand extends BaseCommand {
 }
 
 /**
+ * Computes a memory address at runtime and
+ * pushes it to dest.reg + dest.offset.
+ *
+ * Should evaluate to:
+ * `M[dest.reg + dest.offset] = value.reg + offset`
+ */
+export interface LeaCommand extends BaseCommand {
+  type: 'LeaCommand'
+  value: {
+    reg: 'rbp' | 'rsp'
+    offset: number
+  }
+  dest: {
+    reg: 'rsp' | 'rbp'
+    offset: number
+  }
+}
+
+/**
  * A helper interface to define the possible addressing modes.
  *
  * See also the type guard `isAbsAddressingMode()`
@@ -84,7 +104,8 @@ export interface UnopCommand extends BaseCommand {
 export type MovAddressingMode =
   | {
       type: 'absolute'
-      address: number
+      reg: 'rsp' | 'rbp'
+      offset: number
     }
   | {
       type: 'relative'

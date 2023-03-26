@@ -1,8 +1,8 @@
 import * as es from 'estree'
 
 import { Microcode } from './../typings/microcode'
-import { compileFunctionDefinition } from './compileStmt'
-import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
+import { compileFunctionDef } from './compileFunctionDef'
+import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
 /**
@@ -11,23 +11,17 @@ import { CompileTimeError } from './error'
  *
  * This is the integration point between the "compiler" and the rest of this codebase.
  */
-export function compile(ast: es.Program): Array<Microcode> {
+export function compile(ast: es.Program): GlobalCTE | undefined {
   const stmts = ast.body as es.Statement[]
   const gEnv = new GlobalCTE()
 
-  for (const stmtRaw of stmts) {
-    if (stmtRaw.type === 'FunctionDeclaration') {
-      const stmt = stmtRaw as es.FunctionDeclaration
-
-      const { name, datatype } = stmt.id!
-      const fEnv = new FunctionCTE(name, datatype)
-
-      compileFunctionDefinition(stmtRaw as es.FunctionDeclaration, fEnv, gEnv)
-      gEnv.functions[fEnv.name] = fEnv
+  for (const stmt of stmts) {
+    if (stmt.type === 'FunctionDeclaration') {
+      compileFunctionDef(stmt, gEnv)
       continue
     }
 
-    if (stmtRaw.type === 'VariableDeclaration') {
+    if (stmt.type === 'VariableDeclaration') {
       throw new CompileTimeError()
     }
 
@@ -36,7 +30,7 @@ export function compile(ast: es.Program): Array<Microcode> {
 
   // Handle the case when it is an empty program
   if (Object.keys(gEnv.functions).length === 0) {
-    return []
+    return
   }
 
   const main = gEnv.functions['main']
@@ -44,5 +38,5 @@ export function compile(ast: es.Program): Array<Microcode> {
     throw new CompileTimeError()
   }
 
-  return main.instrs
+  return gEnv
 }

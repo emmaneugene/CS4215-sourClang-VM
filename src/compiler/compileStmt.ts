@@ -4,65 +4,87 @@ import { compileExpr } from './compileExpr'
 import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
-export function compileFunctionDefinition(
-  node: es.FunctionDeclaration,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
-): FunctionCTE {
-  const body = node.body
-  return compileCompoundStatement(body, fEnv, gEnv)
-}
-
-export function compileCompoundStatement(
-  node: es.BlockStatement,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
-): FunctionCTE {
-  for (const stmtRaw of node.body) {
-    if (stmtRaw.type === 'VariableDeclaration') {
-      throw new CompileTimeError()
+export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+  for (const stmt of node.body) {
+    if (stmt.type === 'VariableDeclaration') {
+      compileVarDef(stmt, fEnv, gEnv)
+      continue
     }
 
-    if (stmtRaw.type === 'ExpressionStatement') {
-      const stmt = stmtRaw as es.ExpressionStatement
+    if (stmt.type === 'ExpressionStatement') {
       compileExpr(stmt.expression, fEnv, gEnv)
       continue
     }
 
-    if (stmtRaw.type === 'BlockStatement') {
+    if (stmt.type === 'BlockStatement') {
+      fEnv.extendFrame([])
+      compileBlkStmt(stmt, fEnv, gEnv)
+      fEnv.popFrame()
+      continue
+    }
+
+    if (stmt.type === 'IfStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'IfStatement') {
+    if (stmt.type === 'WhileStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'WhileStatement') {
+    if (stmt.type === 'ForStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'ForStatement') {
+    if (stmt.type === 'ReturnStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'ReturnStatement') {
+    if (stmt.type === 'BreakStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'BreakStatement') {
+    if (stmt.type === 'ContinueStatement') {
       throw new CompileTimeError()
     }
 
-    if (stmtRaw.type === 'ContinueStatement') {
-      throw new CompileTimeError()
-    }
-
-    if (stmtRaw.type === 'EmptyStatement') {
+    if (stmt.type === 'EmptyStatement') {
       continue
     }
 
     throw new CompileTimeError()
   }
+}
 
-  return fEnv
+function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+  for (const declaration of stmt.declarations) {
+    if (declaration.id.type !== 'Identifier') throw new CompileTimeError()
+
+    const { name, datatype: type } = declaration.id
+    const v = fEnv.addVar(name, type)
+
+    if (!declaration.init) {
+      continue
+    }
+
+    compileExpr(declaration.init, fEnv, gEnv)
+    fEnv.instrs.push(
+      {
+        type: 'MovCommand',
+        from: {
+          type: 'relative',
+          reg: 'rsp',
+          offset: -8
+        },
+        to: {
+          type: 'relative',
+          reg: 'rbp',
+          offset: v.offset
+        }
+      },
+      {
+        type: 'OffsetRspCommand',
+        value: -8
+      }
+    )
+  }
 }
