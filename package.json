@@ -1,5 +1,5 @@
 {
-  "name": "calc-slang",
+  "name": "sourc-slang",
   "version": "1.0.10",
   "license": "Apache-2.0",
   "description": "Calc language as a start point for CS4215's project",
@@ -36,7 +36,7 @@
     "dist"
   ],
   "bin": {
-    "calc-slang": "dist/repl/repl.js"
+    "sourc-slang": "dist/repl/repl.js"
   },
   "scripts": {
     "antlr4ts": "antlr4ts -visitor ./src/lang/SourCLexer.g4 ./src/lang/SourCParser.g4",
