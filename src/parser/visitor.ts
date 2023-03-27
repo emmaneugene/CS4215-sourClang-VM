@@ -6,6 +6,7 @@ import * as es from 'estree'
 
 import {
   AddContext,
+  AddressableOperandsContext,
   AddressOfContext,
   AndContext,
   ArrayDeclContext,
@@ -47,23 +48,23 @@ import {
   StructAccessContext,
   StructAccessThruPointerContext,
   StructDeclContext,
-  StructVarDeclContext,
   SuffixIncrContext,
   TernaryContext,
   TypeContext,
   TypeDefContext,
   TypeNameListContext,
   UnopContext,
-  UpdateOperandsContext,
   VariableDeclContext,
   WhileStmtContext
 } from '../lang/SourCParser2'
 import { DataType } from '../typings/datatype'
+import { StructDef } from '../typings/structDef'
 import { SourCParser2Visitor } from './../lang/SourCParser2Visitor'
 import { FatalSyntaxError, InvalidConfigError } from './parser.error'
 import {
   contextToLocation,
   getAddOp,
+  getDatatype,
   getEqOp,
   getIdentifier,
   getMultOp,
@@ -75,19 +76,19 @@ import {
 } from './parser.util'
 
 export class Visitor implements SourCParser2Visitor<es.Node> {
+  private STRUCT_DECLARATIONS: Record<string, StructDef> = {}
+
   // === Primary Identifiers ===
 
   visitPrimaryIdentifier(ctx: PrimaryIdentifierContext): es.Node {
-    const c = ctx.Constant()!
+    const c = ctx.Constant()
     const s = ctx.StringLiteral()
 
-    if (c) {
-      if (parseInt(c.text)) {
-        return {
-          type: 'Literal',
-          value: c.text,
-          raw: c.text
-        }
+    if (c && parseInt(c.text)) {
+      return {
+        type: 'Literal',
+        value: c.text,
+        raw: c.text
       }
     }
 
@@ -101,19 +102,18 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
     // Pass control back to the tree
     // So that it will use the alternative labels
-    // Under `updateOperands`
-    return this.visit(ctx.updateOperands()!)
+    // Under `addressableOperands`
+    return this.visit(ctx.addressableOperands()!)
   }
 
-  // The ANTLR engine should use the alternative labels for this rule
-  visitUpdateOperands(ctx: UpdateOperandsContext): es.Node {
+  visitAddressableOperands(ctx: AddressableOperandsContext): es.Node {
     // Pass control back to the tree
     // So that it will use the alternative labels
-    // Under `updateOperands`
+    // Under `addressableOperands`
     // But validates the types first
     // Before traversal hell
     const expr = this.visit(ctx)
-    if (validateExprTypes([expr], this.UPDATE_SUBTYPES)) {
+    if (validateExprTypes([expr], this.ADDRESSABLE_SUBTYPES)) {
       throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
     }
     return expr
@@ -185,16 +185,49 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   // === Declarations ===
 
   // Root: The ANTLR visitor should use the alternative labels
-  visitDeclaration(ctx: DeclarationContext): es.Node {
-    return this.visit(ctx)
+  visitDeclaration(ctx: DeclarationContext): es.VariableDeclaration {
+    // Pass control back to the tree
+    // So that it will use the alternative labels
+    // Under `declaration` rule
+    // But validates the types first
+    // Before traversal hell
+    const d = this.visit(ctx)
+    if (d.type !== 'VariableDeclaration') {
+      throw new FatalSyntaxError(contextToLocation(ctx))
+    }
+    return d
   }
 
   visitVariableDecl(ctx: VariableDeclContext): es.Node {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    const typedef = ctx.typeDef()
+    const v = this.makeVariableDeclaration({
+      loc: contextToLocation(ctx),
+      isStruct: !!typedef.Struct(),
+      isUnsigned: !!typedef.Unsigned(),
+      isArray: false,
+      name: ctx.Identifier().text,
+      pointerList: typedef.Star().map(s => s.text),
+      type: typedef.type(),
+      structDef: typedef.Identifier()?.text
+    })
+
+    return v
   }
 
   visitArrayDecl(ctx: ArrayDeclContext): es.Node {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    const typedef = ctx.typeDef()
+    const v = this.makeVariableDeclaration({
+      loc: contextToLocation(ctx),
+      isStruct: !!typedef.Struct(),
+      isUnsigned: !!typedef.Unsigned(),
+      isArray: true,
+      name: ctx.Identifier().text,
+      pointerList: typedef.Star().map(s => s.text),
+      type: typedef.type(),
+      structDef: typedef.Identifier()?.text
+    })
+
+    return v
   }
 
   visitFxPointerDecl(ctx: FxPointerDeclContext): es.Node {
@@ -202,11 +235,36 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
 
   visitStructDecl(ctx: StructDeclContext): es.Node {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
-  }
+    const fields: es.VariableDeclaration[] = []
+    for (let i = 0; i < ctx.declaration().length; i++) {
+      // `this.visit(e: Declaration)` returns es.VariableDeclaration
+      const d = this.visit(ctx.declaration().at(i)!) as es.VariableDeclaration
+      fields.push(d)
+    }
 
-  visitStructVarDecl(ctx: StructVarDeclContext): es.Node {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    // Insert into the global struct definitions
+    const structDef: StructDef = {}
+    const structName = ctx.Identifier().text
+    fields.forEach(f => {
+      const d = f.declarations[0]
+
+      if (!d) throw new FatalSyntaxError(contextToLocation(ctx))
+      if (d.init) throw new InvalidConfigError(contextToLocation(ctx))
+      if (d.id.type !== 'Identifier') throw new FatalSyntaxError(contextToLocation(ctx))
+      const id = d.id as es.Identifier
+
+      // The array should be considered into id.datatype
+      structDef[id.name] = id.datatype
+    })
+
+    if (this.STRUCT_DECLARATIONS[structName]) throw new FatalSyntaxError(contextToLocation(ctx))
+    this.STRUCT_DECLARATIONS[structName] = structDef
+
+    // Don't return anything useful
+    // Since it updates the global struct declarations
+    return {
+      type: 'EmptyStatement'
+    }
   }
 
   // === Expressions ===
@@ -225,7 +283,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   ]
 
   /** Permitted operands for UpdateExpressions */
-  private UPDATE_SUBTYPES = ['Identifier', 'MemberExpression']
+  private ADDRESSABLE_SUBTYPES = ['Identifier', 'MemberExpression']
 
   // Root : The ANTLR visitor should use the alternative labels
   visitExpr(ctx: ExprContext): es.Node {
@@ -244,8 +302,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   visitSuffixIncr(ctx: SuffixIncrContext): es.UpdateExpression {
     return {
       type: 'UpdateExpression',
-      // Validated by `visitUpdateOperands`
-      argument: this.visit(ctx.updateOperands()) as es.Expression,
+      // Validated by `addressableOperands`
+      argument: this.visit(ctx.addressableOperands()) as es.Expression,
       prefix: false,
       operator: getUpdateOp(ctx, ctx.PlusPlus(), ctx.MinusMinus())
     }
@@ -253,7 +311,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitFunctionCall(ctx: FunctionCallContext): es.CallExpression {
     // `this.visit(e)` validates
-    const args = ctx.exprLs()?._eLs.map(e => this.visit(e)) ?? []
+    const args = ctx.seqExprLs()?._eLs.map(e => this.visit(e)) ?? []
 
     return {
       type: 'CallExpression',
@@ -270,8 +328,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   visitPrefixIncr(ctx: PrefixIncrContext): es.UpdateExpression {
     return {
       type: 'UpdateExpression',
-      // Validated by `visitUpdateOperands`
-      argument: this.visit(ctx.updateOperands()) as es.Expression,
+      // Validated by `addressableOperands`
+      argument: this.visit(ctx.addressableOperands()) as es.Expression,
       prefix: true,
       operator: getUpdateOp(ctx, ctx.PlusPlus(), ctx.MinusMinus())
     }
@@ -508,8 +566,11 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
     return {
       type: 'FunctionDeclaration',
-      id: getIdentifier(typeDef, name),
-      params: paramLs?._pLs.map(p => getIdentifier(p.typeDef(), p.Identifier().text)) ?? [],
+      id: getIdentifier(typeDef, name, typeDef.Star().length > 0),
+      params:
+        paramLs?._pLs.map(p =>
+          getIdentifier(p.typeDef(), p.Identifier().text, p.typeDef().Star().length > 0)
+        ) ?? [],
       body
     }
   }
@@ -564,6 +625,72 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
   visitErrorNode(node: ErrorNode): es.Node {
     throw new InvalidConfigError(nodeToLocation(node))
+  }
+
+  /**
+   * There is a lot of similar logic for the rule `declaration`.
+   * This just helps with deduplicating the logic.
+   */
+  private makeVariableDeclaration(args: {
+    loc: es.SourceLocation
+    isStruct: boolean
+    isUnsigned: boolean
+    isArray: boolean
+    name: string
+    pointerList: string[]
+    type?: TypeContext
+    structDef?: any // TODO
+  }): es.VariableDeclaration {
+    const t = args.type
+    // even if pointerList.length is 0,
+    // it's a pointer if it's array
+    const _isPtr = args.pointerList.length > 0 || args.isArray
+    const _ptrLs = _isPtr ? args.pointerList || ['*'] : undefined
+
+    if (t) {
+      // E.g. `int x`, `int ** x`, int x[]
+      return {
+        type: 'VariableDeclaration',
+        kind: 'var',
+        declarations: [
+          {
+            type: 'VariableDeclarator',
+            id: {
+              type: 'Identifier',
+              name: args.name,
+              isArray: args.isArray,
+              datatype: getDatatype(t, args.isUnsigned, _isPtr),
+              isMemory: _isPtr,
+              pointerList: _ptrLs
+            }
+          }
+        ]
+      }
+    } else if (args.isStruct) {
+      // E.g. `struct Person ident`, `struct Person *ident`
+      // `struct Person ident[]`
+      return {
+        type: 'VariableDeclaration',
+        kind: 'var',
+        declarations: [
+          {
+            type: 'VariableDeclarator',
+            id: {
+              type: 'Identifier',
+              name: args.name,
+              isStruct: true,
+              isArray: args.isArray,
+              datatype: DataType.UNKNOWN,
+              isMemory: _isPtr,
+              pointerList: _ptrLs,
+              structFields: args.structDef // TODO
+            }
+          }
+        ]
+      }
+    }
+
+    throw new InvalidConfigError(args.loc)
   }
 }
 

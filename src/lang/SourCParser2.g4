@@ -49,9 +49,9 @@ stmt:
     ;
 
 expr:
-    updateOperands suffix=(PlusPlus | MinusMinus) # SuffixIncr
-    | Identifier LeftParen exprLs? RightParen # FunctionCall
-    | prefix=(PlusPlus | MinusMinus) updateOperands # PrefixIncr
+    addressableOperands suffix=(PlusPlus | MinusMinus) # SuffixIncr
+    | Identifier LeftParen seqExprLs? RightParen # FunctionCall
+    | prefix=(PlusPlus | MinusMinus) addressableOperands # PrefixIncr
     | unop=(Not | Minus) expr               # Unop
     | LeftParen type RightParen expr        # Cast
     | Star expr                             # Dereference
@@ -69,7 +69,7 @@ expr:
     ;
 
 primaryIdentifier:
-    updateOperands
+    addressableOperands
     | Constant
     | StringLiteral
     ;
@@ -82,11 +82,10 @@ sizeOfOperands:
     ;
 
 declaration:
-    typeDef Identifier (Assign expr)? # VariableDecl
-    | typeDef Identifier LeftBracket expr? RightBracket (Assign LeftBrace exprLs RightBrace)? # ArrayDecl
+    typeDef Identifier (Assign (expr | exprLs))? # VariableDecl
+    | typeDef Identifier LeftBracket expr? RightBracket (Assign exprLs)? # ArrayDecl
     | typeDef LeftParen Star Identifier RightParen LeftParen paramLs? RightParen # FxPointerDecl
     | Struct Identifier LeftBrace (declaration Semi)+ RightBrace # StructDecl
-    | Struct structName=Identifier varName=Identifier (Assign LeftBrace exprLs RightBrace)? # StructVarDecl
     ;
 
 typeDef:
@@ -95,6 +94,10 @@ typeDef:
     ;
 
 exprLs:
+    LeftBrace seqExprLs RightBrace
+    ;
+
+seqExprLs:
     (eLs+=expr Comma)* eLs+=expr
     ;
 
@@ -102,7 +105,7 @@ assignment:
     (Star)* Identifier Assign (expr | exprLs)
     ;
 
-updateOperands:
+addressableOperands:
     Identifier LeftBracket expr RightBracket # ArraySubscript
     | Identifier Dot Identifier             # StructAccess
     | Identifier Arrow Identifier           # StructAccessThruPointer

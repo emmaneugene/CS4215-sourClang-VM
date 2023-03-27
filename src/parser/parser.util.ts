@@ -41,7 +41,11 @@ export function nodeToLocation(node: ErrorNode): es.SourceLocation {
   }
 }
 
-export function getIdentifier(typedef: TypeDefContext, name: string): es.Identifier {
+export function getIdentifier(
+  typedef: TypeDefContext,
+  name: string,
+  isPointer: boolean
+): es.Identifier {
   if (typedef.Struct()) {
     const pointerList = typedef.Star().map(s => s.text)
     return {
@@ -59,7 +63,7 @@ export function getIdentifier(typedef: TypeDefContext, name: string): es.Identif
     const pointerList = typedef.Star().map(s => s.text)
     return {
       type: 'Identifier',
-      datatype: getDatatype(t, typedef.Unsigned()),
+      datatype: getDatatype(t, typedef.Unsigned(), isPointer),
       name,
       pointerList,
       isMemory: pointerList.length > 0
@@ -69,23 +73,75 @@ export function getIdentifier(typedef: TypeDefContext, name: string): es.Identif
   throw new FatalSyntaxError(contextToLocation(typedef.ruleContext))
 }
 
-function getDatatype(t: TypeContext, isUnsigned: TerminalNode | undefined): DataType {
-  if (isUnsigned) {
-    if (t.Char()) return DataType.UNSIGNED_CHAR
-    if (t.Short()) return DataType.UNSIGNED_SHORT
-    if (t.Int()) return DataType.UNSIGNED_INT
-    if (t.Long()) return DataType.UNSIGNED_LONG
-  } else {
-    if (t.Char()) return DataType.CHAR
-    if (t.Short()) return DataType.SHORT
-    if (t.Int()) return DataType.INT
-    if (t.Long()) return DataType.LONG
-    if (t.Void()) return DataType.VOID
-    if (t.Double()) return DataType.DOUBLE
-    if (t.Float()) return DataType.FLOAT
+const MAPPING = {
+  UNSIGNED: {
+    PTR: {
+      char: () => DataType.UNSIGNED_CHAR_PTR,
+      short: () => DataType.UNSIGNED_SHORT_PTR,
+      int: () => DataType.UNSIGNED_INT_PTR,
+      long: () => DataType.UNSIGNED_LONG_PTR
+    },
+    PLAIN: {
+      char: () => DataType.UNSIGNED_CHAR_PTR,
+      short: () => DataType.UNSIGNED_SHORT_PTR,
+      int: () => DataType.UNSIGNED_INT_PTR,
+      long: () => DataType.UNSIGNED_LONG_PTR
+    }
+  },
+
+  SIGNED: {
+    PTR: {
+      char: () => DataType.CHAR_PTR,
+      short: () => DataType.SHORT_PTR,
+      int: () => DataType.INT_PTR,
+      long: () => DataType.LONG_PTR,
+      float: () => DataType.FLOAT_PTR,
+      double: () => DataType.DOUBLE_PTR,
+      void: () => DataType.VOID_PTR
+    },
+    PLAIN: {
+      char: () => DataType.CHAR,
+      short: () => DataType.SHORT,
+      int: () => DataType.INT,
+      long: () => DataType.LONG,
+      float: () => DataType.FLOAT,
+      double: () => DataType.DOUBLE,
+      void: () => DataType.VOID
+    }
+  }
+}
+
+export function getDatatype(
+  t: TypeContext,
+  isUnsigned: TerminalNode | boolean | undefined,
+  isPointer: boolean
+): DataType {
+  const key1 = isUnsigned ? 'UNSIGNED' : 'SIGNED'
+  const key2 = isPointer ? 'PTR' : 'PLAIN'
+
+  const obj = MAPPING[key1][key2]
+  if (!obj) {
+    throw new FatalSyntaxError(contextToLocation(t))
   }
 
-  throw new Error(`${contextToLocation(t.ruleContext)}`)
+  const key3 = getTypeToken(t)
+  const fn = obj[key3]
+  if (!fn) {
+    throw new FatalSyntaxError(contextToLocation(t))
+  }
+
+  return fn()
+}
+
+function getTypeToken(t: TypeContext): string {
+  if (t.Char()) return 'char'
+  if (t.Short()) return 'short'
+  if (t.Int()) return 'int'
+  if (t.Long()) return 'long'
+  if (t.Void()) return 'void'
+  if (t.Double()) return 'double'
+  if (t.Float()) return 'float'
+  return ''
 }
 
 export function getUpdateOp(
