@@ -1857,7 +1857,7 @@ export class SourCParser2 extends Parser {
           _la = this._input.LA(1)
         }
         this.state = 309
-        this.match(SourCParser2.Identifier)
+        this.addressableOperands()
         this.state = 310
         this.match(SourCParser2.Assign)
         this.state = 313
@@ -2157,8 +2157,8 @@ export class SourCParser2 extends Parser {
     '\u012C\x03\x02\x02\x02\u012F\u0130\x05\x12\n\x02\u0130\x1F\x03\x02\x02' +
     '\x02\u0131\u0133\x07(\x02\x02\u0132\u0131\x03\x02\x02\x02\u0133\u0136' +
     '\x03\x02\x02\x02\u0134\u0132\x03\x02\x02\x02\u0134\u0135\x03\x02\x02\x02' +
-    '\u0135\u0137\x03\x02\x02\x02\u0136\u0134\x03\x02\x02\x02\u0137\u0138\x07' +
-    '=\x02\x02\u0138\u013B\x073\x02\x02\u0139\u013C\x05\x12\n\x02\u013A\u013C' +
+    '\u0135\u0137\x03\x02\x02\x02\u0136\u0134\x03\x02\x02\x02\u0137\u0138\x05' +
+    '"\x12\x02\u0138\u013B\x073\x02\x02\u0139\u013C\x05\x12\n\x02\u013A\u013C' +
     '\x05\x1C\x0F\x02\u013B\u0139\x03\x02\x02\x02\u013B\u013A\x03\x02\x02\x02' +
     '\u013C!\x03\x02\x02\x02\u013D\u013E\x07=\x02\x02\u013E\u013F\x07\x1A\x02' +
     '\x02\u013F\u0140\x05\x12\n\x02\u0140\u0141\x07\x1B\x02\x02\u0141\u014A' +
@@ -4006,8 +4006,8 @@ export class SeqExprLsContext extends ParserRuleContext {
 }
 
 export class AssignmentContext extends ParserRuleContext {
-  public Identifier(): TerminalNode {
-    return this.getToken(SourCParser2.Identifier, 0)
+  public addressableOperands(): AddressableOperandsContext {
+    return this.getRuleContext(0, AddressableOperandsContext)
   }
   public Assign(): TerminalNode {
     return this.getToken(SourCParser2.Assign, 0)

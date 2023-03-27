@@ -42,8 +42,8 @@ declare module 'estree' {
     CastExpression: CastExpression
     SizeofExpression: SizeofExpression
     AddressofExpression: AddressofExpression
-    ValueofExpression: ValueofExpression
-    FlexiAssignmentExpression: FlexiAssignmentExpression
+    DereferenceExpression: DereferenceExpression
+    DerefLeftAssignmentExpression: DerefLeftAssignmentExpression
   }
 
   export interface CastExpression extends BaseExpression {
@@ -62,15 +62,16 @@ declare module 'estree' {
     expression: Expression
   }
 
-  export interface ValueofExpression extends BaseExpression {
-    type: 'ValueofExpression'
+  export interface DereferenceExpression extends BaseExpression {
+    type: 'DereferenceExpression'
     expression: Expression
   }
 
-  export interface FlexiAssignmentExpression extends BaseExpression {
-    type: 'FlexiAssignmentExpression'
+  export interface DerefLeftAssignmentExpression extends BaseExpression {
+    type: 'DerefLeftAssignmentExpression'
     operator: AssignmentOperator
-    left: Expression
+    left: Identifier | MemberExpression
+    derefChain: string[]
     right: Expression
   }
 }

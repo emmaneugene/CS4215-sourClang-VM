@@ -102,7 +102,7 @@ seqExprLs:
     ;
 
 assignment:
-    (Star)* Identifier Assign (expr | exprLs)
+    (Star)* addressableOperands Assign (expr | exprLs)
     ;
 
 addressableOperands:

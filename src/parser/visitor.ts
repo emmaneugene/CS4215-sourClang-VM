@@ -60,6 +60,7 @@ import {
 import { DataType } from '../typings/datatype'
 import { StructDef } from '../typings/structDef'
 import { SourCParser2Visitor } from './../lang/SourCParser2Visitor'
+import { expressionStatement } from './../utils/astCreator'
 import { FatalSyntaxError, InvalidConfigError } from './parser.error'
 import {
   contextToLocation,
@@ -354,9 +355,9 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     }
   }
 
-  visitDereference(ctx: DereferenceContext): es.ValueofExpression {
+  visitDereference(ctx: DereferenceContext): es.DereferenceExpression {
     return {
-      type: 'ValueofExpression',
+      type: 'DereferenceExpression',
       // validated by visit method
       expression: this.visit(ctx.expr()) as es.Expression
     }
@@ -474,59 +475,138 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   // Statements
 
-  // Root
+  // Root : The ANTLR visitor should use the alternative labels
   visitStmt(ctx: StmtContext): es.Node {
-    // The ANTLR visitor should use the alternative labels
+    // Pass control back to the tree
+    // So that it will use the alternative labels
+    // Under `stmt`
+    // But validates the types first
+    // Before expr traversal hell
     return this.visit(ctx)
   }
 
   visitExprStmt(ctx: ExprStmtContext): es.ExpressionStatement {
     return {
       type: 'ExpressionStatement',
+      // validated by `this.visitExpression()`
       expression: this.visit(ctx.expr()) as es.Expression
     }
   }
 
   visitDeclrStmt(ctx: DeclrStmtContext): es.Node {
-    return this.visit(ctx.declaration())
+    // Delegate this to `declaration` rule
+    return this.visitDeclaration(ctx.declaration())
   }
 
-  visitAssgnStmt(ctx: AssgnStmtContext): es.ExpressionStatement {
-    // Delegates to another method
-    return this.visitAssignment(ctx.assignment()) as es.ExpressionStatement
+  visitAssgnStmt(
+    ctx: AssgnStmtContext
+  ): es.DerefLeftAssignmentExpression | es.AssignmentExpression {
+    // Delegate this to `assignment` rule
+    return this.visitAssignment(ctx.assignment()) as
+      | es.DerefLeftAssignmentExpression
+      | es.AssignmentExpression
   }
 
   visitCmpdStmt(ctx: CmpdStmtContext): es.BlockStatement {
-    // Delegates to another method
+    // Delegate this to `compoundStatement` rule
     return this.visitCompoundStatement(ctx.compoundStatement())
   }
 
   visitIfElseStmt(ctx: IfElseStmtContext): es.IfStatement {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    return {
+      type: 'IfStatement',
+      test: this.visit(ctx.expr()) as es.Expression,
+      // Validated by the `compoundStatement` rule
+      consequent: this.visit(ctx.compoundStatement().at(0)!) as es.BlockStatement,
+      alternate: this.visit(ctx.compoundStatement().at(1)!) as es.BlockStatement
+    }
   }
 
   visitWhileStmt(ctx: WhileStmtContext): es.WhileStatement {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    return {
+      type: 'WhileStatement',
+      test: this.visit(ctx.expr()) as es.Expression,
+      body: this.visit(ctx.compoundStatement()) as es.BlockStatement
+    }
   }
 
   visitForStmt(ctx: ForStmtContext): es.ForStatement {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    return {
+      type: 'ForStatement',
+      init: ctx._init ? (this.visit(ctx._init) as es.Expression) : undefined,
+      test: ctx._test ? (this.visit(ctx._test) as es.Expression) : undefined,
+      update: ctx._incr ? (this.visit(ctx._incr) as es.Expression) : undefined,
+      body: this.visit(ctx.compoundStatement()) as es.BlockStatement
+    }
   }
 
   visitReturnExpr(ctx: ReturnExprContext): es.ReturnStatement {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    const eCtx = ctx.expr()
+
+    if (eCtx) {
+      return {
+        type: 'ReturnStatement',
+        argument: this.visit(eCtx) as es.Expression
+      }
+    }
+
+    return {
+      type: 'ReturnStatement'
+    }
   }
 
-  visitBreakStmt(ctx: BreakStmtContext): es.BreakStatement {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+  visitBreakStmt(_ctx: BreakStmtContext): es.BreakStatement {
+    return {
+      type: 'BreakStatement'
+    }
   }
 
-  visitContinueStmt(ctx: ContinueStmtContext): es.ContinueStatement {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+  visitContinueStmt(_ctx: ContinueStmtContext): es.ContinueStatement {
+    return {
+      type: 'ContinueStatement'
+    }
   }
 
-  visitAssignment(ctx: AssignmentContext): es.ExpressionStatement {
-    throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+  visitAssignment(
+    ctx: AssignmentContext
+  ): es.DerefLeftAssignmentExpression | es.AssignmentExpression {
+    // RHS
+    const e = ctx.expr()
+    const eList = ctx.exprLs()
+
+    let right: es.Expression
+    if (e) {
+      right = this.visit(e) as es.Expression
+    } else if (eList) {
+      right = this.visit(eList) as es.Expression
+    } else {
+      throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
+    }
+
+    // Operator
+    const operator = '='
+
+    // LHS
+    // Validated by `this.visitAddressableOperands`
+    const left = this.visit(ctx.addressableOperands()) as es.Identifier | es.MemberExpression
+    if (ctx.Star()) {
+      // Dereference
+      // E.g. `*x = 1;`
+      return {
+        type: 'DerefLeftAssignmentExpression',
+        operator,
+        derefChain: ctx.Star().map(s => s.text),
+        left,
+        right
+      }
+    } else {
+      return {
+        type: 'AssignmentExpression',
+        operator,
+        left,
+        right
+      }
+    }
   }
 
   visitCompoundStatement(ctx: CompoundStatementContext): es.BlockStatement {

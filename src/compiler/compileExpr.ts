@@ -28,7 +28,7 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
     return compileBinaryExpr(node, fEnv, gEnv)
   }
 
-  if (node.type === 'FlexiAssignmentExpression') {
+  if (node.type === 'DerefLeftAssignmentExpression') {
     return compileFlexAssignExpr(node, fEnv, gEnv)
   }
 
@@ -48,7 +48,7 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
     return compileSizeofExpr(node, fEnv, gEnv)
   }
 
-  if (node.type === 'ValueofExpression') {
+  if (node.type === 'DereferenceExpression') {
     return compileValueOfExpr(node, fEnv, gEnv)
   }
 
@@ -116,7 +116,7 @@ function compileIdent(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): 
 }
 
 function compileFlexAssignExpr(
-  expr: es.FlexiAssignmentExpression,
+  expr: es.DerefLeftAssignmentExpression,
   fEnv: FunctionCTE,
   gEnv: GlobalCTE
 ): void {
@@ -132,10 +132,10 @@ function compileFlexAssignExpr(
       util.movRel2Rel(['rsp', -8], ['rbp', getVar(left.name, fEnv, gEnv).offset]),
       util.offsetRSP(-8)
     )
-  } else if (left.type === 'UnaryExpression') {
+  } else if (left.type === 'MemberExpression') {
     // load in some mem address into M[rsp-8]
     // at this point the RHS is at M[rsp-16]
-    compileExpr(left.argument, fEnv, gEnv)
+    compileExpr(left, fEnv, gEnv)
 
     // The effect should be
     // M[M[rsp-8]] = M[rsp-16]
@@ -183,7 +183,11 @@ function compileAddrOfExpr(expr: es.AddressofExpression, fEnv: FunctionCTE, gEnv
   throw new CompileTimeError()
 }
 
-function compileValueOfExpr(expr: es.ValueofExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+function compileValueOfExpr(
+  expr: es.DereferenceExpression,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): void {
   // TODO: this doesn't consider what the type of the root identifier is
   // There is a check for this in standard C
   // This should place a memory address on the M[rsp-8]
