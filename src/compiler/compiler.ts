@@ -1,6 +1,5 @@
 import * as es from 'estree'
 
-import { Microcode } from './../typings/microcode'
 import { compileFunctionDef } from './compileFunctionDef'
 import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'

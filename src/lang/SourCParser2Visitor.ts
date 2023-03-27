@@ -2,17 +2,15 @@
 
 import { ParseTreeVisitor } from 'antlr4ts/tree/ParseTreeVisitor'
 
-import { ArraySubscriptContext } from './SourCParser2'
-import { StructAccessContext } from './SourCParser2'
-import { StructAccessThruPointerContext } from './SourCParser2'
-import { AtomIdentierContext } from './SourCParser2'
-import { AtomConstantContext } from './SourCParser2'
-import { AtomStringContext } from './SourCParser2'
 import { VariableDeclContext } from './SourCParser2'
 import { ArrayDeclContext } from './SourCParser2'
 import { FxPointerDeclContext } from './SourCParser2'
 import { StructDeclContext } from './SourCParser2'
 import { StructVarDeclContext } from './SourCParser2'
+import { ArraySubscriptContext } from './SourCParser2'
+import { StructAccessContext } from './SourCParser2'
+import { StructAccessThruPointerContext } from './SourCParser2'
+import { AtomIdentifierContext } from './SourCParser2'
 import { SuffixIncrContext } from './SourCParser2'
 import { FunctionCallContext } from './SourCParser2'
 import { PrefixIncrContext } from './SourCParser2'
@@ -55,6 +53,7 @@ import { DeclarationContext } from './SourCParser2'
 import { TypeDefContext } from './SourCParser2'
 import { ExprLsContext } from './SourCParser2'
 import { AssignmentContext } from './SourCParser2'
+import { UpdateOperandsContext } from './SourCParser2'
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -64,54 +63,6 @@ import { AssignmentContext } from './SourCParser2'
  * operations with no return type.
  */
 export interface SourCParser2Visitor<Result> extends ParseTreeVisitor<Result> {
-  /**
-   * Visit a parse tree produced by the `ArraySubscript`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   * @return the visitor result
-   */
-  visitArraySubscript?: (ctx: ArraySubscriptContext) => Result
-
-  /**
-   * Visit a parse tree produced by the `StructAccess`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   * @return the visitor result
-   */
-  visitStructAccess?: (ctx: StructAccessContext) => Result
-
-  /**
-   * Visit a parse tree produced by the `StructAccessThruPointer`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   * @return the visitor result
-   */
-  visitStructAccessThruPointer?: (ctx: StructAccessThruPointerContext) => Result
-
-  /**
-   * Visit a parse tree produced by the `AtomIdentier`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   * @return the visitor result
-   */
-  visitAtomIdentier?: (ctx: AtomIdentierContext) => Result
-
-  /**
-   * Visit a parse tree produced by the `AtomConstant`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   * @return the visitor result
-   */
-  visitAtomConstant?: (ctx: AtomConstantContext) => Result
-
-  /**
-   * Visit a parse tree produced by the `AtomString`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   * @return the visitor result
-   */
-  visitAtomString?: (ctx: AtomStringContext) => Result
-
   /**
    * Visit a parse tree produced by the `VariableDecl`
    * labeled alternative in `SourCParser2.declaration`.
@@ -151,6 +102,38 @@ export interface SourCParser2Visitor<Result> extends ParseTreeVisitor<Result> {
    * @return the visitor result
    */
   visitStructVarDecl?: (ctx: StructVarDeclContext) => Result
+
+  /**
+   * Visit a parse tree produced by the `ArraySubscript`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitArraySubscript?: (ctx: ArraySubscriptContext) => Result
+
+  /**
+   * Visit a parse tree produced by the `StructAccess`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitStructAccess?: (ctx: StructAccessContext) => Result
+
+  /**
+   * Visit a parse tree produced by the `StructAccessThruPointer`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitStructAccessThruPointer?: (ctx: StructAccessThruPointerContext) => Result
+
+  /**
+   * Visit a parse tree produced by the `AtomIdentifier`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitAtomIdentifier?: (ctx: AtomIdentifierContext) => Result
 
   /**
    * Visit a parse tree produced by the `SuffixIncr`
@@ -472,4 +455,11 @@ export interface SourCParser2Visitor<Result> extends ParseTreeVisitor<Result> {
    * @return the visitor result
    */
   visitAssignment?: (ctx: AssignmentContext) => Result
+
+  /**
+   * Visit a parse tree produced by `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   * @return the visitor result
+   */
+  visitUpdateOperands?: (ctx: UpdateOperandsContext) => Result
 }

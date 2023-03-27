@@ -2,23 +2,15 @@ import { CharStreams, CommonTokenStream } from 'antlr4ts'
 import * as es from 'estree'
 
 import { SourCLexer } from '../lang/SourCLexer'
+import { SourCParser2 } from '../lang/SourCParser2'
 import { Context, ErrorSeverity } from '../types'
-import { SourCParser, TranslationUnitContext } from './../lang/SourCParser'
+import { ProgramContext } from './../lang/SourCParser2'
 import { FatalSyntaxError } from './error'
-import StatementGenerator from './statementGenerator'
+import { Visitor } from './visitor'
 
-function convertStatement(translationUnit: TranslationUnitContext): es.Statement {
-  const generator = new StatementGenerator()
-  return translationUnit.accept(generator)
-}
-
-function convertSource(translationUnit: TranslationUnitContext): es.Program {
-  const blockStmt = convertStatement(translationUnit) as es.BlockStatement
-  return {
-    type: 'Program',
-    sourceType: 'script',
-    body: blockStmt.body
-  }
+function convertSource(ctx: ProgramContext): es.Program {
+  const visitor = new Visitor()
+  return visitor.visit(ctx) as es.Program
 }
 
 export function parse(source: string, context: Context) {
@@ -28,10 +20,10 @@ export function parse(source: string, context: Context) {
     const inputStream = CharStreams.fromString(source)
     const lexer = new SourCLexer(inputStream)
     const tokenStream = new CommonTokenStream(lexer)
-    const parser = new SourCParser(tokenStream)
+    const parser = new SourCParser2(tokenStream)
     parser.buildParseTree = true
     try {
-      const tree = parser.translationUnit()
+      const tree = parser.program()
       program = convertSource(tree)
     } catch (error) {
       if (error instanceof FatalSyntaxError) {

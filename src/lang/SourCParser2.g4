@@ -49,9 +49,9 @@ stmt:
     ;
 
 expr:
-    Identifier suffix=(PlusPlus | MinusMinus) # SuffixIncr
+    updateOperands suffix=(PlusPlus | MinusMinus) # SuffixIncr
     | Identifier LeftParen exprLs? RightParen # FunctionCall
-    | prefix=(PlusPlus | MinusMinus) Identifier # PrefixIncr
+    | prefix=(PlusPlus | MinusMinus) updateOperands # PrefixIncr
     | unop=(Not | Minus) expr               # Unop
     | LeftParen type RightParen expr        # Cast
     | Star expr                             # Dereference
@@ -69,12 +69,9 @@ expr:
     ;
 
 primaryIdentifier:
-    Identifier LeftBracket expr RightBracket # ArraySubscript
-    | Identifier Dot Identifier             # StructAccess
-    | Identifier Arrow Identifier           # StructAccessThruPointer
-    | Identifier                            # AtomIdentier
-    | Constant                              # AtomConstant
-    | StringLiteral                         # AtomString
+    updateOperands
+    | Constant
+    | StringLiteral
     ;
 
 sizeOfOperands:
@@ -102,5 +99,12 @@ exprLs:
     ;
 
 assignment:
-    (Star)* Identifier Assign expr
+    (Star)* Identifier Assign (expr | exprLs)
+    ;
+
+updateOperands:
+    Identifier LeftBracket expr RightBracket # ArraySubscript
+    | Identifier Dot Identifier             # StructAccess
+    | Identifier Arrow Identifier           # StructAccessThruPointer
+    | Identifier                            # AtomIdentifier
     ;

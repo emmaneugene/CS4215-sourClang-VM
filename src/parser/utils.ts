@@ -27,12 +27,12 @@ export function contextToLocation(ctx: ParserRuleContext): es.SourceLocation {
 }
 
 /* Returns the pointer list (as a linked list). */
-export function getPointerList(ctx: PointerContext | undefined): es.PointerList {
+export function getPointerList(ctx: PointerContext | undefined): string[] | undefined {
   if (!ctx) {
     return undefined
   }
 
-  return ['*', getPointerList(ctx.pointer())]
+  return []
 }
 
 /* Gets the datatype. */

@@ -2,17 +2,15 @@
 
 import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener'
 
-import { ArraySubscriptContext } from './SourCParser2'
-import { StructAccessContext } from './SourCParser2'
-import { StructAccessThruPointerContext } from './SourCParser2'
-import { AtomIdentierContext } from './SourCParser2'
-import { AtomConstantContext } from './SourCParser2'
-import { AtomStringContext } from './SourCParser2'
 import { VariableDeclContext } from './SourCParser2'
 import { ArrayDeclContext } from './SourCParser2'
 import { FxPointerDeclContext } from './SourCParser2'
 import { StructDeclContext } from './SourCParser2'
 import { StructVarDeclContext } from './SourCParser2'
+import { ArraySubscriptContext } from './SourCParser2'
+import { StructAccessContext } from './SourCParser2'
+import { StructAccessThruPointerContext } from './SourCParser2'
+import { AtomIdentifierContext } from './SourCParser2'
 import { SuffixIncrContext } from './SourCParser2'
 import { FunctionCallContext } from './SourCParser2'
 import { PrefixIncrContext } from './SourCParser2'
@@ -55,90 +53,13 @@ import { DeclarationContext } from './SourCParser2'
 import { TypeDefContext } from './SourCParser2'
 import { ExprLsContext } from './SourCParser2'
 import { AssignmentContext } from './SourCParser2'
+import { UpdateOperandsContext } from './SourCParser2'
 
 /**
  * This interface defines a complete listener for a parse tree produced by
  * `SourCParser2`.
  */
 export interface SourCParser2Listener extends ParseTreeListener {
-  /**
-   * Enter a parse tree produced by the `ArraySubscript`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  enterArraySubscript?: (ctx: ArraySubscriptContext) => void
-  /**
-   * Exit a parse tree produced by the `ArraySubscript`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  exitArraySubscript?: (ctx: ArraySubscriptContext) => void
-
-  /**
-   * Enter a parse tree produced by the `StructAccess`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  enterStructAccess?: (ctx: StructAccessContext) => void
-  /**
-   * Exit a parse tree produced by the `StructAccess`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  exitStructAccess?: (ctx: StructAccessContext) => void
-
-  /**
-   * Enter a parse tree produced by the `StructAccessThruPointer`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  enterStructAccessThruPointer?: (ctx: StructAccessThruPointerContext) => void
-  /**
-   * Exit a parse tree produced by the `StructAccessThruPointer`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  exitStructAccessThruPointer?: (ctx: StructAccessThruPointerContext) => void
-
-  /**
-   * Enter a parse tree produced by the `AtomIdentier`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  enterAtomIdentier?: (ctx: AtomIdentierContext) => void
-  /**
-   * Exit a parse tree produced by the `AtomIdentier`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  exitAtomIdentier?: (ctx: AtomIdentierContext) => void
-
-  /**
-   * Enter a parse tree produced by the `AtomConstant`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  enterAtomConstant?: (ctx: AtomConstantContext) => void
-  /**
-   * Exit a parse tree produced by the `AtomConstant`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  exitAtomConstant?: (ctx: AtomConstantContext) => void
-
-  /**
-   * Enter a parse tree produced by the `AtomString`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  enterAtomString?: (ctx: AtomStringContext) => void
-  /**
-   * Exit a parse tree produced by the `AtomString`
-   * labeled alternative in `SourCParser2.primaryIdentifier`.
-   * @param ctx the parse tree
-   */
-  exitAtomString?: (ctx: AtomStringContext) => void
-
   /**
    * Enter a parse tree produced by the `VariableDecl`
    * labeled alternative in `SourCParser2.declaration`.
@@ -203,6 +124,58 @@ export interface SourCParser2Listener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitStructVarDecl?: (ctx: StructVarDeclContext) => void
+
+  /**
+   * Enter a parse tree produced by the `ArraySubscript`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  enterArraySubscript?: (ctx: ArraySubscriptContext) => void
+  /**
+   * Exit a parse tree produced by the `ArraySubscript`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  exitArraySubscript?: (ctx: ArraySubscriptContext) => void
+
+  /**
+   * Enter a parse tree produced by the `StructAccess`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  enterStructAccess?: (ctx: StructAccessContext) => void
+  /**
+   * Exit a parse tree produced by the `StructAccess`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  exitStructAccess?: (ctx: StructAccessContext) => void
+
+  /**
+   * Enter a parse tree produced by the `StructAccessThruPointer`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  enterStructAccessThruPointer?: (ctx: StructAccessThruPointerContext) => void
+  /**
+   * Exit a parse tree produced by the `StructAccessThruPointer`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  exitStructAccessThruPointer?: (ctx: StructAccessThruPointerContext) => void
+
+  /**
+   * Enter a parse tree produced by the `AtomIdentifier`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  enterAtomIdentifier?: (ctx: AtomIdentifierContext) => void
+  /**
+   * Exit a parse tree produced by the `AtomIdentifier`
+   * labeled alternative in `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  exitAtomIdentifier?: (ctx: AtomIdentifierContext) => void
 
   /**
    * Enter a parse tree produced by the `SuffixIncr`
@@ -719,4 +692,15 @@ export interface SourCParser2Listener extends ParseTreeListener {
    * @param ctx the parse tree
    */
   exitAssignment?: (ctx: AssignmentContext) => void
+
+  /**
+   * Enter a parse tree produced by `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  enterUpdateOperands?: (ctx: UpdateOperandsContext) => void
+  /**
+   * Exit a parse tree produced by `SourCParser2.updateOperands`.
+   * @param ctx the parse tree
+   */
+  exitUpdateOperands?: (ctx: UpdateOperandsContext) => void
 }

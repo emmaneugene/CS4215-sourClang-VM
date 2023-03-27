@@ -16,11 +16,27 @@ declare module 'estree' {
     /** Reflects size of array, if this identifier is an array */
     arraySize?: number | undefined
 
+    /**
+     * Reflects if this is an struct declaration. Defaults to false.
+     * This field takes precedence over `datatype`.
+     */
+    isStruct?: boolean | undefined
+
+    /** Reflects fields of struct, if this identifier is a struct. */
+    structFields?: StructFields | undefined
+
+    /** Reflects if this is a memory address. */
+    isMemory?: boolean | undefined
+
     /** Extends the existing estree Identifier interface with pointer. */
-    pointerList?: PointerList
+    pointerList?: string[]
   }
 
-  type PointerList = undefined | ['*', PointerList]
+  /** Recursive inner definition to StructFieldInner. */
+  export type StructFieldInner = Record<string, DataType>
+
+  /** Recursive definition to StructFields. */
+  export type StructFields = Record<string, DataType | StructFieldInner>
 
   export interface ExpressionMap {
     CastExpression: CastExpression
@@ -38,7 +54,7 @@ declare module 'estree' {
 
   export interface SizeofExpression extends BaseExpression {
     type: 'SizeofExpression'
-    operand: DataType
+    operand: Identifier | DataType
   }
 
   export interface AddressofExpression extends BaseExpression {
