@@ -16,7 +16,12 @@ typeNameList:
     ;
 
 program:
-    (functionDefinition | declaration Semi)*
+    programStmt*
+    ;
+
+programStmt:
+    functionDefinition 
+    | declaration Semi
     ;
 
 functionDefinition:
@@ -40,9 +45,9 @@ stmt:
     | declaration Semi # DeclrStmt 
     | assignment Semi # AssgnStmt
     | compoundStatement # CmpdStmt
-    | If LeftParen expr RightParen compoundStatement (Else compoundStatement) # IfElseStmt
+    | If LeftParen expr RightParen compoundStatement (Else compoundStatement)? # IfElseStmt
     | While LeftParen expr RightParen compoundStatement # WhileStmt
-    | For LeftParen init=expr? Semi test=expr? Semi incr=expr? compoundStatement # ForStmt
+    | For LeftParen init=assignment? Semi test=expr? Semi incr=expr? RightParen compoundStatement # ForStmt
     | Return expr? Semi # ReturnExpr
     | Break Semi # BreakStmt
     | Continue Semi # ContinueStmt

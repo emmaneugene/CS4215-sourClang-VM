@@ -3,7 +3,6 @@ import { ErrorNode } from 'antlr4ts/tree/ErrorNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
-import { DataType } from '../typings/datatype'
 import {
   AddContext,
   EqualityContext,
@@ -12,6 +11,7 @@ import {
   TypeContext,
   TypeDefContext
 } from './../lang/SourCParser2'
+import { DataType } from './../typings/datatype';
 import { FatalSyntaxError } from './parser.error'
 
 /* Gets the token location. */
@@ -179,9 +179,9 @@ export function getAddOp(ctx: AddContext): '+' | '-' {
 
 export function getRelOp(ctx: RelOprContext): '>' | '>=' | '<' | '<=' {
   if (ctx.Greater()?.text === '>') return '>'
-  if (ctx.GreaterEqual()?.text === '>') return '>='
-  if (ctx.Less()?.text === '>') return '<'
-  if (ctx.LessEqual()?.text === '>') return '<='
+  if (ctx.GreaterEqual()?.text === '>=') return '>='
+  if (ctx.Less()?.text === '<') return '<'
+  if (ctx.LessEqual()?.text === '<=') return '<='
   throw new FatalSyntaxError(contextToLocation(ctx.ruleContext))
 }
 

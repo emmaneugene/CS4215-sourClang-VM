@@ -40,6 +40,7 @@ import {
   PriIdentifierContext,
   PrimaryIdentifierContext,
   ProgramContext,
+  ProgramStmtContext,
   RelOprContext,
   ReturnExprContext,
   SizeofExprContext,
@@ -58,9 +59,7 @@ import {
   WhileStmtContext
 } from '../lang/SourCParser2'
 import { DataType } from '../typings/datatype'
-import { StructDef } from '../typings/structDef'
 import { SourCParser2Visitor } from './../lang/SourCParser2Visitor'
-import { expressionStatement } from './../utils/astCreator'
 import { FatalSyntaxError, InvalidConfigError } from './parser.error'
 import {
   contextToLocation,
@@ -77,7 +76,9 @@ import {
 } from './parser.util'
 
 export class Visitor implements SourCParser2Visitor<es.Node> {
-  private STRUCT_DECLARATIONS: Record<string, StructDef> = {}
+  private PARSER_MISCONFIG = 'Parser is misconfigured'
+
+  private STRUCT_DECLARATIONS: Record<string, es.StructDef> = {}
 
   // === Primary Identifiers ===
 
@@ -85,8 +86,9 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     const c = ctx.Constant()
     const s = ctx.StringLiteral()
 
-    if (c && parseInt(c.text)) {
+    if (c !== undefined && !isNaN(parseInt(c.text))) {
       return {
+        ...contextToLocation(ctx),
         type: 'Literal',
         value: c.text,
         raw: c.text
@@ -95,16 +97,18 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
     if (s) {
       return {
+        ...contextToLocation(ctx),
         type: 'Literal',
         value: s.text,
         raw: s.text
       }
     }
 
-    // Pass control back to the tree
-    // So that it will use the alternative labels
-    // Under `addressableOperands`
-    return this.visit(ctx.addressableOperands()!)
+    if (ctx.addressableOperands()) {
+      return this.visit(ctx.addressableOperands()!)
+    }
+
+    throw new FatalSyntaxError(contextToLocation(ctx))
   }
 
   visitAddressableOperands(ctx: AddressableOperandsContext): es.Node {
@@ -122,6 +126,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitArraySubscript(ctx: ArraySubscriptContext): es.MemberExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'MemberExpression',
       object: {
         type: 'Identifier',
@@ -137,19 +142,28 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
 
   visitStructAccess(ctx: StructAccessContext): es.MemberExpression {
+    const structName = ctx.Identifier().at(0)!.text
+
+    if (!this.STRUCT_DECLARATIONS[structName]) {
+      throw new FatalSyntaxError(contextToLocation(ctx))
+    }
+
     return {
+      ...contextToLocation(ctx),
       type: 'MemberExpression',
       object: {
         type: 'Identifier',
         name: ctx.Identifier().at(0)!.text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
-        isStruct: true
+        isStruct: true,
+        structFields: this.STRUCT_DECLARATIONS[structName]
       },
       computed: false, // This field is used to determine if array or struct access
       property: {
         type: 'Identifier',
         name: ctx.Identifier().at(1)!.text,
-        datatype: DataType.UNKNOWN // To be determined by the compiler
+        // This field should be ignored
+        datatype: DataType.UNKNOWN,
       },
       optional: false
     }
@@ -157,6 +171,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitStructAccessThruPointer(ctx: StructAccessThruPointerContext): es.MemberExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'MemberExpression',
       object: {
         type: 'Identifier',
@@ -177,6 +192,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitAtomIdentifier(ctx: AtomIdentifierContext): es.Identifier {
     return {
+      ...contextToLocation(ctx),
       type: 'Identifier',
       name: ctx.Identifier().text,
       datatype: DataType.UNKNOWN // To be determined by the compiler
@@ -244,18 +260,21 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     }
 
     // Insert into the global struct definitions
-    const structDef: StructDef = {}
+    const structDef: es.StructDef = {}
     const structName = ctx.Identifier().text
     fields.forEach(f => {
       const d = f.declarations[0]
 
       if (!d) throw new FatalSyntaxError(contextToLocation(ctx))
-      if (d.init) throw new InvalidConfigError(contextToLocation(ctx))
+      if (d.init) throw new FatalSyntaxError(contextToLocation(ctx))
       if (d.id.type !== 'Identifier') throw new FatalSyntaxError(contextToLocation(ctx))
       const id = d.id as es.Identifier
 
       // The array should be considered into id.datatype
-      structDef[id.name] = id.datatype
+      structDef[id.name] = {
+        datatype: id.datatype,
+        pointerList: id.pointerList ?? []
+      }
     })
 
     if (this.STRUCT_DECLARATIONS[structName]) throw new FatalSyntaxError(contextToLocation(ctx))
@@ -264,6 +283,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     // Don't return anything useful
     // Since it updates the global struct declarations
     return {
+      ...contextToLocation(ctx),
       type: 'EmptyStatement'
     }
   }
@@ -302,6 +322,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitSuffixIncr(ctx: SuffixIncrContext): es.UpdateExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'UpdateExpression',
       // Validated by `addressableOperands`
       argument: this.visit(ctx.addressableOperands()) as es.Expression,
@@ -315,6 +336,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     const args = ctx.seqExprLs()?._eLs.map(e => this.visit(e)) ?? []
 
     return {
+      ...contextToLocation(ctx),
       type: 'CallExpression',
       callee: {
         type: 'Identifier',
@@ -328,6 +350,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitPrefixIncr(ctx: PrefixIncrContext): es.UpdateExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'UpdateExpression',
       // Validated by `addressableOperands`
       argument: this.visit(ctx.addressableOperands()) as es.Expression,
@@ -338,6 +361,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitUnop(ctx: UnopContext): es.UnaryExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'UnaryExpression',
       operator: getUnaryOp(ctx, ctx.Minus(), ctx.Not()),
       // validated by visit method
@@ -348,6 +372,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitCast(ctx: CastContext): es.CastExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'CastExpression',
       targetType: getType(ctx.type()),
       // validated by visit method
@@ -357,6 +382,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitDereference(ctx: DereferenceContext): es.DereferenceExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'DereferenceExpression',
       // validated by visit method
       expression: this.visit(ctx.expr()) as es.Expression
@@ -370,6 +396,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     }
 
     return {
+      ...contextToLocation(ctx),
       type: 'AddressofExpression',
       expression: expr as es.Identifier
     }
@@ -380,6 +407,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
     if (operandCtx.Star() || operandCtx.And() || operandCtx.type()) {
       return {
+        ...contextToLocation(ctx),
         type: 'Literal',
         value: 8,
         raw: operandCtx.toString()
@@ -388,6 +416,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
     if (operandCtx.Identifier()) {
       return {
+        ...contextToLocation(ctx),
         type: 'SizeofExpression',
         operand: {
           type: 'Identifier',
@@ -402,6 +431,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitMult(ctx: MultContext): es.BinaryExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'BinaryExpression',
       operator: getMultOp(ctx),
       left: this.visit(ctx.expr().at(0)!) as es.Expression,
@@ -411,6 +441,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitAdd(ctx: AddContext): es.BinaryExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'BinaryExpression',
       operator: getAddOp(ctx),
       left: this.visit(ctx.expr().at(0)!) as es.Expression,
@@ -420,6 +451,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitRelOpr(ctx: RelOprContext): es.BinaryExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'BinaryExpression',
       operator: getRelOp(ctx),
       left: this.visit(ctx.expr().at(0)!) as es.Expression,
@@ -429,6 +461,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitEquality(ctx: EqualityContext): es.BinaryExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'BinaryExpression',
       operator: getEqOp(ctx),
       left: this.visit(ctx.expr().at(0)!) as es.Expression,
@@ -438,6 +471,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitAnd(ctx: AndContext): es.LogicalExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'LogicalExpression',
       operator: ctx.AndAnd().text as '&&',
       left: this.visit(ctx.expr().at(0)!) as es.Expression,
@@ -447,6 +481,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitOr(ctx: OrContext): es.LogicalExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'LogicalExpression',
       operator: ctx.OrOr().text as '||',
       left: this.visit(ctx.expr().at(0)!) as es.Expression,
@@ -460,6 +495,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitTernary(ctx: TernaryContext): es.ConditionalExpression {
     return {
+      ...contextToLocation(ctx),
       type: 'ConditionalExpression',
       test: this.visit(ctx._cond) as es.Expression,
       consequent: this.visit(ctx._cons) as es.Expression,
@@ -487,6 +523,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitExprStmt(ctx: ExprStmtContext): es.ExpressionStatement {
     return {
+      ...contextToLocation(ctx),
       type: 'ExpressionStatement',
       // validated by `this.visitExpression()`
       expression: this.visit(ctx.expr()) as es.Expression
@@ -513,17 +550,22 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
 
   visitIfElseStmt(ctx: IfElseStmtContext): es.IfStatement {
+    const con = ctx.compoundStatement().at(0)
+    const alt = ctx.compoundStatement().at(1)
+
     return {
+      ...contextToLocation(ctx),
       type: 'IfStatement',
       test: this.visit(ctx.expr()) as es.Expression,
       // Validated by the `compoundStatement` rule
-      consequent: this.visit(ctx.compoundStatement().at(0)!) as es.BlockStatement,
-      alternate: this.visit(ctx.compoundStatement().at(1)!) as es.BlockStatement
+      consequent: this.visit(con!) as es.BlockStatement,
+      alternate: alt ? this.visit(alt) as es.BlockStatement : undefined
     }
   }
 
   visitWhileStmt(ctx: WhileStmtContext): es.WhileStatement {
     return {
+      ...contextToLocation(ctx),
       type: 'WhileStatement',
       test: this.visit(ctx.expr()) as es.Expression,
       body: this.visit(ctx.compoundStatement()) as es.BlockStatement
@@ -532,6 +574,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
   visitForStmt(ctx: ForStmtContext): es.ForStatement {
     return {
+      ...contextToLocation(ctx),
       type: 'ForStatement',
       init: ctx._init ? (this.visit(ctx._init) as es.Expression) : undefined,
       test: ctx._test ? (this.visit(ctx._test) as es.Expression) : undefined,
@@ -545,24 +588,28 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
 
     if (eCtx) {
       return {
+        ...contextToLocation(ctx),
         type: 'ReturnStatement',
         argument: this.visit(eCtx) as es.Expression
       }
     }
 
     return {
+      ...contextToLocation(ctx),
       type: 'ReturnStatement'
     }
   }
 
-  visitBreakStmt(_ctx: BreakStmtContext): es.BreakStatement {
+  visitBreakStmt(ctx: BreakStmtContext): es.BreakStatement {
     return {
+      ...contextToLocation(ctx),
       type: 'BreakStatement'
     }
   }
 
-  visitContinueStmt(_ctx: ContinueStmtContext): es.ContinueStatement {
+  visitContinueStmt(ctx: ContinueStmtContext): es.ContinueStatement {
     return {
+      ...contextToLocation(ctx),
       type: 'ContinueStatement'
     }
   }
@@ -593,6 +640,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       // Dereference
       // E.g. `*x = 1;`
       return {
+        ...contextToLocation(ctx),
         type: 'DerefLeftAssignmentExpression',
         operator,
         derefChain: ctx.Star().map(s => s.text),
@@ -601,6 +649,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       }
     } else {
       return {
+        ...contextToLocation(ctx),
         type: 'AssignmentExpression',
         operator,
         left,
@@ -619,6 +668,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     }
 
     return {
+      ...contextToLocation(ctx),
       type: 'BlockStatement',
       body
     }
@@ -631,9 +681,20 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       stmts.push(this.visit(ctx.getChild(i)))
     }
     return {
+      ...contextToLocation(ctx),
       type: 'Program',
       sourceType: 'script',
       body: stmts as es.Statement[]
+    }
+  }
+
+  visitProgramStmt(ctx: ProgramStmtContext): es.FunctionDeclaration | es.VariableDeclaration {
+    if (ctx.functionDefinition()) {
+      return this.visit(ctx.functionDefinition()!) as es.FunctionDeclaration
+    } else if (ctx.declaration()) {
+      return this.visit(ctx.declaration()!) as es.VariableDeclaration
+    } else {
+      throw new FatalSyntaxError(contextToLocation(ctx))
     }
   }
 
@@ -645,6 +706,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     const body = this.visit(stmt) as es.BlockStatement
 
     return {
+      ...contextToLocation(ctx),
       type: 'FunctionDeclaration',
       id: getIdentifier(typeDef, name, typeDef.Star().length > 0),
       params:
@@ -690,15 +752,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   visit(tree: ParseTree): es.Node {
     return tree.accept(this)
   }
-  visitChildren(node: RuleNode): es.Node {
-    const nodes: es.Node[] = []
-    for (let i = 0; i < node.childCount; i++) {
-      nodes.push(this.visit(node.getChild(i)))
-    }
-    return {
-      type: 'BlockStatement',
-      body: nodes as es.Statement[]
-    }
+  visitChildren(_node: RuleNode): es.Node {
+    throw new Error(this.PARSER_MISCONFIG)
   }
   visitTerminal(node: TerminalNode): es.Node {
     return node.accept(this)
@@ -730,6 +785,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     if (t) {
       // E.g. `int x`, `int ** x`, int x[]
       return {
+        ...args.loc,
         type: 'VariableDeclaration',
         kind: 'var',
         declarations: [
@@ -750,6 +806,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       // E.g. `struct Person ident`, `struct Person *ident`
       // `struct Person ident[]`
       return {
+        ...args.loc,
         type: 'VariableDeclaration',
         kind: 'var',
         declarations: [
@@ -770,7 +827,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       }
     }
 
-    throw new InvalidConfigError(args.loc)
+    throw new FatalSyntaxError(args.loc)
   }
 }
 

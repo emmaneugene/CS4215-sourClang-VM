@@ -7,7 +7,7 @@ const f = (when: string, should: string) => `When_\'${when}\'_Should_${should}`
 let context: Context = createContext(Variant.DEFAULT, undefined, undefined)
 
 beforeAll(() => {
-  console.log = () => {}
+  console.log = () => { }
 })
 
 beforeEach(() => {
@@ -112,7 +112,6 @@ const PASS_ARR_TEST_CASES: string[] = [
   'int x[] = {1, 2, 3};',
   'int x[3];',
   'int x[3] = {1, 2};',
-  'int x[3] = "123";'
 ]
 
 describe('GoodArray', () => {

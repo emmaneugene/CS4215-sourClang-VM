@@ -23,20 +23,21 @@ declare module 'estree' {
     isStruct?: boolean | undefined
 
     /** Reflects fields of struct, if this identifier is a struct. */
-    structFields?: StructFields | undefined
-
-    /** Reflects if this is a memory address. */
-    isMemory?: boolean | undefined
+    structFields?: StructDef | undefined
 
     /** Extends the existing estree Identifier interface with pointer. */
     pointerList?: string[]
+
+    /** Reflects if this is a memory address. */
+    isMemory?: boolean | undefined
   }
 
-  /** Recursive inner definition to StructFieldInner. */
-  export type StructFieldInner = Record<string, DataType>
+  export type StructType = {
+    datatype: DataType
+    pointerList: string[]
+  }
 
-  /** Recursive definition to StructFields. */
-  export type StructFields = Record<string, DataType | StructFieldInner>
+  export type StructDef = { [attribute: string]: StructDef | StructType }
 
   export interface ExpressionMap {
     CastExpression: CastExpression
