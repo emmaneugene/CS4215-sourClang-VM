@@ -88,7 +88,7 @@ sizeOfOperands:
 
 declaration:
     typeDef Identifier (Assign (expr | exprLs))? # VariableDecl
-    | typeDef Identifier LeftBracket expr? RightBracket (Assign exprLs)? # ArrayDecl
+    | typeDef Identifier LeftBracket Constant? RightBracket (Assign exprLs)? # ArrayDecl
     | typeDef LeftParen Star Identifier RightParen LeftParen paramLs? RightParen # FxPointerDecl
     | Struct Identifier LeftBrace (declaration Semi)+ RightBrace # StructDecl
     ;

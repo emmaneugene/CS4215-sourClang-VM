@@ -1,4 +1,4 @@
-import { BlockStatement, FunctionDeclaration, Program } from 'estree'
+import { FunctionDeclaration, Program } from 'estree'
 
 import createContext from '../../createContext'
 import { Context, Variant } from '../../types'
@@ -14,9 +14,9 @@ const getStmt = (result: Program | undefined) => {
 
 let context: Context = createContext(Variant.DEFAULT, undefined, undefined)
 
-// beforeAll(() => {
-//   console.log = () => { }
-// })
+beforeAll(() => {
+  console.log = () => {}
+})
 
 beforeEach(() => {
   context = createContext(Variant.DEFAULT, undefined, undefined)

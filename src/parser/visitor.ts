@@ -163,7 +163,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         type: 'Identifier',
         name: ctx.Identifier().at(1)!.text,
         // This field should be ignored
-        datatype: DataType.UNKNOWN,
+        datatype: DataType.UNKNOWN
       },
       optional: false
     }
@@ -228,6 +228,12 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       structDef: typedef.Identifier()?.text
     })
 
+    if (ctx.expr()) {
+      // Validated by `this.visit(e: Expression)`
+      const init = this.visit(ctx.expr()!) as es.Expression
+      v.declarations[0].init = init
+    }
+
     return v
   }
 
@@ -243,6 +249,37 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       type: typedef.type(),
       structDef: typedef.Identifier()?.text
     })
+
+    const c = ctx.Constant()
+    let size: number | undefined
+    if (c !== undefined && !isNaN(parseInt(c.text))) {
+      size = parseInt(c.text)
+      const id = v.declarations[0].id as es.Identifier
+      id.arraySize = size
+    }
+
+    if (ctx.exprLs()) {
+      let expressions = ctx
+        .exprLs()!
+        .seqExprLs()
+        ._eLs.map(e => this.visit(e) as es.Expression)
+
+      if (size !== undefined && size > expressions.length) {
+        // E.g int x[2] = {1, 2, 3, 4};
+        // Should only take 1, 2 from the RHS
+        expressions = expressions.slice(0, size)
+      }
+
+      v.declarations[0].init = {
+        type: 'SequenceExpression',
+        expressions
+      }
+    }
+
+    if (size === undefined && !ctx.exprLs()) {
+      // The size cannot be determined
+      throw new FatalSyntaxError(contextToLocation(ctx))
+    }
 
     return v
   }
@@ -559,7 +596,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       test: this.visit(ctx.expr()) as es.Expression,
       // Validated by the `compoundStatement` rule
       consequent: this.visit(con!) as es.BlockStatement,
-      alternate: alt ? this.visit(alt) as es.BlockStatement : undefined
+      alternate: alt ? (this.visit(alt) as es.BlockStatement) : undefined
     }
   }
 

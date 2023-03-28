@@ -11,7 +11,7 @@ import {
   TypeContext,
   TypeDefContext
 } from './../lang/SourCParser2'
-import { DataType } from './../typings/datatype';
+import { DataType } from './../typings/datatype'
 import { FatalSyntaxError } from './parser.error'
 
 /* Gets the token location. */

@@ -5,46 +5,135 @@ Object {
   "body": Object {
     "body": Array [
       Object {
+        "end": Object {
+          "column": 43,
+          "line": 1,
+        },
         "expression": Object {
           "argument": Object {
             "datatype": "unknown",
+            "end": Object {
+              "column": 40,
+              "line": 1,
+            },
             "name": "y",
+            "start": Object {
+              "column": 40,
+              "line": 1,
+            },
             "type": "Identifier",
+          },
+          "end": Object {
+            "column": 41,
+            "line": 1,
           },
           "operator": "++",
           "prefix": false,
+          "start": Object {
+            "column": 40,
+            "line": 1,
+          },
           "type": "UpdateExpression",
+        },
+        "start": Object {
+          "column": 40,
+          "line": 1,
         },
         "type": "ExpressionStatement",
       },
     ],
+    "end": Object {
+      "column": 45,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 38,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 45,
+    "line": 1,
+  },
   "init": Object {
+    "derefChain": Array [],
+    "end": Object {
+      "column": 22,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 18,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 18,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "=",
     "right": Object {
+      "end": Object {
+        "column": 22,
+        "line": 1,
+      },
       "raw": "1",
+      "start": Object {
+        "column": 22,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 1,
+      "value": "1",
     },
-    "type": "FlexiAssignmentExpression",
+    "start": Object {
+      "column": 18,
+      "line": 1,
+    },
+    "type": "DerefLeftAssignmentExpression",
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
   },
   "test": Object {
+    "end": Object {
+      "column": 29,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 25,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 25,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "<",
     "right": Object {
+      "end": Object {
+        "column": 29,
+        "line": 1,
+      },
       "raw": "10",
+      "start": Object {
+        "column": 29,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 10,
+      "value": "10",
+    },
+    "start": Object {
+      "column": 25,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
@@ -52,11 +141,27 @@ Object {
   "update": Object {
     "argument": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 33,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 33,
+        "line": 1,
+      },
       "type": "Identifier",
+    },
+    "end": Object {
+      "column": 34,
+      "line": 1,
     },
     "operator": "++",
     "prefix": false,
+    "start": Object {
+      "column": 33,
+      "line": 1,
+    },
     "type": "UpdateExpression",
   },
 }
@@ -67,12 +172,36 @@ Object {
   "body": Object {
     "body": Array [
       Object {
+        "end": Object {
+          "column": 31,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 23,
+          "line": 1,
+        },
         "type": "ContinueStatement",
       },
     ],
+    "end": Object {
+      "column": 33,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 21,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 33,
+    "line": 1,
+  },
   "init": undefined,
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": undefined,
   "type": "ForStatement",
   "update": undefined,
@@ -83,34 +212,71 @@ exports[`FunctionDefinition When_'int foo() { return 10;} '_Should_ParseSuccessf
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
-              Object {
-                "argument": Object {
-                  "raw": "10",
-                  "type": "Literal",
-                  "value": 10,
-                },
-                "type": "ReturnStatement",
+      "body": Object {
+        "body": Array [
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 19,
+                "line": 1,
               },
-            ],
-            "type": "BlockStatement",
+              "raw": "10",
+              "start": Object {
+                "column": 19,
+                "line": 1,
+              },
+              "type": "Literal",
+              "value": "10",
+            },
+            "end": Object {
+              "column": 21,
+              "line": 1,
+            },
+            "start": Object {
+              "column": 12,
+              "line": 1,
+            },
+            "type": "ReturnStatement",
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "foo",
-            "type": "Identifier",
-          },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+        ],
+        "end": Object {
+          "column": 22,
+          "line": 1,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 10,
+          "line": 1,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 22,
+        "line": 1,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "foo",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 22,
+    "line": 1,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 1,
+  },
   "type": "Program",
 }
 `;
@@ -120,72 +286,188 @@ Object {
   "alternate": Object {
     "body": Array [
       Object {
-        "expression": Object {
+        "derefChain": Array [],
+        "end": Object {
+          "column": 53,
+          "line": 1,
+        },
+        "left": Object {
+          "datatype": "unknown",
+          "end": Object {
+            "column": 45,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 45,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "=",
+        "right": Object {
+          "end": Object {
+            "column": 53,
+            "line": 1,
+          },
           "left": Object {
             "datatype": "unknown",
+            "end": Object {
+              "column": 49,
+              "line": 1,
+            },
             "name": "x",
+            "start": Object {
+              "column": 49,
+              "line": 1,
+            },
             "type": "Identifier",
           },
-          "operator": "=",
+          "operator": "-",
           "right": Object {
-            "left": Object {
-              "datatype": "unknown",
-              "name": "x",
-              "type": "Identifier",
+            "end": Object {
+              "column": 53,
+              "line": 1,
             },
-            "operator": "-",
-            "right": Object {
-              "raw": "1",
-              "type": "Literal",
-              "value": 1,
+            "raw": "1",
+            "start": Object {
+              "column": 53,
+              "line": 1,
             },
-            "type": "BinaryExpression",
+            "type": "Literal",
+            "value": "1",
           },
-          "type": "FlexiAssignmentExpression",
+          "start": Object {
+            "column": 49,
+            "line": 1,
+          },
+          "type": "BinaryExpression",
         },
-        "type": "ExpressionStatement",
+        "start": Object {
+          "column": 45,
+          "line": 1,
+        },
+        "type": "DerefLeftAssignmentExpression",
       },
     ],
+    "end": Object {
+      "column": 56,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 43,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
   "consequent": Object {
     "body": Array [
       Object {
-        "expression": Object {
-          "left": Object {
-            "datatype": "unknown",
-            "name": "x",
-            "type": "Identifier",
-          },
-          "operator": "=",
-          "right": Object {
-            "raw": "10",
-            "type": "Literal",
-            "value": 10,
-          },
-          "type": "FlexiAssignmentExpression",
+        "derefChain": Array [],
+        "end": Object {
+          "column": 32,
+          "line": 1,
         },
-        "type": "ExpressionStatement",
+        "left": Object {
+          "datatype": "unknown",
+          "end": Object {
+            "column": 28,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 28,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "=",
+        "right": Object {
+          "end": Object {
+            "column": 32,
+            "line": 1,
+          },
+          "raw": "10",
+          "start": Object {
+            "column": 32,
+            "line": 1,
+          },
+          "type": "Literal",
+          "value": "10",
+        },
+        "start": Object {
+          "column": 28,
+          "line": 1,
+        },
+        "type": "DerefLeftAssignmentExpression",
       },
     ],
+    "end": Object {
+      "column": 36,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 26,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 56,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 23,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 17,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 17,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "==",
     "right": Object {
       "argument": Object {
+        "end": Object {
+          "column": 23,
+          "line": 1,
+        },
         "raw": "1",
+        "start": Object {
+          "column": 23,
+          "line": 1,
+        },
         "type": "Literal",
-        "value": 1,
+        "value": "1",
+      },
+      "end": Object {
+        "column": 23,
+        "line": 1,
       },
       "operator": "-",
       "prefix": true,
+      "start": Object {
+        "column": 22,
+        "line": 1,
+      },
       "type": "UnaryExpression",
+    },
+    "start": Object {
+      "column": 17,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
@@ -199,36 +481,98 @@ Object {
   "consequent": Object {
     "body": Array [
       Object {
-        "expression": Object {
-          "left": Object {
-            "datatype": "unknown",
-            "name": "x",
-            "type": "Identifier",
-          },
-          "operator": "=",
-          "right": Object {
-            "raw": "10",
-            "type": "Literal",
-            "value": 10,
-          },
-          "type": "FlexiAssignmentExpression",
+        "derefChain": Array [],
+        "end": Object {
+          "column": 31,
+          "line": 1,
         },
-        "type": "ExpressionStatement",
+        "left": Object {
+          "datatype": "unknown",
+          "end": Object {
+            "column": 27,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 27,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "=",
+        "right": Object {
+          "end": Object {
+            "column": 31,
+            "line": 1,
+          },
+          "raw": "10",
+          "start": Object {
+            "column": 31,
+            "line": 1,
+          },
+          "type": "Literal",
+          "value": "10",
+        },
+        "start": Object {
+          "column": 27,
+          "line": 1,
+        },
+        "type": "DerefLeftAssignmentExpression",
       },
     ],
+    "end": Object {
+      "column": 35,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 25,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 35,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 22,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 17,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 17,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "==",
     "right": Object {
+      "end": Object {
+        "column": 22,
+        "line": 1,
+      },
       "raw": "1",
+      "start": Object {
+        "column": 22,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 1,
+      "value": "1",
+    },
+    "start": Object {
+      "column": 17,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
@@ -240,12 +584,36 @@ exports[`While When_'while (1) { }'_Should_ParseSuccessfully 1`] = `
 Object {
   "body": Object {
     "body": Array [],
+    "end": Object {
+      "column": 25,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 23,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 25,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 20,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 20,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "type": "WhileStatement",
 }
@@ -256,15 +624,47 @@ Object {
   "body": Object {
     "body": Array [
       Object {
+        "end": Object {
+          "column": 30,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 25,
+          "line": 1,
+        },
         "type": "BreakStatement",
       },
     ],
+    "end": Object {
+      "column": 32,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 23,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 32,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 20,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 20,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "type": "WhileStatement",
 }
@@ -275,15 +675,47 @@ Object {
   "body": Object {
     "body": Array [
       Object {
+        "end": Object {
+          "column": 33,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 25,
+          "line": 1,
+        },
         "type": "ContinueStatement",
       },
     ],
+    "end": Object {
+      "column": 35,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 23,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 35,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 20,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 20,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "type": "WhileStatement",
 }
@@ -295,33 +727,97 @@ Object {
     "body": Array [
       Object {
         "argument": Object {
+          "end": Object {
+            "column": 37,
+            "line": 1,
+          },
           "left": Object {
             "argument": Object {
               "datatype": "unknown",
+              "end": Object {
+                "column": 33,
+                "line": 1,
+              },
               "name": "x",
+              "start": Object {
+                "column": 33,
+                "line": 1,
+              },
               "type": "Identifier",
+            },
+            "end": Object {
+              "column": 33,
+              "line": 1,
             },
             "operator": "-",
             "prefix": true,
+            "start": Object {
+              "column": 32,
+              "line": 1,
+            },
             "type": "UnaryExpression",
           },
           "operator": "+",
           "right": Object {
+            "end": Object {
+              "column": 37,
+              "line": 1,
+            },
             "raw": "10",
+            "start": Object {
+              "column": 37,
+              "line": 1,
+            },
             "type": "Literal",
-            "value": 10,
+            "value": "10",
+          },
+          "start": Object {
+            "column": 32,
+            "line": 1,
           },
           "type": "BinaryExpression",
+        },
+        "end": Object {
+          "column": 39,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 25,
+          "line": 1,
         },
         "type": "ReturnStatement",
       },
     ],
+    "end": Object {
+      "column": 41,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 23,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 41,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 20,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 20,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "type": "WhileStatement",
 }
@@ -332,41 +828,121 @@ Object {
   "body": Object {
     "body": Array [
       Object {
+        "end": Object {
+          "column": 37,
+          "line": 1,
+        },
         "expression": Object {
           "argument": Object {
             "datatype": "unknown",
+            "end": Object {
+              "column": 34,
+              "line": 1,
+            },
             "name": "x",
+            "start": Object {
+              "column": 34,
+              "line": 1,
+            },
             "type": "Identifier",
+          },
+          "end": Object {
+            "column": 35,
+            "line": 1,
           },
           "operator": "--",
           "prefix": false,
+          "start": Object {
+            "column": 34,
+            "line": 1,
+          },
           "type": "UpdateExpression",
+        },
+        "start": Object {
+          "column": 34,
+          "line": 1,
         },
         "type": "ExpressionStatement",
       },
     ],
+    "end": Object {
+      "column": 39,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 32,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 39,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 29,
+      "line": 1,
+    },
     "left": Object {
+      "end": Object {
+        "column": 25,
+        "line": 1,
+      },
       "left": Object {
+        "end": Object {
+          "column": 20,
+          "line": 1,
+        },
         "raw": "10",
+        "start": Object {
+          "column": 20,
+          "line": 1,
+        },
         "type": "Literal",
-        "value": 10,
+        "value": "10",
       },
       "operator": "+",
       "right": Object {
+        "end": Object {
+          "column": 25,
+          "line": 1,
+        },
         "raw": "5",
+        "start": Object {
+          "column": 25,
+          "line": 1,
+        },
         "type": "Literal",
-        "value": 5,
+        "value": "5",
+      },
+      "start": Object {
+        "column": 20,
+        "line": 1,
       },
       "type": "BinaryExpression",
     },
     "operator": "<",
     "right": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 29,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 29,
+        "line": 1,
+      },
       "type": "Identifier",
+    },
+    "start": Object {
+      "column": 20,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
@@ -379,32 +955,96 @@ Object {
   "body": Object {
     "body": Array [
       Object {
+        "end": Object {
+          "column": 32,
+          "line": 1,
+        },
         "expression": Object {
           "argument": Object {
             "datatype": "unknown",
+            "end": Object {
+              "column": 29,
+              "line": 1,
+            },
             "name": "x",
+            "start": Object {
+              "column": 29,
+              "line": 1,
+            },
             "type": "Identifier",
+          },
+          "end": Object {
+            "column": 30,
+            "line": 1,
           },
           "operator": "++",
           "prefix": false,
+          "start": Object {
+            "column": 29,
+            "line": 1,
+          },
           "type": "UpdateExpression",
+        },
+        "start": Object {
+          "column": 29,
+          "line": 1,
         },
         "type": "ExpressionStatement",
       },
     ],
+    "end": Object {
+      "column": 34,
+      "line": 1,
+    },
+    "start": Object {
+      "column": 27,
+      "line": 1,
+    },
     "type": "BlockStatement",
   },
+  "end": Object {
+    "column": 34,
+    "line": 1,
+  },
+  "start": Object {
+    "column": 13,
+    "line": 1,
+  },
   "test": Object {
+    "end": Object {
+      "column": 24,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 20,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 20,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "<",
     "right": Object {
+      "end": Object {
+        "column": 24,
+        "line": 1,
+      },
       "raw": "5",
+      "start": Object {
+        "column": 24,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 5,
+      "value": "5",
+    },
+    "start": Object {
+      "column": 20,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
