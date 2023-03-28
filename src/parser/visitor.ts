@@ -90,7 +90,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       return {
         ...contextToLocation(ctx),
         type: 'Literal',
-        value: c.text,
+        value: parseInt(c.text),
         raw: c.text
       }
     }
