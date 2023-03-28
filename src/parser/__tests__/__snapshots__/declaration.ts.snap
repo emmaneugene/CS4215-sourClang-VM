@@ -68,7 +68,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -212,7 +212,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -324,7 +324,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -438,7 +438,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -489,9 +489,9 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "int_ptr",
+            "datatype": "int",
             "isArray": true,
-            "isMemory": true,
+            "isMemory": false,
             "name": "x",
             "pointerList": Array [],
             "type": "Identifier",
@@ -576,9 +576,9 @@ Object {
         Object {
           "id": Object {
             "arraySize": 3,
-            "datatype": "int_ptr",
+            "datatype": "int",
             "isArray": true,
-            "isMemory": true,
+            "isMemory": false,
             "name": "x",
             "pointerList": Array [],
             "type": "Identifier",
@@ -650,9 +650,9 @@ Object {
         Object {
           "id": Object {
             "arraySize": 3,
-            "datatype": "int_ptr",
+            "datatype": "int",
             "isArray": true,
-            "isMemory": true,
+            "isMemory": false,
             "name": "x",
             "pointerList": Array [],
             "type": "Identifier",
@@ -754,7 +754,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -898,7 +898,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -1010,7 +1010,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -1155,7 +1155,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -1267,7 +1267,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {
@@ -1412,7 +1412,7 @@ Object {
             "isArray": false,
             "isMemory": false,
             "name": "x",
-            "pointerList": undefined,
+            "pointerList": Array [],
             "type": "Identifier",
           },
           "init": Object {

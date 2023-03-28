@@ -814,10 +814,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     structDef?: any // TODO
   }): es.VariableDeclaration {
     const t = args.type
-    // even if pointerList.length is 0,
-    // it's a pointer if it's array
-    const _isPtr = args.pointerList.length > 0 || args.isArray
-    const _ptrLs = _isPtr ? args.pointerList || ['*'] : undefined
+    const isPtr = args.pointerList.length > 0
 
     if (t) {
       // E.g. `int x`, `int ** x`, int x[]
@@ -832,9 +829,9 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
               type: 'Identifier',
               name: args.name,
               isArray: args.isArray,
-              datatype: getDatatype(t, args.isUnsigned, _isPtr),
-              isMemory: _isPtr,
-              pointerList: _ptrLs
+              datatype: getDatatype(t, args.isUnsigned, isPtr),
+              isMemory: isPtr,
+              pointerList: args.pointerList
             }
           }
         ]
@@ -855,8 +852,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
               isStruct: true,
               isArray: args.isArray,
               datatype: DataType.UNKNOWN,
-              isMemory: _isPtr,
-              pointerList: _ptrLs,
+              isMemory: isPtr,
+              pointerList: args.pointerList,
               structFields: args.structDef // TODO
             }
           }
