@@ -673,7 +673,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     // LHS
     // Validated by `this.visitAddressableOperands`
     const left = this.visit(ctx.addressableOperands()) as es.Identifier | es.MemberExpression
-    if (ctx.Star()) {
+    if (ctx.Star().length > 0) {
       // Dereference
       // E.g. `*x = 1;`
       return {
