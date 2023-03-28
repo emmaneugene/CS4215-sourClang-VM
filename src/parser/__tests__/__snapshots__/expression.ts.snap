@@ -2,30 +2,78 @@
 
 exports[`3Operands When_'-1/a % 4'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 15,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 11,
+      "line": 1,
+    },
     "left": Object {
       "argument": Object {
+        "end": Object {
+          "column": 9,
+          "line": 1,
+        },
         "raw": "1",
+        "start": Object {
+          "column": 9,
+          "line": 1,
+        },
         "type": "Literal",
-        "value": 1,
+        "value": "1",
+      },
+      "end": Object {
+        "column": 9,
+        "line": 1,
       },
       "operator": "-",
       "prefix": true,
+      "start": Object {
+        "column": 8,
+        "line": 1,
+      },
       "type": "UnaryExpression",
     },
     "operator": "/",
     "right": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 11,
+        "line": 1,
+      },
       "name": "a",
+      "start": Object {
+        "column": 11,
+        "line": 1,
+      },
       "type": "Identifier",
+    },
+    "start": Object {
+      "column": 8,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
   "operator": "%",
   "right": Object {
+    "end": Object {
+      "column": 15,
+      "line": 1,
+    },
     "raw": "4",
+    "start": Object {
+      "column": 15,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 4,
+    "value": "4",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -33,25 +81,65 @@ Object {
 
 exports[`3Operands When_'1/2 + 4000'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 14,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "left": Object {
+      "end": Object {
+        "column": 8,
+        "line": 1,
+      },
       "raw": "1",
+      "start": Object {
+        "column": 8,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 1,
+      "value": "1",
     },
     "operator": "/",
     "right": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+      },
       "raw": "2",
+      "start": Object {
+        "column": 10,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 2,
+      "value": "2",
+    },
+    "start": Object {
+      "column": 8,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
   "operator": "+",
   "right": Object {
+    "end": Object {
+      "column": 14,
+      "line": 1,
+    },
     "raw": "4000",
+    "start": Object {
+      "column": 14,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 4000,
+    "value": "4000",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -59,53 +147,141 @@ Object {
 
 exports[`3Operands When_'abc/def + (-1) * ((-1) * x)'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 34,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 12,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 8,
+        "line": 1,
+      },
       "name": "abc",
+      "start": Object {
+        "column": 8,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "/",
     "right": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 12,
+        "line": 1,
+      },
       "name": "def",
+      "start": Object {
+        "column": 12,
+        "line": 1,
+      },
       "type": "Identifier",
+    },
+    "start": Object {
+      "column": 8,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
   "operator": "+",
   "right": Object {
+    "end": Object {
+      "column": 34,
+      "line": 1,
+    },
     "left": Object {
       "argument": Object {
+        "end": Object {
+          "column": 20,
+          "line": 1,
+        },
         "raw": "1",
+        "start": Object {
+          "column": 20,
+          "line": 1,
+        },
         "type": "Literal",
-        "value": 1,
+        "value": "1",
+      },
+      "end": Object {
+        "column": 20,
+        "line": 1,
       },
       "operator": "-",
       "prefix": true,
+      "start": Object {
+        "column": 19,
+        "line": 1,
+      },
       "type": "UnaryExpression",
     },
     "operator": "*",
     "right": Object {
+      "end": Object {
+        "column": 33,
+        "line": 1,
+      },
       "left": Object {
         "argument": Object {
+          "end": Object {
+            "column": 28,
+            "line": 1,
+          },
           "raw": "1",
+          "start": Object {
+            "column": 28,
+            "line": 1,
+          },
           "type": "Literal",
-          "value": 1,
+          "value": "1",
+        },
+        "end": Object {
+          "column": 28,
+          "line": 1,
         },
         "operator": "-",
         "prefix": true,
+        "start": Object {
+          "column": 27,
+          "line": 1,
+        },
         "type": "UnaryExpression",
       },
       "operator": "*",
       "right": Object {
         "datatype": "unknown",
+        "end": Object {
+          "column": 33,
+          "line": 1,
+        },
         "name": "x",
+        "start": Object {
+          "column": 33,
+          "line": 1,
+        },
         "type": "Identifier",
+      },
+      "start": Object {
+        "column": 26,
+        "line": 1,
       },
       "type": "BinaryExpression",
     },
+    "start": Object {
+      "column": 18,
+      "line": 1,
+    },
     "type": "BinaryExpression",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -113,25 +289,65 @@ Object {
 
 exports[`3Operands When_'x/5 + 0'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 14,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 8,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 8,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "/",
     "right": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+      },
       "raw": "5",
+      "start": Object {
+        "column": 10,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 5,
+      "value": "5",
+    },
+    "start": Object {
+      "column": 8,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
   "operator": "+",
   "right": Object {
+    "end": Object {
+      "column": 14,
+      "line": 1,
+    },
     "raw": "0",
+    "start": Object {
+      "column": 14,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 0,
+    "value": "0",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -139,25 +355,65 @@ Object {
 
 exports[`3Operands When_'y/10 * 9'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 15,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "left": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 8,
+        "line": 1,
+      },
       "name": "y",
+      "start": Object {
+        "column": 8,
+        "line": 1,
+      },
       "type": "Identifier",
     },
     "operator": "/",
     "right": Object {
+      "end": Object {
+        "column": 10,
+        "line": 1,
+      },
       "raw": "10",
+      "start": Object {
+        "column": 10,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 10,
+      "value": "10",
+    },
+    "start": Object {
+      "column": 8,
+      "line": 1,
     },
     "type": "BinaryExpression",
   },
   "operator": "*",
   "right": Object {
+    "end": Object {
+      "column": 15,
+      "line": 1,
+    },
     "raw": "9",
+    "start": Object {
+      "column": 15,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 9,
+    "value": "9",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -165,16 +421,40 @@ Object {
 
 exports[`Addition When_'1+2'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "operator": "+",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "2",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 2,
+    "value": "2",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -182,16 +462,40 @@ Object {
 
 exports[`Addition When_'abc+def'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 12,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "abc",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "+",
   "right": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 12,
+      "line": 1,
+    },
     "name": "def",
+    "start": Object {
+      "column": 12,
+      "line": 1,
+    },
     "type": "Identifier",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -199,16 +503,40 @@ Object {
 
 exports[`Addition When_'x+5'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "x",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "+",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "5",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 5,
+    "value": "5",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -216,21 +544,53 @@ Object {
 
 exports[`Division When_'-1/a'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 11,
+    "line": 1,
+  },
   "left": Object {
     "argument": Object {
+      "end": Object {
+        "column": 9,
+        "line": 1,
+      },
       "raw": "1",
+      "start": Object {
+        "column": 9,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 1,
+      "value": "1",
+    },
+    "end": Object {
+      "column": 9,
+      "line": 1,
     },
     "operator": "-",
     "prefix": true,
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "UnaryExpression",
   },
   "operator": "/",
   "right": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 11,
+      "line": 1,
+    },
     "name": "a",
+    "start": Object {
+      "column": 11,
+      "line": 1,
+    },
     "type": "Identifier",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -238,16 +598,40 @@ Object {
 
 exports[`Division When_'1/2'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "operator": "/",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "2",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 2,
+    "value": "2",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -255,16 +639,40 @@ Object {
 
 exports[`Division When_'abc/def'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 12,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "abc",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "/",
   "right": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 12,
+      "line": 1,
+    },
     "name": "def",
+    "start": Object {
+      "column": 12,
+      "line": 1,
+    },
     "type": "Identifier",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -272,16 +680,40 @@ Object {
 
 exports[`Division When_'x/5'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "x",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "/",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "5",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 5,
+    "value": "5",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -289,16 +721,40 @@ Object {
 
 exports[`Division When_'y/10'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "y",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "/",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "10",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 10,
+    "value": "10",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -306,21 +762,53 @@ Object {
 
 exports[`Multiplication When_'-1*a'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 11,
+    "line": 1,
+  },
   "left": Object {
     "argument": Object {
+      "end": Object {
+        "column": 9,
+        "line": 1,
+      },
       "raw": "1",
+      "start": Object {
+        "column": 9,
+        "line": 1,
+      },
       "type": "Literal",
-      "value": 1,
+      "value": "1",
+    },
+    "end": Object {
+      "column": 9,
+      "line": 1,
     },
     "operator": "-",
     "prefix": true,
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "UnaryExpression",
   },
   "operator": "*",
   "right": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 11,
+      "line": 1,
+    },
     "name": "a",
+    "start": Object {
+      "column": 11,
+      "line": 1,
+    },
     "type": "Identifier",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -328,16 +816,40 @@ Object {
 
 exports[`Multiplication When_'1*2'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "operator": "*",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "2",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 2,
+    "value": "2",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -345,16 +857,40 @@ Object {
 
 exports[`Multiplication When_'abc*def'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 12,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "abc",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "*",
   "right": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 12,
+      "line": 1,
+    },
     "name": "def",
+    "start": Object {
+      "column": 12,
+      "line": 1,
+    },
     "type": "Identifier",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -362,16 +898,40 @@ Object {
 
 exports[`Multiplication When_'x*5'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "x",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "*",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "5",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 5,
+    "value": "5",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -379,16 +939,40 @@ Object {
 
 exports[`Multiplication When_'y*10'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "y",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "*",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "10",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 10,
+    "value": "10",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -396,21 +980,53 @@ Object {
 
 exports[`Subtraction When_'-x-5'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 11,
+    "line": 1,
+  },
   "left": Object {
     "argument": Object {
       "datatype": "unknown",
+      "end": Object {
+        "column": 9,
+        "line": 1,
+      },
       "name": "x",
+      "start": Object {
+        "column": 9,
+        "line": 1,
+      },
       "type": "Identifier",
+    },
+    "end": Object {
+      "column": 9,
+      "line": 1,
     },
     "operator": "-",
     "prefix": true,
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "UnaryExpression",
   },
   "operator": "-",
   "right": Object {
+    "end": Object {
+      "column": 11,
+      "line": 1,
+    },
     "raw": "5",
+    "start": Object {
+      "column": 11,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 5,
+    "value": "5",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -418,16 +1034,40 @@ Object {
 
 exports[`Subtraction When_'1-2'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "raw": "1",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 1,
+    "value": "1",
   },
   "operator": "-",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "2",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 2,
+    "value": "2",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -435,16 +1075,40 @@ Object {
 
 exports[`Subtraction When_'abc-def'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 12,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "abc",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "-",
   "right": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 12,
+      "line": 1,
+    },
     "name": "def",
+    "start": Object {
+      "column": 12,
+      "line": 1,
+    },
     "type": "Identifier",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }
@@ -452,16 +1116,40 @@ Object {
 
 exports[`Subtraction When_'x-5'_Should_ParseSuccessfully 1`] = `
 Object {
+  "end": Object {
+    "column": 10,
+    "line": 1,
+  },
   "left": Object {
     "datatype": "unknown",
+    "end": Object {
+      "column": 8,
+      "line": 1,
+    },
     "name": "x",
+    "start": Object {
+      "column": 8,
+      "line": 1,
+    },
     "type": "Identifier",
   },
   "operator": "-",
   "right": Object {
+    "end": Object {
+      "column": 10,
+      "line": 1,
+    },
     "raw": "5",
+    "start": Object {
+      "column": 10,
+      "line": 1,
+    },
     "type": "Literal",
-    "value": 5,
+    "value": "5",
+  },
+  "start": Object {
+    "column": 8,
+    "line": 1,
   },
   "type": "BinaryExpression",
 }

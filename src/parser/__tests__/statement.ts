@@ -1,4 +1,4 @@
-import { BlockStatement, FunctionDeclaration, Program } from 'estree'
+import { FunctionDeclaration, Program } from 'estree'
 
 import createContext from '../../createContext'
 import { Context, Variant } from '../../types'
@@ -7,7 +7,9 @@ import { parse } from '../parser'
 const f = (when: string, should: string) => `When_\'${when}\'_Should_${should}`
 const prependFixture = (stmt: string) => `int main() { ${stmt} }`
 const getStmt = (result: Program | undefined) => {
-  return ((result?.body[0] as BlockStatement)?.body[0] as FunctionDeclaration).body.body[0]
+  const fx = result?.body[0] as FunctionDeclaration
+  const stmt = fx.body.body[0]
+  return stmt
 }
 
 let context: Context = createContext(Variant.DEFAULT, undefined, undefined)

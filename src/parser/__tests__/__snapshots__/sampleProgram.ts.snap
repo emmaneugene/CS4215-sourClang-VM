@@ -14,185 +14,413 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "float",
-                      "name": "celsius",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "fahrenheit",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Enter temperature in Celsius: \\"",
-                      "type": "Literal",
-                      "value": "\\"Enter temperature in Celsius: \\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
+                "id": Object {
+                  "datatype": "float",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "celsius",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"%f\\"",
-                      "type": "Literal",
-                      "value": "\\"%f\\"",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "celsius",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "scanf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "fahrenheit",
-                    "type": "Identifier",
-                  },
-                  "operator": "=",
-                  "right": Object {
-                    "left": Object {
-                      "left": Object {
-                        "left": Object {
-                          "datatype": "unknown",
-                          "name": "celsius",
-                          "type": "Identifier",
-                        },
-                        "operator": "*",
-                        "right": Object {
-                          "raw": "9",
-                          "type": "Literal",
-                          "value": 9,
-                        },
-                        "type": "BinaryExpression",
-                      },
-                      "operator": "/",
-                      "right": Object {
-                        "raw": "5",
-                        "type": "Literal",
-                        "value": 5,
-                      },
-                      "type": "BinaryExpression",
-                    },
-                    "operator": "+",
-                    "right": Object {
-                      "raw": "32",
-                      "type": "Literal",
-                      "value": 32,
-                    },
-                    "type": "BinaryExpression",
-                  },
-                  "type": "FlexiAssignmentExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"%.2f Celsius = %.2f Fahrenheit\\"",
-                      "type": "Literal",
-                      "value": "\\"%.2f Celsius = %.2f Fahrenheit\\"",
-                    },
-                    Object {
-                      "datatype": "unknown",
-                      "name": "celsius",
-                      "type": "Identifier",
-                    },
-                    Object {
-                      "datatype": "unknown",
-                      "name": "fahrenheit",
-                      "type": "Identifier",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "argument": Object {
-                  "raw": "0",
-                  "type": "Literal",
-                  "value": 0,
-                },
-                "type": "ReturnStatement",
+                "type": "VariableDeclarator",
               },
             ],
-            "type": "BlockStatement",
+            "end": Object {
+              "column": 8,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "fahrenheit",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+          Object {
+            "end": Object {
+              "column": 42,
+              "line": 5,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 5,
+                  },
+                  "raw": "\\"Enter temperature in Celsius: \\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 5,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Enter temperature in Celsius: \\"",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 41,
+                "line": 5,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 5,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 23,
+              "line": 6,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 8,
+                    "line": 6,
+                  },
+                  "raw": "\\"%f\\"",
+                  "start": Object {
+                    "column": 8,
+                    "line": 6,
+                  },
+                  "type": "Literal",
+                  "value": "\\"%f\\"",
+                },
+                Object {
+                  "end": Object {
+                    "column": 15,
+                    "line": 6,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 15,
+                      "line": 6,
+                    },
+                    "name": "celsius",
+                    "start": Object {
+                      "column": 15,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 6,
+                  },
+                  "type": "AddressofExpression",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "scanf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 22,
+                "line": 6,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 6,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 35,
+              "line": 7,
+            },
+            "left": Object {
+              "datatype": "unknown",
+              "end": Object {
+                "column": 2,
+                "line": 7,
+              },
+              "name": "fahrenheit",
+              "start": Object {
+                "column": 2,
+                "line": 7,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "end": Object {
+                "column": 35,
+                "line": 7,
+              },
+              "left": Object {
+                "end": Object {
+                  "column": 30,
+                  "line": 7,
+                },
+                "left": Object {
+                  "end": Object {
+                    "column": 26,
+                    "line": 7,
+                  },
+                  "left": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 16,
+                      "line": 7,
+                    },
+                    "name": "celsius",
+                    "start": Object {
+                      "column": 16,
+                      "line": 7,
+                    },
+                    "type": "Identifier",
+                  },
+                  "operator": "*",
+                  "right": Object {
+                    "end": Object {
+                      "column": 26,
+                      "line": 7,
+                    },
+                    "raw": "9",
+                    "start": Object {
+                      "column": 26,
+                      "line": 7,
+                    },
+                    "type": "Literal",
+                    "value": "9",
+                  },
+                  "start": Object {
+                    "column": 16,
+                    "line": 7,
+                  },
+                  "type": "BinaryExpression",
+                },
+                "operator": "/",
+                "right": Object {
+                  "end": Object {
+                    "column": 30,
+                    "line": 7,
+                  },
+                  "raw": "5",
+                  "start": Object {
+                    "column": 30,
+                    "line": 7,
+                  },
+                  "type": "Literal",
+                  "value": "5",
+                },
+                "start": Object {
+                  "column": 16,
+                  "line": 7,
+                },
+                "type": "BinaryExpression",
+              },
+              "operator": "+",
+              "right": Object {
+                "end": Object {
+                  "column": 35,
+                  "line": 7,
+                },
+                "raw": "32",
+                "start": Object {
+                  "column": 35,
+                  "line": 7,
+                },
+                "type": "Literal",
+                "value": "32",
+              },
+              "start": Object {
+                "column": 15,
+                "line": 7,
+              },
+              "type": "BinaryExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "type": "AssignmentExpression",
+          },
+          Object {
+            "end": Object {
+              "column": 63,
+              "line": 8,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 8,
+                  },
+                  "raw": "\\"%.2f Celsius = %.2f Fahrenheit\\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 8,
+                  },
+                  "type": "Literal",
+                  "value": "\\"%.2f Celsius = %.2f Fahrenheit\\"",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 43,
+                    "line": 8,
+                  },
+                  "name": "celsius",
+                  "start": Object {
+                    "column": 43,
+                    "line": 8,
+                  },
+                  "type": "Identifier",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 52,
+                    "line": 8,
+                  },
+                  "name": "fahrenheit",
+                  "start": Object {
+                    "column": 52,
+                    "line": 8,
+                  },
+                  "type": "Identifier",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 62,
+                "line": 8,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 8,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 9,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 9,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 9,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 9,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 10,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 10,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 10,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -210,201 +438,455 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "arraySize": 3,
-                      "datatype": "int",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": true,
+                  "isMemory": false,
+                  "name": "list",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "init": Object {
+                  "expressions": Array [
+                    Object {
+                      "end": Object {
+                        "column": 16,
+                        "line": 3,
+                      },
+                      "raw": "1",
+                      "start": Object {
+                        "column": 16,
+                        "line": 3,
+                      },
+                      "type": "Literal",
+                      "value": "1",
+                    },
+                    Object {
+                      "end": Object {
+                        "column": 19,
+                        "line": 3,
+                      },
+                      "raw": "2",
+                      "start": Object {
+                        "column": 19,
+                        "line": 3,
+                      },
+                      "type": "Literal",
+                      "value": "2",
+                    },
+                    Object {
+                      "end": Object {
+                        "column": 22,
+                        "line": 3,
+                      },
+                      "raw": "3",
+                      "start": Object {
+                        "column": 22,
+                        "line": 3,
+                      },
+                      "type": "Literal",
+                      "value": "3",
+                    },
+                  ],
+                  "type": "SequenceExpression",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 23,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "i",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "body": Object {
+              "body": Array [
+                Object {
+                  "end": Object {
+                    "column": 35,
+                    "line": 6,
+                  },
+                  "left": Object {
+                    "computed": true,
+                    "end": Object {
+                      "column": 10,
+                      "line": 6,
+                    },
+                    "object": Object {
+                      "datatype": "unknown",
                       "isArray": true,
                       "name": "list",
                       "type": "Identifier",
                     },
-                    "init": Object {
-                      "expressions": Array [
-                        Object {
-                          "raw": "1",
-                          "type": "Literal",
-                          "value": 1,
-                        },
-                        Object {
-                          "raw": "2",
-                          "type": "Literal",
-                          "value": 2,
-                        },
-                        Object {
-                          "raw": "3",
-                          "type": "Literal",
-                          "value": 3,
-                        },
-                      ],
-                      "type": "SequenceExpression",
-                    },
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
+                    "optional": false,
+                    "property": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 9,
+                        "line": 6,
+                      },
                       "name": "i",
-                      "pointerList": undefined,
+                      "start": Object {
+                        "column": 9,
+                        "line": 6,
+                      },
                       "type": "Identifier",
                     },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "body": Object {
-                  "body": Array [
-                    Object {
-                      "expression": Object {
-                        "left": Object {
-                          "computed": true,
-                          "object": Object {
-                            "datatype": "unknown",
-                            "name": "list",
-                            "type": "Identifier",
-                          },
-                          "optional": false,
-                          "property": Object {
-                            "datatype": "unknown",
-                            "name": "i",
-                            "type": "Identifier",
-                          },
-                          "type": "MemberExpression",
-                        },
-                        "operator": "=",
-                        "right": Object {
-                          "left": Object {
-                            "computed": true,
-                            "object": Object {
-                              "datatype": "unknown",
-                              "name": "list",
-                              "type": "Identifier",
-                            },
-                            "optional": false,
-                            "property": Object {
-                              "left": Object {
-                                "left": Object {
-                                  "datatype": "unknown",
-                                  "name": "i",
-                                  "type": "Identifier",
-                                },
-                                "operator": "+",
-                                "right": Object {
-                                  "argument": Object {
-                                    "raw": "1",
-                                    "type": "Literal",
-                                    "value": 1,
-                                  },
-                                  "operator": "-",
-                                  "prefix": true,
-                                  "type": "UnaryExpression",
-                                },
-                                "type": "BinaryExpression",
-                              },
-                              "operator": "+",
-                              "right": Object {
-                                "raw": "1",
-                                "type": "Literal",
-                                "value": 1,
-                              },
-                              "type": "BinaryExpression",
-                            },
-                            "type": "MemberExpression",
-                          },
-                          "operator": "*",
-                          "right": Object {
-                            "raw": "10",
-                            "type": "Literal",
-                            "value": 10,
-                          },
-                          "type": "BinaryExpression",
-                        },
-                        "type": "FlexiAssignmentExpression",
-                      },
-                      "type": "ExpressionStatement",
+                    "start": Object {
+                      "column": 4,
+                      "line": 6,
                     },
-                  ],
-                  "type": "BlockStatement",
-                },
-                "init": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
+                    "type": "MemberExpression",
                   },
                   "operator": "=",
                   "right": Object {
-                    "raw": "0",
-                    "type": "Literal",
-                    "value": 0,
+                    "end": Object {
+                      "column": 35,
+                      "line": 6,
+                    },
+                    "left": Object {
+                      "computed": true,
+                      "end": Object {
+                        "column": 31,
+                        "line": 6,
+                      },
+                      "object": Object {
+                        "datatype": "unknown",
+                        "isArray": true,
+                        "name": "list",
+                        "type": "Identifier",
+                      },
+                      "optional": false,
+                      "property": Object {
+                        "end": Object {
+                          "column": 30,
+                          "line": 6,
+                        },
+                        "left": Object {
+                          "end": Object {
+                            "column": 26,
+                            "line": 6,
+                          },
+                          "left": Object {
+                            "datatype": "unknown",
+                            "end": Object {
+                              "column": 19,
+                              "line": 6,
+                            },
+                            "name": "i",
+                            "start": Object {
+                              "column": 19,
+                              "line": 6,
+                            },
+                            "type": "Identifier",
+                          },
+                          "operator": "+",
+                          "right": Object {
+                            "argument": Object {
+                              "end": Object {
+                                "column": 25,
+                                "line": 6,
+                              },
+                              "raw": "1",
+                              "start": Object {
+                                "column": 25,
+                                "line": 6,
+                              },
+                              "type": "Literal",
+                              "value": "1",
+                            },
+                            "end": Object {
+                              "column": 25,
+                              "line": 6,
+                            },
+                            "operator": "-",
+                            "prefix": true,
+                            "start": Object {
+                              "column": 24,
+                              "line": 6,
+                            },
+                            "type": "UnaryExpression",
+                          },
+                          "start": Object {
+                            "column": 19,
+                            "line": 6,
+                          },
+                          "type": "BinaryExpression",
+                        },
+                        "operator": "+",
+                        "right": Object {
+                          "end": Object {
+                            "column": 30,
+                            "line": 6,
+                          },
+                          "raw": "1",
+                          "start": Object {
+                            "column": 30,
+                            "line": 6,
+                          },
+                          "type": "Literal",
+                          "value": "1",
+                        },
+                        "start": Object {
+                          "column": 19,
+                          "line": 6,
+                        },
+                        "type": "BinaryExpression",
+                      },
+                      "start": Object {
+                        "column": 14,
+                        "line": 6,
+                      },
+                      "type": "MemberExpression",
+                    },
+                    "operator": "*",
+                    "right": Object {
+                      "end": Object {
+                        "column": 35,
+                        "line": 6,
+                      },
+                      "raw": "10",
+                      "start": Object {
+                        "column": 35,
+                        "line": 6,
+                      },
+                      "type": "Literal",
+                      "value": "10",
+                    },
+                    "start": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "type": "BinaryExpression",
                   },
-                  "type": "FlexiAssignmentExpression",
+                  "start": Object {
+                    "column": 4,
+                    "line": 6,
+                  },
+                  "type": "AssignmentExpression",
                 },
-                "test": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "<",
-                  "right": Object {
-                    "raw": "3",
-                    "type": "Literal",
-                    "value": 3,
-                  },
-                  "type": "BinaryExpression",
-                },
-                "type": "ForStatement",
-                "update": Object {
-                  "argument": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "++",
-                  "prefix": false,
-                  "type": "UpdateExpression",
-                },
+              ],
+              "end": Object {
+                "column": 2,
+                "line": 7,
               },
-              Object {
-                "argument": Object {
-                  "raw": "0",
-                  "type": "Literal",
-                  "value": 0,
-                },
-                "type": "ReturnStatement",
+              "start": Object {
+                "column": 26,
+                "line": 5,
               },
-            ],
-            "type": "BlockStatement",
+              "type": "BlockStatement",
+            },
+            "end": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 11,
+                "line": 5,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "=",
+              "right": Object {
+                "end": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "raw": "0",
+                "start": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "type": "Literal",
+                "value": "0",
+              },
+              "start": Object {
+                "column": 7,
+                "line": 5,
+              },
+              "type": "AssignmentExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "test": Object {
+              "end": Object {
+                "column": 18,
+                "line": 5,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<",
+              "right": Object {
+                "end": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "raw": "3",
+                "start": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "type": "Literal",
+                "value": "3",
+              },
+              "start": Object {
+                "column": 14,
+                "line": 5,
+              },
+              "type": "BinaryExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "argument": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 22,
+                "line": 5,
+              },
+              "operator": "++",
+              "prefix": false,
+              "start": Object {
+                "column": 21,
+                "line": 5,
+              },
+              "type": "UpdateExpression",
+            },
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 8,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ReturnStatement",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 9,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 9,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 9,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -422,158 +904,348 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "arraySize": 3,
-                      "datatype": "int",
+                "id": Object {
+                  "arraySize": 3,
+                  "datatype": "int",
+                  "isArray": true,
+                  "isMemory": false,
+                  "name": "list",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "init": Object {
+                  "expressions": Array [
+                    Object {
+                      "end": Object {
+                        "column": 18,
+                        "line": 3,
+                      },
+                      "raw": "1",
+                      "start": Object {
+                        "column": 18,
+                        "line": 3,
+                      },
+                      "type": "Literal",
+                      "value": "1",
+                    },
+                  ],
+                  "type": "SequenceExpression",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 20,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "i",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "body": Object {
+              "body": Array [
+                Object {
+                  "end": Object {
+                    "column": 18,
+                    "line": 6,
+                  },
+                  "left": Object {
+                    "computed": true,
+                    "end": Object {
+                      "column": 10,
+                      "line": 6,
+                    },
+                    "object": Object {
+                      "datatype": "unknown",
                       "isArray": true,
                       "name": "list",
                       "type": "Identifier",
                     },
-                    "init": Object {
-                      "expressions": Array [
-                        Object {
-                          "raw": "1",
-                          "type": "Literal",
-                          "value": 1,
-                        },
-                      ],
-                      "type": "SequenceExpression",
-                    },
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
+                    "optional": false,
+                    "property": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 9,
+                        "line": 6,
+                      },
                       "name": "i",
-                      "pointerList": undefined,
+                      "start": Object {
+                        "column": 9,
+                        "line": 6,
+                      },
                       "type": "Identifier",
                     },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "body": Object {
-                  "body": Array [
-                    Object {
-                      "expression": Object {
-                        "left": Object {
-                          "computed": true,
-                          "object": Object {
-                            "datatype": "unknown",
-                            "name": "list",
-                            "type": "Identifier",
-                          },
-                          "optional": false,
-                          "property": Object {
-                            "datatype": "unknown",
-                            "name": "i",
-                            "type": "Identifier",
-                          },
-                          "type": "MemberExpression",
-                        },
-                        "operator": "=",
-                        "right": Object {
-                          "left": Object {
-                            "datatype": "unknown",
-                            "name": "i",
-                            "type": "Identifier",
-                          },
-                          "operator": "*",
-                          "right": Object {
-                            "raw": "10",
-                            "type": "Literal",
-                            "value": 10,
-                          },
-                          "type": "BinaryExpression",
-                        },
-                        "type": "FlexiAssignmentExpression",
-                      },
-                      "type": "ExpressionStatement",
+                    "start": Object {
+                      "column": 4,
+                      "line": 6,
                     },
-                  ],
-                  "type": "BlockStatement",
-                },
-                "init": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
+                    "type": "MemberExpression",
                   },
                   "operator": "=",
                   "right": Object {
-                    "raw": "0",
-                    "type": "Literal",
-                    "value": 0,
+                    "end": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "left": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 14,
+                        "line": 6,
+                      },
+                      "name": "i",
+                      "start": Object {
+                        "column": 14,
+                        "line": 6,
+                      },
+                      "type": "Identifier",
+                    },
+                    "operator": "*",
+                    "right": Object {
+                      "end": Object {
+                        "column": 18,
+                        "line": 6,
+                      },
+                      "raw": "10",
+                      "start": Object {
+                        "column": 18,
+                        "line": 6,
+                      },
+                      "type": "Literal",
+                      "value": "10",
+                    },
+                    "start": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "type": "BinaryExpression",
                   },
-                  "type": "FlexiAssignmentExpression",
+                  "start": Object {
+                    "column": 4,
+                    "line": 6,
+                  },
+                  "type": "AssignmentExpression",
                 },
-                "test": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "<",
-                  "right": Object {
-                    "raw": "3",
-                    "type": "Literal",
-                    "value": 3,
-                  },
-                  "type": "BinaryExpression",
-                },
-                "type": "ForStatement",
-                "update": Object {
-                  "argument": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "++",
-                  "prefix": false,
-                  "type": "UpdateExpression",
-                },
+              ],
+              "end": Object {
+                "column": 2,
+                "line": 7,
               },
-              Object {
-                "argument": Object {
-                  "raw": "0",
-                  "type": "Literal",
-                  "value": 0,
-                },
-                "type": "ReturnStatement",
+              "start": Object {
+                "column": 26,
+                "line": 5,
               },
-            ],
-            "type": "BlockStatement",
+              "type": "BlockStatement",
+            },
+            "end": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 11,
+                "line": 5,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "=",
+              "right": Object {
+                "end": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "raw": "0",
+                "start": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "type": "Literal",
+                "value": "0",
+              },
+              "start": Object {
+                "column": 7,
+                "line": 5,
+              },
+              "type": "AssignmentExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "test": Object {
+              "end": Object {
+                "column": 18,
+                "line": 5,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<",
+              "right": Object {
+                "end": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "raw": "3",
+                "start": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "type": "Literal",
+                "value": "3",
+              },
+              "start": Object {
+                "column": 14,
+                "line": 5,
+              },
+              "type": "BinaryExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "argument": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 22,
+                "line": 5,
+              },
+              "operator": "++",
+              "prefix": false,
+              "start": Object {
+                "column": 21,
+                "line": 5,
+              },
+              "type": "UpdateExpression",
+            },
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 8,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ReturnStatement",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 9,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 9,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 9,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -591,149 +1263,330 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "arraySize": 3,
-                      "datatype": "int",
+                "id": Object {
+                  "arraySize": 3,
+                  "datatype": "int",
+                  "isArray": true,
+                  "isMemory": false,
+                  "name": "list",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 12,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "i",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "body": Object {
+              "body": Array [
+                Object {
+                  "end": Object {
+                    "column": 18,
+                    "line": 6,
+                  },
+                  "left": Object {
+                    "computed": true,
+                    "end": Object {
+                      "column": 10,
+                      "line": 6,
+                    },
+                    "object": Object {
+                      "datatype": "unknown",
                       "isArray": true,
                       "name": "list",
                       "type": "Identifier",
                     },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
+                    "optional": false,
+                    "property": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 9,
+                        "line": 6,
+                      },
                       "name": "i",
-                      "pointerList": undefined,
+                      "start": Object {
+                        "column": 9,
+                        "line": 6,
+                      },
                       "type": "Identifier",
                     },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "body": Object {
-                  "body": Array [
-                    Object {
-                      "expression": Object {
-                        "left": Object {
-                          "computed": true,
-                          "object": Object {
-                            "datatype": "unknown",
-                            "name": "list",
-                            "type": "Identifier",
-                          },
-                          "optional": false,
-                          "property": Object {
-                            "datatype": "unknown",
-                            "name": "i",
-                            "type": "Identifier",
-                          },
-                          "type": "MemberExpression",
-                        },
-                        "operator": "=",
-                        "right": Object {
-                          "left": Object {
-                            "datatype": "unknown",
-                            "name": "i",
-                            "type": "Identifier",
-                          },
-                          "operator": "*",
-                          "right": Object {
-                            "raw": "10",
-                            "type": "Literal",
-                            "value": 10,
-                          },
-                          "type": "BinaryExpression",
-                        },
-                        "type": "FlexiAssignmentExpression",
-                      },
-                      "type": "ExpressionStatement",
+                    "start": Object {
+                      "column": 4,
+                      "line": 6,
                     },
-                  ],
-                  "type": "BlockStatement",
-                },
-                "init": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
+                    "type": "MemberExpression",
                   },
                   "operator": "=",
                   "right": Object {
-                    "raw": "0",
-                    "type": "Literal",
-                    "value": 0,
+                    "end": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "left": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 14,
+                        "line": 6,
+                      },
+                      "name": "i",
+                      "start": Object {
+                        "column": 14,
+                        "line": 6,
+                      },
+                      "type": "Identifier",
+                    },
+                    "operator": "*",
+                    "right": Object {
+                      "end": Object {
+                        "column": 18,
+                        "line": 6,
+                      },
+                      "raw": "10",
+                      "start": Object {
+                        "column": 18,
+                        "line": 6,
+                      },
+                      "type": "Literal",
+                      "value": "10",
+                    },
+                    "start": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "type": "BinaryExpression",
                   },
-                  "type": "FlexiAssignmentExpression",
+                  "start": Object {
+                    "column": 4,
+                    "line": 6,
+                  },
+                  "type": "AssignmentExpression",
                 },
-                "test": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "<",
-                  "right": Object {
-                    "raw": "3",
-                    "type": "Literal",
-                    "value": 3,
-                  },
-                  "type": "BinaryExpression",
-                },
-                "type": "ForStatement",
-                "update": Object {
-                  "argument": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "++",
-                  "prefix": false,
-                  "type": "UpdateExpression",
-                },
+              ],
+              "end": Object {
+                "column": 2,
+                "line": 7,
               },
-              Object {
-                "argument": Object {
-                  "raw": "0",
-                  "type": "Literal",
-                  "value": 0,
-                },
-                "type": "ReturnStatement",
+              "start": Object {
+                "column": 26,
+                "line": 5,
               },
-            ],
-            "type": "BlockStatement",
+              "type": "BlockStatement",
+            },
+            "end": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 11,
+                "line": 5,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "=",
+              "right": Object {
+                "end": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "raw": "0",
+                "start": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "type": "Literal",
+                "value": "0",
+              },
+              "start": Object {
+                "column": 7,
+                "line": 5,
+              },
+              "type": "AssignmentExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "test": Object {
+              "end": Object {
+                "column": 18,
+                "line": 5,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<",
+              "right": Object {
+                "end": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "raw": "3",
+                "start": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "type": "Literal",
+                "value": "3",
+              },
+              "start": Object {
+                "column": 14,
+                "line": 5,
+              },
+              "type": "BinaryExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "argument": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 22,
+                "line": 5,
+              },
+              "operator": "++",
+              "prefix": false,
+              "start": Object {
+                "column": 21,
+                "line": 5,
+              },
+              "type": "UpdateExpression",
+            },
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 8,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ReturnStatement",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 9,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 9,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 9,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -755,233 +1608,527 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "num",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "i",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "fact",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": Object {
-                      "raw": "1",
-                      "type": "Literal",
-                      "value": 1,
-                    },
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Enter a number: \\"",
-                      "type": "Literal",
-                      "value": "\\"Enter a number: \\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "num",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
-                "type": "ExpressionStatement",
+                "type": "VariableDeclarator",
               },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
               Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"%d\\"",
-                      "type": "Literal",
-                      "value": "\\"%d\\"",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "scanf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "i",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
-                "type": "ExpressionStatement",
+                "type": "VariableDeclarator",
               },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
               Object {
-                "body": Object {
-                  "body": Array [
-                    Object {
-                      "expression": Object {
-                        "left": Object {
-                          "datatype": "unknown",
-                          "name": "fact",
-                          "type": "Identifier",
-                        },
-                        "operator": "=",
-                        "right": Object {
-                          "left": Object {
-                            "datatype": "unknown",
-                            "name": "fact",
-                            "type": "Identifier",
-                          },
-                          "operator": "*",
-                          "right": Object {
-                            "datatype": "unknown",
-                            "name": "i",
-                            "type": "Identifier",
-                          },
-                          "type": "BinaryExpression",
-                        },
-                        "type": "FlexiAssignmentExpression",
-                      },
-                      "type": "ExpressionStatement",
-                    },
-                  ],
-                  "type": "BlockStatement",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "fact",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
                 "init": Object {
+                  "end": Object {
+                    "column": 13,
+                    "line": 5,
+                  },
+                  "raw": "1",
+                  "start": Object {
+                    "column": 13,
+                    "line": 5,
+                  },
+                  "type": "Literal",
+                  "value": "1",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 13,
+              "line": 5,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "end": Object {
+              "column": 28,
+              "line": 6,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 6,
+                  },
+                  "raw": "\\"Enter a number: \\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 6,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Enter a number: \\"",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 27,
+                "line": 6,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 6,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 7,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 8,
+                    "line": 7,
+                  },
+                  "raw": "\\"%d\\"",
+                  "start": Object {
+                    "column": 8,
+                    "line": 7,
+                  },
+                  "type": "Literal",
+                  "value": "\\"%d\\"",
+                },
+                Object {
+                  "end": Object {
+                    "column": 15,
+                    "line": 7,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 15,
+                      "line": 7,
+                    },
+                    "name": "num",
+                    "start": Object {
+                      "column": 15,
+                      "line": 7,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 7,
+                  },
+                  "type": "AddressofExpression",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "scanf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 18,
+                "line": 7,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 7,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "body": Object {
+              "body": Array [
+                Object {
+                  "end": Object {
+                    "column": 20,
+                    "line": 9,
+                  },
                   "left": Object {
                     "datatype": "unknown",
-                    "name": "i",
+                    "end": Object {
+                      "column": 6,
+                      "line": 9,
+                    },
+                    "name": "fact",
+                    "start": Object {
+                      "column": 6,
+                      "line": 9,
+                    },
                     "type": "Identifier",
                   },
                   "operator": "=",
                   "right": Object {
-                    "raw": "1",
-                    "type": "Literal",
-                    "value": 1,
-                  },
-                  "type": "FlexiAssignmentExpression",
-                },
-                "test": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "<=",
-                  "right": Object {
-                    "datatype": "unknown",
-                    "name": "num",
-                    "type": "Identifier",
-                  },
-                  "type": "BinaryExpression",
-                },
-                "type": "ForStatement",
-                "update": Object {
-                  "argument": Object {
-                    "datatype": "unknown",
-                    "name": "i",
-                    "type": "Identifier",
-                  },
-                  "operator": "++",
-                  "prefix": false,
-                  "type": "UpdateExpression",
-                },
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Factorial of %d is %d\\"",
-                      "type": "Literal",
-                      "value": "\\"Factorial of %d is %d\\"",
+                    "end": Object {
+                      "column": 20,
+                      "line": 9,
                     },
-                    Object {
+                    "left": Object {
                       "datatype": "unknown",
-                      "name": "num",
-                      "type": "Identifier",
-                    },
-                    Object {
-                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 13,
+                        "line": 9,
+                      },
                       "name": "fact",
+                      "start": Object {
+                        "column": 13,
+                        "line": 9,
+                      },
                       "type": "Identifier",
                     },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
+                    "operator": "*",
+                    "right": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 20,
+                        "line": 9,
+                      },
+                      "name": "i",
+                      "start": Object {
+                        "column": 20,
+                        "line": 9,
+                      },
+                      "type": "Identifier",
+                    },
+                    "start": Object {
+                      "column": 13,
+                      "line": 9,
+                    },
+                    "type": "BinaryExpression",
                   },
-                  "optional": false,
-                  "type": "CallExpression",
+                  "start": Object {
+                    "column": 6,
+                    "line": 9,
+                  },
+                  "type": "AssignmentExpression",
                 },
-                "type": "ExpressionStatement",
+              ],
+              "end": Object {
+                "column": 2,
+                "line": 10,
               },
-              Object {
-                "argument": Object {
-                  "raw": "0",
+              "start": Object {
+                "column": 24,
+                "line": 8,
+              },
+              "type": "BlockStatement",
+            },
+            "end": Object {
+              "column": 2,
+              "line": 10,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 8,
+                "line": 8,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 6,
+                  "line": 8,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 6,
+                  "line": 8,
+                },
+                "type": "Identifier",
+              },
+              "operator": "=",
+              "right": Object {
+                "end": Object {
+                  "column": 8,
+                  "line": 8,
+                },
+                "raw": "1",
+                "start": Object {
+                  "column": 8,
+                  "line": 8,
+                },
+                "type": "Literal",
+                "value": "1",
+              },
+              "start": Object {
+                "column": 6,
+                "line": 8,
+              },
+              "type": "AssignmentExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "test": Object {
+              "end": Object {
+                "column": 14,
+                "line": 8,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 11,
+                  "line": 8,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 11,
+                  "line": 8,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<=",
+              "right": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 14,
+                  "line": 8,
+                },
+                "name": "num",
+                "start": Object {
+                  "column": 14,
+                  "line": 8,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 11,
+                "line": 8,
+              },
+              "type": "BinaryExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "argument": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 19,
+                  "line": 8,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 19,
+                  "line": 8,
+                },
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 20,
+                "line": 8,
+              },
+              "operator": "++",
+              "prefix": false,
+              "start": Object {
+                "column": 19,
+                "line": 8,
+              },
+              "type": "UpdateExpression",
+            },
+          },
+          Object {
+            "end": Object {
+              "column": 44,
+              "line": 11,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 11,
+                  },
+                  "raw": "\\"Factorial of %d is %d\\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 11,
+                  },
                   "type": "Literal",
-                  "value": 0,
+                  "value": "\\"Factorial of %d is %d\\"",
                 },
-                "type": "ReturnStatement",
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 34,
+                    "line": 11,
+                  },
+                  "name": "num",
+                  "start": Object {
+                    "column": 34,
+                    "line": 11,
+                  },
+                  "type": "Identifier",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 39,
+                    "line": 11,
+                  },
+                  "name": "fact",
+                  "start": Object {
+                    "column": 39,
+                    "line": 11,
+                  },
+                  "type": "Identifier",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
               },
-            ],
-            "type": "BlockStatement",
+              "end": Object {
+                "column": 43,
+                "line": 11,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 11,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 11,
+            },
+            "type": "ExpressionStatement",
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 12,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 12,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 12,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 12,
+            },
+            "type": "ReturnStatement",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 13,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 13,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 13,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -1008,317 +2155,696 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "num",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "i",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "t1",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": Object {
-                      "raw": "0",
-                      "type": "Literal",
-                      "value": 0,
-                    },
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "t2",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": Object {
-                      "raw": "1",
-                      "type": "Literal",
-                      "value": 1,
-                    },
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "nextTerm",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Enter the number of terms: \\"",
-                      "type": "Literal",
-                      "value": "\\"Enter the number of terms: \\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "num",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
-                "type": "ExpressionStatement",
+                "type": "VariableDeclarator",
               },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
               Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"%d\\"",
-                      "type": "Literal",
-                      "value": "\\"%d\\"",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "scanf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "i",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
-                "type": "ExpressionStatement",
+                "type": "VariableDeclarator",
               },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
               Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Fibonacci Series: \\"",
-                      "type": "Literal",
-                      "value": "\\"Fibonacci Series: \\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "body": Object {
-                  "body": Array [
-                    Object {
-                      "expression": Object {
-                        "arguments": Array [
-                          Object {
-                            "raw": "\\"%d, \\"",
-                            "type": "Literal",
-                            "value": "\\"%d, \\"",
-                          },
-                          Object {
-                            "datatype": "unknown",
-                            "name": "t1",
-                            "type": "Identifier",
-                          },
-                        ],
-                        "callee": Object {
-                          "datatype": "unknown",
-                          "name": "printf",
-                          "type": "Identifier",
-                        },
-                        "optional": false,
-                        "type": "CallExpression",
-                      },
-                      "type": "ExpressionStatement",
-                    },
-                    Object {
-                      "expression": Object {
-                        "left": Object {
-                          "datatype": "unknown",
-                          "name": "nextTerm",
-                          "type": "Identifier",
-                        },
-                        "operator": "=",
-                        "right": Object {
-                          "left": Object {
-                            "datatype": "unknown",
-                            "name": "t1",
-                            "type": "Identifier",
-                          },
-                          "operator": "+",
-                          "right": Object {
-                            "datatype": "unknown",
-                            "name": "t2",
-                            "type": "Identifier",
-                          },
-                          "type": "BinaryExpression",
-                        },
-                        "type": "FlexiAssignmentExpression",
-                      },
-                      "type": "ExpressionStatement",
-                    },
-                    Object {
-                      "expression": Object {
-                        "left": Object {
-                          "datatype": "unknown",
-                          "name": "t1",
-                          "type": "Identifier",
-                        },
-                        "operator": "=",
-                        "right": Object {
-                          "datatype": "unknown",
-                          "name": "t2",
-                          "type": "Identifier",
-                        },
-                        "type": "FlexiAssignmentExpression",
-                      },
-                      "type": "ExpressionStatement",
-                    },
-                    Object {
-                      "expression": Object {
-                        "left": Object {
-                          "datatype": "unknown",
-                          "name": "t2",
-                          "type": "Identifier",
-                        },
-                        "operator": "=",
-                        "right": Object {
-                          "datatype": "unknown",
-                          "name": "nextTerm",
-                          "type": "Identifier",
-                        },
-                        "type": "FlexiAssignmentExpression",
-                      },
-                      "type": "ExpressionStatement",
-                    },
-                  ],
-                  "type": "BlockStatement",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "t1",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
                 "init": Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 5,
+                  },
+                  "raw": "0",
+                  "start": Object {
+                    "column": 9,
+                    "line": 5,
+                  },
+                  "type": "Literal",
+                  "value": "0",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 9,
+              "line": 5,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "t2",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "init": Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 6,
+                  },
+                  "raw": "1",
+                  "start": Object {
+                    "column": 9,
+                    "line": 6,
+                  },
+                  "type": "Literal",
+                  "value": "1",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 9,
+              "line": 6,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 6,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "nextTerm",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 7,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "end": Object {
+              "column": 39,
+              "line": 8,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 8,
+                  },
+                  "raw": "\\"Enter the number of terms: \\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 8,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Enter the number of terms: \\"",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 38,
+                "line": 8,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 8,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 19,
+              "line": 9,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 8,
+                    "line": 9,
+                  },
+                  "raw": "\\"%d\\"",
+                  "start": Object {
+                    "column": 8,
+                    "line": 9,
+                  },
+                  "type": "Literal",
+                  "value": "\\"%d\\"",
+                },
+                Object {
+                  "end": Object {
+                    "column": 15,
+                    "line": 9,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 15,
+                      "line": 9,
+                    },
+                    "name": "num",
+                    "start": Object {
+                      "column": 15,
+                      "line": 9,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 9,
+                  },
+                  "type": "AddressofExpression",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "scanf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 18,
+                "line": 9,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 9,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 9,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 30,
+              "line": 10,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 10,
+                  },
+                  "raw": "\\"Fibonacci Series: \\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 10,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Fibonacci Series: \\"",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 29,
+                "line": 10,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 10,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 10,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "body": Object {
+              "body": Array [
+                Object {
+                  "end": Object {
+                    "column": 24,
+                    "line": 12,
+                  },
+                  "expression": Object {
+                    "arguments": Array [
+                      Object {
+                        "end": Object {
+                          "column": 13,
+                          "line": 12,
+                        },
+                        "raw": "\\"%d, \\"",
+                        "start": Object {
+                          "column": 13,
+                          "line": 12,
+                        },
+                        "type": "Literal",
+                        "value": "\\"%d, \\"",
+                      },
+                      Object {
+                        "datatype": "unknown",
+                        "end": Object {
+                          "column": 21,
+                          "line": 12,
+                        },
+                        "name": "t1",
+                        "start": Object {
+                          "column": 21,
+                          "line": 12,
+                        },
+                        "type": "Identifier",
+                      },
+                    ],
+                    "callee": Object {
+                      "datatype": "unknown",
+                      "name": "printf",
+                      "type": "Identifier",
+                    },
+                    "end": Object {
+                      "column": 23,
+                      "line": 12,
+                    },
+                    "optional": false,
+                    "start": Object {
+                      "column": 6,
+                      "line": 12,
+                    },
+                    "type": "CallExpression",
+                  },
+                  "start": Object {
+                    "column": 6,
+                    "line": 12,
+                  },
+                  "type": "ExpressionStatement",
+                },
+                Object {
+                  "end": Object {
+                    "column": 22,
+                    "line": 13,
+                  },
                   "left": Object {
                     "datatype": "unknown",
-                    "name": "i",
+                    "end": Object {
+                      "column": 6,
+                      "line": 13,
+                    },
+                    "name": "nextTerm",
+                    "start": Object {
+                      "column": 6,
+                      "line": 13,
+                    },
                     "type": "Identifier",
                   },
                   "operator": "=",
                   "right": Object {
-                    "raw": "1",
-                    "type": "Literal",
-                    "value": 1,
+                    "end": Object {
+                      "column": 22,
+                      "line": 13,
+                    },
+                    "left": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 17,
+                        "line": 13,
+                      },
+                      "name": "t1",
+                      "start": Object {
+                        "column": 17,
+                        "line": 13,
+                      },
+                      "type": "Identifier",
+                    },
+                    "operator": "+",
+                    "right": Object {
+                      "datatype": "unknown",
+                      "end": Object {
+                        "column": 22,
+                        "line": 13,
+                      },
+                      "name": "t2",
+                      "start": Object {
+                        "column": 22,
+                        "line": 13,
+                      },
+                      "type": "Identifier",
+                    },
+                    "start": Object {
+                      "column": 17,
+                      "line": 13,
+                    },
+                    "type": "BinaryExpression",
                   },
-                  "type": "FlexiAssignmentExpression",
+                  "start": Object {
+                    "column": 6,
+                    "line": 13,
+                  },
+                  "type": "AssignmentExpression",
                 },
-                "test": Object {
+                Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 14,
+                  },
                   "left": Object {
                     "datatype": "unknown",
-                    "name": "i",
+                    "end": Object {
+                      "column": 6,
+                      "line": 14,
+                    },
+                    "name": "t1",
+                    "start": Object {
+                      "column": 6,
+                      "line": 14,
+                    },
                     "type": "Identifier",
                   },
-                  "operator": "<=",
+                  "operator": "=",
                   "right": Object {
                     "datatype": "unknown",
-                    "name": "num",
+                    "end": Object {
+                      "column": 11,
+                      "line": 14,
+                    },
+                    "name": "t2",
+                    "start": Object {
+                      "column": 11,
+                      "line": 14,
+                    },
                     "type": "Identifier",
                   },
-                  "type": "BinaryExpression",
+                  "start": Object {
+                    "column": 6,
+                    "line": 14,
+                  },
+                  "type": "AssignmentExpression",
                 },
-                "type": "ForStatement",
-                "update": Object {
-                  "argument": Object {
+                Object {
+                  "end": Object {
+                    "column": 11,
+                    "line": 15,
+                  },
+                  "left": Object {
                     "datatype": "unknown",
-                    "name": "i",
+                    "end": Object {
+                      "column": 6,
+                      "line": 15,
+                    },
+                    "name": "t2",
+                    "start": Object {
+                      "column": 6,
+                      "line": 15,
+                    },
                     "type": "Identifier",
                   },
-                  "operator": "++",
-                  "prefix": false,
-                  "type": "UpdateExpression",
+                  "operator": "=",
+                  "right": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 11,
+                      "line": 15,
+                    },
+                    "name": "nextTerm",
+                    "start": Object {
+                      "column": 11,
+                      "line": 15,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 6,
+                    "line": 15,
+                  },
+                  "type": "AssignmentExpression",
                 },
+              ],
+              "end": Object {
+                "column": 2,
+                "line": 16,
               },
-              Object {
-                "argument": Object {
-                  "raw": "0",
-                  "type": "Literal",
-                  "value": 0,
+              "start": Object {
+                "column": 24,
+                "line": 11,
+              },
+              "type": "BlockStatement",
+            },
+            "end": Object {
+              "column": 2,
+              "line": 16,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 8,
+                "line": 11,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 6,
+                  "line": 11,
                 },
-                "type": "ReturnStatement",
+                "name": "i",
+                "start": Object {
+                  "column": 6,
+                  "line": 11,
+                },
+                "type": "Identifier",
               },
-            ],
-            "type": "BlockStatement",
+              "operator": "=",
+              "right": Object {
+                "end": Object {
+                  "column": 8,
+                  "line": 11,
+                },
+                "raw": "1",
+                "start": Object {
+                  "column": 8,
+                  "line": 11,
+                },
+                "type": "Literal",
+                "value": "1",
+              },
+              "start": Object {
+                "column": 6,
+                "line": 11,
+              },
+              "type": "AssignmentExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 11,
+            },
+            "test": Object {
+              "end": Object {
+                "column": 14,
+                "line": 11,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 11,
+                  "line": 11,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 11,
+                  "line": 11,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<=",
+              "right": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 14,
+                  "line": 11,
+                },
+                "name": "num",
+                "start": Object {
+                  "column": 14,
+                  "line": 11,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 11,
+                "line": 11,
+              },
+              "type": "BinaryExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "argument": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 19,
+                  "line": 11,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 19,
+                  "line": 11,
+                },
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 20,
+                "line": 11,
+              },
+              "operator": "++",
+              "prefix": false,
+              "start": Object {
+                "column": 19,
+                "line": 11,
+              },
+              "type": "UpdateExpression",
+            },
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 17,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 17,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 17,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 17,
+            },
+            "type": "ReturnStatement",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 18,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 18,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 18,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -1340,224 +2866,485 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "num1",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "num2",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "sum",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Enter first number: \\"",
-                      "type": "Literal",
-                      "value": "\\"Enter first number: \\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "num1",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"%d\\"",
-                      "type": "Literal",
-                      "value": "\\"%d\\"",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num1",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "scanf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Enter second number: \\"",
-                      "type": "Literal",
-                      "value": "\\"Enter second number: \\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"%d\\"",
-                      "type": "Literal",
-                      "value": "\\"%d\\"",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num2",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "scanf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "sum",
-                    "type": "Identifier",
-                  },
-                  "operator": "=",
-                  "right": Object {
-                    "left": Object {
-                      "datatype": "unknown",
-                      "name": "num1",
-                      "type": "Identifier",
-                    },
-                    "operator": "+",
-                    "right": Object {
-                      "datatype": "unknown",
-                      "name": "num2",
-                      "type": "Identifier",
-                    },
-                    "type": "BinaryExpression",
-                  },
-                  "type": "FlexiAssignmentExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Sum is %d\\"",
-                      "type": "Literal",
-                      "value": "\\"Sum is %d\\"",
-                    },
-                    Object {
-                      "datatype": "unknown",
-                      "name": "sum",
-                      "type": "Identifier",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "argument": Object {
-                  "raw": "0",
-                  "type": "Literal",
-                  "value": 0,
-                },
-                "type": "ReturnStatement",
+                "type": "VariableDeclarator",
               },
             ],
-            "type": "BlockStatement",
+            "end": Object {
+              "column": 6,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "num2",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "sum",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 5,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "end": Object {
+              "column": 32,
+              "line": 6,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 6,
+                  },
+                  "raw": "\\"Enter first number: \\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 6,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Enter first number: \\"",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 31,
+                "line": 6,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 6,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 7,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 8,
+                    "line": 7,
+                  },
+                  "raw": "\\"%d\\"",
+                  "start": Object {
+                    "column": 8,
+                    "line": 7,
+                  },
+                  "type": "Literal",
+                  "value": "\\"%d\\"",
+                },
+                Object {
+                  "end": Object {
+                    "column": 15,
+                    "line": 7,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 15,
+                      "line": 7,
+                    },
+                    "name": "num1",
+                    "start": Object {
+                      "column": 15,
+                      "line": 7,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 7,
+                  },
+                  "type": "AddressofExpression",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "scanf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 19,
+                "line": 7,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 7,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 33,
+              "line": 8,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 8,
+                  },
+                  "raw": "\\"Enter second number: \\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 8,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Enter second number: \\"",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 32,
+                "line": 8,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 8,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 9,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 8,
+                    "line": 9,
+                  },
+                  "raw": "\\"%d\\"",
+                  "start": Object {
+                    "column": 8,
+                    "line": 9,
+                  },
+                  "type": "Literal",
+                  "value": "\\"%d\\"",
+                },
+                Object {
+                  "end": Object {
+                    "column": 15,
+                    "line": 9,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 15,
+                      "line": 9,
+                    },
+                    "name": "num2",
+                    "start": Object {
+                      "column": 15,
+                      "line": 9,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 9,
+                  },
+                  "type": "AddressofExpression",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "scanf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 19,
+                "line": 9,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 9,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 9,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 15,
+              "line": 10,
+            },
+            "left": Object {
+              "datatype": "unknown",
+              "end": Object {
+                "column": 2,
+                "line": 10,
+              },
+              "name": "sum",
+              "start": Object {
+                "column": 2,
+                "line": 10,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "end": Object {
+                "column": 15,
+                "line": 10,
+              },
+              "left": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 8,
+                  "line": 10,
+                },
+                "name": "num1",
+                "start": Object {
+                  "column": 8,
+                  "line": 10,
+                },
+                "type": "Identifier",
+              },
+              "operator": "+",
+              "right": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 15,
+                  "line": 10,
+                },
+                "name": "num2",
+                "start": Object {
+                  "column": 15,
+                  "line": 10,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 8,
+                "line": 10,
+              },
+              "type": "BinaryExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 10,
+            },
+            "type": "AssignmentExpression",
+          },
+          Object {
+            "end": Object {
+              "column": 26,
+              "line": 11,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 11,
+                  },
+                  "raw": "\\"Sum is %d\\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 11,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Sum is %d\\"",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 22,
+                    "line": 11,
+                  },
+                  "name": "sum",
+                  "start": Object {
+                    "column": 22,
+                    "line": 11,
+                  },
+                  "type": "Identifier",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 25,
+                "line": 11,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 11,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 11,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 12,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 12,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 12,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 12,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 13,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 13,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 13,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -1583,312 +3370,689 @@ void swap(int *a, int *b) {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
               Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "num1",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "num2",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Enter two numbers: \\"",
-                      "type": "Literal",
-                      "value": "\\"Enter two numbers: \\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "num1",
+                  "pointerList": Array [],
+                  "type": "Identifier",
                 },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"%d %d\\"",
-                      "type": "Literal",
-                      "value": "\\"%d %d\\"",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num1",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num2",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "scanf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Before swap: num1 = %d, num2 = %d\\\\n\\"",
-                      "type": "Literal",
-                      "value": "\\"Before swap: num1 = %d, num2 = %d\\\\n\\"",
-                    },
-                    Object {
-                      "datatype": "unknown",
-                      "name": "num1",
-                      "type": "Identifier",
-                    },
-                    Object {
-                      "datatype": "unknown",
-                      "name": "num2",
-                      "type": "Identifier",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num1",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                    Object {
-                      "expression": Object {
-                        "datatype": "unknown",
-                        "name": "num2",
-                        "type": "Identifier",
-                      },
-                      "type": "AddressofExpression",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "swap",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"After swap: num1 = %d, num2 = %d\\\\n\\"",
-                      "type": "Literal",
-                      "value": "\\"After swap: num1 = %d, num2 = %d\\\\n\\"",
-                    },
-                    Object {
-                      "datatype": "unknown",
-                      "name": "num1",
-                      "type": "Identifier",
-                    },
-                    Object {
-                      "datatype": "unknown",
-                      "name": "num2",
-                      "type": "Identifier",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
-                  },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "argument": Object {
-                  "raw": "0",
-                  "type": "Literal",
-                  "value": 0,
-                },
-                "type": "ReturnStatement",
+                "type": "VariableDeclarator",
               },
             ],
-            "type": "BlockStatement",
+            "end": Object {
+              "column": 6,
+              "line": 3,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "VariableDeclaration",
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "num2",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 4,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "VariableDeclaration",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+          Object {
+            "end": Object {
+              "column": 31,
+              "line": 5,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 5,
+                  },
+                  "raw": "\\"Enter two numbers: \\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 5,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Enter two numbers: \\"",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 30,
+                "line": 5,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 5,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 30,
+              "line": 6,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 8,
+                    "line": 6,
+                  },
+                  "raw": "\\"%d %d\\"",
+                  "start": Object {
+                    "column": 8,
+                    "line": 6,
+                  },
+                  "type": "Literal",
+                  "value": "\\"%d %d\\"",
+                },
+                Object {
+                  "end": Object {
+                    "column": 18,
+                    "line": 6,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "name": "num1",
+                    "start": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 17,
+                    "line": 6,
+                  },
+                  "type": "AddressofExpression",
+                },
+                Object {
+                  "end": Object {
+                    "column": 25,
+                    "line": 6,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 25,
+                      "line": 6,
+                    },
+                    "name": "num2",
+                    "start": Object {
+                      "column": 25,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 24,
+                    "line": 6,
+                  },
+                  "type": "AddressofExpression",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "scanf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 29,
+                "line": 6,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 6,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 59,
+              "line": 7,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 7,
+                  },
+                  "raw": "\\"Before swap: num1 = %d, num2 = %d\\\\n\\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 7,
+                  },
+                  "type": "Literal",
+                  "value": "\\"Before swap: num1 = %d, num2 = %d\\\\n\\"",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 48,
+                    "line": 7,
+                  },
+                  "name": "num1",
+                  "start": Object {
+                    "column": 48,
+                    "line": 7,
+                  },
+                  "type": "Identifier",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 54,
+                    "line": 7,
+                  },
+                  "name": "num2",
+                  "start": Object {
+                    "column": 54,
+                    "line": 7,
+                  },
+                  "type": "Identifier",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 58,
+                "line": 7,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 7,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 8,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 8,
+                    "line": 8,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 8,
+                      "line": 8,
+                    },
+                    "name": "num1",
+                    "start": Object {
+                      "column": 8,
+                      "line": 8,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 7,
+                    "line": 8,
+                  },
+                  "type": "AddressofExpression",
+                },
+                Object {
+                  "end": Object {
+                    "column": 15,
+                    "line": 8,
+                  },
+                  "expression": Object {
+                    "datatype": "unknown",
+                    "end": Object {
+                      "column": 15,
+                      "line": 8,
+                    },
+                    "name": "num2",
+                    "start": Object {
+                      "column": 15,
+                      "line": 8,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 8,
+                  },
+                  "type": "AddressofExpression",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "swap",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 19,
+                "line": 8,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 8,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 58,
+              "line": 9,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 9,
+                  },
+                  "raw": "\\"After swap: num1 = %d, num2 = %d\\\\n\\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 9,
+                  },
+                  "type": "Literal",
+                  "value": "\\"After swap: num1 = %d, num2 = %d\\\\n\\"",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 47,
+                    "line": 9,
+                  },
+                  "name": "num1",
+                  "start": Object {
+                    "column": 47,
+                    "line": 9,
+                  },
+                  "type": "Identifier",
+                },
+                Object {
+                  "datatype": "unknown",
+                  "end": Object {
+                    "column": 53,
+                    "line": 9,
+                  },
+                  "name": "num2",
+                  "start": Object {
+                    "column": 53,
+                    "line": 9,
+                  },
+                  "type": "Identifier",
+                },
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
+              },
+              "end": Object {
+                "column": 57,
+                "line": 9,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 9,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 9,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 10,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 10,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 10,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 10,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 11,
+        },
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 11,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
+    },
+    Object {
+      "body": Object {
+        "body": Array [
+          Object {
+            "declarations": Array [
+              Object {
+                "id": Object {
+                  "datatype": "int",
+                  "isArray": false,
+                  "isMemory": false,
+                  "name": "temp",
+                  "pointerList": Array [],
+                  "type": "Identifier",
+                },
+                "type": "VariableDeclarator",
+              },
+            ],
+            "end": Object {
+              "column": 6,
+              "line": 13,
+            },
+            "kind": "var",
+            "start": Object {
+              "column": 2,
+              "line": 13,
+            },
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 14,
+            },
+            "left": Object {
+              "datatype": "unknown",
+              "end": Object {
+                "column": 2,
+                "line": 14,
+              },
+              "name": "temp",
+              "start": Object {
+                "column": 2,
+                "line": 14,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "end": Object {
+                "column": 10,
+                "line": 14,
+              },
+              "expression": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 10,
+                  "line": 14,
+                },
+                "name": "a",
+                "start": Object {
+                  "column": 10,
+                  "line": 14,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 9,
+                "line": 14,
+              },
+              "type": "DereferenceExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 14,
+            },
+            "type": "AssignmentExpression",
+          },
+          Object {
+            "derefChain": Array [
+              "*",
+            ],
+            "end": Object {
+              "column": 8,
+              "line": 15,
+            },
+            "left": Object {
+              "datatype": "unknown",
+              "end": Object {
+                "column": 3,
+                "line": 15,
+              },
+              "name": "a",
+              "start": Object {
+                "column": 3,
+                "line": 15,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "end": Object {
+                "column": 8,
+                "line": 15,
+              },
+              "expression": Object {
+                "datatype": "unknown",
+                "end": Object {
+                  "column": 8,
+                  "line": 15,
+                },
+                "name": "b",
+                "start": Object {
+                  "column": 8,
+                  "line": 15,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 7,
+                "line": 15,
+              },
+              "type": "DereferenceExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 15,
+            },
+            "type": "DerefLeftAssignmentExpression",
+          },
+          Object {
+            "derefChain": Array [
+              "*",
+            ],
+            "end": Object {
+              "column": 7,
+              "line": 16,
+            },
+            "left": Object {
+              "datatype": "unknown",
+              "end": Object {
+                "column": 3,
+                "line": 16,
+              },
+              "name": "b",
+              "start": Object {
+                "column": 3,
+                "line": 16,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "datatype": "unknown",
+              "end": Object {
+                "column": 7,
+                "line": 16,
+              },
+              "name": "temp",
+              "start": Object {
+                "column": 7,
+                "line": 16,
+              },
+              "type": "Identifier",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 16,
+            },
+            "type": "DerefLeftAssignmentExpression",
+          },
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 17,
+        },
+        "start": Object {
+          "column": 26,
+          "line": 12,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 17,
+      },
+      "id": Object {
+        "datatype": "void",
+        "isMemory": false,
+        "name": "swap",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [
+        Object {
+          "datatype": "int_ptr",
+          "isMemory": true,
+          "name": "a",
+          "pointerList": Array [
+            "*",
+          ],
+          "type": "Identifier",
         },
         Object {
-          "body": Object {
-            "body": Array [
-              Object {
-                "declarations": Array [
-                  Object {
-                    "id": Object {
-                      "datatype": "int",
-                      "name": "temp",
-                      "pointerList": undefined,
-                      "type": "Identifier",
-                    },
-                    "init": null,
-                    "type": "VariableDeclarator",
-                  },
-                ],
-                "kind": "var",
-                "type": "VariableDeclaration",
-              },
-              Object {
-                "expression": Object {
-                  "left": Object {
-                    "datatype": "unknown",
-                    "name": "temp",
-                    "type": "Identifier",
-                  },
-                  "operator": "=",
-                  "right": Object {
-                    "expression": Object {
-                      "datatype": "unknown",
-                      "name": "a",
-                      "type": "Identifier",
-                    },
-                    "type": "ValueofExpression",
-                  },
-                  "type": "FlexiAssignmentExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "left": Object {
-                    "expression": Object {
-                      "datatype": "unknown",
-                      "name": "a",
-                      "type": "Identifier",
-                    },
-                    "type": "ValueofExpression",
-                  },
-                  "operator": "=",
-                  "right": Object {
-                    "expression": Object {
-                      "datatype": "unknown",
-                      "name": "b",
-                      "type": "Identifier",
-                    },
-                    "type": "ValueofExpression",
-                  },
-                  "type": "FlexiAssignmentExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "expression": Object {
-                  "left": Object {
-                    "expression": Object {
-                      "datatype": "unknown",
-                      "name": "b",
-                      "type": "Identifier",
-                    },
-                    "type": "ValueofExpression",
-                  },
-                  "operator": "=",
-                  "right": Object {
-                    "datatype": "unknown",
-                    "name": "temp",
-                    "type": "Identifier",
-                  },
-                  "type": "FlexiAssignmentExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-            ],
-            "type": "BlockStatement",
-          },
-          "id": Object {
-            "datatype": "void",
-            "name": "swap",
-            "type": "Identifier",
-          },
-          "params": Array [
-            Object {
-              "datatype": "int",
-              "name": "b",
-              "type": "Identifier",
-            },
-            Object {
-              "datatype": "int",
-              "name": "a",
-              "type": "Identifier",
-            },
+          "datatype": "int_ptr",
+          "isMemory": true,
+          "name": "b",
+          "pointerList": Array [
+            "*",
           ],
-          "type": "FunctionDeclaration",
+          "type": "Identifier",
         },
       ],
-      "type": "BlockStatement",
+      "start": Object {
+        "column": 0,
+        "line": 12,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 17,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;
@@ -1902,53 +4066,114 @@ int main() {
 Object {
   "body": Array [
     Object {
-      "body": Array [
-        Object {
-          "body": Object {
-            "body": Array [
-              Object {
-                "expression": Object {
-                  "arguments": Array [
-                    Object {
-                      "raw": "\\"Hello, World!\\"",
-                      "type": "Literal",
-                      "value": "\\"Hello, World!\\"",
-                    },
-                  ],
-                  "callee": Object {
-                    "datatype": "unknown",
-                    "name": "printf",
-                    "type": "Identifier",
+      "body": Object {
+        "body": Array [
+          Object {
+            "end": Object {
+              "column": 25,
+              "line": 3,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "end": Object {
+                    "column": 9,
+                    "line": 3,
                   },
-                  "optional": false,
-                  "type": "CallExpression",
-                },
-                "type": "ExpressionStatement",
-              },
-              Object {
-                "argument": Object {
-                  "raw": "0",
+                  "raw": "\\"Hello, World!\\"",
+                  "start": Object {
+                    "column": 9,
+                    "line": 3,
+                  },
                   "type": "Literal",
-                  "value": 0,
+                  "value": "\\"Hello, World!\\"",
                 },
-                "type": "ReturnStatement",
+              ],
+              "callee": Object {
+                "datatype": "unknown",
+                "name": "printf",
+                "type": "Identifier",
               },
-            ],
-            "type": "BlockStatement",
+              "end": Object {
+                "column": 24,
+                "line": 3,
+              },
+              "optional": false,
+              "start": Object {
+                "column": 2,
+                "line": 3,
+              },
+              "type": "CallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "ExpressionStatement",
           },
-          "id": Object {
-            "datatype": "int",
-            "name": "main",
-            "type": "Identifier",
+          Object {
+            "argument": Object {
+              "end": Object {
+                "column": 9,
+                "line": 4,
+              },
+              "raw": "0",
+              "start": Object {
+                "column": 9,
+                "line": 4,
+              },
+              "type": "Literal",
+              "value": "0",
+            },
+            "end": Object {
+              "column": 10,
+              "line": 4,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "ReturnStatement",
           },
-          "params": Array [],
-          "type": "FunctionDeclaration",
+        ],
+        "end": Object {
+          "column": 0,
+          "line": 5,
         },
-      ],
-      "type": "BlockStatement",
+        "start": Object {
+          "column": 11,
+          "line": 2,
+        },
+        "type": "BlockStatement",
+      },
+      "end": Object {
+        "column": 0,
+        "line": 5,
+      },
+      "id": Object {
+        "datatype": "int",
+        "isMemory": false,
+        "name": "main",
+        "pointerList": Array [],
+        "type": "Identifier",
+      },
+      "params": Array [],
+      "start": Object {
+        "column": 0,
+        "line": 2,
+      },
+      "type": "FunctionDeclaration",
     },
   ],
+  "end": Object {
+    "column": 0,
+    "line": 5,
+  },
   "sourceType": "script",
+  "start": Object {
+    "column": 0,
+    "line": 2,
+  },
   "type": "Program",
 }
 `;

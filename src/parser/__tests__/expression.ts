@@ -1,4 +1,4 @@
-import { BlockStatement, Program, VariableDeclaration } from 'estree'
+import { Program, VariableDeclaration } from 'estree'
 
 import createContext from '../../createContext'
 import { Context, Variant } from '../../types'
@@ -7,7 +7,9 @@ import { parse } from '../parser'
 const f = (when: string, should: string) => `When_\'${when}\'_Should_${should}`
 const prependFixture = (expr: string) => `int x = ${expr};`
 const getBinop = (result: Program | undefined) => {
-  return ((result?.body[0] as BlockStatement)?.body[0] as VariableDeclaration)?.declarations[0].init
+  const v = result?.body[0] as VariableDeclaration
+  const stmt = v.declarations[0].init
+  return stmt
 }
 
 let context: Context = createContext(Variant.DEFAULT, undefined, undefined)

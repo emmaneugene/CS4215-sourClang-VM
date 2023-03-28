@@ -16,18 +16,35 @@ declare module 'estree' {
     /** Reflects size of array, if this identifier is an array */
     arraySize?: number | undefined
 
+    /**
+     * Reflects if this is an struct declaration. Defaults to false.
+     * This field takes precedence over `datatype`.
+     */
+    isStruct?: boolean | undefined
+
+    /** Reflects fields of struct, if this identifier is a struct. */
+    structFields?: StructDef | undefined
+
     /** Extends the existing estree Identifier interface with pointer. */
-    pointerList?: PointerList
+    pointerList?: string[]
+
+    /** Reflects if this is a memory address. */
+    isMemory?: boolean | undefined
   }
 
-  type PointerList = undefined | ['*', PointerList]
+  export type StructType = {
+    datatype: DataType
+    pointerList: string[]
+  }
+
+  export type StructDef = { [attribute: string]: StructDef | StructType }
 
   export interface ExpressionMap {
     CastExpression: CastExpression
     SizeofExpression: SizeofExpression
     AddressofExpression: AddressofExpression
-    ValueofExpression: ValueofExpression
-    FlexiAssignmentExpression: FlexiAssignmentExpression
+    DereferenceExpression: DereferenceExpression
+    DerefLeftAssignmentExpression: DerefLeftAssignmentExpression
   }
 
   export interface CastExpression extends BaseExpression {
@@ -38,7 +55,7 @@ declare module 'estree' {
 
   export interface SizeofExpression extends BaseExpression {
     type: 'SizeofExpression'
-    operand: DataType
+    operand: Identifier | DataType
   }
 
   export interface AddressofExpression extends BaseExpression {
@@ -46,15 +63,16 @@ declare module 'estree' {
     expression: Expression
   }
 
-  export interface ValueofExpression extends BaseExpression {
-    type: 'ValueofExpression'
+  export interface DereferenceExpression extends BaseExpression {
+    type: 'DereferenceExpression'
     expression: Expression
   }
 
-  export interface FlexiAssignmentExpression extends BaseExpression {
-    type: 'FlexiAssignmentExpression'
+  export interface DerefLeftAssignmentExpression extends BaseExpression {
+    type: 'DerefLeftAssignmentExpression'
     operator: AssignmentOperator
-    left: Expression
+    left: Identifier | MemberExpression
+    derefChain: string[]
     right: Expression
   }
 }
