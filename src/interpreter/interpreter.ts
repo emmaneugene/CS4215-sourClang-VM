@@ -1,12 +1,17 @@
 /* tslint:disable:max-classes-per-file */
+import { arity } from '../stdlib/misc'
 import { Context, Value } from '../types'
 import {
+  BinopCommand,
   CallCommand,
   ExitCommand,
+  LeaCommand,
   Microcode,
   MovCommand,
   MovImmediateCommand,
-  OffsetRspCommand
+  OffsetRspCommand,
+  ReturnCommand,
+  UnopCommand
 } from './../typings/microcode'
 
 export function* evaluate(context: Context) {
@@ -119,6 +124,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const fromAddr = lea(ctx, from.reg, from.offset)
     const toAddr = lea(ctx, to.reg, to.offset)
 
+    debugPrint(`${movCmd.type} ${fromAddr} ${toAddr}`, ctx)
     if (from.type === 'relative' && to.type === 'relative') {
       dataview.setBytesAt(toAddr, dataview.getBytesAt(fromAddr))
     }
@@ -137,6 +143,13 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   },
 
   /**
+   *
+   * @param cmd
+   * @param ctx
+   */
+  LeaCommand: function* (cmd, ctx) {},
+
+  /**
    * Processes the `OffsetRspCommand` microcode within the context of a running
    * program.
    * @param cmd
@@ -149,16 +162,52 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   },
 
   /**
-   * Processses the `BinopCommand` microcode within the context of a running
-   * program
+   * Applies the binary operation `op` to the top two values of the stack
    * @param cmd
    * @param ctx
    */
-  BinopCommand: function* (cmd, ctx) {},
+  BinopCommand: function* (cmd, ctx) {
+    const binopCmd = cmd as BinopCommand
+    const { dataview } = ctx.cVmContext
+    const { op } = binopCmd
+
+    const arg1 = dataview.getBytesAt(lea(ctx, 'rsp', -16))
+    const arg2 = dataview.getBytesAt(lea(ctx, 'rsp', -8))
+    debugPrint(`${binopCmd.type} ${op} ${arg1} ${arg2} `, ctx)
+
+    const arithOps: Array<string> = ['+', '-', '*', '/', '%']
+
+    if (arithOps.includes(op)) {
+      let res = arg1
+      switch (op) {
+        case '+':
+          res += arg2
+          break
+        case '-':
+          res -= arg2
+          break
+        case '*':
+          res *= arg2
+          break
+        case '/':
+          res /= arg2
+          break
+        case '%':
+          res %= arg2
+          break
+      }
+      dataview.setBytesAt(lea(ctx, 'rsp', -16), res)
+    } else {
+      // TODO: Boolean operators
+    }
+
+    ctx.cVmContext.SP -= 8
+    ctx.cVmContext.PC++
+    dataview.debug()
+  },
 
   /**
-   * Processes the `UnopCommand` microcode within the context of a running
-   * program.
+   * Applies the unary operation `op` to the top value of the stack
    * @param cmd
    * @param ctx
    */
