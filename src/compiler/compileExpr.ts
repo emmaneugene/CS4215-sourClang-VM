@@ -176,13 +176,11 @@ function compileAddrOfExpr(
   gEnv: GlobalCTE
 ): CompileType {
   if (expr.expression.type === 'Identifier') {
-    fEnv.instrs.push(
-      util.leal(['rbp', getVar(expr.expression.name, fEnv, gEnv).offset], ['rsp', 0]),
-      util.offsetRSP(8)
-    )
+    const v = getVar(expr.expression.name, fEnv, gEnv)
+    fEnv.instrs.push(util.leal(['rbp', v.offset], ['rsp', 0]), util.offsetRSP(8))
     return {
-      t: DataType.LONG,
-      typeList: ['*', DataType.LONG]
+      t: v.typeList[v.typeList.length - 1] as DataType,
+      typeList: ['*', ...v.typeList]
     }
   }
 
