@@ -61,7 +61,7 @@ export class MemoryModel {
   debug(sp?: bigint, from: number = 0, to: number = this.SIZE): string {
     let rv = ''
     for (let i = Math.max(from, 0); i < Math.min(to, this.SIZE); i += 8) {
-      const hexStr = this.dv.getBigUint64(i).toString(16).padStart(8, '0')
+      const hexStr = this.dv.getBigUint64(i).toString(16).padStart(16, '0')
       let s = ''
       for (let j = 0; j < hexStr.length; j += 2) {
         s += hexStr.substring(j, j + 2) + ' '

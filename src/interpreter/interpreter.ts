@@ -157,7 +157,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   },
 
   /**
-   *
+   * Calculates `value` and puts it into `dest`.
    * @param cmd
    * @param ctx
    */
