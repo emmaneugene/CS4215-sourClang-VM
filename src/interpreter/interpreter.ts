@@ -34,6 +34,8 @@ export function* evaluate(context: Context) {
       break
     }
 
+    console.log('Current command: ', cmd.type)
+
     // Execute `cmd` and amend `context` accordingly
     yield* MACHINE[cmd.type](cmd, context)
 

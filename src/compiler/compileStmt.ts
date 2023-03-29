@@ -35,6 +35,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (stmt.type === 'AssignmentExpression') {
+      compileAssignmentStmt(stmt, fEnv, gEnv)
+      continue
     }
 
     if (stmt.type === 'IfStatement') {
@@ -112,8 +114,22 @@ export function compileAssignmentStmt(
 
   if (stmt.left.type === 'Identifier') {
     const left = stmt.left as es.Identifier
-    const { typeList } = getVar(left.name, fEnv, gEnv)
+    const { typeList, offset } = getVar(left.name, fEnv, gEnv)
     if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
+
+    fEnv.instrs.push({
+      type: 'MovCommand',
+      from: {
+        type: 'relative',
+        reg: 'rsp',
+        offset: -8
+      },
+      to: {
+        type: 'relative',
+        reg: 'rbp',
+        offset
+      }
+    })
     return
   }
 
