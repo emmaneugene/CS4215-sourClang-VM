@@ -8,13 +8,12 @@ Object {
         Object {
           "id": Object {
             "datatype": "char",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "char",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -65,12 +64,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "char",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "char",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -153,13 +151,12 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_char",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "unsigned_char",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -210,12 +207,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_char",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "unsigned_char",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -266,13 +262,12 @@ Object {
         Object {
           "id": Object {
             "datatype": "double",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "double",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -323,12 +318,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "double",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "double",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -379,15 +373,14 @@ Object {
         Object {
           "id": Object {
             "datatype": "float",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "*",
               "*",
               "float",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -438,12 +431,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "float",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "float",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -494,12 +486,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "int",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "int",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "expressions": Array [
@@ -582,12 +573,11 @@ Object {
           "id": Object {
             "arraySize": 3,
             "datatype": "int",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "int",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "expressions": Array [
@@ -657,12 +647,11 @@ Object {
           "id": Object {
             "arraySize": 3,
             "datatype": "int",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "int",
             ],
-            "type": "Identifier",
           },
           "type": "VariableDeclarator",
         },
@@ -700,14 +689,13 @@ Object {
         Object {
           "id": Object {
             "datatype": "int",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "*",
               "int",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -758,12 +746,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "int",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "int",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -846,13 +833,12 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_int",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "unsigned_int",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -903,12 +889,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_int",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "unsigned_int",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -959,13 +944,12 @@ Object {
         Object {
           "id": Object {
             "datatype": "long",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "long",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -1016,12 +1000,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "long",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "long",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -1104,14 +1087,13 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_long",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "*",
               "unsigned_long",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -1162,12 +1144,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_long",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "unsigned_long",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -1218,13 +1199,12 @@ Object {
         Object {
           "id": Object {
             "datatype": "short",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "short",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -1275,12 +1255,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "short",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "short",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -1363,14 +1342,13 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_short",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "*",
               "*",
               "unsigned_short",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {
@@ -1421,12 +1399,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "unsigned_short",
-            "isMemory": true,
             "name": "x",
-            "pointerList": Array [
+            "type": "Identifier",
+            "typeList": Array [
               "unsigned_short",
             ],
-            "type": "Identifier",
           },
           "init": Object {
             "end": Object {

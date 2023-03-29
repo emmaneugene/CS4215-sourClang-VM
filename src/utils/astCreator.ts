@@ -13,7 +13,8 @@ export const identifier = (name: string, loc?: es.SourceLocation | null): es.Ide
   type: 'Identifier',
   name,
   loc,
-  datatype: DataType.UNKNOWN
+  datatype: DataType.UNKNOWN,
+  typeList: [DataType.UNKNOWN]
 })
 
 export const literal = (

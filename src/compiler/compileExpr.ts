@@ -72,21 +72,14 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
   throw new CompileTimeError()
 }
 
-function compileCondExpr(
-  node: es.ConditionalExpression,
-  fEnv: FunctionCTE,
-  gCTE: GlobalCTE
-): CompileType {
-  throw new CompileTimeError()
-}
-
 function loadLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   if (typeof expr.value === 'number') {
     fEnv.instrs.push(util.movImm(expr.value, '2s'))
     return {
       // Return the largest possible
       // primitive type
-      t: DataType.LONG
+      t: DataType.LONG,
+      typeList: [DataType.LONG]
     }
   }
 
@@ -104,8 +97,7 @@ function loadIdentValue(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE)
   return {
     t: expr.datatype,
     isArray: expr.isArray,
-    isPointer: expr.isArray,
-    pointerOf: expr.pointerList,
+    typeList: expr.typeList,
     structDef: expr.structFields
   }
 }
@@ -125,7 +117,8 @@ function compileLogicalExpr(
 
   fEnv.instrs.push(util.binop(op))
   return {
-    t: DataType.LONG
+    t: DataType.LONG,
+    typeList: [DataType.LONG]
   }
 }
 
@@ -145,7 +138,8 @@ function compileBinExpr(
 
   fEnv.instrs.push(util.binop(op))
   return {
-    t: DataType.LONG
+    t: DataType.LONG,
+    typeList: [DataType.LONG]
   }
 }
 
@@ -175,7 +169,8 @@ function compileUpdateExpr(
   )
 
   return {
-    t: DataType.LONG
+    t: DataType.LONG,
+    typeList: [DataType.LONG]
   }
 }
 
@@ -191,7 +186,7 @@ function compileAddrOfExpr(
     )
     return {
       t: DataType.LONG,
-      isPointer: true
+      typeList: ['*', DataType.LONG]
     }
   }
 
@@ -207,9 +202,7 @@ function compileValueOfExpr(
   const t = compileExpr(expr.expression, fEnv, gEnv)
 
   // Check that the expr is indeed a pointer
-  if (!t.isPointer || !t.pointerOf) throw new CompileTimeError()
-  const ptrLsTop = t.pointerOf[0]
-  if (ptrLsTop !== '*') throw new CompileTimeError()
+  typechecker.throwIfNotPointer([t])
 
   fEnv.instrs.push(util.movAbs2Rel(['rsp', -8], ['rsp', -8]))
 
@@ -217,7 +210,7 @@ function compileValueOfExpr(
   // To reflect that one 'hop' has been done
   return {
     ...t,
-    pointerOf: t.pointerOf.slice(1, t.pointerOf.length)
+    typeList: t.typeList.slice(1, t.typeList.length)
   }
 }
 
@@ -237,7 +230,8 @@ function compileUnaryExpr(
     return {
       // Negation operator
       // returns 1 or 0
-      t: DataType.LONG
+      t: DataType.LONG,
+      typeList: [DataType.LONG]
     }
   } else {
     // Unary minus
@@ -344,9 +338,19 @@ const util = {
 }
 
 const typechecker = {
+  isPointer(ls: es.TypeList): boolean {
+    return ls[0] === '*'
+  },
+
   throwIfPointer(ls: CompileType[]): void {
     ls.forEach(e => {
-      if (e.isPointer) throw new CompileTimeError()
+      if (this.isPointer(e.typeList)) throw new CompileTimeError()
+    })
+  },
+
+  throwIfNotPointer(ls: CompileType[]): void {
+    ls.forEach(e => {
+      if (!this.isPointer(e.typeList)) throw new CompileTimeError()
     })
   },
 

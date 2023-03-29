@@ -41,32 +41,41 @@ export function nodeToLocation(node: ErrorNode): es.SourceLocation {
   }
 }
 
-export function getIdentifier(typedef: TypeDefContext, name: string): es.Identifier {
+/**
+ * Checks if the given typedef is describing
+ * a primitive type (like int),
+ * a pointer to primitive type,
+ * a struct,
+ * or pointer to struct
+ */
+export function getIdentifier(
+  typedef: TypeDefContext,
+  name: string,
+  structDeclr: Record<string, es.StructDef>
+): es.Identifier {
   if (typedef.Struct()) {
-    const pointerList: es.Identifier['pointerList'] = typedef.Star().map(s => s.text as '*')
-    pointerList.push(DataType.STRUCT)
+    const typeList: es.Identifier['typeList'] = typedef.Star().map(s => s.text as '*')
+    typeList.push(DataType.STRUCT)
     return {
       type: 'Identifier',
       datatype: DataType.STRUCT,
-      isStruct: true,
       name,
-      pointerList,
-      isMemory: pointerList.length > 0
+      typeList,
+      structFields: structDeclr[typedef.Identifier()!.text]
     }
   }
 
   const t = typedef.type()
   if (t) {
     const datatype = getDatatype(t, typedef.Unsigned())
-    const pointerList: es.Identifier['pointerList'] = typedef.Star().map(s => s.text as '*')
-    pointerList.push(datatype)
+    const typeList: es.Identifier['typeList'] = typedef.Star().map(s => s.text as '*')
+    typeList.push(datatype)
 
     return {
       type: 'Identifier',
       datatype,
       name,
-      pointerList,
-      isMemory: pointerList.length > 0
+      typeList
     }
   }
 

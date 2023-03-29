@@ -1,7 +1,7 @@
 import * as es from 'estree'
 
 import { compileExpr } from './compileExpr'
-import { FunctionCTE, GlobalCTE } from './compileTimeEnv'
+import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
 export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
@@ -21,6 +21,20 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
       compileBlkStmt(stmt, fEnv, gEnv)
       fEnv.popFrame()
       continue
+    }
+
+    // Issue with extending the Statement type def.
+    // But in `parser.visitCompoundStatement`,
+    // We will indeed return this type from the traversal
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (stmt.type === 'DerefLeftAssignmentStatement') {
+    }
+
+    // Same as above
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (stmt.type === 'AssignmentExpression') {
     }
 
     if (stmt.type === 'IfStatement') {
@@ -59,8 +73,8 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
   for (const declaration of stmt.declarations) {
     if (declaration.id.type !== 'Identifier') throw new CompileTimeError()
 
-    const { name, datatype: type } = declaration.id
-    const v = fEnv.addVar(name, type)
+    const { name, typeList } = declaration.id
+    const v = fEnv.addVar(name, typeList)
 
     if (!declaration.init) {
       continue
@@ -87,4 +101,21 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
       }
     )
   }
+}
+
+export function compileAssignmentStmt(
+  stmt: es.AssignmentExpression,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): void {
+  const rhs = compileExpr(stmt.right, fEnv, gEnv)
+
+  if (stmt.left.type === 'Identifier') {
+    const left = stmt.left as es.Identifier
+    const { typeList } = getVar(left.name, fEnv, gEnv)
+    if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
+    return
+  }
+
+  throw new CompileTimeError()
 }

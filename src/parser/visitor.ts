@@ -64,7 +64,6 @@ import { FatalSyntaxError, InvalidConfigError } from './parser.error'
 import {
   contextToLocation,
   getAddOp,
-  getDatatype,
   getEqOp,
   getIdentifier,
   getMultOp,
@@ -79,6 +78,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   private PARSER_MISCONFIG = 'Parser is misconfigured'
 
   private STRUCT_DECLARATIONS: Record<string, es.StructDef> = {}
+  private GLOBAL_STRINGS: string[] = []
 
   // === Primary Identifiers ===
 
@@ -96,6 +96,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     }
 
     if (s) {
+      this.GLOBAL_STRINGS.push(s.text)
       return {
         ...contextToLocation(ctx),
         type: 'Literal',
@@ -132,6 +133,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         type: 'Identifier',
         name: ctx.Identifier().text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
+        typeList: [DataType.UNKNOWN],
         isArray: true
       },
       // This field is used to determine if array or struct access
@@ -155,15 +157,16 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         type: 'Identifier',
         name: ctx.Identifier().at(0)!.text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
-        isStruct: true,
+        typeList: [DataType.UNKNOWN],
         structFields: this.STRUCT_DECLARATIONS[structName]
       },
       computed: false, // This field is used to determine if array or struct access
       property: {
         type: 'Identifier',
         name: ctx.Identifier().at(1)!.text,
-        // This field should be ignored
-        datatype: DataType.UNKNOWN
+        // This 2 fields should be ignored
+        datatype: DataType.UNKNOWN,
+        typeList: [DataType.UNKNOWN]
       },
       optional: false
     }
@@ -177,14 +180,14 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         type: 'Identifier',
         name: ctx.Identifier().at(0)!.text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
-        isStruct: true,
-        isMemory: true
+        typeList: [DataType.UNKNOWN]
       },
       computed: false, // This field is used to determine if array or struct access
       property: {
         type: 'Identifier',
         name: ctx.Identifier().at(1)!.text,
-        datatype: DataType.UNKNOWN // To be determined by the compiler
+        datatype: DataType.UNKNOWN, // To be determined by the compiler
+        typeList: [DataType.UNKNOWN]
       },
       optional: false
     }
@@ -195,7 +198,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       ...contextToLocation(ctx),
       type: 'Identifier',
       name: ctx.Identifier().text,
-      datatype: DataType.UNKNOWN // To be determined by the compiler
+      datatype: DataType.UNKNOWN, // To be determined by the compiler,
+      typeList: [DataType.UNKNOWN]
     }
   }
 
@@ -272,6 +276,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     const fields: es.VariableDeclaration[] = []
     for (let i = 0; i < ctx.declaration().length; i++) {
       // `this.visit(e: Declaration)` returns es.VariableDeclaration
+      // e.g. int struct_field_1;
       const d = this.visit(ctx.declaration().at(i)!) as es.VariableDeclaration
       fields.push(d)
     }
@@ -287,11 +292,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       if (d.id.type !== 'Identifier') throw new FatalSyntaxError(contextToLocation(ctx))
       const id = d.id as es.Identifier
 
-      // The array should be considered into id.datatype
-      structDef[id.name] = {
-        datatype: id.datatype,
-        pointerList: id.pointerList ?? []
-      }
+      structDef[id.name] = id.typeList
     })
 
     if (this.STRUCT_DECLARATIONS[structName]) throw new FatalSyntaxError(contextToLocation(ctx))
@@ -358,7 +359,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       callee: {
         type: 'Identifier',
         name: ctx.Identifier().text,
-        datatype: DataType.UNKNOWN // For compiler to decide
+        datatype: DataType.UNKNOWN, // For compiler to decide
+        typeList: [DataType.UNKNOWN]
       },
       arguments: args as es.Expression[],
       optional: false
@@ -438,7 +440,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         operand: {
           type: 'Identifier',
           name: operandCtx.Identifier()!.text,
-          datatype: DataType.UNKNOWN
+          datatype: DataType.UNKNOWN,
+          typeList: [DataType.UNKNOWN]
         }
       }
     }
@@ -725,8 +728,11 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     return {
       ...contextToLocation(ctx),
       type: 'FunctionDeclaration',
-      id: getIdentifier(typeDef, name),
-      params: paramLs?._pLs.map(p => getIdentifier(p.typeDef(), p.Identifier().text)) ?? [],
+      id: getIdentifier(typeDef, name, this.STRUCT_DECLARATIONS),
+      params:
+        paramLs?._pLs.map(p =>
+          getIdentifier(p.typeDef(), p.Identifier().text, this.STRUCT_DECLARATIONS)
+        ) ?? [],
       body
     }
   }
@@ -781,37 +787,17 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
    * This just helps with deduplicating the logic.
    */
   private makeVariableDeclaration(name: string, typedef: TypeDefContext): es.VariableDeclaration {
-    const id = getIdentifier(typedef, name)
-    const t = typedef.type()
-
-    if (t) {
-      // E.g. `int x`, `int ** x`, int x[]
-      return {
-        ...contextToLocation(typedef),
-        type: 'VariableDeclaration',
-        kind: 'var',
-        declarations: [
-          {
-            type: 'VariableDeclarator',
-            id
-          }
-        ]
-      }
-    } else if (typedef.Struct()) {
-      return {
-        ...contextToLocation(typedef),
-        type: 'VariableDeclaration',
-        kind: 'var',
-        declarations: [
-          {
-            type: 'VariableDeclarator',
-            id
-          }
-        ]
-      }
+    return {
+      ...contextToLocation(typedef),
+      type: 'VariableDeclaration',
+      kind: 'var',
+      declarations: [
+        {
+          type: 'VariableDeclarator',
+          id: getIdentifier(typedef, name, this.STRUCT_DECLARATIONS)
+        }
+      ]
     }
-
-    throw new FatalSyntaxError(contextToLocation(typedef))
   }
 }
 

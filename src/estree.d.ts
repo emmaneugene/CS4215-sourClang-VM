@@ -16,17 +16,12 @@ declare module 'estree' {
     /** Reflects size of array, if this identifier is an array */
     arraySize?: number | undefined
 
-    /**
-     * Reflects if this is an struct declaration. Defaults to false.
-     * This field takes precedence over `datatype`.
-     */
-    isStruct?: boolean | undefined
-
     /** Reflects fields of struct, if this identifier is a struct. */
     structFields?: StructDef | undefined
 
     /**
-     * Reflects the pointer list of the identifier.
+     * Reflects the type of the identifier.
+     *
      * It is a list, where every element is a *,
      * except for the last item, which should be a
      * DataType.
@@ -34,23 +29,17 @@ declare module 'estree' {
      * This reflects the number of 'hops' this ident
      * refers to.
      *
-     * E.g. `int ** x` should have this as
-     * ['*', '*', int]
+     * E.g:
+     *
+     * `int ** x` is ['*', '*', int]
+     * `int x` is [int]
      */
-    pointerList?: PointerList
-
-    /** Reflects if this is a memory address. */
-    isMemory?: boolean | undefined
+    typeList: TypeList
   }
 
-  export type StructType = {
-    datatype: DataType
-    pointerList: string[]
-  }
+  export type TypeList = Array<'*' | DataType>
 
-  export type PointerList = Array<'*' | DataType>
-
-  export type StructDef = { [attribute: string]: StructDef | StructType }
+  export type StructDef = { [attribute: string]: StructDef | TypeList }
 
   export interface ExpressionMap {
     CastExpression: CastExpression

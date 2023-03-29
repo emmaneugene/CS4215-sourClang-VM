@@ -5,11 +5,11 @@ import { FunctionCTE, GlobalCTE, VariableInfo } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
 export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE): void {
-  const { name, datatype } = node.id!
+  const { name, typeList } = node.id!
   const paramLs = getParamsAsLs(node.params)
   const localVarSize = countLocalVarSize(node.body.body)
 
-  const fEnv = new FunctionCTE(name, datatype, paramLs, localVarSize)
+  const fEnv = new FunctionCTE(name, typeList, paramLs, localVarSize)
 
   fEnv.instrs.push({
     type: 'OffsetRspCommand',
@@ -27,7 +27,7 @@ function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {
     if (p.type !== 'Identifier') throw new CompileTimeError()
     rv.push({
       name: p.name,
-      type: p.datatype,
+      typeList: p.typeList,
       offset: -i * 8 // TODO: Consider arrays and structs too
     })
   }

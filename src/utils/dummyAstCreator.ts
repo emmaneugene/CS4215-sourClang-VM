@@ -16,7 +16,8 @@ export const dummyLocation = (): es.SourceLocation => ({
 export const dummyIdentifier = (): es.Identifier => ({
   type: 'Identifier',
   name: DUMMY_STRING,
-  datatype: DataType.UNKNOWN
+  datatype: DataType.UNKNOWN,
+  typeList: [DataType.UNKNOWN]
 })
 
 export const dummyLiteral = (): es.Literal => ({
