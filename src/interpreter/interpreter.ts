@@ -1,6 +1,7 @@
 /* tslint:disable:max-classes-per-file */
-import { arity } from '../stdlib/misc'
+
 import { Context, Value } from '../types'
+import { RelativeAddrMode } from './../typings/microcode'
 import {
   BinopCommand,
   CallCommand,
@@ -22,7 +23,7 @@ export function* evaluate(context: Context) {
   //   return result
   // }
 
-  let returnValue: number | undefined
+  let returnValue: bigint | undefined
   while (true) {
     if (!context.cVmContext.isRunning) {
       returnValue = context.cVmContext.AX
@@ -41,7 +42,7 @@ export function* evaluate(context: Context) {
 
     // debug
     const { SP } = context.cVmContext
-    console.log(context.cVmContext.dataview.debug(SP, SP - 40, SP + 40))
+    console.log(context.cVmContext.dataview.debug(SP, Number(SP) - 40, Number(SP) + 40))
   }
 
   yield* leave(context)
@@ -108,7 +109,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const { dataview } = ctx.cVmContext
 
     dataview.setBytesAt(lea(ctx, 'rsp', 0), BigInt(immCmd.value))
-    ctx.cVmContext.SP += 8
+    ctx.cVmContext.SP += BigInt(8)
 
     ctx.cVmContext.PC++
   },
@@ -123,25 +124,36 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const movCmd = cmd as MovCommand
     const { dataview } = ctx.cVmContext
     const { from, to } = movCmd
-    const fromAddr = lea(ctx, from.reg, from.offset)
-    const toAddr = lea(ctx, to.reg, to.offset)
 
-    debugPrint(`${movCmd.type} ${fromAddr} ${toAddr}`, ctx)
+    if (from.type === 'register' && to.type === 'register') {
+      // This pair shouldn't be supported actually
+      // TODO: Throw runtime error, likely a compiler bug
+      ctx.cVmContext.AX = ctx.cVmContext.AX
+    }
+
+    if (from.type === 'register' && to.type === 'relative') {
+      const { reg, offset } = to as RelativeAddrMode
+      const toAddr = lea(ctx, reg, offset)
+      dataview.setBytesAt(toAddr, ctx.cVmContext.AX)
+    }
+
+    if (from.type === 'relative' && to.type === 'register') {
+      const { reg, offset } = from as RelativeAddrMode
+      const fromAddr = lea(ctx, reg, offset)
+      ctx.cVmContext.AX = dataview.getBytesAt(fromAddr)
+    }
+
     if (from.type === 'relative' && to.type === 'relative') {
+      const { reg: fReg, offset: fOff } = from as RelativeAddrMode
+      const fromAddr = lea(ctx, fReg, fOff)
+
+      const { reg: tReg, offset: tOff } = to as RelativeAddrMode
+      const toAddr = lea(ctx, tReg, tOff)
+
       dataview.setBytesAt(toAddr, dataview.getBytesAt(fromAddr))
     }
 
-    if (from.type === 'relative' && to.type === 'absolute') {
-    }
-
-    if (from.type === 'absolute' && to.type === 'relative') {
-    }
-
-    if (from.type === 'absolute' && to.type === 'absolute') {
-    }
-
     ctx.cVmContext.PC++
-    dataview.debug()
   },
 
   /**
@@ -149,7 +161,18 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * @param cmd
    * @param ctx
    */
-  LeaCommand: function* (cmd, ctx) {},
+  LeaCommand: function* (cmd, ctx) {
+    const leaCmd = cmd as LeaCommand
+    const { dataview } = ctx.cVmContext
+    const { value, dest } = leaCmd
+
+    const toAddr = lea(ctx, dest.reg, dest.offset)
+    const computedVal = lea(ctx, value.reg, value.offset)
+
+    dataview.setBytesAt(toAddr, BigInt(computedVal))
+
+    ctx.cVmContext.PC++
+  },
 
   /**
    * Processes the `OffsetRspCommand` microcode within the context of a running
@@ -159,7 +182,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    */
   OffsetRspCommand: function* (cmd, ctx) {
     const offsetCmd = cmd as OffsetRspCommand
-    ctx.cVmContext.SP += offsetCmd.value
+    ctx.cVmContext.SP += BigInt(offsetCmd.value)
     ctx.cVmContext.PC++
   },
 
@@ -203,7 +226,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
       // TODO: Boolean operators
     }
 
-    ctx.cVmContext.SP -= 8
+    ctx.cVmContext.SP -= BigInt(8)
     ctx.cVmContext.PC++
     dataview.debug()
   },
@@ -255,13 +278,19 @@ function debugPrint(str: string, ctx: Context): void {
  * @param offset
  * @returns address
  */
-function lea(ctx: Context, reg: 'rbp' | 'rsp', offset: number) {
+function lea(ctx: Context, reg: 'rbp' | 'rsp' | 'rax', offset: number): bigint {
   if (reg === 'rbp') {
-    return ctx.cVmContext.BP + offset
+    return ctx.cVmContext.BP + BigInt(offset)
   }
 
   if (reg === 'rsp') {
-    return ctx.cVmContext.SP + offset
+    return ctx.cVmContext.SP + BigInt(offset)
+  }
+
+  if (reg === 'rax') {
+    // Ignore offset, since AX is not
+    // a 'controlled' reg like rbp or rbp
+    return ctx.cVmContext.AX
   }
 
   throw new Error()

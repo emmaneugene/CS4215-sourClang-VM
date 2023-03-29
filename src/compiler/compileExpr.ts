@@ -1,6 +1,6 @@
 import * as es from 'estree'
 
-import { DataType } from '../typings/datatype'
+import { DataType } from './../typings/datatype'
 import {
   BinopCommand,
   LeaCommand,
@@ -88,17 +88,13 @@ function loadLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileT
 
 function loadIdentValue(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   const { name } = expr
+  const varInfo = getVar(name, fEnv, gEnv)
 
-  fEnv.instrs.push(
-    util.movRel2Rel(['rbp', getVar(name, fEnv, gEnv).offset], ['rsp', 0]),
-    util.offsetRSP(8)
-  )
+  fEnv.instrs.push(util.movRel2Rel(['rbp', varInfo.offset], ['rsp', 0]), util.offsetRSP(8))
 
   return {
-    t: expr.datatype,
-    isArray: expr.isArray,
-    typeList: expr.typeList,
-    structDef: expr.structFields
+    ...varInfo,
+    t: varInfo.typeList[-1] as DataType
   }
 }
 
@@ -204,7 +200,7 @@ function compileValueOfExpr(
   // Check that the expr is indeed a pointer
   typechecker.throwIfNotPointer([t])
 
-  fEnv.instrs.push(util.movAbs2Rel(['rsp', -8], ['rsp', -8]))
+  fEnv.instrs.push(util.movRelToAX(['rsp', -8]), util.movRel2Rel(['rax', 0], ['rsp', -8]))
 
   // Remove the top most * in the pointerList
   // To reflect that one 'hop' has been done
@@ -241,7 +237,7 @@ function compileUnaryExpr(
   }
 }
 
-type RegOffset = ['rsp' | 'rbp', number]
+type RegOffset = ['rsp' | 'rbp', number] | ['rax', 0]
 
 const util = {
   movImm: (value: number, encoding: '2s' | 'ieee'): MovImmediateCommand => {
@@ -268,37 +264,17 @@ const util = {
     }
   },
 
-  movRel2Abs: (from: RegOffset, to: RegOffset): MovCommand => {
-    return {
-      type: 'MovCommand',
-      from: {
-        type: 'relative',
-        reg: from[0],
-        offset: from[1]
-      },
-      to: {
-        type: 'absolute',
-        reg: to[0],
-        offset: to[1]
-      }
+  movRelToAX: (from: RegOffset): MovCommand => ({
+    type: 'MovCommand',
+    from: {
+      type: 'relative',
+      reg: from[0],
+      offset: from[1]
+    },
+    to: {
+      type: 'register'
     }
-  },
-
-  movAbs2Rel: (from: RegOffset, to: RegOffset): MovCommand => {
-    return {
-      type: 'MovCommand',
-      from: {
-        type: 'absolute',
-        reg: from[0],
-        offset: from[1]
-      },
-      to: {
-        type: 'relative',
-        reg: to[0],
-        offset: to[1]
-      }
-    }
-  },
+  }),
 
   offsetRSP: (value: number): OffsetRspCommand => {
     return {

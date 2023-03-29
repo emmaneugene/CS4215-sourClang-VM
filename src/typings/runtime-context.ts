@@ -16,17 +16,17 @@ export interface CVMContext {
   /**
    * Base pointer of the current function.
    */
-  BP: number
+  BP: bigint
 
   /**
    * Current top of the operand stack.
    */
-  SP: number
+  SP: bigint
 
   /**
    * The return value.
    */
-  AX: number
+  AX: bigint
 
   /**
    * List of instructions.
@@ -50,15 +50,15 @@ export class MemoryModel {
     this.SIZE = size
   }
 
-  getBytesAt(addr: number): bigint {
-    return this.dv.getBigUint64(addr)
+  getBytesAt(addr: bigint): bigint {
+    return this.dv.getBigUint64(Number(addr))
   }
 
-  setBytesAt(addr: number, v: bigint): void {
-    this.dv.setBigUint64(addr, v)
+  setBytesAt(addr: bigint, v: bigint): void {
+    this.dv.setBigUint64(Number(addr), v)
   }
 
-  debug(sp?: number, from: number = 0, to: number = this.SIZE): string {
+  debug(sp?: bigint, from: number = 0, to: number = this.SIZE): string {
     let rv = ''
     for (let i = Math.max(from, 0); i < Math.min(to, this.SIZE); i += 8) {
       const hexStr = this.dv.getBigUint64(i).toString(16).padStart(8, '0')
@@ -66,7 +66,7 @@ export class MemoryModel {
       for (let j = 0; j < hexStr.length; j += 2) {
         s += hexStr.substring(j, j + 2) + ' '
       }
-      rv += `${i}\t: ${s} ${sp === i ? '<-- SP' : ''}\n`
+      rv += `${i}\t: ${s} ${Number(sp) === i ? '<-- SP' : ''}\n`
     }
     return rv
   }
