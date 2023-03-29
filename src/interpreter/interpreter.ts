@@ -1,10 +1,17 @@
 /* tslint:disable:max-classes-per-file */
+import { arity } from '../stdlib/misc'
 import { Context, Value } from '../types'
 import {
+  BinopCommand,
+  CallCommand,
+  ExitCommand,
+  LeaCommand,
   Microcode,
   MovCommand,
   MovImmediateCommand,
-  OffsetRspCommand
+  OffsetRspCommand,
+  ReturnCommand,
+  UnopCommand
 } from './../typings/microcode'
 
 export function* evaluate(context: Context) {
@@ -70,7 +77,14 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     return
   },
 
+  /**
+   * Processes the `CallCommand` microcode within the context of a running
+   * program.
+   * @param cmd
+   * @param ctx
+   */
   CallCommand: function* (cmd, ctx) {
+    const callCmd = cmd as CallCommand
     if (ctx.externalBuiltIns?.rawDisplay) {
       ctx.externalBuiltIns.rawDisplay(undefined, `${cmd.type}`, ctx)
     } else {
@@ -80,6 +94,12 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     ctx.cVmContext.PC++
   },
 
+  /**
+   * Processes the `MovImmediateCommand` microcode within the context of a
+   * running program.
+   * @param cmd
+   * @param ctx
+   */
   MovImmediateCommand: function* (cmd, ctx) {
     const immCmd = cmd as MovImmediateCommand
     debugPrint(immCmd.type + ' ' + immCmd.value + ' ' + immCmd.encoding, ctx)
@@ -91,6 +111,12 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     ctx.cVmContext.PC++
   },
 
+  /**
+   * Processes the `MovCommand` microcode within the context of a running
+   * program.
+   * @param cmd
+   * @param ctx
+   */
   MovCommand: function* (cmd, ctx) {
     const movCmd = cmd as MovCommand
     const { dataview } = ctx.cVmContext
@@ -98,6 +124,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const fromAddr = lea(ctx, from.reg, from.offset)
     const toAddr = lea(ctx, to.reg, to.offset)
 
+    debugPrint(`${movCmd.type} ${fromAddr} ${toAddr}`, ctx)
     if (from.type === 'relative' && to.type === 'relative') {
       dataview.setBytesAt(toAddr, dataview.getBytesAt(fromAddr))
     }
@@ -115,11 +142,100 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     dataview.debug()
   },
 
+  /**
+   *
+   * @param cmd
+   * @param ctx
+   */
+  LeaCommand: function* (cmd, ctx) {},
+
+  /**
+   * Processes the `OffsetRspCommand` microcode within the context of a running
+   * program.
+   * @param cmd
+   * @param ctx
+   */
   OffsetRspCommand: function* (cmd, ctx) {
     const offsetCmd = cmd as OffsetRspCommand
     ctx.cVmContext.SP += offsetCmd.value
     ctx.cVmContext.PC++
-  }
+  },
+
+  /**
+   * Applies the binary operation `op` to the top two values of the stack
+   * @param cmd
+   * @param ctx
+   */
+  BinopCommand: function* (cmd, ctx) {
+    const binopCmd = cmd as BinopCommand
+    const { dataview } = ctx.cVmContext
+    const { op } = binopCmd
+
+    const arg1 = dataview.getBytesAt(lea(ctx, 'rsp', -16))
+    const arg2 = dataview.getBytesAt(lea(ctx, 'rsp', -8))
+    debugPrint(`${binopCmd.type} ${op} ${arg1} ${arg2} `, ctx)
+
+    const arithOps: Array<string> = ['+', '-', '*', '/', '%']
+
+    if (arithOps.includes(op)) {
+      let res = arg1
+      switch (op) {
+        case '+':
+          res += arg2
+          break
+        case '-':
+          res -= arg2
+          break
+        case '*':
+          res *= arg2
+          break
+        case '/':
+          res /= arg2
+          break
+        case '%':
+          res %= arg2
+          break
+      }
+      dataview.setBytesAt(lea(ctx, 'rsp', -16), res)
+    } else {
+      // TODO: Boolean operators
+    }
+
+    ctx.cVmContext.SP -= 8
+    ctx.cVmContext.PC++
+    dataview.debug()
+  },
+
+  /**
+   * Applies the unary operation `op` to the top value of the stack
+   * @param cmd
+   * @param ctx
+   */
+  UnopCommand: function* (cmd, ctx) {},
+
+  /**
+   * Processes the `ReturnCommand` microcode within the context of a running
+   * program.
+   * @param cmd
+   * @param ctx
+   */
+  ReturnCommand: function* (cmd, ctx) {},
+
+  /**
+   * Processes the `PushCommand` microcode within the context of a running
+   * program.
+   * @param cmd
+   * @param ctx
+   */
+  PushCommand: function* (cmd, ctx) {},
+
+  /**
+   * Processes the `PopCommand` microcode within the context of a running
+   * program
+   * @param cmd
+   * @param ctx
+   */
+  PopCommand: function* (cmd, ctx) {}
 }
 
 function debugPrint(str: string, ctx: Context): void {
@@ -130,6 +246,13 @@ function debugPrint(str: string, ctx: Context): void {
   }
 }
 
+/**
+ * Loads the address of a register + offset
+ * @param ctx
+ * @param reg
+ * @param offset
+ * @returns address
+ */
 function lea(ctx: Context, reg: 'rbp' | 'rsp', offset: number) {
   if (reg === 'rbp') {
     return ctx.cVmContext.BP + offset
