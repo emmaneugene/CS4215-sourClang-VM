@@ -25,8 +25,19 @@ declare module 'estree' {
     /** Reflects fields of struct, if this identifier is a struct. */
     structFields?: StructDef | undefined
 
-    /** Extends the existing estree Identifier interface with pointer. */
-    pointerList?: string[]
+    /**
+     * Reflects the pointer list of the identifier.
+     * It is a list, where every element is a *,
+     * except for the last item, which should be a
+     * DataType.
+     *
+     * This reflects the number of 'hops' this ident
+     * refers to.
+     *
+     * E.g. `int ** x` should have this as
+     * ['*', '*', int]
+     */
+    pointerList?: PointerList
 
     /** Reflects if this is a memory address. */
     isMemory?: boolean | undefined
@@ -36,6 +47,8 @@ declare module 'estree' {
     datatype: DataType
     pointerList: string[]
   }
+
+  export type PointerList = Array<'*' | DataType>
 
   export type StructDef = { [attribute: string]: StructDef | StructType }
 

@@ -216,17 +216,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
 
   visitVariableDecl(ctx: VariableDeclContext): es.Node {
-    const typedef = ctx.typeDef()
-    const v = this.makeVariableDeclaration({
-      loc: contextToLocation(ctx),
-      isStruct: !!typedef.Struct(),
-      isUnsigned: !!typedef.Unsigned(),
-      isArray: false,
-      name: ctx.Identifier().text,
-      pointerList: typedef.Star().map(s => s.text),
-      type: typedef.type(),
-      structDef: typedef.Identifier()?.text
-    })
+    const v = this.makeVariableDeclaration(ctx.Identifier().text, ctx.typeDef())
 
     if (ctx.expr()) {
       // Validated by `this.visit(e: Expression)`
@@ -238,17 +228,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
 
   visitArrayDecl(ctx: ArrayDeclContext): es.Node {
-    const typedef = ctx.typeDef()
-    const v = this.makeVariableDeclaration({
-      loc: contextToLocation(ctx),
-      isStruct: !!typedef.Struct(),
-      isUnsigned: !!typedef.Unsigned(),
-      isArray: true,
-      name: ctx.Identifier().text,
-      pointerList: typedef.Star().map(s => s.text),
-      type: typedef.type(),
-      structDef: typedef.Identifier()?.text
-    })
+    const v = this.makeVariableDeclaration(ctx.Identifier().text, ctx.typeDef())
 
     const c = ctx.Constant()
     let size: number | undefined
@@ -745,11 +725,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     return {
       ...contextToLocation(ctx),
       type: 'FunctionDeclaration',
-      id: getIdentifier(typeDef, name, typeDef.Star().length > 0),
-      params:
-        paramLs?._pLs.map(p =>
-          getIdentifier(p.typeDef(), p.Identifier().text, p.typeDef().Star().length > 0)
-        ) ?? [],
+      id: getIdentifier(typeDef, name),
+      params: paramLs?._pLs.map(p => getIdentifier(p.typeDef(), p.Identifier().text)) ?? [],
       body
     }
   }
@@ -803,65 +780,38 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
    * There is a lot of similar logic for the rule `declaration`.
    * This just helps with deduplicating the logic.
    */
-  private makeVariableDeclaration(args: {
-    loc: es.SourceLocation
-    isStruct: boolean
-    isUnsigned: boolean
-    isArray: boolean
-    name: string
-    pointerList: string[]
-    type?: TypeContext
-    structDef?: any // TODO
-  }): es.VariableDeclaration {
-    const t = args.type
-    const isPtr = args.pointerList.length > 0
+  private makeVariableDeclaration(name: string, typedef: TypeDefContext): es.VariableDeclaration {
+    const id = getIdentifier(typedef, name)
+    const t = typedef.type()
 
     if (t) {
       // E.g. `int x`, `int ** x`, int x[]
       return {
-        ...args.loc,
+        ...contextToLocation(typedef),
         type: 'VariableDeclaration',
         kind: 'var',
         declarations: [
           {
             type: 'VariableDeclarator',
-            id: {
-              type: 'Identifier',
-              name: args.name,
-              isArray: args.isArray,
-              datatype: getDatatype(t, args.isUnsigned, isPtr),
-              isMemory: isPtr,
-              pointerList: args.pointerList
-            }
+            id
           }
         ]
       }
-    } else if (args.isStruct) {
-      // E.g. `struct Person ident`, `struct Person *ident`
-      // `struct Person ident[]`
+    } else if (typedef.Struct()) {
       return {
-        ...args.loc,
+        ...contextToLocation(typedef),
         type: 'VariableDeclaration',
         kind: 'var',
         declarations: [
           {
             type: 'VariableDeclarator',
-            id: {
-              type: 'Identifier',
-              name: args.name,
-              isStruct: true,
-              isArray: args.isArray,
-              datatype: DataType.UNKNOWN,
-              isMemory: isPtr,
-              pointerList: args.pointerList,
-              structFields: args.structDef // TODO
-            }
+            id
           }
         ]
       }
     }
 
-    throw new FatalSyntaxError(args.loc)
+    throw new FatalSyntaxError(contextToLocation(typedef))
   }
 }
 

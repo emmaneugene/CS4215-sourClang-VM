@@ -118,6 +118,30 @@ export class GlobalCTE {
   }
 }
 
+/**
+ * Used to track types during compilation.
+ */
+export type CompileType = {
+  /** The base datatype. */
+  t: DataType
+
+  /** Reflects if this object is a pointer. */
+  isPointer?: boolean
+
+  /** Reflects what this pointer actually points to */
+  pointerOf?: es.PointerList
+
+  /** Reflects if this object is an array. */
+  isArray?: boolean
+
+  /**
+   * Reflect if the object is a structDef.
+   * If it is, this field denotes the struct
+   * definition.
+   */
+  structDef?: es.StructDef | undefined
+}
+
 export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): VariableInfo {
   let varInfo = fEnv.getVar(name)
   if (!varInfo) {
