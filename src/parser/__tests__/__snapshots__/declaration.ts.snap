@@ -7,14 +7,13 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "char_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "char",
             "name": "x",
-            "pointerList": Array [
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "char",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -27,13 +26,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "32767",
+            "value": 32767,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 11,
+        "column": 5,
         "line": 1,
       },
       "kind": "var",
@@ -65,11 +64,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "char",
-            "isArray": false,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "char",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -82,13 +81,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "32767",
+            "value": 32767,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 9,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -151,14 +150,13 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_char_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "unsigned_char",
             "name": "x",
-            "pointerList": Array [
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "unsigned_char",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -171,13 +169,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "32767",
+            "value": 32767,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 20,
+        "column": 14,
         "line": 1,
       },
       "kind": "var",
@@ -208,12 +206,12 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_char_ptr",
-            "isArray": false,
-            "isMemory": false,
+            "datatype": "unsigned_char",
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "unsigned_char",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -226,13 +224,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "32767",
+            "value": 32767,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 18,
+        "column": 9,
         "line": 1,
       },
       "kind": "var",
@@ -263,14 +261,13 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "double_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "double",
             "name": "x",
-            "pointerList": Array [
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "double",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -283,13 +280,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 13,
+        "column": 7,
         "line": 1,
       },
       "kind": "var",
@@ -321,11 +318,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "double",
-            "isArray": false,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "double",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -338,13 +335,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 11,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -375,16 +372,15 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "float_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "float",
             "name": "x",
-            "pointerList": Array [
-              "*",
-              "*",
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "*",
+              "*",
+              "float",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -397,13 +393,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 14,
+        "column": 8,
         "line": 1,
       },
       "kind": "var",
@@ -435,11 +431,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "float",
-            "isArray": false,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "float",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -452,13 +448,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 10,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -490,11 +486,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "int",
-            "isArray": true,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "int",
+            ],
           },
           "init": Object {
             "expressions": Array [
@@ -509,7 +505,7 @@ Object {
                   "line": 1,
                 },
                 "type": "Literal",
-                "value": "1",
+                "value": 1,
               },
               Object {
                 "end": Object {
@@ -522,7 +518,7 @@ Object {
                   "line": 1,
                 },
                 "type": "Literal",
-                "value": "2",
+                "value": 2,
               },
               Object {
                 "end": Object {
@@ -535,7 +531,7 @@ Object {
                   "line": 1,
                 },
                 "type": "Literal",
-                "value": "3",
+                "value": 3,
               },
             ],
             "type": "SequenceExpression",
@@ -544,7 +540,7 @@ Object {
         },
       ],
       "end": Object {
-        "column": 18,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -577,11 +573,11 @@ Object {
           "id": Object {
             "arraySize": 3,
             "datatype": "int",
-            "isArray": true,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "int",
+            ],
           },
           "init": Object {
             "expressions": Array [
@@ -596,7 +592,7 @@ Object {
                   "line": 1,
                 },
                 "type": "Literal",
-                "value": "1",
+                "value": 1,
               },
               Object {
                 "end": Object {
@@ -609,7 +605,7 @@ Object {
                   "line": 1,
                 },
                 "type": "Literal",
-                "value": "2",
+                "value": 2,
               },
             ],
             "type": "SequenceExpression",
@@ -618,7 +614,7 @@ Object {
         },
       ],
       "end": Object {
-        "column": 16,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -651,17 +647,17 @@ Object {
           "id": Object {
             "arraySize": 3,
             "datatype": "int",
-            "isArray": true,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "int",
+            ],
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 7,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -692,15 +688,14 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "int_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "int",
             "name": "x",
-            "pointerList": Array [
-              "*",
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "*",
+              "int",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -713,13 +708,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 12,
+        "column": 6,
         "line": 1,
       },
       "kind": "var",
@@ -751,11 +746,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "int",
-            "isArray": false,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "int",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -768,13 +763,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 8,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -837,14 +832,13 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_int_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "unsigned_int",
             "name": "x",
-            "pointerList": Array [
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "unsigned_int",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -857,13 +851,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 19,
+        "column": 13,
         "line": 1,
       },
       "kind": "var",
@@ -894,12 +888,12 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_int_ptr",
-            "isArray": false,
-            "isMemory": false,
+            "datatype": "unsigned_int",
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "unsigned_int",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -912,13 +906,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 17,
+        "column": 9,
         "line": 1,
       },
       "kind": "var",
@@ -949,14 +943,13 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "long_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "long",
             "name": "x",
-            "pointerList": Array [
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "long",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -969,13 +962,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 11,
+        "column": 5,
         "line": 1,
       },
       "kind": "var",
@@ -1007,11 +1000,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "long",
-            "isArray": false,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "long",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -1024,13 +1017,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 9,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -1093,15 +1086,14 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_long_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "unsigned_long",
             "name": "x",
-            "pointerList": Array [
-              "*",
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "*",
+              "unsigned_long",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -1114,13 +1106,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 22,
+        "column": 16,
         "line": 1,
       },
       "kind": "var",
@@ -1151,12 +1143,12 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_long_ptr",
-            "isArray": false,
-            "isMemory": false,
+            "datatype": "unsigned_long",
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "unsigned_long",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -1169,13 +1161,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 18,
+        "column": 9,
         "line": 1,
       },
       "kind": "var",
@@ -1206,14 +1198,13 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "short_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "short",
             "name": "x",
-            "pointerList": Array [
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "short",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -1226,13 +1217,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 12,
+        "column": 6,
         "line": 1,
       },
       "kind": "var",
@@ -1264,11 +1255,11 @@ Object {
         Object {
           "id": Object {
             "datatype": "short",
-            "isArray": false,
-            "isMemory": false,
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "short",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -1281,13 +1272,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 10,
+        "column": 0,
         "line": 1,
       },
       "kind": "var",
@@ -1350,15 +1341,14 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_short_ptr",
-            "isArray": false,
-            "isMemory": true,
+            "datatype": "unsigned_short",
             "name": "x",
-            "pointerList": Array [
-              "*",
-              "*",
-            ],
             "type": "Identifier",
+            "typeList": Array [
+              "*",
+              "*",
+              "unsigned_short",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -1371,13 +1361,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 22,
+        "column": 16,
         "line": 1,
       },
       "kind": "var",
@@ -1408,12 +1398,12 @@ Object {
       "declarations": Array [
         Object {
           "id": Object {
-            "datatype": "unsigned_short_ptr",
-            "isArray": false,
-            "isMemory": false,
+            "datatype": "unsigned_short",
             "name": "x",
-            "pointerList": Array [],
             "type": "Identifier",
+            "typeList": Array [
+              "unsigned_short",
+            ],
           },
           "init": Object {
             "end": Object {
@@ -1426,13 +1416,13 @@ Object {
               "line": 1,
             },
             "type": "Literal",
-            "value": "65535",
+            "value": 65535,
           },
           "type": "VariableDeclarator",
         },
       ],
       "end": Object {
-        "column": 19,
+        "column": 9,
         "line": 1,
       },
       "kind": "var",

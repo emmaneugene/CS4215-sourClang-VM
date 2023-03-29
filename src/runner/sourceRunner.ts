@@ -29,9 +29,9 @@ function updateContext(gEnv: GlobalCTE, ctx: Context): void {
     instrs: gEnv.combinedInstrs,
     isRunning: true,
     PC: gEnv.getFunctionAddr('main'),
-    BP: 0,
-    SP: 0,
-    AX: 0,
+    BP: BigInt(0),
+    SP: BigInt(0),
+    AX: BigInt(0),
     dataview: new MemoryModel()
   }
 }

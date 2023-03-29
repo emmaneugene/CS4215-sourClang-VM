@@ -23,7 +23,7 @@ Object {
           "line": 1,
         },
         "type": "Literal",
-        "value": "1",
+        "value": 1,
       },
       "end": Object {
         "column": 9,
@@ -50,6 +50,9 @@ Object {
         "line": 1,
       },
       "type": "Identifier",
+      "typeList": Array [
+        "unknown",
+      ],
     },
     "start": Object {
       "column": 8,
@@ -69,7 +72,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "4",
+    "value": 4,
   },
   "start": Object {
     "column": 8,
@@ -101,7 +104,7 @@ Object {
         "line": 1,
       },
       "type": "Literal",
-      "value": "1",
+      "value": 1,
     },
     "operator": "/",
     "right": Object {
@@ -115,7 +118,7 @@ Object {
         "line": 1,
       },
       "type": "Literal",
-      "value": "2",
+      "value": 2,
     },
     "start": Object {
       "column": 8,
@@ -135,7 +138,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "4000",
+    "value": 4000,
   },
   "start": Object {
     "column": 8,
@@ -168,6 +171,9 @@ Object {
         "line": 1,
       },
       "type": "Identifier",
+      "typeList": Array [
+        "unknown",
+      ],
     },
     "operator": "/",
     "right": Object {
@@ -182,6 +188,9 @@ Object {
         "line": 1,
       },
       "type": "Identifier",
+      "typeList": Array [
+        "unknown",
+      ],
     },
     "start": Object {
       "column": 8,
@@ -207,7 +216,7 @@ Object {
           "line": 1,
         },
         "type": "Literal",
-        "value": "1",
+        "value": 1,
       },
       "end": Object {
         "column": 20,
@@ -239,7 +248,7 @@ Object {
             "line": 1,
           },
           "type": "Literal",
-          "value": "1",
+          "value": 1,
         },
         "end": Object {
           "column": 28,
@@ -266,6 +275,9 @@ Object {
           "line": 1,
         },
         "type": "Identifier",
+        "typeList": Array [
+          "unknown",
+        ],
       },
       "start": Object {
         "column": 26,
@@ -310,6 +322,9 @@ Object {
         "line": 1,
       },
       "type": "Identifier",
+      "typeList": Array [
+        "unknown",
+      ],
     },
     "operator": "/",
     "right": Object {
@@ -323,7 +338,7 @@ Object {
         "line": 1,
       },
       "type": "Literal",
-      "value": "5",
+      "value": 5,
     },
     "start": Object {
       "column": 8,
@@ -343,7 +358,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "0",
+    "value": 0,
   },
   "start": Object {
     "column": 8,
@@ -376,6 +391,9 @@ Object {
         "line": 1,
       },
       "type": "Identifier",
+      "typeList": Array [
+        "unknown",
+      ],
     },
     "operator": "/",
     "right": Object {
@@ -389,7 +407,7 @@ Object {
         "line": 1,
       },
       "type": "Literal",
-      "value": "10",
+      "value": 10,
     },
     "start": Object {
       "column": 8,
@@ -409,7 +427,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "9",
+    "value": 9,
   },
   "start": Object {
     "column": 8,
@@ -436,7 +454,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "1",
+    "value": 1,
   },
   "operator": "+",
   "right": Object {
@@ -450,7 +468,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "2",
+    "value": 2,
   },
   "start": Object {
     "column": 8,
@@ -478,6 +496,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "+",
   "right": Object {
@@ -492,6 +513,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "start": Object {
     "column": 8,
@@ -519,6 +543,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "+",
   "right": Object {
@@ -532,7 +559,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "5",
+    "value": 5,
   },
   "start": Object {
     "column": 8,
@@ -560,7 +587,7 @@ Object {
         "line": 1,
       },
       "type": "Literal",
-      "value": "1",
+      "value": 1,
     },
     "end": Object {
       "column": 9,
@@ -587,6 +614,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "start": Object {
     "column": 8,
@@ -613,7 +643,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "1",
+    "value": 1,
   },
   "operator": "/",
   "right": Object {
@@ -627,7 +657,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "2",
+    "value": 2,
   },
   "start": Object {
     "column": 8,
@@ -655,6 +685,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "/",
   "right": Object {
@@ -669,6 +702,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "start": Object {
     "column": 8,
@@ -696,6 +732,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "/",
   "right": Object {
@@ -709,7 +748,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "5",
+    "value": 5,
   },
   "start": Object {
     "column": 8,
@@ -737,6 +776,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "/",
   "right": Object {
@@ -750,7 +792,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "10",
+    "value": 10,
   },
   "start": Object {
     "column": 8,
@@ -778,7 +820,7 @@ Object {
         "line": 1,
       },
       "type": "Literal",
-      "value": "1",
+      "value": 1,
     },
     "end": Object {
       "column": 9,
@@ -805,6 +847,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "start": Object {
     "column": 8,
@@ -831,7 +876,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "1",
+    "value": 1,
   },
   "operator": "*",
   "right": Object {
@@ -845,7 +890,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "2",
+    "value": 2,
   },
   "start": Object {
     "column": 8,
@@ -873,6 +918,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "*",
   "right": Object {
@@ -887,6 +935,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "start": Object {
     "column": 8,
@@ -914,6 +965,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "*",
   "right": Object {
@@ -927,7 +981,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "5",
+    "value": 5,
   },
   "start": Object {
     "column": 8,
@@ -955,6 +1009,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "*",
   "right": Object {
@@ -968,7 +1025,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "10",
+    "value": 10,
   },
   "start": Object {
     "column": 8,
@@ -997,6 +1054,9 @@ Object {
         "line": 1,
       },
       "type": "Identifier",
+      "typeList": Array [
+        "unknown",
+      ],
     },
     "end": Object {
       "column": 9,
@@ -1022,7 +1082,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "5",
+    "value": 5,
   },
   "start": Object {
     "column": 8,
@@ -1049,7 +1109,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "1",
+    "value": 1,
   },
   "operator": "-",
   "right": Object {
@@ -1063,7 +1123,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "2",
+    "value": 2,
   },
   "start": Object {
     "column": 8,
@@ -1091,6 +1151,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "-",
   "right": Object {
@@ -1105,6 +1168,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "start": Object {
     "column": 8,
@@ -1132,6 +1198,9 @@ Object {
       "line": 1,
     },
     "type": "Identifier",
+    "typeList": Array [
+      "unknown",
+    ],
   },
   "operator": "-",
   "right": Object {
@@ -1145,7 +1214,7 @@ Object {
       "line": 1,
     },
     "type": "Literal",
-    "value": "5",
+    "value": 5,
   },
   "start": Object {
     "column": 8,

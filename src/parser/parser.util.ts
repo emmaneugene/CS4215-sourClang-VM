@@ -41,32 +41,41 @@ export function nodeToLocation(node: ErrorNode): es.SourceLocation {
   }
 }
 
+/**
+ * Checks if the given typedef is describing
+ * a primitive type (like int),
+ * a pointer to primitive type,
+ * a struct,
+ * or pointer to struct
+ */
 export function getIdentifier(
   typedef: TypeDefContext,
   name: string,
-  isPointer: boolean
+  structDeclr: Record<string, es.StructDef>
 ): es.Identifier {
   if (typedef.Struct()) {
-    const pointerList = typedef.Star().map(s => s.text)
+    const typeList: es.Identifier['typeList'] = typedef.Star().map(s => s.text as '*')
+    typeList.push(DataType.STRUCT)
     return {
       type: 'Identifier',
-      datatype: DataType.UNKNOWN,
-      isStruct: true,
+      datatype: DataType.STRUCT,
       name,
-      pointerList,
-      isMemory: pointerList.length > 0
+      typeList,
+      structFields: structDeclr[typedef.Identifier()!.text]
     }
   }
 
   const t = typedef.type()
   if (t) {
-    const pointerList = typedef.Star().map(s => s.text)
+    const datatype = getDatatype(t, typedef.Unsigned())
+    const typeList: es.Identifier['typeList'] = typedef.Star().map(s => s.text as '*')
+    typeList.push(datatype)
+
     return {
       type: 'Identifier',
-      datatype: getDatatype(t, typedef.Unsigned(), isPointer),
+      datatype,
       name,
-      pointerList,
-      isMemory: pointerList.length > 0
+      typeList
     }
   }
 
@@ -74,58 +83,31 @@ export function getIdentifier(
 }
 
 const MAPPING = {
-  UNSIGNED: {
-    PTR: {
-      char: () => DataType.UNSIGNED_CHAR_PTR,
-      short: () => DataType.UNSIGNED_SHORT_PTR,
-      int: () => DataType.UNSIGNED_INT_PTR,
-      long: () => DataType.UNSIGNED_LONG_PTR
-    },
-    PLAIN: {
-      char: () => DataType.UNSIGNED_CHAR_PTR,
-      short: () => DataType.UNSIGNED_SHORT_PTR,
-      int: () => DataType.UNSIGNED_INT_PTR,
-      long: () => DataType.UNSIGNED_LONG_PTR
-    }
-  },
-
   SIGNED: {
-    PTR: {
-      char: () => DataType.CHAR_PTR,
-      short: () => DataType.SHORT_PTR,
-      int: () => DataType.INT_PTR,
-      long: () => DataType.LONG_PTR,
-      float: () => DataType.FLOAT_PTR,
-      double: () => DataType.DOUBLE_PTR,
-      void: () => DataType.VOID_PTR
-    },
-    PLAIN: {
-      char: () => DataType.CHAR,
-      short: () => DataType.SHORT,
-      int: () => DataType.INT,
-      long: () => DataType.LONG,
-      float: () => DataType.FLOAT,
-      double: () => DataType.DOUBLE,
-      void: () => DataType.VOID
-    }
+    char: () => DataType.CHAR,
+    short: () => DataType.SHORT,
+    int: () => DataType.INT,
+    long: () => DataType.LONG,
+    float: () => DataType.FLOAT,
+    double: () => DataType.DOUBLE,
+    void: () => DataType.VOID
+  },
+  UNSIGNED: {
+    char: () => DataType.UNSIGNED_CHAR,
+    short: () => DataType.UNSIGNED_SHORT,
+    int: () => DataType.UNSIGNED_INT,
+    long: () => DataType.UNSIGNED_LONG
   }
 }
 
 export function getDatatype(
   t: TypeContext,
-  isUnsigned: TerminalNode | boolean | undefined,
-  isPointer: boolean
+  isUnsigned: TerminalNode | boolean | undefined
 ): DataType {
   const key1 = isUnsigned ? 'UNSIGNED' : 'SIGNED'
-  const key2 = isPointer ? 'PTR' : 'PLAIN'
+  const key2 = getTypeToken(t)
 
-  const obj = MAPPING[key1][key2]
-  if (!obj) {
-    throw new FatalSyntaxError(contextToLocation(t))
-  }
-
-  const key3 = getTypeToken(t)
-  const fn = obj[key3]
+  const fn = MAPPING[key1][key2]
   if (!fn) {
     throw new FatalSyntaxError(contextToLocation(t))
   }

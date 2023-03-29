@@ -1,5 +1,6 @@
 import * as es from 'estree'
 
+import { DataType } from './../typings/datatype'
 import {
   BinopCommand,
   LeaCommand,
@@ -8,16 +9,16 @@ import {
   OffsetRspCommand,
   UnopCommand
 } from './../typings/microcode'
-import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
+import { CompileType, FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
-export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   if (node.type === 'Literal') {
-    return compileLit(node, fEnv, gEnv)
+    return loadLit(node, fEnv, gEnv)
   }
 
   if (node.type === 'Identifier') {
-    return compileIdent(node, fEnv, gEnv)
+    return loadIdentValue(node, fEnv, gEnv)
   }
 
   if (node.type === 'LogicalExpression') {
@@ -25,15 +26,11 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
   }
 
   if (node.type === 'BinaryExpression') {
-    return compileBinaryExpr(node, fEnv, gEnv)
-  }
-
-  if (node.type === 'DerefLeftAssignmentExpression') {
-    return compileFlexAssignExpr(node, fEnv, gEnv)
+    return compileBinExpr(node, fEnv, gEnv)
   }
 
   if (node.type === 'ConditionalExpression') {
-    return compileCondExpr(node, fEnv, gEnv)
+    throw new CompileTimeError()
   }
 
   if (node.type === 'CastExpression') {
@@ -45,7 +42,7 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
   }
 
   if (node.type === 'SizeofExpression') {
-    return compileSizeofExpr(node, fEnv, gEnv)
+    throw new CompileTimeError()
   }
 
   if (node.type === 'DereferenceExpression') {
@@ -75,77 +72,78 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
   throw new CompileTimeError()
 }
 
-function compileCondExpr(node: es.ConditionalExpression, fEnv: FunctionCTE, gCTE: GlobalCTE): void {
-  throw new CompileTimeError()
-}
-
-function compileLogicalExpr(expr: es.LogicalExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
-  const op = expr.operator
-
-  if (op !== '||' && op !== '&&') {
-    throw new CompileTimeError()
-  }
-
-  compileExpr(expr.left, fEnv, gEnv)
-  compileExpr(expr.right, fEnv, gEnv)
-  fEnv.instrs.push(util.binop(expr.operator))
-}
-
-function compileBinaryExpr(expr: es.BinaryExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
-  compileExpr(expr.left, fEnv, gEnv)
-  compileExpr(expr.right, fEnv, gEnv)
-  fEnv.instrs.push(util.binop(expr.operator))
-}
-
-function compileLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+function loadLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   if (typeof expr.value === 'number') {
     fEnv.instrs.push(util.movImm(expr.value, '2s'))
-    return
+    return {
+      // Return the largest possible
+      // primitive type
+      t: DataType.LONG,
+      typeList: [DataType.LONG]
+    }
   }
 
   throw new CompileTimeError()
 }
 
-function compileIdent(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+function loadIdentValue(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   const { name } = expr
+  const varInfo = getVar(name, fEnv, gEnv)
 
-  fEnv.instrs.push(
-    util.movRel2Rel(['rbp', getVar(name, fEnv, gEnv).offset], ['rsp', 0]),
-    util.offsetRSP(8)
-  )
-}
+  fEnv.instrs.push(util.movRel2Rel(['rbp', varInfo.offset], ['rsp', 0]), util.offsetRSP(8))
 
-function compileFlexAssignExpr(
-  expr: es.DerefLeftAssignmentExpression,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
-): void {
-  const { left, right, operator } = expr
-
-  if (operator !== '=') throw new CompileTimeError()
-
-  // Put value into M[rsp-8]
-  compileExpr(right, fEnv, gEnv)
-
-  if (left.type === 'Identifier') {
-    fEnv.instrs.push(
-      util.movRel2Rel(['rsp', -8], ['rbp', getVar(left.name, fEnv, gEnv).offset]),
-      util.offsetRSP(-8)
-    )
-  } else if (left.type === 'MemberExpression') {
-    // load in some mem address into M[rsp-8]
-    // at this point the RHS is at M[rsp-16]
-    compileExpr(left, fEnv, gEnv)
-
-    // The effect should be
-    // M[M[rsp-8]] = M[rsp-16]
-    fEnv.instrs.push(util.movRel2Abs(['rsp', -16], ['rsp', -8]), util.offsetRSP(-16))
-  } else {
-    throw new CompileTimeError()
+  return {
+    ...varInfo,
+    t: varInfo.typeList[-1] as DataType
   }
 }
 
-function compileUpdateExpr(expr: es.UpdateExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+function compileLogicalExpr(
+  expr: es.LogicalExpression,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): CompileType {
+  if (!['||', '&&'].includes(expr.operator)) throw new CompileTimeError()
+  const op = expr.operator as '||' | '&&'
+
+  const t1 = compileExpr(expr.left, fEnv, gEnv)
+  const t2 = compileExpr(expr.right, fEnv, gEnv)
+
+  // TODO: Check for valid type pairs
+
+  fEnv.instrs.push(util.binop(op))
+  return {
+    t: DataType.LONG,
+    typeList: [DataType.LONG]
+  }
+}
+
+function compileBinExpr(
+  expr: es.BinaryExpression,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): CompileType {
+  if (!['+', '-', '*', '/', '%'].includes(expr.operator)) throw new CompileTimeError()
+  const op = expr.operator as '+' | '-' | '*' | '/' | '%'
+
+  const t1 = compileExpr(expr.left, fEnv, gEnv)
+  const t2 = compileExpr(expr.right, fEnv, gEnv)
+
+  // TODO: Check for valid type pairs
+  typechecker.throwIfPointer([t1, t2])
+
+  fEnv.instrs.push(util.binop(op))
+  return {
+    t: DataType.LONG,
+    typeList: [DataType.LONG]
+  }
+}
+
+function compileUpdateExpr(
+  expr: es.UpdateExpression,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): CompileType {
   const op = expr.operator === '++' ? '+' : expr.operator === '--' ? '-' : undefined
   if (!op) {
     throw new CompileTimeError()
@@ -165,18 +163,25 @@ function compileUpdateExpr(expr: es.UpdateExpression, fEnv: FunctionCTE, gEnv: G
     util.movRel2Rel(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
     util.offsetRSP(-8)
   )
+
+  return {
+    t: DataType.LONG,
+    typeList: [DataType.LONG]
+  }
 }
 
-function compileSizeofExpr(expr: es.SizeofExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
-  fEnv.instrs.push(util.movImm(8, '2s'))
-}
-
-function compileAddrOfExpr(expr: es.AddressofExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+function compileAddrOfExpr(
+  expr: es.AddressofExpression,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): CompileType {
   if (expr.expression.type === 'Identifier') {
-    fEnv.instrs.push(
-      util.leal(['rbp', getVar(expr.expression.name, fEnv, gEnv).offset], ['rsp', 0]),
-      util.offsetRSP(8)
-    )
+    const v = getVar(expr.expression.name, fEnv, gEnv)
+    fEnv.instrs.push(util.leal(['rbp', v.offset], ['rsp', 0]), util.offsetRSP(8))
+    return {
+      t: v.typeList[v.typeList.length - 1] as DataType,
+      typeList: ['*', ...v.typeList]
+    }
   }
 
   // TODO: Consider structs and array members
@@ -187,25 +192,50 @@ function compileValueOfExpr(
   expr: es.DereferenceExpression,
   fEnv: FunctionCTE,
   gEnv: GlobalCTE
-): void {
-  // TODO: this doesn't consider what the type of the root identifier is
-  // There is a check for this in standard C
-  // This should place a memory address on the M[rsp-8]
-  compileExpr(expr.expression, fEnv, gEnv)
+): CompileType {
+  const t = compileExpr(expr.expression, fEnv, gEnv)
 
-  fEnv.instrs.push(util.movAbs2Rel(['rsp', -8], ['rsp', -8]))
+  // Check that the expr is indeed a pointer
+  typechecker.throwIfNotPointer([t])
+
+  fEnv.instrs.push(util.movRelToAX(['rsp', -8]), util.movRel2Rel(['rax', 0], ['rsp', -8]))
+
+  // Remove the top most * in the pointerList
+  // To reflect that one 'hop' has been done
+  return {
+    ...t,
+    typeList: t.typeList.slice(1, t.typeList.length)
+  }
 }
 
-function compileUnaryExpr(expr: es.UnaryExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+function compileUnaryExpr(
+  expr: es.UnaryExpression,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): CompileType {
   if (expr.operator !== '-' && expr.operator !== '!') {
     throw new CompileTimeError()
   }
 
-  compileExpr(expr.argument, fEnv, gEnv)
+  const t = compileExpr(expr.argument, fEnv, gEnv)
   fEnv.instrs.push(util.unop(expr.operator))
+
+  if (expr.operator === '!') {
+    return {
+      // Negation operator
+      // returns 1 or 0
+      t: DataType.LONG,
+      typeList: [DataType.LONG]
+    }
+  } else {
+    // Unary minus
+    // returns the same type
+    // value is changed
+    return t
+  }
 }
 
-type RegOffset = ['rsp' | 'rbp', number]
+type RegOffset = ['rsp' | 'rbp', number] | ['rax', 0]
 
 const util = {
   movImm: (value: number, encoding: '2s' | 'ieee'): MovImmediateCommand => {
@@ -232,37 +262,17 @@ const util = {
     }
   },
 
-  movRel2Abs: (from: RegOffset, to: RegOffset): MovCommand => {
-    return {
-      type: 'MovCommand',
-      from: {
-        type: 'relative',
-        reg: from[0],
-        offset: from[1]
-      },
-      to: {
-        type: 'absolute',
-        reg: to[0],
-        offset: to[1]
-      }
+  movRelToAX: (from: RegOffset): MovCommand => ({
+    type: 'MovCommand',
+    from: {
+      type: 'relative',
+      reg: from[0],
+      offset: from[1]
+    },
+    to: {
+      type: 'register'
     }
-  },
-
-  movAbs2Rel: (from: RegOffset, to: RegOffset): MovCommand => {
-    return {
-      type: 'MovCommand',
-      from: {
-        type: 'absolute',
-        reg: from[0],
-        offset: from[1]
-      },
-      to: {
-        type: 'relative',
-        reg: to[0],
-        offset: to[1]
-      }
-    }
-  },
+  }),
 
   offsetRSP: (value: number): OffsetRspCommand => {
     return {
@@ -298,5 +308,29 @@ const util = {
       type: 'UnopCommand',
       op
     }
+  }
+}
+
+const typechecker = {
+  isPointer(ls: es.TypeList): boolean {
+    return ls[0] === '*'
+  },
+
+  throwIfPointer(ls: CompileType[]): void {
+    ls.forEach(e => {
+      if (this.isPointer(e.typeList)) throw new CompileTimeError()
+    })
+  },
+
+  throwIfNotPointer(ls: CompileType[]): void {
+    ls.forEach(e => {
+      if (!this.isPointer(e.typeList)) throw new CompileTimeError()
+    })
+  },
+
+  throwIfFloat(ls: CompileType[]): void {
+    ls.forEach(e => {
+      if ([DataType.FLOAT, DataType.DOUBLE].includes(e.t)) throw new CompileTimeError()
+    })
   }
 }

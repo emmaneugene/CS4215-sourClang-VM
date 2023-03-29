@@ -21,17 +21,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "float",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "celsius",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "float",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 8,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -46,17 +46,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "fahrenheit",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -91,6 +91,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 41,
@@ -146,6 +149,9 @@ Object {
                       "line": 6,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 14,
@@ -158,6 +164,9 @@ Object {
                 "datatype": "unknown",
                 "name": "scanf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 22,
@@ -193,6 +202,9 @@ Object {
                 "line": 7,
               },
               "type": "Identifier",
+              "typeList": Array [
+                "unknown",
+              ],
             },
             "operator": "=",
             "right": Object {
@@ -222,6 +234,9 @@ Object {
                       "line": 7,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "operator": "*",
                   "right": Object {
@@ -235,7 +250,7 @@ Object {
                       "line": 7,
                     },
                     "type": "Literal",
-                    "value": "9",
+                    "value": 9,
                   },
                   "start": Object {
                     "column": 16,
@@ -255,7 +270,7 @@ Object {
                     "line": 7,
                   },
                   "type": "Literal",
-                  "value": "5",
+                  "value": 5,
                 },
                 "start": Object {
                   "column": 16,
@@ -275,7 +290,7 @@ Object {
                   "line": 7,
                 },
                 "type": "Literal",
-                "value": "32",
+                "value": 32,
               },
               "start": Object {
                 "column": 15,
@@ -321,6 +336,9 @@ Object {
                     "line": 8,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
                 Object {
                   "datatype": "unknown",
@@ -334,12 +352,18 @@ Object {
                     "line": 8,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
               ],
               "callee": Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 62,
@@ -370,7 +394,7 @@ Object {
                 "line": 9,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -399,10 +423,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -445,11 +470,11 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": true,
-                  "isMemory": false,
                   "name": "list",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "init": Object {
                   "expressions": Array [
@@ -464,7 +489,7 @@ Object {
                         "line": 3,
                       },
                       "type": "Literal",
-                      "value": "1",
+                      "value": 1,
                     },
                     Object {
                       "end": Object {
@@ -477,7 +502,7 @@ Object {
                         "line": 3,
                       },
                       "type": "Literal",
-                      "value": "2",
+                      "value": 2,
                     },
                     Object {
                       "end": Object {
@@ -490,7 +515,7 @@ Object {
                         "line": 3,
                       },
                       "type": "Literal",
-                      "value": "3",
+                      "value": 3,
                     },
                   ],
                   "type": "SequenceExpression",
@@ -499,7 +524,7 @@ Object {
               },
             ],
             "end": Object {
-              "column": 23,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -514,17 +539,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "i",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -553,6 +578,9 @@ Object {
                       "isArray": true,
                       "name": "list",
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "optional": false,
                     "property": Object {
@@ -567,6 +595,9 @@ Object {
                         "line": 6,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "start": Object {
                       "column": 4,
@@ -591,6 +622,9 @@ Object {
                         "isArray": true,
                         "name": "list",
                         "type": "Identifier",
+                        "typeList": Array [
+                          "unknown",
+                        ],
                       },
                       "optional": false,
                       "property": Object {
@@ -615,6 +649,9 @@ Object {
                               "line": 6,
                             },
                             "type": "Identifier",
+                            "typeList": Array [
+                              "unknown",
+                            ],
                           },
                           "operator": "+",
                           "right": Object {
@@ -629,7 +666,7 @@ Object {
                                 "line": 6,
                               },
                               "type": "Literal",
-                              "value": "1",
+                              "value": 1,
                             },
                             "end": Object {
                               "column": 25,
@@ -661,7 +698,7 @@ Object {
                             "line": 6,
                           },
                           "type": "Literal",
-                          "value": "1",
+                          "value": 1,
                         },
                         "start": Object {
                           "column": 19,
@@ -687,7 +724,7 @@ Object {
                         "line": 6,
                       },
                       "type": "Literal",
-                      "value": "10",
+                      "value": 10,
                     },
                     "start": Object {
                       "column": 14,
@@ -733,6 +770,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "=",
               "right": Object {
@@ -746,7 +786,7 @@ Object {
                   "line": 5,
                 },
                 "type": "Literal",
-                "value": "0",
+                "value": 0,
               },
               "start": Object {
                 "column": 7,
@@ -775,6 +815,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "<",
               "right": Object {
@@ -788,7 +831,7 @@ Object {
                   "line": 5,
                 },
                 "type": "Literal",
-                "value": "3",
+                "value": 3,
               },
               "start": Object {
                 "column": 14,
@@ -810,6 +853,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 22,
@@ -836,7 +882,7 @@ Object {
                 "line": 8,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -865,10 +911,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -912,11 +959,11 @@ Object {
                 "id": Object {
                   "arraySize": 3,
                   "datatype": "int",
-                  "isArray": true,
-                  "isMemory": false,
                   "name": "list",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "init": Object {
                   "expressions": Array [
@@ -931,7 +978,7 @@ Object {
                         "line": 3,
                       },
                       "type": "Literal",
-                      "value": "1",
+                      "value": 1,
                     },
                   ],
                   "type": "SequenceExpression",
@@ -940,7 +987,7 @@ Object {
               },
             ],
             "end": Object {
-              "column": 20,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -955,17 +1002,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "i",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -994,6 +1041,9 @@ Object {
                       "isArray": true,
                       "name": "list",
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "optional": false,
                     "property": Object {
@@ -1008,6 +1058,9 @@ Object {
                         "line": 6,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "start": Object {
                       "column": 4,
@@ -1033,6 +1086,9 @@ Object {
                         "line": 6,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "operator": "*",
                     "right": Object {
@@ -1046,7 +1102,7 @@ Object {
                         "line": 6,
                       },
                       "type": "Literal",
-                      "value": "10",
+                      "value": 10,
                     },
                     "start": Object {
                       "column": 14,
@@ -1092,6 +1148,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "=",
               "right": Object {
@@ -1105,7 +1164,7 @@ Object {
                   "line": 5,
                 },
                 "type": "Literal",
-                "value": "0",
+                "value": 0,
               },
               "start": Object {
                 "column": 7,
@@ -1134,6 +1193,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "<",
               "right": Object {
@@ -1147,7 +1209,7 @@ Object {
                   "line": 5,
                 },
                 "type": "Literal",
-                "value": "3",
+                "value": 3,
               },
               "start": Object {
                 "column": 14,
@@ -1169,6 +1231,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 22,
@@ -1195,7 +1260,7 @@ Object {
                 "line": 8,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -1224,10 +1289,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -1271,17 +1337,17 @@ Object {
                 "id": Object {
                   "arraySize": 3,
                   "datatype": "int",
-                  "isArray": true,
-                  "isMemory": false,
                   "name": "list",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 12,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -1296,17 +1362,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "i",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -1335,6 +1401,9 @@ Object {
                       "isArray": true,
                       "name": "list",
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "optional": false,
                     "property": Object {
@@ -1349,6 +1418,9 @@ Object {
                         "line": 6,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "start": Object {
                       "column": 4,
@@ -1374,6 +1446,9 @@ Object {
                         "line": 6,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "operator": "*",
                     "right": Object {
@@ -1387,7 +1462,7 @@ Object {
                         "line": 6,
                       },
                       "type": "Literal",
-                      "value": "10",
+                      "value": 10,
                     },
                     "start": Object {
                       "column": 14,
@@ -1433,6 +1508,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "=",
               "right": Object {
@@ -1446,7 +1524,7 @@ Object {
                   "line": 5,
                 },
                 "type": "Literal",
-                "value": "0",
+                "value": 0,
               },
               "start": Object {
                 "column": 7,
@@ -1475,6 +1553,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "<",
               "right": Object {
@@ -1488,7 +1569,7 @@ Object {
                   "line": 5,
                 },
                 "type": "Literal",
-                "value": "3",
+                "value": 3,
               },
               "start": Object {
                 "column": 14,
@@ -1510,6 +1591,9 @@ Object {
                   "line": 5,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 22,
@@ -1536,7 +1620,7 @@ Object {
                 "line": 8,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -1565,10 +1649,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -1615,17 +1700,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "num",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -1640,17 +1725,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "i",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -1665,11 +1750,11 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "fact",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "init": Object {
                   "end": Object {
@@ -1682,13 +1767,13 @@ Object {
                     "line": 5,
                   },
                   "type": "Literal",
-                  "value": "1",
+                  "value": 1,
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 13,
+              "column": 2,
               "line": 5,
             },
             "kind": "var",
@@ -1723,6 +1808,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 27,
@@ -1778,6 +1866,9 @@ Object {
                       "line": 7,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 14,
@@ -1790,6 +1881,9 @@ Object {
                 "datatype": "unknown",
                 "name": "scanf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 18,
@@ -1828,6 +1922,9 @@ Object {
                       "line": 9,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "operator": "=",
                   "right": Object {
@@ -1847,6 +1944,9 @@ Object {
                         "line": 9,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "operator": "*",
                     "right": Object {
@@ -1861,6 +1961,9 @@ Object {
                         "line": 9,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "start": Object {
                       "column": 13,
@@ -1906,6 +2009,9 @@ Object {
                   "line": 8,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "=",
               "right": Object {
@@ -1919,7 +2025,7 @@ Object {
                   "line": 8,
                 },
                 "type": "Literal",
-                "value": "1",
+                "value": 1,
               },
               "start": Object {
                 "column": 6,
@@ -1948,6 +2054,9 @@ Object {
                   "line": 8,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "<=",
               "right": Object {
@@ -1962,6 +2071,9 @@ Object {
                   "line": 8,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "start": Object {
                 "column": 11,
@@ -1983,6 +2095,9 @@ Object {
                   "line": 8,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 20,
@@ -2029,6 +2144,9 @@ Object {
                     "line": 11,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
                 Object {
                   "datatype": "unknown",
@@ -2042,12 +2160,18 @@ Object {
                     "line": 11,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
               ],
               "callee": Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 43,
@@ -2078,7 +2202,7 @@ Object {
                 "line": 12,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -2107,10 +2231,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -2162,17 +2287,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "num",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -2187,17 +2312,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "i",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -2212,11 +2337,11 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "t1",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "init": Object {
                   "end": Object {
@@ -2229,13 +2354,13 @@ Object {
                     "line": 5,
                   },
                   "type": "Literal",
-                  "value": "0",
+                  "value": 0,
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 9,
+              "column": 2,
               "line": 5,
             },
             "kind": "var",
@@ -2250,11 +2375,11 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "t2",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "init": Object {
                   "end": Object {
@@ -2267,13 +2392,13 @@ Object {
                     "line": 6,
                   },
                   "type": "Literal",
-                  "value": "1",
+                  "value": 1,
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 9,
+              "column": 2,
               "line": 6,
             },
             "kind": "var",
@@ -2288,17 +2413,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "nextTerm",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 7,
             },
             "kind": "var",
@@ -2333,6 +2458,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 38,
@@ -2388,6 +2516,9 @@ Object {
                       "line": 9,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 14,
@@ -2400,6 +2531,9 @@ Object {
                 "datatype": "unknown",
                 "name": "scanf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 18,
@@ -2443,6 +2577,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 29,
@@ -2496,12 +2633,18 @@ Object {
                           "line": 12,
                         },
                         "type": "Identifier",
+                        "typeList": Array [
+                          "unknown",
+                        ],
                       },
                     ],
                     "callee": Object {
                       "datatype": "unknown",
                       "name": "printf",
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "end": Object {
                       "column": 23,
@@ -2537,6 +2680,9 @@ Object {
                       "line": 13,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "operator": "=",
                   "right": Object {
@@ -2556,6 +2702,9 @@ Object {
                         "line": 13,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "operator": "+",
                     "right": Object {
@@ -2570,6 +2719,9 @@ Object {
                         "line": 13,
                       },
                       "type": "Identifier",
+                      "typeList": Array [
+                        "unknown",
+                      ],
                     },
                     "start": Object {
                       "column": 17,
@@ -2600,6 +2752,9 @@ Object {
                       "line": 14,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "operator": "=",
                   "right": Object {
@@ -2614,6 +2769,9 @@ Object {
                       "line": 14,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 6,
@@ -2638,6 +2796,9 @@ Object {
                       "line": 15,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "operator": "=",
                   "right": Object {
@@ -2652,6 +2813,9 @@ Object {
                       "line": 15,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 6,
@@ -2691,6 +2855,9 @@ Object {
                   "line": 11,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "=",
               "right": Object {
@@ -2704,7 +2871,7 @@ Object {
                   "line": 11,
                 },
                 "type": "Literal",
-                "value": "1",
+                "value": 1,
               },
               "start": Object {
                 "column": 6,
@@ -2733,6 +2900,9 @@ Object {
                   "line": 11,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "<=",
               "right": Object {
@@ -2747,6 +2917,9 @@ Object {
                   "line": 11,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "start": Object {
                 "column": 11,
@@ -2768,6 +2941,9 @@ Object {
                   "line": 11,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 20,
@@ -2794,7 +2970,7 @@ Object {
                 "line": 17,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -2823,10 +2999,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -2873,17 +3050,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "num1",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -2898,17 +3075,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "num2",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -2923,17 +3100,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "sum",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 5,
             },
             "kind": "var",
@@ -2968,6 +3145,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 31,
@@ -3023,6 +3203,9 @@ Object {
                       "line": 7,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 14,
@@ -3035,6 +3218,9 @@ Object {
                 "datatype": "unknown",
                 "name": "scanf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 19,
@@ -3078,6 +3264,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 32,
@@ -3133,6 +3322,9 @@ Object {
                       "line": 9,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 14,
@@ -3145,6 +3337,9 @@ Object {
                 "datatype": "unknown",
                 "name": "scanf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 19,
@@ -3180,6 +3375,9 @@ Object {
                 "line": 10,
               },
               "type": "Identifier",
+              "typeList": Array [
+                "unknown",
+              ],
             },
             "operator": "=",
             "right": Object {
@@ -3199,6 +3397,9 @@ Object {
                   "line": 10,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "operator": "+",
               "right": Object {
@@ -3213,6 +3414,9 @@ Object {
                   "line": 10,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "start": Object {
                 "column": 8,
@@ -3258,12 +3462,18 @@ Object {
                     "line": 11,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
               ],
               "callee": Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 25,
@@ -3294,7 +3504,7 @@ Object {
                 "line": 12,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -3323,10 +3533,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -3377,17 +3588,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "num1",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 3,
             },
             "kind": "var",
@@ -3402,17 +3613,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "num2",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 4,
             },
             "kind": "var",
@@ -3447,6 +3658,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 30,
@@ -3502,6 +3716,9 @@ Object {
                       "line": 6,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 17,
@@ -3526,6 +3743,9 @@ Object {
                       "line": 6,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 24,
@@ -3538,6 +3758,9 @@ Object {
                 "datatype": "unknown",
                 "name": "scanf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 29,
@@ -3588,6 +3811,9 @@ Object {
                     "line": 7,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
                 Object {
                   "datatype": "unknown",
@@ -3601,12 +3827,18 @@ Object {
                     "line": 7,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
               ],
               "callee": Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 58,
@@ -3649,6 +3881,9 @@ Object {
                       "line": 8,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 7,
@@ -3673,6 +3908,9 @@ Object {
                       "line": 8,
                     },
                     "type": "Identifier",
+                    "typeList": Array [
+                      "unknown",
+                    ],
                   },
                   "start": Object {
                     "column": 14,
@@ -3685,6 +3923,9 @@ Object {
                 "datatype": "unknown",
                 "name": "swap",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 19,
@@ -3735,6 +3976,9 @@ Object {
                     "line": 9,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
                 Object {
                   "datatype": "unknown",
@@ -3748,12 +3992,18 @@ Object {
                     "line": 9,
                   },
                   "type": "Identifier",
+                  "typeList": Array [
+                    "unknown",
+                  ],
                 },
               ],
               "callee": Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 57,
@@ -3784,7 +4034,7 @@ Object {
                 "line": 10,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -3813,10 +4063,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {
@@ -3833,17 +4084,17 @@ Object {
               Object {
                 "id": Object {
                   "datatype": "int",
-                  "isArray": false,
-                  "isMemory": false,
                   "name": "temp",
-                  "pointerList": Array [],
                   "type": "Identifier",
+                  "typeList": Array [
+                    "int",
+                  ],
                 },
                 "type": "VariableDeclarator",
               },
             ],
             "end": Object {
-              "column": 6,
+              "column": 2,
               "line": 13,
             },
             "kind": "var",
@@ -3870,6 +4121,9 @@ Object {
                 "line": 14,
               },
               "type": "Identifier",
+              "typeList": Array [
+                "unknown",
+              ],
             },
             "operator": "=",
             "right": Object {
@@ -3889,6 +4143,9 @@ Object {
                   "line": 14,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "start": Object {
                 "column": 9,
@@ -3922,6 +4179,9 @@ Object {
                 "line": 15,
               },
               "type": "Identifier",
+              "typeList": Array [
+                "unknown",
+              ],
             },
             "operator": "=",
             "right": Object {
@@ -3941,6 +4201,9 @@ Object {
                   "line": 15,
                 },
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "start": Object {
                 "column": 7,
@@ -3974,6 +4237,9 @@ Object {
                 "line": 16,
               },
               "type": "Identifier",
+              "typeList": Array [
+                "unknown",
+              ],
             },
             "operator": "=",
             "right": Object {
@@ -3988,6 +4254,9 @@ Object {
                 "line": 16,
               },
               "type": "Identifier",
+              "typeList": Array [
+                "unknown",
+              ],
             },
             "start": Object {
               "column": 2,
@@ -4012,29 +4281,30 @@ Object {
       },
       "id": Object {
         "datatype": "void",
-        "isMemory": false,
         "name": "swap",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "void",
+        ],
       },
       "params": Array [
         Object {
-          "datatype": "int_ptr",
-          "isMemory": true,
+          "datatype": "int",
           "name": "a",
-          "pointerList": Array [
-            "*",
-          ],
           "type": "Identifier",
+          "typeList": Array [
+            "*",
+            "int",
+          ],
         },
         Object {
-          "datatype": "int_ptr",
-          "isMemory": true,
+          "datatype": "int",
           "name": "b",
-          "pointerList": Array [
-            "*",
-          ],
           "type": "Identifier",
+          "typeList": Array [
+            "*",
+            "int",
+          ],
         },
       ],
       "start": Object {
@@ -4093,6 +4363,9 @@ Object {
                 "datatype": "unknown",
                 "name": "printf",
                 "type": "Identifier",
+                "typeList": Array [
+                  "unknown",
+                ],
               },
               "end": Object {
                 "column": 24,
@@ -4123,7 +4396,7 @@ Object {
                 "line": 4,
               },
               "type": "Literal",
-              "value": "0",
+              "value": 0,
             },
             "end": Object {
               "column": 10,
@@ -4152,10 +4425,11 @@ Object {
       },
       "id": Object {
         "datatype": "int",
-        "isMemory": false,
         "name": "main",
-        "pointerList": Array [],
         "type": "Identifier",
+        "typeList": Array [
+          "int",
+        ],
       },
       "params": Array [],
       "start": Object {

@@ -16,28 +16,30 @@ declare module 'estree' {
     /** Reflects size of array, if this identifier is an array */
     arraySize?: number | undefined
 
-    /**
-     * Reflects if this is an struct declaration. Defaults to false.
-     * This field takes precedence over `datatype`.
-     */
-    isStruct?: boolean | undefined
-
     /** Reflects fields of struct, if this identifier is a struct. */
     structFields?: StructDef | undefined
 
-    /** Extends the existing estree Identifier interface with pointer. */
-    pointerList?: string[]
-
-    /** Reflects if this is a memory address. */
-    isMemory?: boolean | undefined
+    /**
+     * Reflects the type of the identifier.
+     *
+     * It is a list, where every element is a *,
+     * except for the last item, which should be a
+     * DataType.
+     *
+     * This reflects the number of 'hops' this ident
+     * refers to.
+     *
+     * E.g:
+     *
+     * `int ** x` is ['*', '*', int]
+     * `int x` is [int]
+     */
+    typeList: TypeList
   }
 
-  export type StructType = {
-    datatype: DataType
-    pointerList: string[]
-  }
+  export type TypeList = Array<'*' | DataType>
 
-  export type StructDef = { [attribute: string]: StructDef | StructType }
+  export type StructDef = { [attribute: string]: StructDef | TypeList }
 
   export interface ExpressionMap {
     CastExpression: CastExpression

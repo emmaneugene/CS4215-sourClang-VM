@@ -123,11 +123,13 @@ export function getParameterList(ctx: ParameterListContext | undefined): es.Iden
     return []
   }
 
+  const type = getDatatype(ctx.parameterDeclaration().typeSpecifier())
   return [
     {
       type: 'Identifier',
       name: ctx.parameterDeclaration().Identifier().text,
-      datatype: getDatatype(ctx.parameterDeclaration().typeSpecifier())
+      datatype: type,
+      typeList: [type]
     },
     ...getParameterList(ctx.parameterList())
   ]

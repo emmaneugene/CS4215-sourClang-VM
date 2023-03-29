@@ -9,8 +9,11 @@ export type Frame = Record<string, VariableInfo>
 export interface VariableInfo {
   name: string
 
-  /* The variable's datatype */
-  type: DataType
+  /*
+   * The variable's datatype,
+   * including its pointer list.
+   */
+  typeList: es.TypeList
 
   /** The "home" of a variable = rbp + offset */
   offset: number
@@ -22,9 +25,9 @@ export interface VariableInfo {
 export class FunctionCTE {
   name: string
 
-  returnType: DataType
+  returnType: es.TypeList
 
-  params: Array<[string, DataType]> = []
+  params: Array<[string, es.TypeList]> = []
 
   instrs: Array<Microcode> = []
 
@@ -34,7 +37,7 @@ export class FunctionCTE {
 
   MAX_OFFSET: number = -1
 
-  constructor(name: string, returnType: DataType, params: VariableInfo[], localVarSize: number) {
+  constructor(name: string, returnType: es.TypeList, params: VariableInfo[], localVarSize: number) {
     this.name = name
     this.returnType = returnType
     this.extendFrame(params)
@@ -48,10 +51,10 @@ export class FunctionCTE {
     return rv
   }
 
-  addVar(name: string, type: DataType): VariableInfo {
+  addVar(name: string, typeList: es.TypeList): VariableInfo {
     const v = {
       name,
-      type,
+      typeList,
       offset: this.allocNBytesOnStack(8)
     }
 
@@ -116,6 +119,27 @@ export class GlobalCTE {
 
     return this.functionAddr[sym]
   }
+}
+
+/**
+ * Used to track types during compilation.
+ */
+export type CompileType = {
+  /** The base datatype. */
+  t: DataType
+
+  /** Reflects what this pointer actually points to */
+  typeList: es.TypeList
+
+  /** Reflects if this object is an array. */
+  isArray?: boolean
+
+  /**
+   * Reflect if the object is a structDef.
+   * If it is, this field denotes the struct
+   * definition.
+   */
+  structDef?: es.StructDef | undefined
 }
 
 export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): VariableInfo {

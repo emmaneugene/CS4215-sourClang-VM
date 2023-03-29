@@ -64,7 +64,6 @@ import { FatalSyntaxError, InvalidConfigError } from './parser.error'
 import {
   contextToLocation,
   getAddOp,
-  getDatatype,
   getEqOp,
   getIdentifier,
   getMultOp,
@@ -79,6 +78,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   private PARSER_MISCONFIG = 'Parser is misconfigured'
 
   private STRUCT_DECLARATIONS: Record<string, es.StructDef> = {}
+  private GLOBAL_STRINGS: string[] = []
 
   // === Primary Identifiers ===
 
@@ -96,6 +96,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     }
 
     if (s) {
+      this.GLOBAL_STRINGS.push(s.text)
       return {
         ...contextToLocation(ctx),
         type: 'Literal',
@@ -132,6 +133,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         type: 'Identifier',
         name: ctx.Identifier().text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
+        typeList: [DataType.UNKNOWN],
         isArray: true
       },
       // This field is used to determine if array or struct access
@@ -155,15 +157,16 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         type: 'Identifier',
         name: ctx.Identifier().at(0)!.text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
-        isStruct: true,
+        typeList: [DataType.UNKNOWN],
         structFields: this.STRUCT_DECLARATIONS[structName]
       },
       computed: false, // This field is used to determine if array or struct access
       property: {
         type: 'Identifier',
         name: ctx.Identifier().at(1)!.text,
-        // This field should be ignored
-        datatype: DataType.UNKNOWN
+        // This 2 fields should be ignored
+        datatype: DataType.UNKNOWN,
+        typeList: [DataType.UNKNOWN]
       },
       optional: false
     }
@@ -177,14 +180,14 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         type: 'Identifier',
         name: ctx.Identifier().at(0)!.text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
-        isStruct: true,
-        isMemory: true
+        typeList: [DataType.UNKNOWN]
       },
       computed: false, // This field is used to determine if array or struct access
       property: {
         type: 'Identifier',
         name: ctx.Identifier().at(1)!.text,
-        datatype: DataType.UNKNOWN // To be determined by the compiler
+        datatype: DataType.UNKNOWN, // To be determined by the compiler
+        typeList: [DataType.UNKNOWN]
       },
       optional: false
     }
@@ -195,7 +198,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       ...contextToLocation(ctx),
       type: 'Identifier',
       name: ctx.Identifier().text,
-      datatype: DataType.UNKNOWN // To be determined by the compiler
+      datatype: DataType.UNKNOWN, // To be determined by the compiler,
+      typeList: [DataType.UNKNOWN]
     }
   }
 
@@ -216,17 +220,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
 
   visitVariableDecl(ctx: VariableDeclContext): es.Node {
-    const typedef = ctx.typeDef()
-    const v = this.makeVariableDeclaration({
-      loc: contextToLocation(ctx),
-      isStruct: !!typedef.Struct(),
-      isUnsigned: !!typedef.Unsigned(),
-      isArray: false,
-      name: ctx.Identifier().text,
-      pointerList: typedef.Star().map(s => s.text),
-      type: typedef.type(),
-      structDef: typedef.Identifier()?.text
-    })
+    const v = this.makeVariableDeclaration(ctx.Identifier().text, ctx.typeDef())
 
     if (ctx.expr()) {
       // Validated by `this.visit(e: Expression)`
@@ -238,17 +232,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   }
 
   visitArrayDecl(ctx: ArrayDeclContext): es.Node {
-    const typedef = ctx.typeDef()
-    const v = this.makeVariableDeclaration({
-      loc: contextToLocation(ctx),
-      isStruct: !!typedef.Struct(),
-      isUnsigned: !!typedef.Unsigned(),
-      isArray: true,
-      name: ctx.Identifier().text,
-      pointerList: typedef.Star().map(s => s.text),
-      type: typedef.type(),
-      structDef: typedef.Identifier()?.text
-    })
+    const v = this.makeVariableDeclaration(ctx.Identifier().text, ctx.typeDef())
 
     const c = ctx.Constant()
     let size: number | undefined
@@ -292,6 +276,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     const fields: es.VariableDeclaration[] = []
     for (let i = 0; i < ctx.declaration().length; i++) {
       // `this.visit(e: Declaration)` returns es.VariableDeclaration
+      // e.g. int struct_field_1;
       const d = this.visit(ctx.declaration().at(i)!) as es.VariableDeclaration
       fields.push(d)
     }
@@ -307,11 +292,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       if (d.id.type !== 'Identifier') throw new FatalSyntaxError(contextToLocation(ctx))
       const id = d.id as es.Identifier
 
-      // The array should be considered into id.datatype
-      structDef[id.name] = {
-        datatype: id.datatype,
-        pointerList: id.pointerList ?? []
-      }
+      structDef[id.name] = id.typeList
     })
 
     if (this.STRUCT_DECLARATIONS[structName]) throw new FatalSyntaxError(contextToLocation(ctx))
@@ -378,7 +359,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       callee: {
         type: 'Identifier',
         name: ctx.Identifier().text,
-        datatype: DataType.UNKNOWN // For compiler to decide
+        datatype: DataType.UNKNOWN, // For compiler to decide
+        typeList: [DataType.UNKNOWN]
       },
       arguments: args as es.Expression[],
       optional: false
@@ -458,7 +440,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         operand: {
           type: 'Identifier',
           name: operandCtx.Identifier()!.text,
-          datatype: DataType.UNKNOWN
+          datatype: DataType.UNKNOWN,
+          typeList: [DataType.UNKNOWN]
         }
       }
     }
@@ -745,10 +728,10 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     return {
       ...contextToLocation(ctx),
       type: 'FunctionDeclaration',
-      id: getIdentifier(typeDef, name, typeDef.Star().length > 0),
+      id: getIdentifier(typeDef, name, this.STRUCT_DECLARATIONS),
       params:
         paramLs?._pLs.map(p =>
-          getIdentifier(p.typeDef(), p.Identifier().text, p.typeDef().Star().length > 0)
+          getIdentifier(p.typeDef(), p.Identifier().text, this.STRUCT_DECLARATIONS)
         ) ?? [],
       body
     }
@@ -803,65 +786,18 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
    * There is a lot of similar logic for the rule `declaration`.
    * This just helps with deduplicating the logic.
    */
-  private makeVariableDeclaration(args: {
-    loc: es.SourceLocation
-    isStruct: boolean
-    isUnsigned: boolean
-    isArray: boolean
-    name: string
-    pointerList: string[]
-    type?: TypeContext
-    structDef?: any // TODO
-  }): es.VariableDeclaration {
-    const t = args.type
-    const isPtr = args.pointerList.length > 0
-
-    if (t) {
-      // E.g. `int x`, `int ** x`, int x[]
-      return {
-        ...args.loc,
-        type: 'VariableDeclaration',
-        kind: 'var',
-        declarations: [
-          {
-            type: 'VariableDeclarator',
-            id: {
-              type: 'Identifier',
-              name: args.name,
-              isArray: args.isArray,
-              datatype: getDatatype(t, args.isUnsigned, isPtr),
-              isMemory: isPtr,
-              pointerList: args.pointerList
-            }
-          }
-        ]
-      }
-    } else if (args.isStruct) {
-      // E.g. `struct Person ident`, `struct Person *ident`
-      // `struct Person ident[]`
-      return {
-        ...args.loc,
-        type: 'VariableDeclaration',
-        kind: 'var',
-        declarations: [
-          {
-            type: 'VariableDeclarator',
-            id: {
-              type: 'Identifier',
-              name: args.name,
-              isStruct: true,
-              isArray: args.isArray,
-              datatype: DataType.UNKNOWN,
-              isMemory: isPtr,
-              pointerList: args.pointerList,
-              structFields: args.structDef // TODO
-            }
-          }
-        ]
-      }
+  private makeVariableDeclaration(name: string, typedef: TypeDefContext): es.VariableDeclaration {
+    return {
+      ...contextToLocation(typedef),
+      type: 'VariableDeclaration',
+      kind: 'var',
+      declarations: [
+        {
+          type: 'VariableDeclarator',
+          id: getIdentifier(typedef, name, this.STRUCT_DECLARATIONS)
+        }
+      ]
     }
-
-    throw new FatalSyntaxError(args.loc)
   }
 }
 
