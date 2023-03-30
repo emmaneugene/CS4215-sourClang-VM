@@ -1,9 +1,8 @@
 import * as es from 'estree'
 
-import { BUILT_IN_COMMANDS, BUILT_IN_FX_NAMES } from '../interpreter/builtin';
+import { BUILT_IN_COMMANDS, BUILT_IN_FX_NAMES } from '../interpreter/builtin'
 import { DataType } from '../typings/datatype'
 import { Microcode } from '../typings/microcode'
-import { ExitCommand } from './../typings/microcode';
 import { CompileTimeError } from './error'
 
 export type Frame = Record<string, VariableInfo>
@@ -130,9 +129,11 @@ export class GlobalCTE {
 
   readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
 
-  combinedInstrs: Microcode[] = [{
-    type: 'ExitCommand'
-  }]
+  combinedInstrs: Microcode[] = [
+    {
+      type: 'ExitCommand'
+    }
+  ]
 
   constructor() {
     this.initBuiltInFunctions()
@@ -176,7 +177,7 @@ export class GlobalCTE {
     }
   }
 
-  /** 
+  /**
    * Loads the built in functions and assigns them
    * an address.
    */
@@ -191,7 +192,7 @@ export class GlobalCTE {
   /**
    * Adds a return command to main. In C, a main function
    * without return will implicitly return after the last statement.
-   * 
+   *
    * If the user provided the return, they shouln't hit this line
    * anyway.
    */
@@ -200,25 +201,28 @@ export class GlobalCTE {
       return
     }
 
-    fEnv.instrs.push({
-      type: 'MovImmediateCommand',
-      value: 0,
-      encoding: '2s'
-    }, {
-      type: 'MovCommand',
-      from: {
-        type: 'relative',
-        reg: 'rsp',
-        offset: -8
+    fEnv.instrs.push(
+      {
+        type: 'MovImmediateCommand',
+        value: 0,
+        encoding: '2s'
       },
-      to: {
-        type: 'register',
-        reg: 'rax',
-      }
-    },
+      {
+        type: 'MovCommand',
+        from: {
+          type: 'relative',
+          reg: 'rsp',
+          offset: -8
+        },
+        to: {
+          type: 'register',
+          reg: 'rax'
+        }
+      },
       {
         type: 'ReturnCommand'
-      })
+      }
+    )
   }
 }
 

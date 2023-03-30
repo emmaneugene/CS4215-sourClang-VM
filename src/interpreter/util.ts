@@ -1,4 +1,4 @@
-import { Context } from "../types"
+import { Context } from '../types'
 
 /**
  * Calculates the address of a register + offset

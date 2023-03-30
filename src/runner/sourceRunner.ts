@@ -68,14 +68,13 @@ export async function sourceFilesRunner(
 
 /**
  * Inserts the instruction/text segment of the program.
- * 
+ *
  * @throws {CompileTimeError} if main function is not defined
  */
 function addInstrSegment(ctx: Context, gEnv: GlobalCTE): void {
   ctx.cVmContext = {
     ...ctx.cVmContext,
-    instrs: gEnv.combinedInstrs,
-
+    instrs: gEnv.combinedInstrs
   }
 }
 
@@ -83,20 +82,16 @@ function addInstrSegment(ctx: Context, gEnv: GlobalCTE): void {
  * Inserts read-only segment of a program.
  * E.g. strings defined with double quotes
  */
-function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {
-
-}
+function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {}
 
 /**
  * Inserts global data defined at top level of the program.
  */
-function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
-
-}
+function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {}
 
 /**
  * Set up the memory and registers prior to launch.
- * 
+ *
  * For main,
  * rbp points to empty prev_rbp value.
  * rbp-8 points to return address

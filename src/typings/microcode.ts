@@ -12,7 +12,7 @@ export interface MicrocodeMap {
   UnopCommand: UnopCommand
   CallCommand: CallCommand
   ReturnCommand: ReturnCommand
-  ExitCommand: ExitCommand,
+  ExitCommand: ExitCommand
   ExecuteBuiltInFxCommand: ExecuteBuiltInFxCommand
 }
 
@@ -136,6 +136,6 @@ export interface ExitCommand extends BaseCommand {
 export type BuiltInFxName = 'printf' | 'scanf' | 'malloc' | 'free'
 
 export interface ExecuteBuiltInFxCommand extends BaseCommand {
-  type: 'ExecuteBuiltInFxCommand',
+  type: 'ExecuteBuiltInFxCommand'
   name: BuiltInFxName
 }

@@ -279,17 +279,17 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     ctx.cVmContext.PC++
   },
   /**
-  * Processes the `CallCommand` microcode within the context of a running
-  * program.
-  *
-  * It performs the following:
-  * - Pushes the return address onto stack
-  * - Pushes the caller's rbp onto stack
-  * - Assigns new BP (to setup up the next fx's function BP)
-  * - Assigns new PC
-  * @param cmd
-  * @param ctx
-  */
+   * Processes the `CallCommand` microcode within the context of a running
+   * program.
+   *
+   * It performs the following:
+   * - Pushes the return address onto stack
+   * - Pushes the caller's rbp onto stack
+   * - Assigns new BP (to setup up the next fx's function BP)
+   * - Assigns new PC
+   * @param cmd
+   * @param ctx
+   */
   CallCommand: function* (cmd, ctx) {
     const callCmd = cmd as CallCommand
     const { addr } = callCmd
@@ -337,12 +337,12 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   },
 
   /**
-  * Processes the `ExecuteBuiltInFxCommand` microcode within the context of a running
-  * program
-  * @param cmd
-  * @param ctx
-  */
-  ExecuteBuiltInFxCommand: function* (cmd, ctx) { },
+   * Processes the `ExecuteBuiltInFxCommand` microcode within the context of a running
+   * program
+   * @param cmd
+   * @param ctx
+   */
+  ExecuteBuiltInFxCommand: function* (cmd, ctx) {},
 
   /**
    * Processes the `PushCommand` microcode within the context of a running
@@ -350,7 +350,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * @param cmd
    * @param ctx
    */
-  PushCommand: function* (cmd, ctx) { },
+  PushCommand: function* (cmd, ctx) {},
 
   /**
    * Processes the `PopCommand` microcode within the context of a running
@@ -358,7 +358,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * @param cmd
    * @param ctx
    */
-  PopCommand: function* (cmd, ctx) { },
+  PopCommand: function* (cmd, ctx) {}
 }
 
 function debugPrint(str: string, ctx: Context): void {

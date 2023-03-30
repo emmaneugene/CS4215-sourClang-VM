@@ -278,9 +278,7 @@ function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: Globa
       util.movRegToMem(['rax', 0], ['rsp', 0]), // push function return onto stack
       util.offsetRSP(8)
     )
-
   }
-
 
   return {
     t: returnType[returnType.length - 1] as DataType,
