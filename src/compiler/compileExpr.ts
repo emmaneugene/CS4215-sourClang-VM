@@ -270,12 +270,17 @@ function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: Globa
     addr
   })
 
-  // When the function is returned this next
-  // instruction is executed
-  fEnv.instrs.push({
-    type: 'OffsetRspCommand',
-    value: -argSize
-  })
+  if (returnType[0] === DataType.STRUCT) {
+    // need to handle struct return types carefully
+  } else {
+    fEnv.instrs.push(
+      util.offsetRSP(-argSize), // remove all args
+      util.movRegToMem(['rax', 0], ['rsp', 0]), // push function return onto stack
+      util.offsetRSP(8)
+    )
+
+  }
+
 
   return {
     t: returnType[returnType.length - 1] as DataType,

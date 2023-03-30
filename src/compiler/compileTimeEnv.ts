@@ -1,7 +1,9 @@
 import * as es from 'estree'
 
+import { BUILT_IN_COMMANDS, BUILT_IN_FX_NAMES } from '../interpreter/builtin';
 import { DataType } from '../typings/datatype'
 import { Microcode } from '../typings/microcode'
+import { ExitCommand } from './../typings/microcode';
 import { CompileTimeError } from './error'
 
 export type Frame = Record<string, VariableInfo>
@@ -126,19 +128,22 @@ export class GlobalCTE {
 
   functionAddr: Record<string, bigint> = {}
 
-  combinedInstrs: Microcode[] = [
-    {
-      type: 'ExitCommand'
-    }
-  ]
+  readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
 
-  readonly EXIT_INSTR = 0
+  combinedInstrs: Microcode[] = [{
+    type: 'ExitCommand'
+  }]
+
+  constructor() {
+    this.initBuiltInFunctions()
+  }
 
   getVar(sym: string): VariableInfo | undefined {
     return
   }
 
   addFunction(fEnv: FunctionCTE): void {
+    this.appendRetInstrIfMainFunction(fEnv)
     this.functions[fEnv.name] = fEnv
 
     if (fEnv.instrs.length === 0) {
@@ -169,6 +174,51 @@ export class GlobalCTE {
       returnType: fxInfo.returnType,
       addr: this.functionAddr[name]
     }
+  }
+
+  /** 
+   * Loads the built in functions and assigns them
+   * an address.
+   */
+  private initBuiltInFunctions(): void {
+    for (const name of BUILT_IN_FX_NAMES) {
+      this.functionAddr[name] = BigInt(this.combinedInstrs.length)
+
+      this.combinedInstrs.push(...BUILT_IN_COMMANDS[name])
+    }
+  }
+
+  /**
+   * Adds a return command to main. In C, a main function
+   * without return will implicitly return after the last statement.
+   * 
+   * If the user provided the return, they shouln't hit this line
+   * anyway.
+   */
+  private appendRetInstrIfMainFunction(fEnv: FunctionCTE): void {
+    if (fEnv.name !== 'main') {
+      return
+    }
+
+    fEnv.instrs.push({
+      type: 'MovImmediateCommand',
+      value: 0,
+      encoding: '2s'
+    }, {
+      type: 'MovCommand',
+      from: {
+        type: 'relative',
+        reg: 'rsp',
+        offset: -8
+      },
+      to: {
+        type: 'register',
+        reg: 'rax',
+      }
+    },
+      {
+        type: 'ReturnCommand'
+      })
   }
 }
 

@@ -12,7 +12,8 @@ export interface MicrocodeMap {
   UnopCommand: UnopCommand
   CallCommand: CallCommand
   ReturnCommand: ReturnCommand
-  ExitCommand: ExitCommand
+  ExitCommand: ExitCommand,
+  ExecuteBuiltInFxCommand: ExecuteBuiltInFxCommand
 }
 
 /* Union types in MicrocodeMap */
@@ -129,4 +130,12 @@ export interface ReturnCommand extends BaseCommand {
 
 export interface ExitCommand extends BaseCommand {
   type: 'ExitCommand'
+}
+
+/** Supported built-in functions. */
+export type BuiltInFxName = 'printf' | 'scanf' | 'malloc' | 'free'
+
+export interface ExecuteBuiltInFxCommand extends BaseCommand {
+  type: 'ExecuteBuiltInFxCommand',
+  name: BuiltInFxName
 }

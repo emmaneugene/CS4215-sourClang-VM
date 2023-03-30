@@ -23,33 +23,6 @@ const DEFAULT_SOURCE_OPTIONS: IOptions = {
   throwInfiniteLoops: true
 }
 
-function updateContext(gEnv: GlobalCTE, ctx: Context): void {
-  ctx.cVmContext = {
-    ...ctx.cVmContext,
-    instrs: gEnv.combinedInstrs,
-    isRunning: true,
-    PC: gEnv.getFunctionAddr('main'),
-    BP: BigInt(0),
-    SP: BigInt(0),
-    AX: BigInt(0),
-    dataview: new MemoryModel()
-  }
-}
-
-function runInterpreter(context: Context, options: IOptions): Promise<Result> {
-  // previous:
-  // function runInterpreter(program: es.Program, context: Context, options: IOptions): Promise<Result> {
-  //   const it = evaluate(program, context)
-  //   const scheduler: Scheduler = new PreemptiveScheduler(options.steps)
-  //   return scheduler.run(it, context)
-  // }
-
-  const it = evaluate(context)
-
-  const scheduler: Scheduler = new PreemptiveScheduler(options.steps)
-  return scheduler.run(it, context)
-}
-
 export async function sourceRunner(
   code: string,
   context: Context,
@@ -65,31 +38,12 @@ export async function sourceRunner(
     return resolvedErrorPromise
   }
 
-  // TODO: Remove this after runners have been refactored.
-  //       These should be done as part of the local imports
-  //       preprocessing step.
-  // removeExports(program)
-  // removeNonSourceModuleImports(program)
-  // hoistAndMergeImports(program)
-
-  // validateAndAnnotate(program, context)
-  // context.unTypecheckedCode.push(code)
-
-  // if (context.errors.length > 0) {
-  //   return resolvedErrorPromise
-  // }
-
-  // // Handle preludes
-  // if (context.prelude !== null) {
-  //   const prelude = context.prelude
-  //   context.prelude = null
-  //   await sourceRunner(prelude, context, { ...options, isPrelude: true })
-  //   return sourceRunner(code, context, options)
-  // }
-
   const globalCte = compile(program)
   if (globalCte) {
-    updateContext(globalCte, context)
+    addInstrSegment(context, globalCte)
+    addRODataSegment(context, globalCte)
+    addDataSegment(context, globalCte)
+    setupMemAndReg(context, globalCte)
   }
 
   return runInterpreter(context, theOptions)
@@ -108,11 +62,63 @@ export async function sourceFilesRunner(
   }
 
   context.variant = determineVariant(context, options)
-  // TODO: Make use of the preprocessed program AST after refactoring runners.
-  // const preprocessedProgram = preprocessFileImports(files, entrypointFilePath, context)
-  // if (!preprocessedProgram) {
-  //   return resolvedErrorPromise
-  // }
 
   return sourceRunner(entrypointCode, context, options)
+}
+
+/**
+ * Inserts the instruction/text segment of the program.
+ * 
+ * @throws {CompileTimeError} if main function is not defined
+ */
+function addInstrSegment(ctx: Context, gEnv: GlobalCTE): void {
+  ctx.cVmContext = {
+    ...ctx.cVmContext,
+    instrs: gEnv.combinedInstrs,
+
+  }
+}
+
+/**
+ * Inserts read-only segment of a program.
+ * E.g. strings defined with double quotes
+ */
+function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {
+
+}
+
+/**
+ * Inserts global data defined at top level of the program.
+ */
+function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
+
+}
+
+/**
+ * Set up the memory and registers prior to launch.
+ * 
+ * For main,
+ * rbp points to empty prev_rbp value.
+ * rbp-8 points to return address
+ */
+function setupMemAndReg(ctx: Context, gEnv: GlobalCTE): void {
+  const dataview = new MemoryModel()
+
+  dataview.setBytesAt(BigInt(0), gEnv.EXIT_COMMAND_ADDR)
+
+  ctx.cVmContext = {
+    ...ctx.cVmContext,
+    isRunning: true,
+    PC: gEnv.getFunctionAddr('main'),
+    BP: BigInt(8), // offset by 8 for return addres
+    SP: BigInt(16),
+    AX: BigInt(0),
+    dataview: new MemoryModel()
+  }
+}
+
+function runInterpreter(context: Context, options: IOptions): Promise<Result> {
+  const it = evaluate(context)
+  const scheduler: Scheduler = new PreemptiveScheduler(options.steps)
+  return scheduler.run(it, context)
 }
