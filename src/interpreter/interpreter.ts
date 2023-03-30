@@ -36,14 +36,14 @@ export function* evaluate(context: Context) {
       break
     }
 
-    console.log('Current command: ', cmd.type)
-
     // Execute `cmd` and amend `context` accordingly
     yield* MACHINE[cmd.type](cmd, context)
 
     // debug
     const { SP } = context.cVmContext
-    console.log(context.cVmContext.dataview.debug(SP, Number(SP) - 40, Number(SP) + 40))
+    debugPrint(`Executed command: ${cmd.type}`, context)
+    debugPrint(`AX: ${context.cVmContext.AX} | BP: ${context.cVmContext.BP}`, context)
+    debugPrint(context.cVmContext.dataview.debug(SP, Number(SP) - 32, Number(SP) + 32), context)
   }
 
   yield* leave(context)
