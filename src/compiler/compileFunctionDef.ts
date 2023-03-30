@@ -22,14 +22,17 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
 
 function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {
   const rv: VariableInfo[] = []
-  for (let i = 0; i < params.length; i++) {
+  let currArgOffset = -8
+  for (let i = params.length - 1; i >= 0; i--) {
     const p = params[i]
     if (p.type !== 'Identifier') throw new CompileTimeError()
+    const vOffset = currArgOffset - 8
     rv.push({
       name: p.name,
       typeList: p.typeList,
-      offset: -i * 8 // TODO: Consider arrays and structs too
+      offset: currArgOffset - 8
     })
+    currArgOffset = vOffset
   }
   return rv
 }
@@ -61,5 +64,14 @@ function countLocalVarSize(stmts: es.Statement[]): number {
     }
   }
 
+  return sum
+}
+
+function countArgSize(vars: VariableInfo[]): number {
+  let sum = 0
+  for (const v of vars) {
+    // TODO: Factor in structs
+    sum += 8
+  }
   return sum
 }

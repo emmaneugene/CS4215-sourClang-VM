@@ -22,6 +22,34 @@ export interface VariableInfo {
   initialValue?: es.Expression
 }
 
+export interface FunctionInfo {
+  name: string
+
+  /** Location of the first instruction of this function */
+  addr: bigint
+
+  /**
+   * The type info for each arg.
+   */
+  params: es.TypeList[]
+
+  /**
+   * Reflects what the function returns
+   */
+  returnType: es.TypeList
+}
+
+/**
+ * A function's variables are layed out as follows:
+ *
+ * [arg1, ..., argn, prev_rbp, var1, ..., varN]
+ *
+ * rbp points to prev_rbp (for stack restoration).
+ * var1 is addressed relative to rbp, i.e.
+ * var1.offset = rbp + 8
+ *
+ * prev_rbp is set at runtime.
+ */
 export class FunctionCTE {
   name: string
 
@@ -33,15 +61,19 @@ export class FunctionCTE {
 
   frames: Frame[] = []
 
-  nextAvailableOffset: number = 0
+  /** First slot at rbp is the old rbp value. */
+  nextAvailableOffset: number = 8
 
   MAX_OFFSET: number = -1
 
   constructor(name: string, returnType: es.TypeList, params: VariableInfo[], localVarSize: number) {
     this.name = name
     this.returnType = returnType
+
+    this.params = params.map(p => [p.name, p.typeList])
     this.extendFrame(params)
-    this.MAX_OFFSET = localVarSize
+    // Add 8 to account for the old rbp value
+    this.MAX_OFFSET = localVarSize + 8
   }
 
   private allocNBytesOnStack(N: number): number {
@@ -92,9 +124,15 @@ export class FunctionCTE {
 export class GlobalCTE {
   functions: Record<string, FunctionCTE> = {}
 
-  functionAddr: Record<string, number> = {}
+  functionAddr: Record<string, bigint> = {}
 
-  combinedInstrs: Microcode[] = []
+  combinedInstrs: Microcode[] = [
+    {
+      type: 'ExitCommand'
+    }
+  ]
+
+  readonly EXIT_INSTR = 0
 
   getVar(sym: string): VariableInfo | undefined {
     return
@@ -109,15 +147,28 @@ export class GlobalCTE {
 
     const prevLength = this.combinedInstrs.length
     this.combinedInstrs.push(...fEnv.instrs)
-    this.functionAddr[fEnv.name] = prevLength
+    this.functionAddr[fEnv.name] = BigInt(prevLength)
   }
 
-  getFunctionAddr(sym: string): number {
+  getFunctionAddr(sym: string): bigint {
     if (this.functionAddr[sym] === undefined) {
       throw new CompileTimeError()
     }
 
     return this.functionAddr[sym]
+  }
+
+  getFxInfo(name: string): FunctionInfo {
+    const fxInfo = this.functions[name]
+    if (!fxInfo) {
+      throw new CompileTimeError()
+    }
+    return {
+      name,
+      params: fxInfo.params.map(t => t[1]),
+      returnType: fxInfo.returnType,
+      addr: this.functionAddr[name]
+    }
   }
 }
 
@@ -152,4 +203,12 @@ export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): Variab
     throw new CompileTimeError()
   }
   return varInfo
+}
+
+export function getFxDecl(name: string, gEnv: GlobalCTE): FunctionInfo {
+  const fxInfo = gEnv.getFxInfo(name)
+  if (!fxInfo) {
+    throw new CompileTimeError()
+  }
+  return fxInfo
 }

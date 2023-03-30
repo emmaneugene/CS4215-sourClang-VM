@@ -56,7 +56,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
     }
 
     if (stmt.type === 'ReturnStatement') {
-      throw new CompileTimeError()
+      compileRetStmt(stmt, fEnv, gEnv)
+      continue
     }
 
     if (stmt.type === 'BreakStatement') {
@@ -107,6 +108,36 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
       }
     )
   }
+}
+
+function compileRetStmt(stmt: es.ReturnStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+  if (stmt.argument) {
+    // doesn't consider the case when u return the struct
+    compileExpr(stmt.argument, fEnv, gEnv)
+
+    fEnv.instrs.push(
+      {
+        type: 'MovCommand',
+        from: {
+          type: 'relative',
+          reg: 'rsp',
+          offset: -8
+        },
+        to: {
+          type: 'register',
+          reg: 'rax'
+        }
+      },
+      {
+        type: 'OffsetRspCommand',
+        value: -8
+      }
+    )
+  }
+
+  fEnv.instrs.push({
+    type: 'ReturnCommand'
+  })
 }
 
 export function compileAssignmentStmt(

@@ -87,11 +87,11 @@ export interface UnopCommand extends BaseCommand {
 export interface LeaCommand extends BaseCommand {
   type: 'LeaCommand'
   value: {
-    reg: 'rbp' | 'rsp' | 'rax'
+    reg: 'rbp' | 'rsp' | 'rip' | 'rax'
     offset: number
   }
   dest: {
-    reg: 'rsp' | 'rbp' | 'rax'
+    reg: 'rbp' | 'rsp' | 'rip' | 'rax'
     offset: number
   }
 }
@@ -101,10 +101,14 @@ export interface LeaCommand extends BaseCommand {
  */
 export type MovAddressingMode = RegisterAddrMode | RelativeAddrMode
 
-export type RegisterAddrMode = { type: 'register' }
+export type RegisterAddrMode = {
+  type: 'register'
+  reg: 'rbp' | 'rsp' | 'rax'
+  offset?: number
+}
 export type RelativeAddrMode = {
   type: 'relative'
-  reg: 'rsp' | 'rbp' | 'rax'
+  reg: 'rbp' | 'rsp' | 'rax'
   offset: number
 }
 
@@ -113,7 +117,7 @@ export type RelativeAddrMode = {
  */
 export interface CallCommand extends BaseCommand {
   type: 'CallCommand'
-  addr: number
+  addr: bigint
 }
 
 /**

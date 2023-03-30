@@ -9,7 +9,7 @@ import {
   OffsetRspCommand,
   UnopCommand
 } from './../typings/microcode'
-import { CompileType, FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
+import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
 export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
@@ -62,7 +62,7 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
   }
 
   if (node.type === 'CallExpression') {
-    throw new CompileTimeError()
+    return compileCallExpr(node, fEnv, gEnv)
   }
 
   if (node.type === 'SequenceExpression') {
@@ -90,7 +90,7 @@ function loadIdentValue(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE)
   const { name } = expr
   const varInfo = getVar(name, fEnv, gEnv)
 
-  fEnv.instrs.push(util.movRel2Rel(['rbp', varInfo.offset], ['rsp', 0]), util.offsetRSP(8))
+  fEnv.instrs.push(util.movMemToMem(['rbp', varInfo.offset], ['rsp', 0]), util.offsetRSP(8))
 
   return {
     ...varInfo,
@@ -160,7 +160,7 @@ function compileUpdateExpr(
   fEnv.instrs.push(
     util.movImm(8, '2s'),
     util.binop('+'),
-    util.movRel2Rel(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
+    util.movMemToMem(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
     util.offsetRSP(-8)
   )
 
@@ -198,7 +198,7 @@ function compileValueOfExpr(
   // Check that the expr is indeed a pointer
   typechecker.throwIfNotPointer([t])
 
-  fEnv.instrs.push(util.movRelToAX(['rsp', -8]), util.movRel2Rel(['rax', 0], ['rsp', -8]))
+  fEnv.instrs.push(util.movMemToReg('rax', ['rsp', -8]), util.movMemToMem(['rax', 0], ['rsp', -8]))
 
   // Remove the top most * in the pointerList
   // To reflect that one 'hop' has been done
@@ -235,7 +235,55 @@ function compileUnaryExpr(
   }
 }
 
-type RegOffset = ['rsp' | 'rbp', number] | ['rax', 0]
+function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
+  const { callee, arguments: args } = expr // eslint disallows vars called variables
+
+  // Based on `visitor.visitFunctionCall`, CallExpression
+  // will only have Identifier as callee
+  if (callee.type !== 'Identifier') throw new CompileTimeError()
+  const fnName = callee.name
+  const { returnType, params, addr } = getFxDecl(fnName, gEnv)
+  let argSize = 0
+
+  // The caller didn't provide enough args for this function call
+  if (args.length !== params.length) throw new CompileTimeError()
+
+  for (let i = 0; i < args.length; i++) {
+    const supposedArgType = params[i]
+    const givenArgType = compileExpr(args[i] as es.Expression, fEnv, gEnv)
+
+    // Need to check if user provided valid types
+    // But there may be a need to do implicit casting
+    // E.g. supposedArgType is int
+    // givenArgType can be long or int
+    // if (!isEqual(supposedArgType, givenArgType.typeList)) {
+    //   // User provided some invalid type
+    //   throw new CompileTimeError()
+    // }
+
+    argSize += 8 // depends on the size of the expression
+  }
+
+  // CALL pushes old rbp and return addr
+  fEnv.instrs.push({
+    type: 'CallCommand',
+    addr
+  })
+
+  // When the function is returned this next
+  // instruction is executed
+  fEnv.instrs.push({
+    type: 'OffsetRspCommand',
+    value: -argSize
+  })
+
+  return {
+    t: returnType[returnType.length - 1] as DataType,
+    typeList: returnType
+  }
+}
+
+type RegOffset = ['rsp' | 'rbp' | 'rax', number]
 
 const util = {
   movImm: (value: number, encoding: '2s' | 'ieee'): MovImmediateCommand => {
@@ -246,7 +294,7 @@ const util = {
     }
   },
 
-  movRel2Rel: (from: RegOffset, to: RegOffset): MovCommand => {
+  movMemToMem: (from: RegOffset, to: RegOffset): MovCommand => {
     return {
       type: 'MovCommand',
       from: {
@@ -262,7 +310,7 @@ const util = {
     }
   },
 
-  movRelToAX: (from: RegOffset): MovCommand => ({
+  movMemToReg: (reg: 'rbp' | 'rax', from: RegOffset): MovCommand => ({
     type: 'MovCommand',
     from: {
       type: 'relative',
@@ -270,7 +318,22 @@ const util = {
       offset: from[1]
     },
     to: {
-      type: 'register'
+      type: 'register',
+      reg
+    }
+  }),
+
+  movRegToMem: (reg: RegOffset, mem: RegOffset): MovCommand => ({
+    type: 'MovCommand',
+    from: {
+      type: 'register',
+      reg: reg[0],
+      offset: reg[1]
+    },
+    to: {
+      type: 'relative',
+      reg: mem[0],
+      offset: mem[1]
     }
   }),
 

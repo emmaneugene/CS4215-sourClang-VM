@@ -55,8 +55,8 @@ function* leave(context: Context) {
   yield context
 }
 
-function decodePC(ctx: Context, pc: number): Microcode | undefined {
-  return ctx.cVmContext.instrs[pc]
+function decodePC(ctx: Context, pc: bigint): Microcode | undefined {
+  return ctx.cVmContext.instrs[Number(pc)]
 }
 
 /* Supporting typedef for MACHINE. */
@@ -83,18 +83,29 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   /**
    * Processes the `CallCommand` microcode within the context of a running
    * program.
+   *
+   * It performs the following:
+   * - Pushes the return address
+   * - Pushes the old rbp
+   * - Assigns new BP (to setup up the next fx's function BP)
+   * - Assigns new PC
    * @param cmd
    * @param ctx
    */
   CallCommand: function* (cmd, ctx) {
     const callCmd = cmd as CallCommand
-    if (ctx.externalBuiltIns?.rawDisplay) {
-      ctx.externalBuiltIns.rawDisplay(undefined, `${cmd.type}`, ctx)
-    } else {
-      console.log('hellllllooooooo', { cmd })
-    }
+    const { addr } = callCmd
+    const { dataview } = ctx.cVmContext
 
-    ctx.cVmContext.PC++
+    dataview.setBytesAt(lea(ctx, 'rsp', 0), ctx.cVmContext.PC + BigInt(8))
+    dataview.setBytesAt(lea(ctx, 'rsp', 8), lea(ctx, 'rbp', 0))
+
+    // rbp[0] is the previous' frame rbp
+    const startOfFrame = lea(ctx, 'rsp', 8)
+    ctx.cVmContext.BP = startOfFrame
+    ctx.cVmContext.SP = startOfFrame
+
+    ctx.cVmContext.PC = addr
   },
 
   /**
@@ -131,18 +142,37 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
       ctx.cVmContext.AX = ctx.cVmContext.AX
     }
 
+    // Mem[reg+offset] = Reg[reg] + offset
     if (from.type === 'register' && to.type === 'relative') {
       const { reg, offset } = to as RelativeAddrMode
       const toAddr = lea(ctx, reg, offset)
-      dataview.setBytesAt(toAddr, ctx.cVmContext.AX)
+
+      const fromOffset = BigInt(from.offset ?? 0)
+      if (from.reg === 'rax') {
+        dataview.setBytesAt(toAddr, ctx.cVmContext.AX + fromOffset)
+      } else if (from.reg === 'rbp') {
+        dataview.setBytesAt(toAddr, ctx.cVmContext.BP + fromOffset)
+      } else {
+        // Unsupported
+      }
     }
 
+    // R[reg] = Mem[reg+offset]
+    // from's offset is ignore
     if (from.type === 'relative' && to.type === 'register') {
       const { reg, offset } = from as RelativeAddrMode
       const fromAddr = lea(ctx, reg, offset)
-      ctx.cVmContext.AX = dataview.getBytesAt(fromAddr)
+
+      if (to.reg === 'rax') {
+        ctx.cVmContext.AX = dataview.getBytesAt(fromAddr)
+      } else if (to.reg === 'rbp') {
+        ctx.cVmContext.BP = dataview.getBytesAt(fromAddr)
+      } else {
+        // Unsupported
+      }
     }
 
+    // M[reg+offset] = M[reg+offset]
     if (from.type === 'relative' && to.type === 'relative') {
       const { reg: fReg, offset: fOff } = from as RelativeAddrMode
       const fromAddr = lea(ctx, fReg, fOff)
@@ -280,11 +310,22 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
 
   /**
    * Processes the `ReturnCommand` microcode within the context of a running
-   * program.
+   * program. Technically, it reverses the operations that `CallCommand` did
+   * on the memory.
+   *
+   * It performs the following:
+   * - Restores the bp using the BP (found on the top of frame)
+   * - Returns to return address (found on top of frame)
    * @param cmd
    * @param ctx
    */
-  ReturnCommand: function* (cmd, ctx) {},
+  ReturnCommand: function* (cmd, ctx) {
+    const { dataview } = ctx.cVmContext
+
+    ctx.cVmContext.SP = ctx.cVmContext.BP
+    ctx.cVmContext.BP = dataview.getBytesAt(lea(ctx, 'rbp', 0))
+    ctx.cVmContext.PC = dataview.getBytesAt(lea(ctx, 'rbp', -8))
+  },
 
   /**
    * Processes the `PushCommand` microcode within the context of a running
@@ -318,7 +359,7 @@ function debugPrint(str: string, ctx: Context): void {
  * @param offset
  * @returns address
  */
-function lea(ctx: Context, reg: 'rbp' | 'rsp' | 'rax', offset: number): bigint {
+function lea(ctx: Context, reg: 'rbp' | 'rsp' | 'rip' | 'rax', offset: number): bigint {
   if (reg === 'rbp') {
     return ctx.cVmContext.BP + BigInt(offset)
   }
