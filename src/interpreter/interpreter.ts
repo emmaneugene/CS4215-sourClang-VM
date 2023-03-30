@@ -230,7 +230,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const arg2 = dataview.getBytesAt(lea(ctx, 'rsp', -8))
     debugPrint(`${binopCmd.type} ${op} ${arg1} ${arg2} `, ctx)
 
-
     let res = arg1
     switch (op) {
       case '+':
@@ -275,7 +274,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     }
     dataview.setBytesAt(lea(ctx, 'rsp', -16), res)
 
-    
     ctx.cVmContext.SP -= BigInt(8)
     ctx.cVmContext.PC++
     dataview.debug()

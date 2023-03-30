@@ -152,23 +152,24 @@ export function compileAssignmentStmt(
     const { typeList, offset } = getVar(left.name, fEnv, gEnv)
     if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
 
-    fEnv.instrs.push({
-      type: 'MovCommand',
-      from: {
-        type: 'relative',
-        reg: 'rsp',
-        offset: -8
+    fEnv.instrs.push(
+      {
+        type: 'MovCommand',
+        from: {
+          type: 'relative',
+          reg: 'rsp',
+          offset: -8
+        },
+        to: {
+          type: 'relative',
+          reg: 'rbp',
+          offset
+        }
       },
-      to: {
-        type: 'relative',
-        reg: 'rbp',
-        offset
+      {
+        type: 'OffsetRspCommand',
+        value: -8
       }
-    },
-    {
-      type: 'OffsetRspCommand',
-      value: -8
-    }
     )
     return
   }
