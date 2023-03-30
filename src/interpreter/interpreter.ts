@@ -316,24 +316,21 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * on the memory.
    *
    * It performs the following:
-   * - Pops bp off stack
-   * - Pops return address off stack
+   * - Restores the old bp (since it must be stored at Mem[rbp])
+   * - Restores the old return addresss [since it must be stored at Mem[rbp-8]]
+   *
    * @param cmd
    * @param ctx
    */
   ReturnCommand: function* (cmd, ctx) {
     const { dataview } = ctx.cVmContext
 
-    // Restore SP
-    // Pops bp off stack
-    // Pops return address
-    ctx.cVmContext.SP -= BigInt(16)
-
     const currFrameBP = ctx.cVmContext.BP
 
-    // restore caller's BP
+    // restore caller's registers
     ctx.cVmContext.BP = dataview.getBytesAt(currFrameBP)
     ctx.cVmContext.PC = dataview.getBytesAt(currFrameBP - BigInt(8))
+    ctx.cVmContext.SP = currFrameBP - BigInt(8)
   },
 
   /**

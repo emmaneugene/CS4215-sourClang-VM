@@ -248,7 +248,8 @@ function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: Globa
   // The caller didn't provide enough args for this function call
   if (args.length !== params.length) throw new CompileTimeError()
 
-  for (let i = 0; i < args.length; i++) {
+  // push onto stack in reverse over
+  for (let i = args.length - 1; i >= 0; i--) {
     const supposedArgType = params[i]
     const givenArgType = compileExpr(args[i] as es.Expression, fEnv, gEnv)
 

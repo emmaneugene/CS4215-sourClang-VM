@@ -11,11 +11,21 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
 
   const fEnv = new FunctionCTE(name, typeList, paramLs, localVarSize)
 
+  // alloc space on the stack for
+  // all of this function's declarations
   fEnv.instrs.push({
     type: 'OffsetRspCommand',
     value: localVarSize
   })
+
   compileBlkStmt(node.body, fEnv, gEnv)
+
+  // free all the space used for this
+  // function's declarations
+  fEnv.instrs.push({
+    type: 'OffsetRspCommand',
+    value: -localVarSize
+  })
 
   gEnv.addFunction(fEnv)
 }
@@ -23,14 +33,14 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
 function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {
   const rv: VariableInfo[] = []
   let currArgOffset = -8
-  for (let i = params.length - 1; i >= 0; i--) {
+  for (let i = 0; i < params.length; i++) {
     const p = params[i]
     if (p.type !== 'Identifier') throw new CompileTimeError()
     const vOffset = currArgOffset - 8
     rv.push({
       name: p.name,
       typeList: p.typeList,
-      offset: currArgOffset - 8
+      offset: vOffset
     })
     currArgOffset = vOffset
   }
