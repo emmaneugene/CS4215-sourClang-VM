@@ -13,6 +13,10 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
 
     if (stmt.type === 'ExpressionStatement') {
       compileExpr(stmt.expression, fEnv, gEnv)
+      fEnv.instrs.push({
+        type: 'OffsetRspCommand',
+        value: -8
+      })
       continue
     }
 
@@ -129,7 +133,12 @@ export function compileAssignmentStmt(
         reg: 'rbp',
         offset
       }
-    })
+    },
+    {
+      type: 'OffsetRspCommand',
+      value: -8
+    }
+    )
     return
   }
 
