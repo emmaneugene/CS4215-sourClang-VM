@@ -200,32 +200,52 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const arg2 = dataview.getBytesAt(lea(ctx, 'rsp', -8))
     debugPrint(`${binopCmd.type} ${op} ${arg1} ${arg2} `, ctx)
 
-    const arithOps: Array<string> = ['+', '-', '*', '/', '%']
 
-    if (arithOps.includes(op)) {
-      let res = arg1
-      switch (op) {
-        case '+':
-          res += arg2
-          break
-        case '-':
-          res -= arg2
-          break
-        case '*':
-          res *= arg2
-          break
-        case '/':
-          res /= arg2
-          break
-        case '%':
-          res %= arg2
-          break
-      }
-      dataview.setBytesAt(lea(ctx, 'rsp', -16), res)
-    } else {
-      // TODO: Boolean operators
+    let res = arg1
+    switch (op) {
+      case '+':
+        res += arg2
+        break
+      case '-':
+        res -= arg2
+        break
+      case '*':
+        res *= arg2
+        break
+      case '/':
+        res /= arg2
+        break
+      case '%':
+        res %= arg2
+        break
+      case '>':
+        res = BigInt(arg1 > arg2)
+        break
+      case '>=':
+        res = BigInt(arg1 >= arg2)
+        break
+      case '<':
+        res = BigInt(arg1 < arg2)
+        break
+      case '<=':
+        res = BigInt(arg1 <= arg2)
+        break
+      case '==':
+        res = BigInt(arg1 == arg2)
+        break
+      case '!=':
+        res = BigInt(arg1 != arg2)
+        break
+      case '||':
+        res = BigInt(arg1 || arg2)
+        break
+      case '&&':
+        res = BigInt(arg1 && arg2)
+        break
     }
+    dataview.setBytesAt(lea(ctx, 'rsp', -16), res)
 
+    
     ctx.cVmContext.SP -= BigInt(8)
     ctx.cVmContext.PC++
     dataview.debug()
@@ -236,7 +256,27 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * @param cmd
    * @param ctx
    */
-  UnopCommand: function* (cmd, ctx) {},
+  UnopCommand: function* (cmd, ctx) {
+    const unopCmd = cmd as UnopCommand
+    const { dataview } = ctx.cVmContext
+    const { op } = unopCmd
+
+    const arg = dataview.getBytesAt(lea(ctx, 'rsp', -8))
+    debugPrint(`${unopCmd.type} ${op} ${arg}`, ctx)
+
+    let res = arg
+    switch (op) {
+      case '!':
+        res = BigInt(!res)
+        break
+      case '-':
+        res = -res
+        break
+    }
+    dataview.setBytesAt(lea(ctx, 'rsp', -8), res)
+
+    ctx.cVmContext.PC++
+  },
 
   /**
    * Processes the `ReturnCommand` microcode within the context of a running
