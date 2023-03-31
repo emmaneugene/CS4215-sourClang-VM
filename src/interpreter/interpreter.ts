@@ -14,6 +14,7 @@ import {
   ReturnCommand,
   UnopCommand
 } from './../typings/microcode'
+import { BUILT_IN_IMPL_CTX } from './builtin'
 import { lea } from './util'
 
 export function* evaluate(context: Context) {
@@ -340,6 +341,11 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * @param ctx
    */
   ExecuteBuiltInFxCommand: function* (cmd, ctx) {
+    const builtIn = cmd as ExecuteBuiltInFxCommand
+    const { name } = builtIn
+    if (BUILT_IN_IMPL_CTX[name]) {
+      BUILT_IN_IMPL_CTX[name](ctx)
+    }
     ctx.cVmContext.PC++
   },
 
