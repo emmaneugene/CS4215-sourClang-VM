@@ -10,6 +10,7 @@ export const NATIVE_STORAGE_ID = 'nativeStorage'
 export const MODULE_PARAMS_ID = 'moduleParams'
 export const MODULE_CONTEXTS_ID = 'moduleContexts'
 export const MAX_LIST_DISPLAY_LENGTH = 100
+export const WORD_SIZE = 8
 export const UNKNOWN_LOCATION: es.SourceLocation = {
   start: {
     line: -1,

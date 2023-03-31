@@ -75,7 +75,7 @@ export interface BinopCommand extends BaseCommand {
  */
 export interface UnopCommand extends BaseCommand {
   type: 'UnopCommand'
-  op: '*' | '!' | 'sizeof' | '++' | '--' | '-'
+  op: '!' | '-'
 }
 
 /**

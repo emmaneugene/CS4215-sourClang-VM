@@ -1,8 +1,10 @@
 import * as es from 'estree'
 
+import { WORD_SIZE } from '../constants'
 import { compileExpr } from './compileExpr'
 import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
+import { MICROCODE } from './microcode'
 
 export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   for (const stmt of node.body) {
@@ -13,10 +15,7 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
 
     if (stmt.type === 'ExpressionStatement') {
       compileExpr(stmt.expression, fEnv, gEnv)
-      fEnv.instrs.push({
-        type: 'OffsetRspCommand',
-        value: -8
-      })
+      fEnv.instrs.push(MICROCODE.offsetRSP(-WORD_SIZE))
       continue
     }
 
@@ -89,23 +88,8 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
 
     compileExpr(declaration.init, fEnv, gEnv)
     fEnv.instrs.push(
-      {
-        type: 'MovCommand',
-        from: {
-          type: 'relative',
-          reg: 'rsp',
-          offset: -8
-        },
-        to: {
-          type: 'relative',
-          reg: 'rbp',
-          offset: v.offset
-        }
-      },
-      {
-        type: 'OffsetRspCommand',
-        value: -8
-      }
+      MICROCODE.movMemToMem(['rsp', -WORD_SIZE], ['rbp', v.offset]),
+      MICROCODE.offsetRSP(-WORD_SIZE)
     )
   }
 }
@@ -114,30 +98,13 @@ function compileRetStmt(stmt: es.ReturnStatement, fEnv: FunctionCTE, gEnv: Globa
   if (stmt.argument) {
     // doesn't consider the case when u return the struct
     compileExpr(stmt.argument, fEnv, gEnv)
-
     fEnv.instrs.push(
-      {
-        type: 'MovCommand',
-        from: {
-          type: 'relative',
-          reg: 'rsp',
-          offset: -8
-        },
-        to: {
-          type: 'register',
-          reg: 'rax'
-        }
-      },
-      {
-        type: 'OffsetRspCommand',
-        value: -8
-      }
+      MICROCODE.movMemToReg('rax', ['rsp', -WORD_SIZE]),
+      MICROCODE.offsetRSP(-WORD_SIZE)
     )
   }
 
-  fEnv.instrs.push({
-    type: 'ReturnCommand'
-  })
+  fEnv.instrs.push(MICROCODE.return)
 }
 
 export function compileAssignmentStmt(
@@ -151,25 +118,9 @@ export function compileAssignmentStmt(
     const left = stmt.left as es.Identifier
     const { typeList, offset } = getVar(left.name, fEnv, gEnv)
     if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
-
     fEnv.instrs.push(
-      {
-        type: 'MovCommand',
-        from: {
-          type: 'relative',
-          reg: 'rsp',
-          offset: -8
-        },
-        to: {
-          type: 'relative',
-          reg: 'rbp',
-          offset
-        }
-      },
-      {
-        type: 'OffsetRspCommand',
-        value: -8
-      }
+      MICROCODE.movMemToMem(['rsp', -WORD_SIZE], ['rbp', offset]),
+      MICROCODE.offsetRSP(-WORD_SIZE)
     )
     return
   }
