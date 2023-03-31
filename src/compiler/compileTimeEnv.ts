@@ -52,21 +52,49 @@ export interface FunctionInfo {
  * prev_rbp is set at runtime.
  */
 export class FunctionCTE {
+  /**
+   * The name of the function.
+   */
   name: string
 
+  /**
+   * The return type of the function.
+   */
   returnType: es.TypeList
 
+  /**
+   * The parameters of the function as an array of name-typeList pairs.
+   */
   params: Array<[string, es.TypeList]> = []
 
+  /**
+   * The microcode instructions for the function.
+   */
   instrs: Array<Microcode> = []
 
+  /**
+   * The frames that represent the function's stack frames.
+   */
   frames: Frame[] = []
 
   /** First slot at rbp is the old rbp value. */
   nextAvailableOffset: number = 8
 
+  /**
+   * The maximum offset that can be allocated for local variables on the stack.
+   */
   MAX_OFFSET: number = -1
 
+  /**
+   * Creates a new FunctionCTE object.
+   *
+   * @param {string} name - The name of the function.
+   * @param {es.TypeList} returnType - The return type of the function.
+   * @param {VariableInfo[]} params - The parameters of the function.
+   * @param {number} localVarSize - The size of the local variables in the function.
+   *
+   * @throws {CompileTimeError} If the function's name, parameter list, or local variable size are invalid.
+   */
   constructor(name: string, returnType: es.TypeList, params: VariableInfo[], localVarSize: number) {
     this.name = name
     this.returnType = returnType
@@ -77,6 +105,15 @@ export class FunctionCTE {
     this.MAX_OFFSET = localVarSize + 8
   }
 
+  /**
+   * Allocates a specified number of bytes on the stack.
+   *
+   * @private
+   * @param {number} N - The number of bytes to allocate.
+   * @returns {number} The offset where the allocation starts.
+   *
+   * @throws {CompileTimeError} If the allocation exceeds the maximum stack size.
+   */
   private allocNBytesOnStack(N: number): number {
     const rv = this.nextAvailableOffset
     if (this.nextAvailableOffset >= this.MAX_OFFSET) throw new CompileTimeError()
@@ -84,6 +121,15 @@ export class FunctionCTE {
     return rv
   }
 
+  /**
+   * Adds a new variable to the current stack frame.
+   *
+   * @param {string} name - The name of the variable.
+   * @param {es.TypeList} typeList - The type of the variable.
+   * @returns {VariableInfo} The information for the new variable.
+   *
+   * @throws {CompileTimeError} If the variable already exists in the current frame.
+   */
   addVar(name: string, typeList: es.TypeList): VariableInfo {
     const v = {
       name,
@@ -100,6 +146,12 @@ export class FunctionCTE {
     return v
   }
 
+  /**
+   * Gets the information for a variable in the current stack frame or a parent frame.
+   *
+   * @param {string} name - The name of the variable.
+   * @returns {VariableInfo|undefined} The information for the variable or undefined if it doesn't exist.
+   */
   getVar(name: string): VariableInfo | undefined {
     for (let i = this.frames.length - 1; i >= 0; i--) {
       if (this.frames[i][name]) {
