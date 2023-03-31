@@ -11,7 +11,7 @@ export interface CVMContext {
    * Program counter. This number should be an index
    * into the `instrs`.
    */
-  PC: number
+  PC: bigint
 
   /**
    * Base pointer of the current function.

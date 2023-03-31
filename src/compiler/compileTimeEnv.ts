@@ -1,5 +1,6 @@
 import * as es from 'estree'
 
+import { BUILT_IN_COMMANDS, BUILT_IN_FX_NAMES } from '../interpreter/builtin'
 import { DataType } from '../typings/datatype'
 import { Microcode } from '../typings/microcode'
 import { CompileTimeError } from './error'
@@ -22,6 +23,34 @@ export interface VariableInfo {
   initialValue?: es.Expression
 }
 
+export interface FunctionInfo {
+  name: string
+
+  /** Location of the first instruction of this function */
+  addr: bigint
+
+  /**
+   * The type info for each arg.
+   */
+  params: es.TypeList[]
+
+  /**
+   * Reflects what the function returns
+   */
+  returnType: es.TypeList
+}
+
+/**
+ * A function's variables are layed out as follows:
+ *
+ * [arg1, ..., argn, prev_rbp, var1, ..., varN]
+ *
+ * rbp points to prev_rbp (for stack restoration).
+ * var1 is addressed relative to rbp, i.e.
+ * var1.offset = rbp + 8
+ *
+ * prev_rbp is set at runtime.
+ */
 export class FunctionCTE {
   name: string
 
@@ -33,15 +62,19 @@ export class FunctionCTE {
 
   frames: Frame[] = []
 
-  nextAvailableOffset: number = 0
+  /** First slot at rbp is the old rbp value. */
+  nextAvailableOffset: number = 8
 
   MAX_OFFSET: number = -1
 
   constructor(name: string, returnType: es.TypeList, params: VariableInfo[], localVarSize: number) {
     this.name = name
     this.returnType = returnType
+
+    this.params = params.map(p => [p.name, p.typeList])
     this.extendFrame(params)
-    this.MAX_OFFSET = localVarSize
+    // Add 8 to account for the old rbp value
+    this.MAX_OFFSET = localVarSize + 8
   }
 
   private allocNBytesOnStack(N: number): number {
@@ -92,15 +125,26 @@ export class FunctionCTE {
 export class GlobalCTE {
   functions: Record<string, FunctionCTE> = {}
 
-  functionAddr: Record<string, number> = {}
+  functionAddr: Record<string, bigint> = {}
 
-  combinedInstrs: Microcode[] = []
+  readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
+
+  combinedInstrs: Microcode[] = [
+    {
+      type: 'ExitCommand'
+    }
+  ]
+
+  constructor() {
+    this.initBuiltInFunctions()
+  }
 
   getVar(sym: string): VariableInfo | undefined {
     return
   }
 
   addFunction(fEnv: FunctionCTE): void {
+    this.appendRetInstrIfMainFunction(fEnv)
     this.functions[fEnv.name] = fEnv
 
     if (fEnv.instrs.length === 0) {
@@ -109,15 +153,76 @@ export class GlobalCTE {
 
     const prevLength = this.combinedInstrs.length
     this.combinedInstrs.push(...fEnv.instrs)
-    this.functionAddr[fEnv.name] = prevLength
+    this.functionAddr[fEnv.name] = BigInt(prevLength)
   }
 
-  getFunctionAddr(sym: string): number {
+  getFunctionAddr(sym: string): bigint {
     if (this.functionAddr[sym] === undefined) {
       throw new CompileTimeError()
     }
 
     return this.functionAddr[sym]
+  }
+
+  getFunctionInfo(name: string): FunctionInfo {
+    const fxInfo = this.functions[name]
+    if (!fxInfo) {
+      throw new CompileTimeError()
+    }
+    return {
+      name,
+      params: fxInfo.params.map(t => t[1]),
+      returnType: fxInfo.returnType,
+      addr: this.functionAddr[name]
+    }
+  }
+
+  /**
+   * Loads the built in functions and assigns them
+   * an address.
+   */
+  private initBuiltInFunctions(): void {
+    for (const name of BUILT_IN_FX_NAMES) {
+      this.functionAddr[name] = BigInt(this.combinedInstrs.length)
+
+      this.combinedInstrs.push(...BUILT_IN_COMMANDS[name])
+    }
+  }
+
+  /**
+   * Adds a return command to main. In C, a main function
+   * without return will implicitly return after the last statement.
+   *
+   * If the user provided the return, they shouln't hit this line
+   * anyway.
+   */
+  private appendRetInstrIfMainFunction(fEnv: FunctionCTE): void {
+    if (fEnv.name !== 'main') {
+      return
+    }
+
+    fEnv.instrs.push(
+      {
+        type: 'MovImmediateCommand',
+        value: 0,
+        encoding: '2s'
+      },
+      {
+        type: 'MovCommand',
+        from: {
+          type: 'relative',
+          reg: 'rsp',
+          offset: -8
+        },
+        to: {
+          type: 'register',
+          reg: 'rax'
+        }
+      },
+      {
+        type: 'ReturnCommand'
+      }
+    )
   }
 }
 
@@ -152,4 +257,12 @@ export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): Variab
     throw new CompileTimeError()
   }
   return varInfo
+}
+
+export function getFxDecl(name: string, gEnv: GlobalCTE): FunctionInfo {
+  const fxInfo = gEnv.getFunctionInfo(name)
+  if (!fxInfo) {
+    throw new CompileTimeError()
+  }
+  return fxInfo
 }

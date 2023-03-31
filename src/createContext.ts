@@ -110,7 +110,7 @@ export const createEmptyContext = <T>(
     cVmContext: {
       instrs: [],
       isRunning: false,
-      PC: 0,
+      PC: BigInt(0),
       BP: BigInt(0),
       SP: BigInt(0),
       AX: BigInt(1),

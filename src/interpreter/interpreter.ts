@@ -1,10 +1,10 @@
 /* tslint:disable:max-classes-per-file */
-
 import { Context, Value } from '../types'
 import { RelativeAddrMode } from './../typings/microcode'
 import {
   BinopCommand,
   CallCommand,
+  ExecuteBuiltInFxCommand,
   ExitCommand,
   LeaCommand,
   Microcode,
@@ -14,6 +14,7 @@ import {
   ReturnCommand,
   UnopCommand
 } from './../typings/microcode'
+import { lea } from './util'
 
 export function* evaluate(context: Context) {
   // previous impl:
@@ -35,14 +36,14 @@ export function* evaluate(context: Context) {
       break
     }
 
-    console.log('Current command: ', cmd.type)
-
     // Execute `cmd` and amend `context` accordingly
     yield* MACHINE[cmd.type](cmd, context)
 
     // debug
     const { SP } = context.cVmContext
-    console.log(context.cVmContext.dataview.debug(SP, Number(SP) - 40, Number(SP) + 40))
+    debugPrint(`Executed command: ${cmd.type}`, context)
+    debugPrint(`AX: ${context.cVmContext.AX} | BP: ${context.cVmContext.BP}`, context)
+    debugPrint(context.cVmContext.dataview.debug(SP, Number(SP) - 32, Number(SP) + 32), context)
   }
 
   yield* leave(context)
@@ -55,8 +56,8 @@ function* leave(context: Context) {
   yield context
 }
 
-function decodePC(ctx: Context, pc: number): Microcode | undefined {
-  return ctx.cVmContext.instrs[pc]
+function decodePC(ctx: Context, pc: bigint): Microcode | undefined {
+  return ctx.cVmContext.instrs[Number(pc)]
 }
 
 /* Supporting typedef for MACHINE. */
@@ -78,23 +79,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   ExitCommand: function* (cmd, ctx) {
     ctx.cVmContext.isRunning = false
     return
-  },
-
-  /**
-   * Processes the `CallCommand` microcode within the context of a running
-   * program.
-   * @param cmd
-   * @param ctx
-   */
-  CallCommand: function* (cmd, ctx) {
-    const callCmd = cmd as CallCommand
-    if (ctx.externalBuiltIns?.rawDisplay) {
-      ctx.externalBuiltIns.rawDisplay(undefined, `${cmd.type}`, ctx)
-    } else {
-      console.log('hellllllooooooo', { cmd })
-    }
-
-    ctx.cVmContext.PC++
   },
 
   /**
@@ -131,18 +115,37 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
       ctx.cVmContext.AX = ctx.cVmContext.AX
     }
 
+    // Mem[reg+offset] = Reg[reg] + offset
     if (from.type === 'register' && to.type === 'relative') {
       const { reg, offset } = to as RelativeAddrMode
       const toAddr = lea(ctx, reg, offset)
-      dataview.setBytesAt(toAddr, ctx.cVmContext.AX)
+
+      const fromOffset = BigInt(from.offset ?? 0)
+      if (from.reg === 'rax') {
+        dataview.setBytesAt(toAddr, ctx.cVmContext.AX + fromOffset)
+      } else if (from.reg === 'rbp') {
+        dataview.setBytesAt(toAddr, ctx.cVmContext.BP + fromOffset)
+      } else {
+        // Unsupported
+      }
     }
 
+    // R[reg] = Mem[reg+offset]
+    // from's offset is ignore
     if (from.type === 'relative' && to.type === 'register') {
       const { reg, offset } = from as RelativeAddrMode
       const fromAddr = lea(ctx, reg, offset)
-      ctx.cVmContext.AX = dataview.getBytesAt(fromAddr)
+
+      if (to.reg === 'rax') {
+        ctx.cVmContext.AX = dataview.getBytesAt(fromAddr)
+      } else if (to.reg === 'rbp') {
+        ctx.cVmContext.BP = dataview.getBytesAt(fromAddr)
+      } else {
+        // Unsupported
+      }
     }
 
+    // M[reg+offset] = M[reg+offset]
     if (from.type === 'relative' && to.type === 'relative') {
       const { reg: fReg, offset: fOff } = from as RelativeAddrMode
       const fromAddr = lea(ctx, fReg, fOff)
@@ -200,7 +203,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const arg2 = dataview.getBytesAt(lea(ctx, 'rsp', -8))
     debugPrint(`${binopCmd.type} ${op} ${arg1} ${arg2} `, ctx)
 
-
     let res = arg1
     switch (op) {
       case '+':
@@ -245,7 +247,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     }
     dataview.setBytesAt(lea(ctx, 'rsp', -16), res)
 
-    
     ctx.cVmContext.SP -= BigInt(8)
     ctx.cVmContext.PC++
     dataview.debug()
@@ -277,14 +278,68 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
 
     ctx.cVmContext.PC++
   },
-
   /**
-   * Processes the `ReturnCommand` microcode within the context of a running
+   * Processes the `CallCommand` microcode within the context of a running
    * program.
+   *
+   * It performs the following:
+   * - Pushes the return address onto stack
+   * - Pushes the caller's rbp onto stack
+   * - Assigns new BP (to setup up the next fx's function BP)
+   * - Assigns new PC
    * @param cmd
    * @param ctx
    */
-  ReturnCommand: function* (cmd, ctx) {},
+  CallCommand: function* (cmd, ctx) {
+    const callCmd = cmd as CallCommand
+    const { addr } = callCmd
+    const { dataview } = ctx.cVmContext
+
+    // Pushes the return address onto stack
+    dataview.setBytesAt(ctx.cVmContext.SP, ctx.cVmContext.PC + BigInt(1))
+    ctx.cVmContext.SP += BigInt(8)
+
+    // Pushes and save the caller's rbp onto stack
+    // Then, set the BP to the current SP
+    // to mark the start of a new function frame
+    // i.e. rbp points to the caller's rbp
+    dataview.setBytesAt(ctx.cVmContext.SP, ctx.cVmContext.BP)
+    ctx.cVmContext.BP = ctx.cVmContext.SP
+
+    ctx.cVmContext.SP += BigInt(8)
+    ctx.cVmContext.PC = addr
+  },
+
+  /**
+   * Processes the `ReturnCommand` microcode within the context of a running
+   * program. Technically, it reverses the operations that `CallCommand` did
+   * on the memory.
+   *
+   * It performs the following:
+   * - Restores the old bp (since it must be stored at Mem[rbp])
+   * - Restores the old return addresss [since it must be stored at Mem[rbp-8]]
+   *
+   * @param cmd
+   * @param ctx
+   */
+  ReturnCommand: function* (cmd, ctx) {
+    const { dataview } = ctx.cVmContext
+
+    const currFrameBP = ctx.cVmContext.BP
+
+    // restore caller's registers
+    ctx.cVmContext.BP = dataview.getBytesAt(currFrameBP)
+    ctx.cVmContext.PC = dataview.getBytesAt(currFrameBP - BigInt(8))
+    ctx.cVmContext.SP = currFrameBP - BigInt(8)
+  },
+
+  /**
+   * Processes the `ExecuteBuiltInFxCommand` microcode within the context of a running
+   * program
+   * @param cmd
+   * @param ctx
+   */
+  ExecuteBuiltInFxCommand: function* (cmd, ctx) {},
 
   /**
    * Processes the `PushCommand` microcode within the context of a running
@@ -310,229 +365,3 @@ function debugPrint(str: string, ctx: Context): void {
     console.log(str)
   }
 }
-
-/**
- * Loads the address of a register + offset
- * @param ctx
- * @param reg
- * @param offset
- * @returns address
- */
-function lea(ctx: Context, reg: 'rbp' | 'rsp' | 'rax', offset: number): bigint {
-  if (reg === 'rbp') {
-    return ctx.cVmContext.BP + BigInt(offset)
-  }
-
-  if (reg === 'rsp') {
-    return ctx.cVmContext.SP + BigInt(offset)
-  }
-
-  if (reg === 'rax') {
-    // Ignore offset, since AX is not
-    // a 'controlled' reg like rbp or rbp
-    return ctx.cVmContext.AX
-  }
-
-  throw new Error()
-}
-
-// import * as es from 'estree'
-
-// import { RuntimeSourceError } from '../errors/runtimeSourceError'
-// import { Context, Environment, Value } from '../types'
-// import { MemoryContext } from '../typings/memory-context'
-// import { evaluateBinaryExpression, evaluateUnaryExpression } from '../utils/operators'
-// import * as rttc from '../utils/rttc'
-
-// class Thunk {
-//   public value: Value
-//   public isMemoized: boolean
-//   constructor(public exp: es.Node, public env: Environment) {
-//     this.isMemoized = false
-//     this.value = null
-//   }
-// }
-
-// function* forceIt(val: any, context: Context): Value {
-//   if (val instanceof Thunk) {
-//     if (val.isMemoized) return val.value
-
-//     pushEnvironment(context, val.env)
-//     const evalRes = yield* actualValue(val.exp, context)
-//     popEnvironment(context)
-//     val.value = evalRes
-//     val.isMemoized = true
-//     return evalRes
-//   } else return val
-// }
-
-// export function* actualValue(exp: es.Node, context: Context): Value {
-//   const evalResult = yield* evaluate(exp, context)
-//   const forced = yield* forceIt(evalResult, context)
-//   return forced
-// }
-
-// const handleRuntimeError = (context: Context, error: RuntimeSourceError): never => {
-//   context.errors.push(error)
-//   context.runtime.environments = context.runtime.environments.slice(
-//     -context.numberOfOuterEnvironments
-//   )
-//   throw error
-// }
-
-// function* visit(context: Context, node: es.Node) {
-//   context.runtime.nodes.unshift(node)
-//   yield context
-// }
-
-// function* leave(context: Context) {
-//   context.runtime.break = false
-//   context.runtime.nodes.shift()
-//   yield context
-// }
-
-// const popEnvironment = (context: Context) => context.runtime.environments.shift()
-// export const pushEnvironment = (context: Context, environment: Environment) => {
-//   context.runtime.environments.unshift(environment)
-//   context.runtime.environmentTree.insert(environment)
-// }
-
-// export type Evaluator<T extends es.Node> = (node: T, context: Context) => IterableIterator<Value>
-
-// function* evaluateBlockSatement(context: Context, node: es.BlockStatement) {
-//   let result
-//   for (const statement of node.body) {
-//     result = yield* evaluate(statement, context)
-//   }
-//   return result
-// }
-
-// /**
-//  * WARNING: Do not use object literal shorthands, e.g.
-//  *   {
-//  *     *Literal(node: es.Literal, ...) {...},
-//  *     *ThisExpression(node: es.ThisExpression, ..._ {...},
-//  *     ...
-//  *   }
-//  * They do not minify well, raising uncaught syntax errors in production.
-//  * See: https://github.com/webpack/webpack/issues/7566
-//  */
-// // tslint:disable:object-literal-shorthand
-// // prettier-ignore
-// export const evaluators: { [nodeType: string]: Evaluator<es.Node> } = {
-//   /** Simple Values */
-//   Literal: function* (node: es.Literal, _context: Context) {
-//     return node.value
-//   },
-
-//   TemplateLiteral: function* (node: es.TemplateLiteral) {
-//     // Expressions like `${1}` are not allowed, so no processing needed
-//     return node.quasis[0].value.cooked
-//   },
-
-//   ThisExpression: function* (node: es.ThisExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   ArrayExpression: function* (node: es.ArrayExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   FunctionExpression: function* (node: es.FunctionExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   ArrowFunctionExpression: function* (node: es.ArrowFunctionExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   Identifier: function* (node: es.Identifier, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   CallExpression: function* (node: es.CallExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   NewExpression: function* (node: es.NewExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   UnaryExpression: function* (node: es.UnaryExpression, context: Context) {
-//     const value = yield* actualValue(node.argument, context)
-
-//     const error = rttc.checkUnaryExpression(node, node.operator, value)
-//     if (error) {
-//       return handleRuntimeError(context, error)
-//     }
-//     return evaluateUnaryExpression(node.operator, value)
-//   },
-
-//   BinaryExpression: function* (node: es.BinaryExpression, context: Context) {
-//     const left = yield* actualValue(node.left, context)
-//     const right = yield* actualValue(node.right, context)
-//     const error = rttc.checkBinaryExpression(node, node.operator, left, right)
-//     if (error) {
-//       return handleRuntimeError(context, error)
-//     }
-//     return evaluateBinaryExpression(node.operator, left, right)
-//   },
-
-//   ConditionalExpression: function* (node: es.ConditionalExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   LogicalExpression: function* (node: es.LogicalExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   VariableDeclaration: function* (node: es.VariableDeclaration, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   ContinueStatement: function* (_node: es.ContinueStatement, _context: Context) {
-//     throw new Error(`not supported yet: ${_node.type}`)
-//   },
-
-//   BreakStatement: function* (_node: es.BreakStatement, _context: Context) {
-//     throw new Error(`not supported yet: ${_node.type}`)
-//   },
-
-//   ForStatement: function* (node: es.ForStatement, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   AssignmentExpression: function* (node: es.AssignmentExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   FunctionDeclaration: function* (node: es.FunctionDeclaration, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   IfStatement: function* (node: es.IfStatement | es.ConditionalExpression, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   ExpressionStatement: function* (node: es.ExpressionStatement, context: Context) {
-//     return yield* evaluate(node.expression, context)
-//   },
-
-//   ReturnStatement: function* (node: es.ReturnStatement, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   WhileStatement: function* (node: es.WhileStatement, context: Context) {
-//     throw new Error(`not supported yet: ${node.type}`)
-//   },
-
-//   BlockStatement: function* (node: es.BlockStatement, context: Context) {
-//     return
-//   },
-
-//   Program: function* (node: es.BlockStatement, context: Context) {
-//     const result = yield* forceIt(yield* evaluateBlockSatement(context, node), context);
-//     return result;
-//   }
-// }
-// tslint:enable:object-literal-shorthand

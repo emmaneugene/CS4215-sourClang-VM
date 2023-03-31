@@ -11,25 +11,38 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
 
   const fEnv = new FunctionCTE(name, typeList, paramLs, localVarSize)
 
+  // alloc space on the stack for
+  // all of this function's declarations
   fEnv.instrs.push({
     type: 'OffsetRspCommand',
     value: localVarSize
   })
+
   compileBlkStmt(node.body, fEnv, gEnv)
+
+  // free all the space used for this
+  // function's declarations
+  fEnv.instrs.push({
+    type: 'OffsetRspCommand',
+    value: -localVarSize
+  })
 
   gEnv.addFunction(fEnv)
 }
 
 function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {
   const rv: VariableInfo[] = []
+  let currArgOffset = -8
   for (let i = 0; i < params.length; i++) {
     const p = params[i]
     if (p.type !== 'Identifier') throw new CompileTimeError()
+    const vOffset = currArgOffset - 8
     rv.push({
       name: p.name,
       typeList: p.typeList,
-      offset: -i * 8 // TODO: Consider arrays and structs too
+      offset: vOffset
     })
+    currArgOffset = vOffset
   }
   return rv
 }
@@ -61,5 +74,14 @@ function countLocalVarSize(stmts: es.Statement[]): number {
     }
   }
 
+  return sum
+}
+
+function countArgSize(vars: VariableInfo[]): number {
+  let sum = 0
+  for (const v of vars) {
+    // TODO: Factor in structs
+    sum += 8
+  }
   return sum
 }
