@@ -2,6 +2,8 @@ import { Context } from '../types'
 
 /**
  * Calculates the address of a register + offset
+ * lea stands for load effective address
+ * an x86 assembly language instruction that loads a memory address into a register
  * @param ctx
  * @param reg
  * @param offset
