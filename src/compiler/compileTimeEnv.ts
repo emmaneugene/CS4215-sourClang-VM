@@ -164,7 +164,7 @@ export class GlobalCTE {
     return this.functionAddr[sym]
   }
 
-  getFxInfo(name: string): FunctionInfo {
+  getFunctionInfo(name: string): FunctionInfo {
     const fxInfo = this.functions[name]
     if (!fxInfo) {
       throw new CompileTimeError()
@@ -260,7 +260,7 @@ export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): Variab
 }
 
 export function getFxDecl(name: string, gEnv: GlobalCTE): FunctionInfo {
-  const fxInfo = gEnv.getFxInfo(name)
+  const fxInfo = gEnv.getFunctionInfo(name)
   if (!fxInfo) {
     throw new CompileTimeError()
   }
