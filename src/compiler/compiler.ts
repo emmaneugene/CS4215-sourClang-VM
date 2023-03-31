@@ -19,7 +19,14 @@ export function compile(ast: es.Program): GlobalCTE | undefined {
       compileFunctionDef(stmt, gEnv)
       continue
     }
-
+    /**
+     * Global variable
+     * int x = 1; //literals like strings and bools will work
+     * int x[3] = {1, 2, 3};
+     * int y1 = ++x; // will crash
+     * int y2 = foo(); // will crash
+     * int y3 = x; // will crash
+     */
     if (stmt.type === 'VariableDeclaration') {
       throw new CompileTimeError()
     }
@@ -34,7 +41,7 @@ export function compile(ast: es.Program): GlobalCTE | undefined {
 
   const main = gEnv.functions['main']
   if (!main) {
-    throw new CompileTimeError()
+    throw new CompileTimeError('No reference to main!')
   }
 
   return gEnv

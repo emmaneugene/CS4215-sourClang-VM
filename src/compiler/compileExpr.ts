@@ -1,16 +1,9 @@
 import * as es from 'estree'
 
 import { DataType } from './../typings/datatype'
-import {
-  BinopCommand,
-  LeaCommand,
-  MovCommand,
-  MovImmediateCommand,
-  OffsetRspCommand,
-  UnopCommand
-} from './../typings/microcode'
 import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
+import { MICROCODE } from './microcode'
 
 export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   if (node.type === 'Literal') {
@@ -74,7 +67,7 @@ export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: Global
 
 function loadLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   if (typeof expr.value === 'number') {
-    fEnv.instrs.push(util.movImm(expr.value, '2s'))
+    fEnv.instrs.push(MICROCODE.movImm(expr.value, '2s'))
     return {
       // Return the largest possible
       // primitive type
@@ -90,7 +83,10 @@ function loadIdentValue(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE)
   const { name } = expr
   const varInfo = getVar(name, fEnv, gEnv)
 
-  fEnv.instrs.push(util.movMemToMem(['rbp', varInfo.offset], ['rsp', 0]), util.offsetRSP(8))
+  fEnv.instrs.push(
+    MICROCODE.movMemToMem(['rbp', varInfo.offset], ['rsp', 0]),
+    MICROCODE.offsetRSP(8)
+  )
 
   return {
     ...varInfo,
@@ -111,7 +107,7 @@ function compileLogicalExpr(
 
   // TODO: Check for valid type pairs
 
-  fEnv.instrs.push(util.binop(op))
+  fEnv.instrs.push(MICROCODE.binop(op))
   return {
     t: DataType.LONG,
     typeList: [DataType.LONG]
@@ -132,7 +128,7 @@ function compileBinExpr(
   // TODO: Check for valid type pairs
   typechecker.throwIfPointer([t1, t2])
 
-  fEnv.instrs.push(util.binop(op))
+  fEnv.instrs.push(MICROCODE.binop(op))
   return {
     t: DataType.LONG,
     typeList: [DataType.LONG]
@@ -158,10 +154,10 @@ function compileUpdateExpr(
   // TODO: This does not consider prefix or post
   // This field is found in `expr`
   fEnv.instrs.push(
-    util.movImm(8, '2s'),
-    util.binop('+'),
-    util.movMemToMem(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
-    util.offsetRSP(-8)
+    MICROCODE.movImm(8, '2s'),
+    MICROCODE.binop('+'),
+    MICROCODE.movMemToMem(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
+    MICROCODE.offsetRSP(-8)
   )
 
   return {
@@ -177,7 +173,7 @@ function compileAddrOfExpr(
 ): CompileType {
   if (expr.expression.type === 'Identifier') {
     const v = getVar(expr.expression.name, fEnv, gEnv)
-    fEnv.instrs.push(util.leal(['rbp', v.offset], ['rsp', 0]), util.offsetRSP(8))
+    fEnv.instrs.push(MICROCODE.leal(['rbp', v.offset], ['rsp', 0]), MICROCODE.offsetRSP(8))
     return {
       t: v.typeList[v.typeList.length - 1] as DataType,
       typeList: ['*', ...v.typeList]
@@ -198,7 +194,10 @@ function compileValueOfExpr(
   // Check that the expr is indeed a pointer
   typechecker.throwIfNotPointer([t])
 
-  fEnv.instrs.push(util.movMemToReg('rax', ['rsp', -8]), util.movMemToMem(['rax', 0], ['rsp', -8]))
+  fEnv.instrs.push(
+    MICROCODE.movMemToReg('rax', ['rsp', -8]),
+    MICROCODE.movMemToMem(['rax', 0], ['rsp', -8])
+  )
 
   // Remove the top most * in the pointerList
   // To reflect that one 'hop' has been done
@@ -218,7 +217,7 @@ function compileUnaryExpr(
   }
 
   const t = compileExpr(expr.argument, fEnv, gEnv)
-  fEnv.instrs.push(util.unop(expr.operator))
+  fEnv.instrs.push(MICROCODE.unop(expr.operator))
 
   if (expr.operator === '!') {
     return {
@@ -266,115 +265,21 @@ function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: Globa
   }
 
   // CALL pushes old rbp and return addr
-  fEnv.instrs.push({
-    type: 'CallCommand',
-    addr
-  })
+  fEnv.instrs.push(MICROCODE.call(addr))
 
   if (returnType[0] === DataType.STRUCT) {
     // need to handle struct return types carefully
   } else {
     fEnv.instrs.push(
-      util.offsetRSP(-argSize), // remove all args
-      util.movRegToMem(['rax', 0], ['rsp', 0]), // push function return onto stack
-      util.offsetRSP(8)
+      MICROCODE.offsetRSP(-argSize), // remove all args
+      MICROCODE.movRegToMem(['rax', 0], ['rsp', 0]), // push function return onto stack
+      MICROCODE.offsetRSP(8)
     )
   }
 
   return {
     t: returnType[returnType.length - 1] as DataType,
     typeList: returnType
-  }
-}
-
-type RegOffset = ['rsp' | 'rbp' | 'rax', number]
-
-const util = {
-  movImm: (value: number, encoding: '2s' | 'ieee'): MovImmediateCommand => {
-    return {
-      type: 'MovImmediateCommand',
-      value,
-      encoding
-    }
-  },
-
-  movMemToMem: (from: RegOffset, to: RegOffset): MovCommand => {
-    return {
-      type: 'MovCommand',
-      from: {
-        type: 'relative',
-        reg: from[0],
-        offset: from[1]
-      },
-      to: {
-        type: 'relative',
-        reg: to[0],
-        offset: to[1]
-      }
-    }
-  },
-
-  movMemToReg: (reg: 'rbp' | 'rax', from: RegOffset): MovCommand => ({
-    type: 'MovCommand',
-    from: {
-      type: 'relative',
-      reg: from[0],
-      offset: from[1]
-    },
-    to: {
-      type: 'register',
-      reg
-    }
-  }),
-
-  movRegToMem: (reg: RegOffset, mem: RegOffset): MovCommand => ({
-    type: 'MovCommand',
-    from: {
-      type: 'register',
-      reg: reg[0],
-      offset: reg[1]
-    },
-    to: {
-      type: 'relative',
-      reg: mem[0],
-      offset: mem[1]
-    }
-  }),
-
-  offsetRSP: (value: number): OffsetRspCommand => {
-    return {
-      type: 'OffsetRspCommand',
-      value
-    }
-  },
-
-  binop: (op: string): BinopCommand => {
-    // TODO: Validate
-    return {
-      type: 'BinopCommand',
-      op: op as BinopCommand['op']
-    }
-  },
-
-  leal: (from: RegOffset, to: RegOffset): LeaCommand => {
-    return {
-      type: 'LeaCommand',
-      value: {
-        reg: from[0],
-        offset: from[1]
-      },
-      dest: {
-        reg: to[0],
-        offset: to[1]
-      }
-    }
-  },
-
-  unop: (op: '!' | '-'): UnopCommand => {
-    return {
-      type: 'UnopCommand',
-      op
-    }
   }
 }
 

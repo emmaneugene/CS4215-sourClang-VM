@@ -4,6 +4,7 @@ import { BUILT_IN_COMMANDS, BUILT_IN_FX_NAMES } from '../interpreter/builtin'
 import { DataType } from '../typings/datatype'
 import { Microcode } from '../typings/microcode'
 import { CompileTimeError } from './error'
+import { MICROCODE } from './microcode'
 
 export type Frame = Record<string, VariableInfo>
 
@@ -51,7 +52,9 @@ export interface FunctionInfo {
  *
  * prev_rbp is set at runtime.
  */
+
 export class FunctionCTE {
+  static dummy = new FunctionCTE('<dummy>', [], [], 0)
   /**
    * The name of the function.
    */
@@ -181,6 +184,8 @@ export class GlobalCTE {
 
   readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
 
+  // when main function is called, we need to exit the process
+  // https://linux.die.net/man/2/exit
   combinedInstrs: Microcode[] = [
     {
       type: 'ExitCommand'
@@ -252,28 +257,10 @@ export class GlobalCTE {
     if (fEnv.name !== 'main') {
       return
     }
-
     fEnv.instrs.push(
-      {
-        type: 'MovImmediateCommand',
-        value: 0,
-        encoding: '2s'
-      },
-      {
-        type: 'MovCommand',
-        from: {
-          type: 'relative',
-          reg: 'rsp',
-          offset: -8
-        },
-        to: {
-          type: 'register',
-          reg: 'rax'
-        }
-      },
-      {
-        type: 'ReturnCommand'
-      }
+      MICROCODE.movImm(0, '2s'),
+      MICROCODE.movMemToReg('rax', ['rsp', -8]),
+      MICROCODE.return
     )
   }
 }

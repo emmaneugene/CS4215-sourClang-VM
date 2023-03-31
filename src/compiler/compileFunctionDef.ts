@@ -3,6 +3,7 @@ import * as es from 'estree'
 import { compileBlkStmt } from './compileStmt'
 import { FunctionCTE, GlobalCTE, VariableInfo } from './compileTimeEnv'
 import { CompileTimeError } from './error'
+import { MICROCODE } from './microcode'
 
 /**
  * Compiles a function declaration node into a `FunctionCTE` object and adds it to the global compile-time environment.
@@ -21,19 +22,13 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
 
   // alloc space on the stack for
   // all of this function's declarations
-  fEnv.instrs.push({
-    type: 'OffsetRspCommand',
-    value: localVarSize
-  })
+  fEnv.instrs.push(MICROCODE.offsetRSP(localVarSize))
 
   compileBlkStmt(node.body, fEnv, gEnv)
 
   // free all the space used for this
   // function's declarations
-  fEnv.instrs.push({
-    type: 'OffsetRspCommand',
-    value: -localVarSize
-  })
+  fEnv.instrs.push(MICROCODE.offsetRSP(-localVarSize))
 
   gEnv.addFunction(fEnv)
 }
@@ -93,14 +88,5 @@ function countLocalVarSize(stmts: es.Statement[]): number {
     }
   }
 
-  return sum
-}
-
-function countArgSize(vars: VariableInfo[]): number {
-  let sum = 0
-  for (const v of vars) {
-    // TODO: Factor in structs
-    sum += 8
-  }
   return sum
 }
