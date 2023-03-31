@@ -4,6 +4,14 @@ import { compileBlkStmt } from './compileStmt'
 import { FunctionCTE, GlobalCTE, VariableInfo } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
+/**
+ * Compiles a function declaration node into a `FunctionCTE` object and adds it to the global compile-time environment.
+ *
+ * @param {es.FunctionDeclaration} node - The function declaration node to compile.
+ * @param {GlobalCTE} gEnv - The global compile-time environment to add the compiled function to.
+ *
+ * @throws {CompileTimeError} If the function's name or parameter types are invalid.
+ */
 export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE): void {
   const { name, typeList } = node.id!
   const paramLs = getParamsAsLs(node.params)
@@ -30,6 +38,12 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
   gEnv.addFunction(fEnv)
 }
 
+/**
+ * Converts an array of function parameters to an array of `VariableInfo` objects.
+ * @param {es.Pattern[]} params - An array of function parameters to convert.
+ * @returns {VariableInfo[]} - An array of `VariableInfo` objects, each representing a parameter.
+ * @throws {CompileTimeError} - If a parameter is not an `Identifier` type.
+ */
 function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {
   const rv: VariableInfo[] = []
   let currArgOffset = -8
@@ -47,6 +61,11 @@ function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {
   return rv
 }
 
+/**
+ * Calculates the total size of local variables declared in an array of statements.
+ * @param {es.Statement[]} stmts - An array of statements to analyze.
+ * @returns {number} - The total size of local variables, in bytes.
+ */
 function countLocalVarSize(stmts: es.Statement[]): number {
   let sum = 0
   for (const stmt of stmts) {
