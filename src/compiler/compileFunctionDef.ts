@@ -26,10 +26,6 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
 
   compileBlkStmt(node.body, fEnv, gEnv)
 
-  // free all the space used for this
-  // function's declarations
-  fEnv.instrs.push(MICROCODE.offsetRSP(-localVarSize))
-
   gEnv.addFunction(fEnv)
 }
 

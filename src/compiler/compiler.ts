@@ -1,5 +1,6 @@
 import * as es from 'estree'
 
+import { loadBuiltInFunctions } from '../interpreter/builtin'
 import { compileFunctionDef } from './compileFunctionDef'
 import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
@@ -11,8 +12,15 @@ import { CompileTimeError } from './error'
  * This is the integration point between the "compiler" and the rest of this codebase.
  */
 export function compile(ast: es.Program): GlobalCTE | undefined {
+  if (ast.loc?.source === '') {
+    // handle the case when the program is empty
+    return
+  }
+
   const stmts = ast.body as es.Statement[]
+
   const gEnv = new GlobalCTE()
+  loadBuiltInFunctions(gEnv)
 
   for (const stmt of stmts) {
     if (stmt.type === 'FunctionDeclaration') {
@@ -32,11 +40,6 @@ export function compile(ast: es.Program): GlobalCTE | undefined {
     }
 
     throw new CompileTimeError()
-  }
-
-  // Handle the case when it is an empty program
-  if (Object.keys(gEnv.functions).length === 0) {
-    return
   }
 
   const main = gEnv.functions['main']
