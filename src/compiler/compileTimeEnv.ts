@@ -1,6 +1,5 @@
 import * as es from 'estree'
 
-import { BUILT_IN_COMMANDS, BUILT_IN_FX_NAMES } from '../interpreter/builtin'
 import { DataType } from '../typings/datatype'
 import { Microcode } from '../typings/microcode'
 import { CompileTimeError } from './error'
@@ -192,10 +191,6 @@ export class GlobalCTE {
     }
   ]
 
-  constructor() {
-    this.initBuiltInFunctions()
-  }
-
   getVar(sym: string): VariableInfo | undefined {
     return
   }
@@ -231,18 +226,6 @@ export class GlobalCTE {
       params: fxInfo.params.map(t => t[1]),
       returnType: fxInfo.returnType,
       addr: this.functionAddr[name]
-    }
-  }
-
-  /**
-   * Loads the built in functions and assigns them
-   * an address.
-   */
-  private initBuiltInFunctions(): void {
-    for (const name of BUILT_IN_FX_NAMES) {
-      this.functionAddr[name] = BigInt(this.combinedInstrs.length)
-
-      this.combinedInstrs.push(...BUILT_IN_COMMANDS[name])
     }
   }
 

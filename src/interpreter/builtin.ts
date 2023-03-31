@@ -1,17 +1,34 @@
+import { FunctionCTE, GlobalCTE } from '../compiler/compileTimeEnv'
+import { DataType } from '../typings/datatype'
 import { Context } from './../types'
-import { BuiltInFxName, Microcode } from './../typings/microcode'
-
-export const BUILT_IN_FX_NAMES = ['printf', 'scanf', 'malloc', 'free']
+import { BuiltInFxName } from './../typings/microcode'
 
 /**
- * A list of the built-in functions to be inserted into
+ * Built-in functions to be inserted into
  * the GlobalCTE.
  */
-export const BUILT_IN_COMMANDS: Record<BuiltInFxName, Microcode[]> = {
-  printf: [{ type: 'ExecuteBuiltInFxCommand', name: 'printf' }, { type: 'ReturnCommand' }],
-  scanf: [{ type: 'ExecuteBuiltInFxCommand', name: 'scanf' }, { type: 'ReturnCommand' }],
-  malloc: [{ type: 'ExecuteBuiltInFxCommand', name: 'malloc' }, { type: 'ReturnCommand' }],
-  free: [{ type: 'ExecuteBuiltInFxCommand', name: 'free' }, { type: 'ReturnCommand' }]
+const PRINTF_CTE = new FunctionCTE('printf', [DataType.INT], [], 0)
+PRINTF_CTE.instrs = [{ type: 'ExecuteBuiltInFxCommand', name: 'printf' }, { type: 'ReturnCommand' }]
+
+const SCANF_CTE = new FunctionCTE('scanf', [DataType.INT], [], 0)
+SCANF_CTE.instrs = [{ type: 'ExecuteBuiltInFxCommand', name: 'scanf' }, { type: 'ReturnCommand' }]
+
+const MALLOC_CTE = new FunctionCTE('malloc', ['*', DataType.VOID], [], 0)
+MALLOC_CTE.instrs = [{ type: 'ExecuteBuiltInFxCommand', name: 'malloc' }, { type: 'ReturnCommand' }]
+
+const FREE_CTE = new FunctionCTE('free', [DataType.VOID], [], 0)
+FREE_CTE.instrs = [{ type: 'ExecuteBuiltInFxCommand', name: 'free' }, { type: 'ReturnCommand' }]
+
+/**
+ * Inserts the `BUILT_IN_COMMANDS` into the given global environment.
+ *
+ * @param gEnv The global environment to load into
+ */
+export function loadBuiltInFunctions(gEnv: GlobalCTE): void {
+  gEnv.addFunction(PRINTF_CTE)
+  gEnv.addFunction(SCANF_CTE)
+  gEnv.addFunction(MALLOC_CTE)
+  gEnv.addFunction(FREE_CTE)
 }
 
 /**

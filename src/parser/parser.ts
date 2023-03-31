@@ -6,11 +6,20 @@ import { SourCParser2 } from '../lang/SourCParser2'
 import { Context, ErrorSeverity } from '../types'
 import { ProgramContext } from './../lang/SourCParser2'
 import { FatalSyntaxError } from './error'
+import { contextToLocation } from './parser.util'
 import { Visitor } from './visitor'
 
-function convertSource(ctx: ProgramContext): es.Program {
+function convertSource(source: string, ctx: ProgramContext): es.Program {
   const visitor = new Visitor()
-  return visitor.visit(ctx) as es.Program
+  const program = visitor.visit(ctx) as es.Program
+
+  // hack to check for empty program
+  program.loc = {
+    ...contextToLocation(ctx),
+    source
+  }
+
+  return program
 }
 
 export function parse(source: string, context: Context) {
@@ -24,7 +33,7 @@ export function parse(source: string, context: Context) {
     parser.buildParseTree = true
     try {
       const tree = parser.program()
-      program = convertSource(tree)
+      program = convertSource(source, tree)
     } catch (error) {
       if (error instanceof FatalSyntaxError) {
         context.errors.push(error)

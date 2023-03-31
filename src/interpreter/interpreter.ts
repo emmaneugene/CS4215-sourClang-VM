@@ -339,7 +339,9 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * @param cmd
    * @param ctx
    */
-  ExecuteBuiltInFxCommand: function* (cmd, ctx) {},
+  ExecuteBuiltInFxCommand: function* (cmd, ctx) {
+    ctx.cVmContext.PC++
+  },
 
   /**
    * Processes the `PushCommand` microcode within the context of a running

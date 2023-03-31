@@ -284,6 +284,17 @@ Object {
     "column": 22,
     "line": 1,
   },
+  "loc": Object {
+    "end": Object {
+      "column": 22,
+      "line": 1,
+    },
+    "source": "int foo() { return 10;} ",
+    "start": Object {
+      "column": 0,
+      "line": 1,
+    },
+  },
   "sourceType": "script",
   "start": Object {
     "column": 0,

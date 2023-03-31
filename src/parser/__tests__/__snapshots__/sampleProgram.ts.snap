@@ -441,6 +441,27 @@ Object {
     "column": 0,
     "line": 10,
   },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 10,
+    },
+    "source": "
+int main() {
+  float celsius;
+  int fahrenheit;
+  printf(\\"Enter temperature in Celsius: \\");
+  scanf(\\"%f\\", &celsius);
+  fahrenheit = (celsius * 9 / 5) + 32;
+  printf(\\"%.2f Celsius = %.2f Fahrenheit\\", celsius, fahrenheit);
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
+  },
   "sourceType": "script",
   "start": Object {
     "column": 0,
@@ -929,6 +950,26 @@ Object {
     "column": 0,
     "line": 9,
   },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 9,
+    },
+    "source": "
+int main() {
+  int list[] = {1, 2, 3};
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = list[i + (-1) + 1] * 10;
+  }
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
+  },
   "sourceType": "script",
   "start": Object {
     "column": 0,
@@ -1307,6 +1348,26 @@ Object {
     "column": 0,
     "line": 9,
   },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 9,
+    },
+    "source": "
+int main() {
+  int list[3] = { 1 };
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = i * 10;
+  }
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
+  },
   "sourceType": "script",
   "start": Object {
     "column": 0,
@@ -1666,6 +1727,26 @@ Object {
   "end": Object {
     "column": 0,
     "line": 9,
+  },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 9,
+    },
+    "source": "
+int main() {
+  int list[3];
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = i * 10;
+  }
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
   },
   "sourceType": "script",
   "start": Object {
@@ -2248,6 +2329,30 @@ Object {
   "end": Object {
     "column": 0,
     "line": 13,
+  },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 13,
+    },
+    "source": "
+int main() {
+  int num;
+  int i;
+  int fact = 1;
+  printf(\\"Enter a number: \\");
+  scanf(\\"%d\\", &num);
+  for(i=1; i<=num; i++) {
+      fact = fact * i;
+  }
+  printf(\\"Factorial of %d is %d\\", num, fact);
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
   },
   "sourceType": "script",
   "start": Object {
@@ -3017,6 +3122,35 @@ Object {
     "column": 0,
     "line": 18,
   },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 18,
+    },
+    "source": "
+int main() {
+  int num;
+  int i;
+  int t1=0;
+  int t2=1;
+  int nextTerm;
+  printf(\\"Enter the number of terms: \\");
+  scanf(\\"%d\\", &num);
+  printf(\\"Fibonacci Series: \\");
+  for(i=1; i<=num; i++) {
+      printf(\\"%d, \\", t1);
+      nextTerm = t1 + t2;
+      t1 = t2;
+      t2 = nextTerm;
+  }
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
+  },
   "sourceType": "script",
   "start": Object {
     "column": 0,
@@ -3550,6 +3684,30 @@ Object {
   "end": Object {
     "column": 0,
     "line": 13,
+  },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 13,
+    },
+    "source": "
+int main() {
+  int num1;
+  int num2;
+  int sum;
+  printf(\\"Enter first number: \\");
+  scanf(\\"%d\\", &num1);
+  printf(\\"Enter second number: \\");
+  scanf(\\"%d\\", &num2);
+  sum = num1 + num2;
+  printf(\\"Sum is %d\\", sum);
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
   },
   "sourceType": "script",
   "start": Object {
@@ -4318,6 +4476,34 @@ Object {
     "column": 0,
     "line": 17,
   },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 17,
+    },
+    "source": "
+int main() {
+  int num1;
+  int num2;
+  printf(\\"Enter two numbers: \\");
+  scanf(\\"%d %d\\", &num1, &num2);
+  printf(\\"Before swap: num1 = %d, num2 = %d\\\\n\\", num1, num2);
+  swap(&num1, &num2);
+  printf(\\"After swap: num1 = %d, num2 = %d\\\\n\\", num1, num2);
+  return 0;
+}
+void swap(int *a, int *b) {
+  int temp;
+  temp = *a;
+  *a = *b;
+  *b = temp;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
+  },
   "sourceType": "script",
   "start": Object {
     "column": 0,
@@ -4442,6 +4628,22 @@ Object {
   "end": Object {
     "column": 0,
     "line": 5,
+  },
+  "loc": Object {
+    "end": Object {
+      "column": 0,
+      "line": 5,
+    },
+    "source": "
+int main() {
+  printf(\\"Hello, World!\\");
+  return 0;
+}
+",
+    "start": Object {
+      "column": 0,
+      "line": 2,
+    },
   },
   "sourceType": "script",
   "start": Object {

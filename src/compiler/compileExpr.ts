@@ -244,8 +244,9 @@ function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: Globa
   const { returnType, params, addr } = getFxDecl(fnName, gEnv)
   let argSize = 0
 
-  // The caller didn't provide enough args for this function call
-  if (args.length !== params.length) throw new CompileTimeError()
+  // The user didn't provide enough args for this function call
+  // The user could provide more args than requested
+  // if (args.length < params.length) throw new CompileTimeError()
 
   // push onto stack in reverse over
   for (let i = args.length - 1; i >= 0; i--) {
