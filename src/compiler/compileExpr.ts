@@ -4,6 +4,7 @@ import { DataType } from './../typings/datatype'
 import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
+import { getUpdateSize } from './util'
 
 export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
   if (node.type === 'Literal') {
@@ -126,7 +127,7 @@ function compileBinExpr(
   const t2 = compileExpr(expr.right, fEnv, gEnv)
 
   // TODO: Check for valid type pairs
-  typechecker.throwIfPointer([t1, t2])
+  // typechecker.throwIfPointer([t1, t2])
 
   fEnv.instrs.push(MICROCODE.binop(op))
   return {
@@ -151,18 +152,42 @@ function compileUpdateExpr(
     throw new CompileTimeError()
   }
 
-  // TODO: This does not consider prefix or post
-  // This field is found in `expr`
-  fEnv.instrs.push(
-    MICROCODE.movImm(8, '2s'),
-    MICROCODE.binop('+'),
-    MICROCODE.movMemToMem(['rsp', -8], ['rbp', getVar(ident.name, fEnv, gEnv).offset]),
-    MICROCODE.offsetRSP(-8)
-  )
+  const varInfo = getVar(ident.name, fEnv, gEnv)
+
+  if (expr.prefix) {
+    // if prefix e.g. ++x
+    fEnv.instrs.push(
+      // 1. perform update (increment or decrement)
+      MICROCODE.movMemToMem(['rbp', varInfo.offset], ['rsp', 0]),
+      MICROCODE.offsetRSP(8),
+      MICROCODE.movImm(getUpdateSize(varInfo.typeList), '2s'),
+      MICROCODE.binop('+'),
+      // 2. save the updated value
+      MICROCODE.movMemToMem(['rsp', -8], ['rbp', varInfo.offset])
+      // 3. the top of stack already has the updated variable value
+    )
+  } else {
+    // if postfix
+    fEnv.instrs.push(
+      // 1. push the variable's old data onto stack
+      MICROCODE.movMemToMem(['rbp', varInfo.offset], ['rsp', 0]),
+      MICROCODE.offsetRSP(8),
+      // 2. perform update (increment or decrement)
+      // we need a copy of the variable since binop overrides it
+      MICROCODE.movMemToMem(['rbp', varInfo.offset], ['rsp', 0]),
+      MICROCODE.offsetRSP(8),
+      MICROCODE.movImm(getUpdateSize(varInfo.typeList), '2s'),
+      MICROCODE.binop('+'),
+      // 3. save the updated value
+      // ensure that top tof stack has updated variable value
+      MICROCODE.movMemToMem(['rsp', -8], ['rbp', varInfo.offset]),
+      MICROCODE.offsetRSP(-8)
+    )
+  }
 
   return {
-    t: DataType.LONG,
-    typeList: [DataType.LONG]
+    t: varInfo.typeList[varInfo.typeList.length - 1] as DataType,
+    typeList: varInfo.typeList
   }
 }
 
