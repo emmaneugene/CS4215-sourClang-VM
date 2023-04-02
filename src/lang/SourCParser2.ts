@@ -2,24 +2,25 @@
 
 import { ATN } from 'antlr4ts/atn/ATN'
 import { ATNDeserializer } from 'antlr4ts/atn/ATNDeserializer'
-import { ParserATNSimulator } from 'antlr4ts/atn/ParserATNSimulator'
-import { NotNull } from 'antlr4ts/Decorators'
-import { Override } from 'antlr4ts/Decorators'
 import { FailedPredicateException } from 'antlr4ts/FailedPredicateException'
-import * as Utils from 'antlr4ts/misc/Utils'
+import { NotNull } from 'antlr4ts/Decorators'
 import { NoViableAltException } from 'antlr4ts/NoViableAltException'
+import { Override } from 'antlr4ts/Decorators'
 import { Parser } from 'antlr4ts/Parser'
 import { ParserRuleContext } from 'antlr4ts/ParserRuleContext'
-import { RecognitionException } from 'antlr4ts/RecognitionException'
-import { RuleContext } from 'antlr4ts/RuleContext'
-import { Token } from 'antlr4ts/Token'
-import { TokenStream } from 'antlr4ts/TokenStream'
+import { ParserATNSimulator } from 'antlr4ts/atn/ParserATNSimulator'
 import { ParseTreeListener } from 'antlr4ts/tree/ParseTreeListener'
 import { ParseTreeVisitor } from 'antlr4ts/tree/ParseTreeVisitor'
+import { RecognitionException } from 'antlr4ts/RecognitionException'
+import { RuleContext } from 'antlr4ts/RuleContext'
 //import { RuleVersion } from "antlr4ts/RuleVersion";
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
+import { Token } from 'antlr4ts/Token'
+import { TokenStream } from 'antlr4ts/TokenStream'
 import { Vocabulary } from 'antlr4ts/Vocabulary'
 import { VocabularyImpl } from 'antlr4ts/VocabularyImpl'
+
+import * as Utils from 'antlr4ts/misc/Utils'
 
 import { SourCParser2Listener } from './SourCParser2Listener'
 import { SourCParser2Visitor } from './SourCParser2Visitor'
@@ -314,7 +315,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public type(): TypeContext {
-    const _localctx: TypeContext = new TypeContext(this._ctx, this.state)
+    let _localctx: TypeContext = new TypeContext(this._ctx, this.state)
     this.enterRule(_localctx, 0, SourCParser2.RULE_type)
     let _la: number
     try {
@@ -361,7 +362,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public typeNameList(): TypeNameListContext {
-    const _localctx: TypeNameListContext = new TypeNameListContext(this._ctx, this.state)
+    let _localctx: TypeNameListContext = new TypeNameListContext(this._ctx, this.state)
     this.enterRule(_localctx, 2, SourCParser2.RULE_typeNameList)
     try {
       let _alt: number
@@ -403,7 +404,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public program(): ProgramContext {
-    const _localctx: ProgramContext = new ProgramContext(this._ctx, this.state)
+    let _localctx: ProgramContext = new ProgramContext(this._ctx, this.state)
     this.enterRule(_localctx, 4, SourCParser2.RULE_program)
     let _la: number
     try {
@@ -452,7 +453,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public programStmt(): ProgramStmtContext {
-    const _localctx: ProgramStmtContext = new ProgramStmtContext(this._ctx, this.state)
+    let _localctx: ProgramStmtContext = new ProgramStmtContext(this._ctx, this.state)
     this.enterRule(_localctx, 6, SourCParser2.RULE_programStmt)
     try {
       this.state = 58
@@ -491,10 +492,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public functionDefinition(): FunctionDefinitionContext {
-    const _localctx: FunctionDefinitionContext = new FunctionDefinitionContext(
-      this._ctx,
-      this.state
-    )
+    let _localctx: FunctionDefinitionContext = new FunctionDefinitionContext(this._ctx, this.state)
     this.enterRule(_localctx, 8, SourCParser2.RULE_functionDefinition)
     let _la: number
     try {
@@ -549,7 +547,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public paramLs(): ParamLsContext {
-    const _localctx: ParamLsContext = new ParamLsContext(this._ctx, this.state)
+    let _localctx: ParamLsContext = new ParamLsContext(this._ctx, this.state)
     this.enterRule(_localctx, 10, SourCParser2.RULE_paramLs)
     try {
       let _alt: number
@@ -593,7 +591,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public param(): ParamContext {
-    const _localctx: ParamContext = new ParamContext(this._ctx, this.state)
+    let _localctx: ParamContext = new ParamContext(this._ctx, this.state)
     this.enterRule(_localctx, 12, SourCParser2.RULE_param)
     try {
       this.enterOuterAlt(_localctx, 1)
@@ -618,7 +616,7 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public compoundStatement(): CompoundStatementContext {
-    const _localctx: CompoundStatementContext = new CompoundStatementContext(this._ctx, this.state)
+    let _localctx: CompoundStatementContext = new CompoundStatementContext(this._ctx, this.state)
     this.enterRule(_localctx, 14, SourCParser2.RULE_compoundStatement)
     let _la: number
     try {
@@ -696,7 +694,7 @@ export class SourCParser2 extends Parser {
     this.enterRule(_localctx, 16, SourCParser2.RULE_stmt)
     let _la: number
     try {
-      this.state = 140
+      this.state = 141
       this._errHandler.sync(this)
       switch (this.interpreter.adaptivePredict(this._input, 11, this._ctx)) {
         case 1:
@@ -833,34 +831,26 @@ export class SourCParser2 extends Parser {
 
             this.state = 125
             this.match(SourCParser2.Semi)
-            this.state = 127
+            this.state = 128
             this._errHandler.sync(this)
-            _la = this._input.LA(1)
-            if (
-              _la === SourCParser2.Sizeof ||
-              _la === SourCParser2.LeftParen ||
-              (((_la - 35) & ~0x1f) === 0 &&
-                ((1 << (_la - 35)) &
-                  ((1 << (SourCParser2.PlusPlus - 35)) |
-                    (1 << (SourCParser2.Minus - 35)) |
-                    (1 << (SourCParser2.MinusMinus - 35)) |
-                    (1 << (SourCParser2.Star - 35)) |
-                    (1 << (SourCParser2.And - 35)) |
-                    (1 << (SourCParser2.Not - 35)) |
-                    (1 << (SourCParser2.Identifier - 35)) |
-                    (1 << (SourCParser2.Constant - 35)) |
-                    (1 << (SourCParser2.StringLiteral - 35)))) !==
-                  0)
-            ) {
-              {
-                this.state = 126
-                ;(_localctx as ForStmtContext)._incr = this.expr(0)
-              }
-            }
+            switch (this.interpreter.adaptivePredict(this._input, 9, this._ctx)) {
+              case 1:
+                {
+                  this.state = 126
+                  ;(_localctx as ForStmtContext)._incrExpr = this.expr(0)
+                }
+                break
 
-            this.state = 129
-            this.match(SourCParser2.RightParen)
+              case 2:
+                {
+                  this.state = 127
+                  ;(_localctx as ForStmtContext)._incrAssgn = this.assignment()
+                }
+                break
+            }
             this.state = 130
+            this.match(SourCParser2.RightParen)
+            this.state = 131
             this.compoundStatement()
           }
           break
@@ -869,9 +859,9 @@ export class SourCParser2 extends Parser {
           _localctx = new ReturnExprContext(_localctx)
           this.enterOuterAlt(_localctx, 8)
           {
-            this.state = 131
+            this.state = 132
             this.match(SourCParser2.Return)
-            this.state = 133
+            this.state = 134
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (
@@ -891,12 +881,12 @@ export class SourCParser2 extends Parser {
                   0)
             ) {
               {
-                this.state = 132
+                this.state = 133
                 this.expr(0)
               }
             }
 
-            this.state = 135
+            this.state = 136
             this.match(SourCParser2.Semi)
           }
           break
@@ -905,9 +895,9 @@ export class SourCParser2 extends Parser {
           _localctx = new BreakStmtContext(_localctx)
           this.enterOuterAlt(_localctx, 9)
           {
-            this.state = 136
-            this.match(SourCParser2.Break)
             this.state = 137
+            this.match(SourCParser2.Break)
+            this.state = 138
             this.match(SourCParser2.Semi)
           }
           break
@@ -916,9 +906,9 @@ export class SourCParser2 extends Parser {
           _localctx = new ContinueStmtContext(_localctx)
           this.enterOuterAlt(_localctx, 10)
           {
-            this.state = 138
-            this.match(SourCParser2.Continue)
             this.state = 139
+            this.match(SourCParser2.Continue)
+            this.state = 140
             this.match(SourCParser2.Semi)
           }
           break
@@ -945,18 +935,18 @@ export class SourCParser2 extends Parser {
       _p = 0
     }
 
-    const _parentctx: ParserRuleContext = this._ctx
-    const _parentState: number = this.state
+    let _parentctx: ParserRuleContext = this._ctx
+    let _parentState: number = this.state
     let _localctx: ExprContext = new ExprContext(this._ctx, _parentState)
     let _prevctx: ExprContext = _localctx
-    const _startState: number = 18
+    let _startState: number = 18
     this.enterRecursionRule(_localctx, 18, SourCParser2.RULE_expr, _p)
     let _la: number
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 175
+        this.state = 176
         this._errHandler.sync(this)
         switch (this.interpreter.adaptivePredict(this._input, 13, this._ctx)) {
           case 1:
@@ -965,9 +955,9 @@ export class SourCParser2 extends Parser {
               this._ctx = _localctx
               _prevctx = _localctx
 
-              this.state = 143
-              this.addressableOperands()
               this.state = 144
+              this.addressableOperands()
+              this.state = 145
               ;(_localctx as SuffixIncrContext)._suffix = this._input.LT(1)
               _la = this._input.LA(1)
               if (!(_la === SourCParser2.PlusPlus || _la === SourCParser2.MinusMinus)) {
@@ -988,11 +978,11 @@ export class SourCParser2 extends Parser {
               _localctx = new FunctionCallContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 146
-              this.match(SourCParser2.Identifier)
               this.state = 147
+              this.match(SourCParser2.Identifier)
+              this.state = 148
               this.match(SourCParser2.LeftParen)
-              this.state = 149
+              this.state = 150
               this._errHandler.sync(this)
               _la = this._input.LA(1)
               if (
@@ -1012,12 +1002,12 @@ export class SourCParser2 extends Parser {
                     0)
               ) {
                 {
-                  this.state = 148
+                  this.state = 149
                   this.seqExprLs()
                 }
               }
 
-              this.state = 151
+              this.state = 152
               this.match(SourCParser2.RightParen)
             }
             break
@@ -1027,7 +1017,7 @@ export class SourCParser2 extends Parser {
               _localctx = new PrefixIncrContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 152
+              this.state = 153
               ;(_localctx as PrefixIncrContext)._prefix = this._input.LT(1)
               _la = this._input.LA(1)
               if (!(_la === SourCParser2.PlusPlus || _la === SourCParser2.MinusMinus)) {
@@ -1040,7 +1030,7 @@ export class SourCParser2 extends Parser {
                 this._errHandler.reportMatch(this)
                 this.consume()
               }
-              this.state = 153
+              this.state = 154
               this.addressableOperands()
             }
             break
@@ -1050,7 +1040,7 @@ export class SourCParser2 extends Parser {
               _localctx = new UnopContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 154
+              this.state = 155
               ;(_localctx as UnopContext)._unop = this._input.LT(1)
               _la = this._input.LA(1)
               if (!(_la === SourCParser2.Minus || _la === SourCParser2.Not)) {
@@ -1063,7 +1053,7 @@ export class SourCParser2 extends Parser {
                 this._errHandler.reportMatch(this)
                 this.consume()
               }
-              this.state = 155
+              this.state = 156
               this.expr(14)
             }
             break
@@ -1073,13 +1063,13 @@ export class SourCParser2 extends Parser {
               _localctx = new CastContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 156
-              this.match(SourCParser2.LeftParen)
               this.state = 157
-              this.type()
+              this.match(SourCParser2.LeftParen)
               this.state = 158
-              this.match(SourCParser2.RightParen)
+              this.type()
               this.state = 159
+              this.match(SourCParser2.RightParen)
+              this.state = 160
               this.expr(13)
             }
             break
@@ -1089,9 +1079,9 @@ export class SourCParser2 extends Parser {
               _localctx = new DereferenceContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 161
-              this.match(SourCParser2.Star)
               this.state = 162
+              this.match(SourCParser2.Star)
+              this.state = 163
               this.expr(12)
             }
             break
@@ -1101,9 +1091,9 @@ export class SourCParser2 extends Parser {
               _localctx = new AddressOfContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 163
-              this.match(SourCParser2.And)
               this.state = 164
+              this.match(SourCParser2.And)
+              this.state = 165
               this.expr(11)
             }
             break
@@ -1113,13 +1103,13 @@ export class SourCParser2 extends Parser {
               _localctx = new SizeofExprContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 165
-              this.match(SourCParser2.Sizeof)
               this.state = 166
-              this.match(SourCParser2.LeftParen)
+              this.match(SourCParser2.Sizeof)
               this.state = 167
-              this.sizeOfOperands()
+              this.match(SourCParser2.LeftParen)
               this.state = 168
+              this.sizeOfOperands()
+              this.state = 169
               this.match(SourCParser2.RightParen)
             }
             break
@@ -1129,11 +1119,11 @@ export class SourCParser2 extends Parser {
               _localctx = new ParenContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 170
-              this.match(SourCParser2.LeftParen)
               this.state = 171
-              this.expr(0)
+              this.match(SourCParser2.LeftParen)
               this.state = 172
+              this.expr(0)
+              this.state = 173
               this.match(SourCParser2.RightParen)
             }
             break
@@ -1143,13 +1133,13 @@ export class SourCParser2 extends Parser {
               _localctx = new PriIdentifierContext(_localctx)
               this._ctx = _localctx
               _prevctx = _localctx
-              this.state = 174
+              this.state = 175
               this.primaryIdentifier()
             }
             break
         }
         this._ctx._stop = this._input.tryLT(-1)
-        this.state = 203
+        this.state = 204
         this._errHandler.sync(this)
         _alt = this.interpreter.adaptivePredict(this._input, 15, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
@@ -1159,18 +1149,18 @@ export class SourCParser2 extends Parser {
             }
             _prevctx = _localctx
             {
-              this.state = 201
+              this.state = 202
               this._errHandler.sync(this)
               switch (this.interpreter.adaptivePredict(this._input, 14, this._ctx)) {
                 case 1:
                   {
                     _localctx = new MultContext(new ExprContext(_parentctx, _parentState))
                     this.pushNewRecursionContext(_localctx, _startState, SourCParser2.RULE_expr)
-                    this.state = 177
+                    this.state = 178
                     if (!this.precpred(this._ctx, 9)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 9)')
                     }
-                    this.state = 178
+                    this.state = 179
                     ;(_localctx as MultContext)._op = this._input.LT(1)
                     _la = this._input.LA(1)
                     if (
@@ -1192,7 +1182,7 @@ export class SourCParser2 extends Parser {
                       this._errHandler.reportMatch(this)
                       this.consume()
                     }
-                    this.state = 179
+                    this.state = 180
                     this.expr(10)
                   }
                   break
@@ -1201,11 +1191,11 @@ export class SourCParser2 extends Parser {
                   {
                     _localctx = new AddContext(new ExprContext(_parentctx, _parentState))
                     this.pushNewRecursionContext(_localctx, _startState, SourCParser2.RULE_expr)
-                    this.state = 180
+                    this.state = 181
                     if (!this.precpred(this._ctx, 8)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 8)')
                     }
-                    this.state = 181
+                    this.state = 182
                     ;(_localctx as AddContext)._op = this._input.LT(1)
                     _la = this._input.LA(1)
                     if (!(_la === SourCParser2.Plus || _la === SourCParser2.Minus)) {
@@ -1218,7 +1208,7 @@ export class SourCParser2 extends Parser {
                       this._errHandler.reportMatch(this)
                       this.consume()
                     }
-                    this.state = 182
+                    this.state = 183
                     this.expr(9)
                   }
                   break
@@ -1227,11 +1217,11 @@ export class SourCParser2 extends Parser {
                   {
                     _localctx = new RelOprContext(new ExprContext(_parentctx, _parentState))
                     this.pushNewRecursionContext(_localctx, _startState, SourCParser2.RULE_expr)
-                    this.state = 183
+                    this.state = 184
                     if (!this.precpred(this._ctx, 7)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 7)')
                     }
-                    this.state = 184
+                    this.state = 185
                     ;(_localctx as RelOprContext)._op = this._input.LT(1)
                     _la = this._input.LA(1)
                     if (
@@ -1254,7 +1244,7 @@ export class SourCParser2 extends Parser {
                       this._errHandler.reportMatch(this)
                       this.consume()
                     }
-                    this.state = 185
+                    this.state = 186
                     this.expr(8)
                   }
                   break
@@ -1263,11 +1253,11 @@ export class SourCParser2 extends Parser {
                   {
                     _localctx = new EqualityContext(new ExprContext(_parentctx, _parentState))
                     this.pushNewRecursionContext(_localctx, _startState, SourCParser2.RULE_expr)
-                    this.state = 186
+                    this.state = 187
                     if (!this.precpred(this._ctx, 6)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 6)')
                     }
-                    this.state = 187
+                    this.state = 188
                     ;(_localctx as EqualityContext)._op = this._input.LT(1)
                     _la = this._input.LA(1)
                     if (!(_la === SourCParser2.Equal || _la === SourCParser2.NotEqual)) {
@@ -1280,7 +1270,7 @@ export class SourCParser2 extends Parser {
                       this._errHandler.reportMatch(this)
                       this.consume()
                     }
-                    this.state = 188
+                    this.state = 189
                     this.expr(7)
                   }
                   break
@@ -1289,13 +1279,13 @@ export class SourCParser2 extends Parser {
                   {
                     _localctx = new AndContext(new ExprContext(_parentctx, _parentState))
                     this.pushNewRecursionContext(_localctx, _startState, SourCParser2.RULE_expr)
-                    this.state = 189
+                    this.state = 190
                     if (!this.precpred(this._ctx, 5)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 5)')
                     }
-                    this.state = 190
-                    ;(_localctx as AndContext)._op = this.match(SourCParser2.AndAnd)
                     this.state = 191
+                    ;(_localctx as AndContext)._op = this.match(SourCParser2.AndAnd)
+                    this.state = 192
                     this.expr(6)
                   }
                   break
@@ -1304,13 +1294,13 @@ export class SourCParser2 extends Parser {
                   {
                     _localctx = new OrContext(new ExprContext(_parentctx, _parentState))
                     this.pushNewRecursionContext(_localctx, _startState, SourCParser2.RULE_expr)
-                    this.state = 192
+                    this.state = 193
                     if (!this.precpred(this._ctx, 4)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 4)')
                     }
-                    this.state = 193
-                    ;(_localctx as OrContext)._op = this.match(SourCParser2.OrOr)
                     this.state = 194
+                    ;(_localctx as OrContext)._op = this.match(SourCParser2.OrOr)
+                    this.state = 195
                     this.expr(5)
                   }
                   break
@@ -1320,24 +1310,24 @@ export class SourCParser2 extends Parser {
                     _localctx = new TernaryContext(new ExprContext(_parentctx, _parentState))
                     ;(_localctx as TernaryContext)._cond = _prevctx
                     this.pushNewRecursionContext(_localctx, _startState, SourCParser2.RULE_expr)
-                    this.state = 195
+                    this.state = 196
                     if (!this.precpred(this._ctx, 2)) {
                       throw this.createFailedPredicateException('this.precpred(this._ctx, 2)')
                     }
-                    this.state = 196
-                    this.match(SourCParser2.Question)
                     this.state = 197
-                    ;(_localctx as TernaryContext)._cons = this.expr(0)
+                    this.match(SourCParser2.Question)
                     this.state = 198
-                    this.match(SourCParser2.Colon)
+                    ;(_localctx as TernaryContext)._cons = this.expr(0)
                     this.state = 199
+                    this.match(SourCParser2.Colon)
+                    this.state = 200
                     ;(_localctx as TernaryContext)._alt = this.expr(3)
                   }
                   break
               }
             }
           }
-          this.state = 205
+          this.state = 206
           this._errHandler.sync(this)
           _alt = this.interpreter.adaptivePredict(this._input, 15, this._ctx)
         }
@@ -1357,30 +1347,30 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public primaryIdentifier(): PrimaryIdentifierContext {
-    const _localctx: PrimaryIdentifierContext = new PrimaryIdentifierContext(this._ctx, this.state)
+    let _localctx: PrimaryIdentifierContext = new PrimaryIdentifierContext(this._ctx, this.state)
     this.enterRule(_localctx, 20, SourCParser2.RULE_primaryIdentifier)
     try {
-      this.state = 209
+      this.state = 210
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser2.Identifier:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 206
+            this.state = 207
             this.addressableOperands()
           }
           break
         case SourCParser2.Constant:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 207
+            this.state = 208
             this.match(SourCParser2.Constant)
           }
           break
         case SourCParser2.StringLiteral:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 208
+            this.state = 209
             this.match(SourCParser2.StringLiteral)
           }
           break
@@ -1402,31 +1392,31 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public sizeOfOperands(): SizeOfOperandsContext {
-    const _localctx: SizeOfOperandsContext = new SizeOfOperandsContext(this._ctx, this.state)
+    let _localctx: SizeOfOperandsContext = new SizeOfOperandsContext(this._ctx, this.state)
     this.enterRule(_localctx, 22, SourCParser2.RULE_sizeOfOperands)
     let _la: number
     try {
-      this.state = 229
+      this.state = 230
       this._errHandler.sync(this)
       switch (this.interpreter.adaptivePredict(this._input, 19, this._ctx)) {
         case 1:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 214
+            this.state = 215
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             while (_la === SourCParser2.Star) {
               {
                 {
-                  this.state = 211
+                  this.state = 212
                   this.match(SourCParser2.Star)
                 }
               }
-              this.state = 216
+              this.state = 217
               this._errHandler.sync(this)
               _la = this._input.LA(1)
             }
-            this.state = 217
+            this.state = 218
             this.type()
           }
           break
@@ -1434,21 +1424,21 @@ export class SourCParser2 extends Parser {
         case 2:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 221
+            this.state = 222
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             while (_la === SourCParser2.Star) {
               {
                 {
-                  this.state = 218
+                  this.state = 219
                   this.match(SourCParser2.Star)
                 }
               }
-              this.state = 223
+              this.state = 224
               this._errHandler.sync(this)
               _la = this._input.LA(1)
             }
-            this.state = 224
+            this.state = 225
             this.match(SourCParser2.Identifier)
           }
           break
@@ -1456,9 +1446,9 @@ export class SourCParser2 extends Parser {
         case 3:
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 225
-            this.match(SourCParser2.And)
             this.state = 226
+            this.match(SourCParser2.And)
+            this.state = 227
             this.match(SourCParser2.Identifier)
           }
           break
@@ -1466,9 +1456,9 @@ export class SourCParser2 extends Parser {
         case 4:
           this.enterOuterAlt(_localctx, 4)
           {
-            this.state = 227
-            this.match(SourCParser2.Struct)
             this.state = 228
+            this.match(SourCParser2.Struct)
+            this.state = 229
             this.match(SourCParser2.Identifier)
           }
           break
@@ -1492,25 +1482,25 @@ export class SourCParser2 extends Parser {
     this.enterRule(_localctx, 24, SourCParser2.RULE_declaration)
     let _la: number
     try {
-      this.state = 274
+      this.state = 275
       this._errHandler.sync(this)
       switch (this.interpreter.adaptivePredict(this._input, 26, this._ctx)) {
         case 1:
           _localctx = new VariableDeclContext(_localctx)
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 231
-            this.typeDef()
             this.state = 232
+            this.typeDef()
+            this.state = 233
             this.match(SourCParser2.Identifier)
-            this.state = 238
+            this.state = 239
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (_la === SourCParser2.Assign) {
               {
-                this.state = 233
+                this.state = 234
                 this.match(SourCParser2.Assign)
-                this.state = 236
+                this.state = 237
                 this._errHandler.sync(this)
                 switch (this._input.LA(1)) {
                   case SourCParser2.Sizeof:
@@ -1525,13 +1515,13 @@ export class SourCParser2 extends Parser {
                   case SourCParser2.Constant:
                   case SourCParser2.StringLiteral:
                     {
-                      this.state = 234
+                      this.state = 235
                       this.expr(0)
                     }
                     break
                   case SourCParser2.LeftBrace:
                     {
-                      this.state = 235
+                      this.state = 236
                       this.exprLs()
                     }
                     break
@@ -1547,32 +1537,32 @@ export class SourCParser2 extends Parser {
           _localctx = new ArrayDeclContext(_localctx)
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 240
-            this.typeDef()
             this.state = 241
-            this.match(SourCParser2.Identifier)
+            this.typeDef()
             this.state = 242
+            this.match(SourCParser2.Identifier)
+            this.state = 243
             this.match(SourCParser2.LeftBracket)
-            this.state = 244
+            this.state = 245
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (_la === SourCParser2.Constant) {
               {
-                this.state = 243
+                this.state = 244
                 this.match(SourCParser2.Constant)
               }
             }
 
-            this.state = 246
+            this.state = 247
             this.match(SourCParser2.RightBracket)
-            this.state = 249
+            this.state = 250
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (_la === SourCParser2.Assign) {
               {
-                this.state = 247
-                this.match(SourCParser2.Assign)
                 this.state = 248
+                this.match(SourCParser2.Assign)
+                this.state = 249
                 this.exprLs()
               }
             }
@@ -1583,19 +1573,19 @@ export class SourCParser2 extends Parser {
           _localctx = new FxPointerDeclContext(_localctx)
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 251
-            this.typeDef()
             this.state = 252
-            this.match(SourCParser2.LeftParen)
+            this.typeDef()
             this.state = 253
-            this.match(SourCParser2.Star)
-            this.state = 254
-            this.match(SourCParser2.Identifier)
-            this.state = 255
-            this.match(SourCParser2.RightParen)
-            this.state = 256
             this.match(SourCParser2.LeftParen)
-            this.state = 258
+            this.state = 254
+            this.match(SourCParser2.Star)
+            this.state = 255
+            this.match(SourCParser2.Identifier)
+            this.state = 256
+            this.match(SourCParser2.RightParen)
+            this.state = 257
+            this.match(SourCParser2.LeftParen)
+            this.state = 259
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (
@@ -1613,12 +1603,12 @@ export class SourCParser2 extends Parser {
                 0
             ) {
               {
-                this.state = 257
+                this.state = 258
                 this.paramLs()
               }
             }
 
-            this.state = 260
+            this.state = 261
             this.match(SourCParser2.RightParen)
           }
           break
@@ -1627,25 +1617,25 @@ export class SourCParser2 extends Parser {
           _localctx = new StructDeclContext(_localctx)
           this.enterOuterAlt(_localctx, 4)
           {
-            this.state = 262
-            this.match(SourCParser2.Struct)
             this.state = 263
-            this.match(SourCParser2.Identifier)
+            this.match(SourCParser2.Struct)
             this.state = 264
+            this.match(SourCParser2.Identifier)
+            this.state = 265
             this.match(SourCParser2.LeftBrace)
-            this.state = 268
+            this.state = 269
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             do {
               {
                 {
-                  this.state = 265
-                  this.declaration()
                   this.state = 266
+                  this.declaration()
+                  this.state = 267
                   this.match(SourCParser2.Semi)
                 }
               }
-              this.state = 270
+              this.state = 271
               this._errHandler.sync(this)
               _la = this._input.LA(1)
             } while (
@@ -1662,7 +1652,7 @@ export class SourCParser2 extends Parser {
                   (1 << SourCParser2.Void))) !==
                 0
             )
-            this.state = 272
+            this.state = 273
             this.match(SourCParser2.RightBrace)
           }
           break
@@ -1682,11 +1672,11 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public typeDef(): TypeDefContext {
-    const _localctx: TypeDefContext = new TypeDefContext(this._ctx, this.state)
+    let _localctx: TypeDefContext = new TypeDefContext(this._ctx, this.state)
     this.enterRule(_localctx, 26, SourCParser2.RULE_typeDef)
     let _la: number
     try {
-      this.state = 294
+      this.state = 295
       this._errHandler.sync(this)
       switch (this._input.LA(1)) {
         case SourCParser2.Char:
@@ -1699,29 +1689,29 @@ export class SourCParser2 extends Parser {
         case SourCParser2.Void:
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 277
+            this.state = 278
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             if (_la === SourCParser2.Unsigned) {
               {
-                this.state = 276
+                this.state = 277
                 this.match(SourCParser2.Unsigned)
               }
             }
 
-            this.state = 279
+            this.state = 280
             this.type()
-            this.state = 283
+            this.state = 284
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             while (_la === SourCParser2.Star) {
               {
                 {
-                  this.state = 280
+                  this.state = 281
                   this.match(SourCParser2.Star)
                 }
               }
-              this.state = 285
+              this.state = 286
               this._errHandler.sync(this)
               _la = this._input.LA(1)
             }
@@ -1730,21 +1720,21 @@ export class SourCParser2 extends Parser {
         case SourCParser2.Struct:
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 286
-            this.match(SourCParser2.Struct)
             this.state = 287
+            this.match(SourCParser2.Struct)
+            this.state = 288
             this.match(SourCParser2.Identifier)
-            this.state = 291
+            this.state = 292
             this._errHandler.sync(this)
             _la = this._input.LA(1)
             while (_la === SourCParser2.Star) {
               {
                 {
-                  this.state = 288
+                  this.state = 289
                   this.match(SourCParser2.Star)
                 }
               }
-              this.state = 293
+              this.state = 294
               this._errHandler.sync(this)
               _la = this._input.LA(1)
             }
@@ -1768,16 +1758,16 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public exprLs(): ExprLsContext {
-    const _localctx: ExprLsContext = new ExprLsContext(this._ctx, this.state)
+    let _localctx: ExprLsContext = new ExprLsContext(this._ctx, this.state)
     this.enterRule(_localctx, 28, SourCParser2.RULE_exprLs)
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 296
-        this.match(SourCParser2.LeftBrace)
         this.state = 297
-        this.seqExprLs()
+        this.match(SourCParser2.LeftBrace)
         this.state = 298
+        this.seqExprLs()
+        this.state = 299
         this.match(SourCParser2.RightBrace)
       }
     } catch (re) {
@@ -1795,32 +1785,32 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public seqExprLs(): SeqExprLsContext {
-    const _localctx: SeqExprLsContext = new SeqExprLsContext(this._ctx, this.state)
+    let _localctx: SeqExprLsContext = new SeqExprLsContext(this._ctx, this.state)
     this.enterRule(_localctx, 30, SourCParser2.RULE_seqExprLs)
     try {
       let _alt: number
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 305
+        this.state = 306
         this._errHandler.sync(this)
         _alt = this.interpreter.adaptivePredict(this._input, 31, this._ctx)
         while (_alt !== 2 && _alt !== ATN.INVALID_ALT_NUMBER) {
           if (_alt === 1) {
             {
               {
-                this.state = 300
+                this.state = 301
                 _localctx._expr = this.expr(0)
                 _localctx._eLs.push(_localctx._expr)
-                this.state = 301
+                this.state = 302
                 this.match(SourCParser2.Comma)
               }
             }
           }
-          this.state = 307
+          this.state = 308
           this._errHandler.sync(this)
           _alt = this.interpreter.adaptivePredict(this._input, 31, this._ctx)
         }
-        this.state = 308
+        this.state = 309
         _localctx._expr = this.expr(0)
         _localctx._eLs.push(_localctx._expr)
       }
@@ -1839,31 +1829,31 @@ export class SourCParser2 extends Parser {
   }
   // @RuleVersion(0)
   public assignment(): AssignmentContext {
-    const _localctx: AssignmentContext = new AssignmentContext(this._ctx, this.state)
+    let _localctx: AssignmentContext = new AssignmentContext(this._ctx, this.state)
     this.enterRule(_localctx, 32, SourCParser2.RULE_assignment)
     let _la: number
     try {
       this.enterOuterAlt(_localctx, 1)
       {
-        this.state = 313
+        this.state = 314
         this._errHandler.sync(this)
         _la = this._input.LA(1)
         while (_la === SourCParser2.Star) {
           {
             {
-              this.state = 310
+              this.state = 311
               this.match(SourCParser2.Star)
             }
           }
-          this.state = 315
+          this.state = 316
           this._errHandler.sync(this)
           _la = this._input.LA(1)
         }
-        this.state = 316
-        this.addressableOperands()
         this.state = 317
+        this.addressableOperands()
+        this.state = 318
         this.match(SourCParser2.Assign)
-        this.state = 320
+        this.state = 321
         this._errHandler.sync(this)
         switch (this._input.LA(1)) {
           case SourCParser2.Sizeof:
@@ -1878,13 +1868,13 @@ export class SourCParser2 extends Parser {
           case SourCParser2.Constant:
           case SourCParser2.StringLiteral:
             {
-              this.state = 318
+              this.state = 319
               this.expr(0)
             }
             break
           case SourCParser2.LeftBrace:
             {
-              this.state = 319
+              this.state = 320
               this.exprLs()
             }
             break
@@ -1913,20 +1903,20 @@ export class SourCParser2 extends Parser {
     )
     this.enterRule(_localctx, 34, SourCParser2.RULE_addressableOperands)
     try {
-      this.state = 334
+      this.state = 335
       this._errHandler.sync(this)
       switch (this.interpreter.adaptivePredict(this._input, 34, this._ctx)) {
         case 1:
           _localctx = new ArraySubscriptContext(_localctx)
           this.enterOuterAlt(_localctx, 1)
           {
-            this.state = 322
-            this.match(SourCParser2.Identifier)
             this.state = 323
-            this.match(SourCParser2.LeftBracket)
+            this.match(SourCParser2.Identifier)
             this.state = 324
-            this.expr(0)
+            this.match(SourCParser2.LeftBracket)
             this.state = 325
+            this.expr(0)
+            this.state = 326
             this.match(SourCParser2.RightBracket)
           }
           break
@@ -1935,11 +1925,11 @@ export class SourCParser2 extends Parser {
           _localctx = new StructAccessContext(_localctx)
           this.enterOuterAlt(_localctx, 2)
           {
-            this.state = 327
-            this.match(SourCParser2.Identifier)
             this.state = 328
-            this.match(SourCParser2.Dot)
+            this.match(SourCParser2.Identifier)
             this.state = 329
+            this.match(SourCParser2.Dot)
+            this.state = 330
             this.match(SourCParser2.Identifier)
           }
           break
@@ -1948,11 +1938,11 @@ export class SourCParser2 extends Parser {
           _localctx = new StructAccessThruPointerContext(_localctx)
           this.enterOuterAlt(_localctx, 3)
           {
-            this.state = 330
-            this.match(SourCParser2.Identifier)
             this.state = 331
-            this.match(SourCParser2.Arrow)
+            this.match(SourCParser2.Identifier)
             this.state = 332
+            this.match(SourCParser2.Arrow)
+            this.state = 333
             this.match(SourCParser2.Identifier)
           }
           break
@@ -1961,7 +1951,7 @@ export class SourCParser2 extends Parser {
           _localctx = new AtomIdentifierContext(_localctx)
           this.enterOuterAlt(_localctx, 4)
           {
-            this.state = 333
+            this.state = 334
             this.match(SourCParser2.Identifier)
           }
           break
@@ -2014,7 +2004,7 @@ export class SourCParser2 extends Parser {
   }
 
   public static readonly _serializedATN: string =
-    '\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03J\u0153\x04\x02' +
+    '\x03\uC91D\uCABA\u058D\uAFBA\u4F53\u0607\uEA8B\uC241\x03J\u0154\x04\x02' +
     '\t\x02\x04\x03\t\x03\x04\x04\t\x04\x04\x05\t\x05\x04\x06\t\x06\x04\x07' +
     '\t\x07\x04\b\t\b\x04\t\t\t\x04\n\t\n\x04\v\t\v\x04\f\t\f\x04\r\t\r\x04' +
     '\x0E\t\x0E\x04\x0F\t\x0F\x04\x10\t\x10\x04\x11\t\x11\x04\x12\t\x12\x04' +
@@ -2026,39 +2016,39 @@ export class SourCParser2 extends Parser {
     '\b\x03\b\x03\t\x03\t\x07\tW\n\t\f\t\x0E\tZ\v\t\x03\t\x03\t\x03\n\x03\n' +
     '\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03' +
     '\n\x03\n\x03\n\x03\n\x05\no\n\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03\n\x03' +
-    '\n\x03\n\x03\n\x05\nz\n\n\x03\n\x03\n\x05\n~\n\n\x03\n\x03\n\x05\n\x82' +
-    '\n\n\x03\n\x03\n\x03\n\x03\n\x05\n\x88\n\n\x03\n\x03\n\x03\n\x03\n\x03' +
-    '\n\x05\n\x8F\n\n\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x05\v\x98\n' +
+    '\n\x03\n\x03\n\x05\nz\n\n\x03\n\x03\n\x05\n~\n\n\x03\n\x03\n\x03\n\x05' +
+    '\n\x83\n\n\x03\n\x03\n\x03\n\x03\n\x05\n\x89\n\n\x03\n\x03\n\x03\n\x03' +
+    '\n\x03\n\x05\n\x90\n\n\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x05\v' +
+    '\x99\n\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03' +
     '\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03' +
-    '\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03' +
-    '\v\x05\v\xB2\n\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v' +
+    '\v\x03\v\x05\v\xB3\n\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v' +
     '\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03\v\x03' +
-    '\v\x03\v\x03\v\x03\v\x07\v\xCC\n\v\f\v\x0E\v\xCF\v\v\x03\f\x03\f\x03\f' +
-    '\x05\f\xD4\n\f\x03\r\x07\r\xD7\n\r\f\r\x0E\r\xDA\v\r\x03\r\x03\r\x07\r' +
-    '\xDE\n\r\f\r\x0E\r\xE1\v\r\x03\r\x03\r\x03\r\x03\r\x03\r\x05\r\xE8\n\r' +
-    '\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x05\x0E\xEF\n\x0E\x05\x0E\xF1' +
-    '\n\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x05\x0E\xF7\n\x0E\x03\x0E\x03\x0E' +
-    '\x03\x0E\x05\x0E\xFC\n\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03' +
-    '\x0E\x03\x0E\x05\x0E\u0105\n\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E' +
-    '\x03\x0E\x03\x0E\x03\x0E\x06\x0E\u010F\n\x0E\r\x0E\x0E\x0E\u0110\x03\x0E' +
-    '\x03\x0E\x05\x0E\u0115\n\x0E\x03\x0F\x05\x0F\u0118\n\x0F\x03\x0F\x03\x0F' +
-    '\x07\x0F\u011C\n\x0F\f\x0F\x0E\x0F\u011F\v\x0F\x03\x0F\x03\x0F\x03\x0F' +
-    '\x07\x0F\u0124\n\x0F\f\x0F\x0E\x0F\u0127\v\x0F\x05\x0F\u0129\n\x0F\x03' +
-    '\x10\x03\x10\x03\x10\x03\x10\x03\x11\x03\x11\x03\x11\x07\x11\u0132\n\x11' +
-    '\f\x11\x0E\x11\u0135\v\x11\x03\x11\x03\x11\x03\x12\x07\x12\u013A\n\x12' +
-    '\f\x12\x0E\x12\u013D\v\x12\x03\x12\x03\x12\x03\x12\x03\x12\x05\x12\u0143' +
-    '\n\x12\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13' +
-    '\x03\x13\x03\x13\x03\x13\x03\x13\x05\x13\u0151\n\x13\x03\x13\x02\x02\x03' +
-    '\x14\x14\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02\x12' +
-    '\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x1C\x02\x1E\x02 \x02"\x02$\x02\x02' +
-    "\t\b\x02\x04\x04\b\b\n\n\r\x0E\x10\x10\x16\x16\x04\x02%%''\x04\x02&" +
-    '&..\x03\x02(*\x04\x02$$&&\x03\x02\x1E!\x03\x029:\x02\u017F\x02&\x03\x02' +
+    '\v\x03\v\x03\v\x03\v\x03\v\x07\v\xCD\n\v\f\v\x0E\v\xD0\v\v\x03\f\x03\f' +
+    '\x03\f\x05\f\xD5\n\f\x03\r\x07\r\xD8\n\r\f\r\x0E\r\xDB\v\r\x03\r\x03\r' +
+    '\x07\r\xDF\n\r\f\r\x0E\r\xE2\v\r\x03\r\x03\r\x03\r\x03\r\x03\r\x05\r\xE9' +
+    '\n\r\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x05\x0E\xF0\n\x0E\x05\x0E' +
+    '\xF2\n\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x05\x0E\xF8\n\x0E\x03\x0E\x03' +
+    '\x0E\x03\x0E\x05\x0E\xFD\n\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E' +
+    '\x03\x0E\x03\x0E\x05\x0E\u0106\n\x0E\x03\x0E\x03\x0E\x03\x0E\x03\x0E\x03' +
+    '\x0E\x03\x0E\x03\x0E\x03\x0E\x06\x0E\u0110\n\x0E\r\x0E\x0E\x0E\u0111\x03' +
+    '\x0E\x03\x0E\x05\x0E\u0116\n\x0E\x03\x0F\x05\x0F\u0119\n\x0F\x03\x0F\x03' +
+    '\x0F\x07\x0F\u011D\n\x0F\f\x0F\x0E\x0F\u0120\v\x0F\x03\x0F\x03\x0F\x03' +
+    '\x0F\x07\x0F\u0125\n\x0F\f\x0F\x0E\x0F\u0128\v\x0F\x05\x0F\u012A\n\x0F' +
+    '\x03\x10\x03\x10\x03\x10\x03\x10\x03\x11\x03\x11\x03\x11\x07\x11\u0133' +
+    '\n\x11\f\x11\x0E\x11\u0136\v\x11\x03\x11\x03\x11\x03\x12\x07\x12\u013B' +
+    '\n\x12\f\x12\x0E\x12\u013E\v\x12\x03\x12\x03\x12\x03\x12\x03\x12\x05\x12' +
+    '\u0144\n\x12\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03\x13\x03' +
+    '\x13\x03\x13\x03\x13\x03\x13\x03\x13\x05\x13\u0152\n\x13\x03\x13\x02\x02' +
+    '\x03\x14\x14\x02\x02\x04\x02\x06\x02\b\x02\n\x02\f\x02\x0E\x02\x10\x02' +
+    '\x12\x02\x14\x02\x16\x02\x18\x02\x1A\x02\x1C\x02\x1E\x02 \x02"\x02$\x02' +
+    "\x02\t\b\x02\x04\x04\b\b\n\n\r\x0E\x10\x10\x16\x16\x04\x02%%''\x04\x02" +
+    '&&..\x03\x02(*\x04\x02$$&&\x03\x02\x1E!\x03\x029:\x02\u0181\x02&\x03\x02' +
     '\x02\x02\x04-\x03\x02\x02\x02\x065\x03\x02\x02\x02\b<\x03\x02\x02\x02' +
     '\n>\x03\x02\x02\x02\fL\x03\x02\x02\x02\x0EQ\x03\x02\x02\x02\x10T\x03\x02' +
-    '\x02\x02\x12\x8E\x03\x02\x02\x02\x14\xB1\x03\x02\x02\x02\x16\xD3\x03\x02' +
-    '\x02\x02\x18\xE7\x03\x02\x02\x02\x1A\u0114\x03\x02\x02\x02\x1C\u0128\x03' +
-    '\x02\x02\x02\x1E\u012A\x03\x02\x02\x02 \u0133\x03\x02\x02\x02"\u013B' +
-    "\x03\x02\x02\x02$\u0150\x03\x02\x02\x02&'\t\x02\x02\x02'\x03\x03\x02" +
+    '\x02\x02\x12\x8F\x03\x02\x02\x02\x14\xB2\x03\x02\x02\x02\x16\xD4\x03\x02' +
+    '\x02\x02\x18\xE8\x03\x02\x02\x02\x1A\u0115\x03\x02\x02\x02\x1C\u0129\x03' +
+    '\x02\x02\x02\x1E\u012B\x03\x02\x02\x02 \u0134\x03\x02\x02\x02"\u013C' +
+    "\x03\x02\x02\x02$\u0151\x03\x02\x02\x02&'\t\x02\x02\x02'\x03\x03\x02" +
     '\x02\x02()\x05\x1C\x0F\x02)*\x072\x02\x02*,\x03\x02\x02\x02+(\x03\x02' +
     '\x02\x02,/\x03\x02\x02\x02-+\x03\x02\x02\x02-.\x03\x02\x02\x02.0\x03\x02' +
     '\x02\x02/-\x03\x02\x02\x0201\x05\x1C\x0F\x021\x05\x03\x02\x02\x0224\x05' +
@@ -2074,109 +2064,110 @@ export class SourCParser2 extends Parser {
     'RS\x07=\x02\x02S\x0F\x03\x02\x02\x02TX\x07\x1C\x02\x02UW\x05\x12\n\x02' +
     'VU\x03\x02\x02\x02WZ\x03\x02\x02\x02XV\x03\x02\x02\x02XY\x03\x02\x02\x02' +
     'Y[\x03\x02\x02\x02ZX\x03\x02\x02\x02[\\\x07\x1D\x02\x02\\\x11\x03\x02' +
-    '\x02\x02]^\x05\x14\v\x02^_\x071\x02\x02_\x8F\x03\x02\x02\x02`a\x05\x1A' +
-    '\x0E\x02ab\x071\x02\x02b\x8F\x03\x02\x02\x02cd\x05"\x12\x02de\x071\x02' +
-    '\x02e\x8F\x03\x02\x02\x02f\x8F\x05\x10\t\x02gh\x07\f\x02\x02hi\x07\x18' +
+    '\x02\x02]^\x05\x14\v\x02^_\x071\x02\x02_\x90\x03\x02\x02\x02`a\x05\x1A' +
+    '\x0E\x02ab\x071\x02\x02b\x90\x03\x02\x02\x02cd\x05"\x12\x02de\x071\x02' +
+    '\x02e\x90\x03\x02\x02\x02f\x90\x05\x10\t\x02gh\x07\f\x02\x02hi\x07\x18' +
     '\x02\x02ij\x05\x14\v\x02jk\x07\x19\x02\x02kn\x05\x10\t\x02lm\x07\t\x02' +
-    '\x02mo\x05\x10\t\x02nl\x03\x02\x02\x02no\x03\x02\x02\x02o\x8F\x03\x02' +
+    '\x02mo\x05\x10\t\x02nl\x03\x02\x02\x02no\x03\x02\x02\x02o\x90\x03\x02' +
     '\x02\x02pq\x07\x17\x02\x02qr\x07\x18\x02\x02rs\x05\x14\v\x02st\x07\x19' +
-    '\x02\x02tu\x05\x10\t\x02u\x8F\x03\x02\x02\x02vw\x07\v\x02\x02wy\x07\x18' +
+    '\x02\x02tu\x05\x10\t\x02u\x90\x03\x02\x02\x02vw\x07\v\x02\x02wy\x07\x18' +
     '\x02\x02xz\x05"\x12\x02yx\x03\x02\x02\x02yz\x03\x02\x02\x02z{\x03\x02' +
     '\x02\x02{}\x071\x02\x02|~\x05\x14\v\x02}|\x03\x02\x02\x02}~\x03\x02\x02' +
-    '\x02~\x7F\x03\x02\x02\x02\x7F\x81\x071\x02\x02\x80\x82\x05\x14\v\x02\x81' +
-    '\x80\x03\x02\x02\x02\x81\x82\x03\x02\x02\x02\x82\x83\x03\x02\x02\x02\x83' +
-    '\x84\x07\x19\x02\x02\x84\x8F\x05\x10\t\x02\x85\x87\x07\x0F\x02\x02\x86' +
-    '\x88\x05\x14\v\x02\x87\x86\x03\x02\x02\x02\x87\x88\x03\x02\x02\x02\x88' +
-    '\x89\x03\x02\x02\x02\x89\x8F\x071\x02\x02\x8A\x8B\x07\x03\x02\x02\x8B' +
-    '\x8F\x071\x02\x02\x8C\x8D\x07\x06\x02\x02\x8D\x8F\x071\x02\x02\x8E]\x03' +
-    '\x02\x02\x02\x8E`\x03\x02\x02\x02\x8Ec\x03\x02\x02\x02\x8Ef\x03\x02\x02' +
-    '\x02\x8Eg\x03\x02\x02\x02\x8Ep\x03\x02\x02\x02\x8Ev\x03\x02\x02\x02\x8E' +
-    '\x85\x03\x02\x02\x02\x8E\x8A\x03\x02\x02\x02\x8E\x8C\x03\x02\x02\x02\x8F' +
-    '\x13\x03\x02\x02\x02\x90\x91\b\v\x01\x02\x91\x92\x05$\x13\x02\x92\x93' +
-    '\t\x03\x02\x02\x93\xB2\x03\x02\x02\x02\x94\x95\x07=\x02\x02\x95\x97\x07' +
-    '\x18\x02\x02\x96\x98\x05 \x11\x02\x97\x96\x03\x02\x02\x02\x97\x98\x03' +
-    '\x02\x02\x02\x98\x99\x03\x02\x02\x02\x99\xB2\x07\x19\x02\x02\x9A\x9B\t' +
-    '\x03\x02\x02\x9B\xB2\x05$\x13\x02\x9C\x9D\t\x04\x02\x02\x9D\xB2\x05\x14' +
-    '\v\x10\x9E\x9F\x07\x18\x02\x02\x9F\xA0\x05\x02\x02\x02\xA0\xA1\x07\x19' +
-    '\x02\x02\xA1\xA2\x05\x14\v\x0F\xA2\xB2\x03\x02\x02\x02\xA3\xA4\x07(\x02' +
-    '\x02\xA4\xB2\x05\x14\v\x0E\xA5\xA6\x07+\x02\x02\xA6\xB2\x05\x14\v\r\xA7' +
-    '\xA8\x07\x12\x02\x02\xA8\xA9\x07\x18\x02\x02\xA9\xAA\x05\x18\r\x02\xAA' +
-    '\xAB\x07\x19\x02\x02\xAB\xB2\x03\x02\x02\x02\xAC\xAD\x07\x18\x02\x02\xAD' +
-    '\xAE\x05\x14\v\x02\xAE\xAF\x07\x19\x02\x02\xAF\xB2\x03\x02\x02\x02\xB0' +
-    '\xB2\x05\x16\f\x02\xB1\x90\x03\x02\x02\x02\xB1\x94\x03\x02\x02\x02\xB1' +
-    '\x9A\x03\x02\x02\x02\xB1\x9C\x03\x02\x02\x02\xB1\x9E\x03\x02\x02\x02\xB1' +
-    '\xA3\x03\x02\x02\x02\xB1\xA5\x03\x02\x02\x02\xB1\xA7\x03\x02\x02\x02\xB1' +
-    '\xAC\x03\x02\x02\x02\xB1\xB0\x03\x02\x02\x02\xB2\xCD\x03\x02\x02\x02\xB3' +
-    '\xB4\f\v\x02\x02\xB4\xB5\t\x05\x02\x02\xB5\xCC\x05\x14\v\f\xB6\xB7\f\n' +
-    '\x02\x02\xB7\xB8\t\x06\x02\x02\xB8\xCC\x05\x14\v\v\xB9\xBA\f\t\x02\x02' +
-    '\xBA\xBB\t\x07\x02\x02\xBB\xCC\x05\x14\v\n\xBC\xBD\f\b\x02\x02\xBD\xBE' +
-    '\t\b\x02\x02\xBE\xCC\x05\x14\v\t\xBF\xC0\f\x07\x02\x02\xC0\xC1\x07,\x02' +
-    '\x02\xC1\xCC\x05\x14\v\b\xC2\xC3\f\x06\x02\x02\xC3\xC4\x07-\x02\x02\xC4' +
-    '\xCC\x05\x14\v\x07\xC5\xC6\f\x04\x02\x02\xC6\xC7\x07/\x02\x02\xC7\xC8' +
-    '\x05\x14\v\x02\xC8\xC9\x070\x02\x02\xC9\xCA\x05\x14\v\x05\xCA\xCC\x03' +
-    '\x02\x02\x02\xCB\xB3\x03\x02\x02\x02\xCB\xB6\x03\x02\x02\x02\xCB\xB9\x03' +
-    '\x02\x02\x02\xCB\xBC\x03\x02\x02\x02\xCB\xBF\x03\x02\x02\x02\xCB\xC2\x03' +
-    '\x02\x02\x02\xCB\xC5\x03\x02\x02\x02\xCC\xCF\x03\x02\x02\x02\xCD\xCB\x03' +
-    '\x02\x02\x02\xCD\xCE\x03\x02\x02\x02\xCE\x15\x03\x02\x02\x02\xCF\xCD\x03' +
-    '\x02\x02\x02\xD0\xD4\x05$\x13\x02\xD1\xD4\x07>\x02\x02\xD2\xD4\x07@\x02' +
-    '\x02\xD3\xD0\x03\x02\x02\x02\xD3\xD1\x03\x02\x02\x02\xD3\xD2\x03\x02\x02' +
-    '\x02\xD4\x17\x03\x02\x02\x02\xD5\xD7\x07(\x02\x02\xD6\xD5\x03\x02\x02' +
-    '\x02\xD7\xDA\x03\x02\x02\x02\xD8\xD6\x03\x02\x02\x02\xD8\xD9\x03\x02\x02' +
-    '\x02\xD9\xDB\x03\x02\x02\x02\xDA\xD8\x03\x02\x02\x02\xDB\xE8\x05\x02\x02' +
-    '\x02\xDC\xDE\x07(\x02\x02\xDD\xDC\x03\x02\x02\x02\xDE\xE1\x03\x02\x02' +
-    '\x02\xDF\xDD\x03\x02\x02\x02\xDF\xE0\x03\x02\x02\x02\xE0\xE2\x03\x02\x02' +
-    '\x02\xE1\xDF\x03\x02\x02\x02\xE2\xE8\x07=\x02\x02\xE3\xE4\x07+\x02\x02' +
-    '\xE4\xE8\x07=\x02\x02\xE5\xE6\x07\x13\x02\x02\xE6\xE8\x07=\x02\x02\xE7' +
-    '\xD8\x03\x02\x02\x02\xE7\xDF\x03\x02\x02\x02\xE7\xE3\x03\x02\x02\x02\xE7' +
-    '\xE5\x03\x02\x02\x02\xE8\x19\x03\x02\x02\x02\xE9\xEA\x05\x1C\x0F\x02\xEA' +
-    '\xF0\x07=\x02\x02\xEB\xEE\x073\x02\x02\xEC\xEF\x05\x14\v\x02\xED\xEF\x05' +
-    '\x1E\x10\x02\xEE\xEC\x03\x02\x02\x02\xEE\xED\x03\x02\x02\x02\xEF\xF1\x03' +
-    '\x02\x02\x02\xF0\xEB\x03\x02\x02\x02\xF0\xF1\x03\x02\x02\x02\xF1\u0115' +
-    '\x03\x02\x02\x02\xF2\xF3\x05\x1C\x0F\x02\xF3\xF4\x07=\x02\x02\xF4\xF6' +
-    '\x07\x1A\x02\x02\xF5\xF7\x07>\x02\x02\xF6\xF5\x03\x02\x02\x02\xF6\xF7' +
-    '\x03\x02\x02\x02\xF7\xF8\x03\x02\x02\x02\xF8\xFB\x07\x1B\x02\x02\xF9\xFA' +
-    '\x073\x02\x02\xFA\xFC\x05\x1E\x10\x02\xFB\xF9\x03\x02\x02\x02\xFB\xFC' +
-    '\x03\x02\x02\x02\xFC\u0115\x03\x02\x02\x02\xFD\xFE\x05\x1C\x0F\x02\xFE' +
-    '\xFF\x07\x18\x02\x02\xFF\u0100\x07(\x02\x02\u0100\u0101\x07=\x02\x02\u0101' +
-    '\u0102\x07\x19\x02\x02\u0102\u0104\x07\x18\x02\x02\u0103\u0105\x05\f\x07' +
-    '\x02\u0104\u0103\x03\x02\x02\x02\u0104\u0105\x03\x02\x02\x02\u0105\u0106' +
-    '\x03\x02\x02\x02\u0106\u0107\x07\x19\x02\x02\u0107\u0115\x03\x02\x02\x02' +
-    '\u0108\u0109\x07\x13\x02\x02\u0109\u010A\x07=\x02\x02\u010A\u010E\x07' +
-    '\x1C\x02\x02\u010B\u010C\x05\x1A\x0E\x02\u010C\u010D\x071\x02\x02\u010D' +
-    '\u010F\x03\x02\x02\x02\u010E\u010B\x03\x02\x02\x02\u010F\u0110\x03\x02' +
-    '\x02\x02\u0110\u010E\x03\x02\x02\x02\u0110\u0111\x03\x02\x02\x02\u0111' +
-    '\u0112\x03\x02\x02\x02\u0112\u0113\x07\x1D\x02\x02\u0113\u0115\x03\x02' +
-    '\x02\x02\u0114\xE9\x03\x02\x02\x02\u0114\xF2\x03\x02\x02\x02\u0114\xFD' +
-    '\x03\x02\x02\x02\u0114\u0108\x03\x02\x02\x02\u0115\x1B\x03\x02\x02\x02' +
-    '\u0116\u0118\x07\x15\x02\x02\u0117\u0116\x03\x02\x02\x02\u0117\u0118\x03' +
-    '\x02\x02\x02\u0118\u0119\x03\x02\x02\x02\u0119\u011D\x05\x02\x02\x02\u011A' +
-    '\u011C\x07(\x02\x02\u011B\u011A\x03\x02\x02\x02\u011C\u011F\x03\x02\x02' +
-    '\x02\u011D\u011B\x03\x02\x02\x02\u011D\u011E\x03\x02\x02\x02\u011E\u0129' +
-    '\x03\x02\x02\x02\u011F\u011D\x03\x02\x02\x02\u0120\u0121\x07\x13\x02\x02' +
-    '\u0121\u0125\x07=\x02\x02\u0122\u0124\x07(\x02\x02\u0123\u0122\x03\x02' +
-    '\x02\x02\u0124\u0127\x03\x02\x02\x02\u0125\u0123\x03\x02\x02\x02\u0125' +
-    '\u0126\x03\x02\x02\x02\u0126\u0129\x03\x02\x02\x02\u0127\u0125\x03\x02' +
-    '\x02\x02\u0128\u0117\x03\x02\x02\x02\u0128\u0120\x03\x02\x02\x02\u0129' +
-    '\x1D\x03\x02\x02\x02\u012A\u012B\x07\x1C\x02\x02\u012B\u012C\x05 \x11' +
-    '\x02\u012C\u012D\x07\x1D\x02\x02\u012D\x1F\x03\x02\x02\x02\u012E\u012F' +
-    '\x05\x14\v\x02\u012F\u0130\x072\x02\x02\u0130\u0132\x03\x02\x02\x02\u0131' +
-    '\u012E\x03\x02\x02\x02\u0132\u0135\x03\x02\x02\x02\u0133\u0131\x03\x02' +
-    '\x02\x02\u0133\u0134\x03\x02\x02\x02\u0134\u0136\x03\x02\x02\x02\u0135' +
-    '\u0133\x03\x02\x02\x02\u0136\u0137\x05\x14\v\x02\u0137!\x03\x02\x02\x02' +
-    '\u0138\u013A\x07(\x02\x02\u0139\u0138\x03\x02\x02\x02\u013A\u013D\x03' +
-    '\x02\x02\x02\u013B\u0139\x03\x02\x02\x02\u013B\u013C\x03\x02\x02\x02\u013C' +
-    '\u013E\x03\x02\x02\x02\u013D\u013B\x03\x02\x02\x02\u013E\u013F\x05$\x13' +
-    '\x02\u013F\u0142\x073\x02\x02\u0140\u0143\x05\x14\v\x02\u0141\u0143\x05' +
-    '\x1E\x10\x02\u0142\u0140\x03\x02\x02\x02\u0142\u0141\x03\x02\x02\x02\u0143' +
-    '#\x03\x02\x02\x02\u0144\u0145\x07=\x02\x02\u0145\u0146\x07\x1A\x02\x02' +
-    '\u0146\u0147\x05\x14\v\x02\u0147\u0148\x07\x1B\x02\x02\u0148\u0151\x03' +
-    '\x02\x02\x02\u0149\u014A\x07=\x02\x02\u014A\u014B\x07<\x02\x02\u014B\u0151' +
-    '\x07=\x02\x02\u014C\u014D\x07=\x02\x02\u014D\u014E\x07;\x02\x02\u014E' +
-    '\u0151\x07=\x02\x02\u014F\u0151\x07=\x02\x02\u0150\u0144\x03\x02\x02\x02' +
-    '\u0150\u0149\x03\x02\x02\x02\u0150\u014C\x03\x02\x02\x02\u0150\u014F\x03' +
-    '\x02\x02\x02\u0151%\x03\x02\x02\x02%-5<BLXny}\x81\x87\x8E\x97\xB1\xCB' +
-    '\xCD\xD3\xD8\xDF\xE7\xEE\xF0\xF6\xFB\u0104\u0110\u0114\u0117\u011D\u0125' +
-    '\u0128\u0133\u013B\u0142\u0150'
+    '\x02~\x7F\x03\x02\x02\x02\x7F\x82\x071\x02\x02\x80\x83\x05\x14\v\x02\x81' +
+    '\x83\x05"\x12\x02\x82\x80\x03\x02\x02\x02\x82\x81\x03\x02\x02\x02\x82' +
+    '\x83\x03\x02\x02\x02\x83\x84\x03\x02\x02\x02\x84\x85\x07\x19\x02\x02\x85' +
+    '\x90\x05\x10\t\x02\x86\x88\x07\x0F\x02\x02\x87\x89\x05\x14\v\x02\x88\x87' +
+    '\x03\x02\x02\x02\x88\x89\x03\x02\x02\x02\x89\x8A\x03\x02\x02\x02\x8A\x90' +
+    '\x071\x02\x02\x8B\x8C\x07\x03\x02\x02\x8C\x90\x071\x02\x02\x8D\x8E\x07' +
+    '\x06\x02\x02\x8E\x90\x071\x02\x02\x8F]\x03\x02\x02\x02\x8F`\x03\x02\x02' +
+    '\x02\x8Fc\x03\x02\x02\x02\x8Ff\x03\x02\x02\x02\x8Fg\x03\x02\x02\x02\x8F' +
+    'p\x03\x02\x02\x02\x8Fv\x03\x02\x02\x02\x8F\x86\x03\x02\x02\x02\x8F\x8B' +
+    '\x03\x02\x02\x02\x8F\x8D\x03\x02\x02\x02\x90\x13\x03\x02\x02\x02\x91\x92' +
+    '\b\v\x01\x02\x92\x93\x05$\x13\x02\x93\x94\t\x03\x02\x02\x94\xB3\x03\x02' +
+    '\x02\x02\x95\x96\x07=\x02\x02\x96\x98\x07\x18\x02\x02\x97\x99\x05 \x11' +
+    '\x02\x98\x97\x03\x02\x02\x02\x98\x99\x03\x02\x02\x02\x99\x9A\x03\x02\x02' +
+    '\x02\x9A\xB3\x07\x19\x02\x02\x9B\x9C\t\x03\x02\x02\x9C\xB3\x05$\x13\x02' +
+    '\x9D\x9E\t\x04\x02\x02\x9E\xB3\x05\x14\v\x10\x9F\xA0\x07\x18\x02\x02\xA0' +
+    '\xA1\x05\x02\x02\x02\xA1\xA2\x07\x19\x02\x02\xA2\xA3\x05\x14\v\x0F\xA3' +
+    '\xB3\x03\x02\x02\x02\xA4\xA5\x07(\x02\x02\xA5\xB3\x05\x14\v\x0E\xA6\xA7' +
+    '\x07+\x02\x02\xA7\xB3\x05\x14\v\r\xA8\xA9\x07\x12\x02\x02\xA9\xAA\x07' +
+    '\x18\x02\x02\xAA\xAB\x05\x18\r\x02\xAB\xAC\x07\x19\x02\x02\xAC\xB3\x03' +
+    '\x02\x02\x02\xAD\xAE\x07\x18\x02\x02\xAE\xAF\x05\x14\v\x02\xAF\xB0\x07' +
+    '\x19\x02\x02\xB0\xB3\x03\x02\x02\x02\xB1\xB3\x05\x16\f\x02\xB2\x91\x03' +
+    '\x02\x02\x02\xB2\x95\x03\x02\x02\x02\xB2\x9B\x03\x02\x02\x02\xB2\x9D\x03' +
+    '\x02\x02\x02\xB2\x9F\x03\x02\x02\x02\xB2\xA4\x03\x02\x02\x02\xB2\xA6\x03' +
+    '\x02\x02\x02\xB2\xA8\x03\x02\x02\x02\xB2\xAD\x03\x02\x02\x02\xB2\xB1\x03' +
+    '\x02\x02\x02\xB3\xCE\x03\x02\x02\x02\xB4\xB5\f\v\x02\x02\xB5\xB6\t\x05' +
+    '\x02\x02\xB6\xCD\x05\x14\v\f\xB7\xB8\f\n\x02\x02\xB8\xB9\t\x06\x02\x02' +
+    '\xB9\xCD\x05\x14\v\v\xBA\xBB\f\t\x02\x02\xBB\xBC\t\x07\x02\x02\xBC\xCD' +
+    '\x05\x14\v\n\xBD\xBE\f\b\x02\x02\xBE\xBF\t\b\x02\x02\xBF\xCD\x05\x14\v' +
+    '\t\xC0\xC1\f\x07\x02\x02\xC1\xC2\x07,\x02\x02\xC2\xCD\x05\x14\v\b\xC3' +
+    '\xC4\f\x06\x02\x02\xC4\xC5\x07-\x02\x02\xC5\xCD\x05\x14\v\x07\xC6\xC7' +
+    '\f\x04\x02\x02\xC7\xC8\x07/\x02\x02\xC8\xC9\x05\x14\v\x02\xC9\xCA\x07' +
+    '0\x02\x02\xCA\xCB\x05\x14\v\x05\xCB\xCD\x03\x02\x02\x02\xCC\xB4\x03\x02' +
+    '\x02\x02\xCC\xB7\x03\x02\x02\x02\xCC\xBA\x03\x02\x02\x02\xCC\xBD\x03\x02' +
+    '\x02\x02\xCC\xC0\x03\x02\x02\x02\xCC\xC3\x03\x02\x02\x02\xCC\xC6\x03\x02' +
+    '\x02\x02\xCD\xD0\x03\x02\x02\x02\xCE\xCC\x03\x02\x02\x02\xCE\xCF\x03\x02' +
+    '\x02\x02\xCF\x15\x03\x02\x02\x02\xD0\xCE\x03\x02\x02\x02\xD1\xD5\x05$' +
+    '\x13\x02\xD2\xD5\x07>\x02\x02\xD3\xD5\x07@\x02\x02\xD4\xD1\x03\x02\x02' +
+    '\x02\xD4\xD2\x03\x02\x02\x02\xD4\xD3\x03\x02\x02\x02\xD5\x17\x03\x02\x02' +
+    '\x02\xD6\xD8\x07(\x02\x02\xD7\xD6\x03\x02\x02\x02\xD8\xDB\x03\x02\x02' +
+    '\x02\xD9\xD7\x03\x02\x02\x02\xD9\xDA\x03\x02\x02\x02\xDA\xDC\x03\x02\x02' +
+    '\x02\xDB\xD9\x03\x02\x02\x02\xDC\xE9\x05\x02\x02\x02\xDD\xDF\x07(\x02' +
+    '\x02\xDE\xDD\x03\x02\x02\x02\xDF\xE2\x03\x02\x02\x02\xE0\xDE\x03\x02\x02' +
+    '\x02\xE0\xE1\x03\x02\x02\x02\xE1\xE3\x03\x02\x02\x02\xE2\xE0\x03\x02\x02' +
+    '\x02\xE3\xE9\x07=\x02\x02\xE4\xE5\x07+\x02\x02\xE5\xE9\x07=\x02\x02\xE6' +
+    '\xE7\x07\x13\x02\x02\xE7\xE9\x07=\x02\x02\xE8\xD9\x03\x02\x02\x02\xE8' +
+    '\xE0\x03\x02\x02\x02\xE8\xE4\x03\x02\x02\x02\xE8\xE6\x03\x02\x02\x02\xE9' +
+    '\x19\x03\x02\x02\x02\xEA\xEB\x05\x1C\x0F\x02\xEB\xF1\x07=\x02\x02\xEC' +
+    '\xEF\x073\x02\x02\xED\xF0\x05\x14\v\x02\xEE\xF0\x05\x1E\x10\x02\xEF\xED' +
+    '\x03\x02\x02\x02\xEF\xEE\x03\x02\x02\x02\xF0\xF2\x03\x02\x02\x02\xF1\xEC' +
+    '\x03\x02\x02\x02\xF1\xF2\x03\x02\x02\x02\xF2\u0116\x03\x02\x02\x02\xF3' +
+    '\xF4\x05\x1C\x0F\x02\xF4\xF5\x07=\x02\x02\xF5\xF7\x07\x1A\x02\x02\xF6' +
+    '\xF8\x07>\x02\x02\xF7\xF6\x03\x02\x02\x02\xF7\xF8\x03\x02\x02\x02\xF8' +
+    '\xF9\x03\x02\x02\x02\xF9\xFC\x07\x1B\x02\x02\xFA\xFB\x073\x02\x02\xFB' +
+    '\xFD\x05\x1E\x10\x02\xFC\xFA\x03\x02\x02\x02\xFC\xFD\x03\x02\x02\x02\xFD' +
+    '\u0116\x03\x02\x02\x02\xFE\xFF\x05\x1C\x0F\x02\xFF\u0100\x07\x18\x02\x02' +
+    '\u0100\u0101\x07(\x02\x02\u0101\u0102\x07=\x02\x02\u0102\u0103\x07\x19' +
+    '\x02\x02\u0103\u0105\x07\x18\x02\x02\u0104\u0106\x05\f\x07\x02\u0105\u0104' +
+    '\x03\x02\x02\x02\u0105\u0106\x03\x02\x02\x02\u0106\u0107\x03\x02\x02\x02' +
+    '\u0107\u0108\x07\x19\x02\x02\u0108\u0116\x03\x02\x02\x02\u0109\u010A\x07' +
+    '\x13\x02\x02\u010A\u010B\x07=\x02\x02\u010B\u010F\x07\x1C\x02\x02\u010C' +
+    '\u010D\x05\x1A\x0E\x02\u010D\u010E\x071\x02\x02\u010E\u0110\x03\x02\x02' +
+    '\x02\u010F\u010C\x03\x02\x02\x02\u0110\u0111\x03\x02\x02\x02\u0111\u010F' +
+    '\x03\x02\x02\x02\u0111\u0112\x03\x02\x02\x02\u0112\u0113\x03\x02\x02\x02' +
+    '\u0113\u0114\x07\x1D\x02\x02\u0114\u0116\x03\x02\x02\x02\u0115\xEA\x03' +
+    '\x02\x02\x02\u0115\xF3\x03\x02\x02\x02\u0115\xFE\x03\x02\x02\x02\u0115' +
+    '\u0109\x03\x02\x02\x02\u0116\x1B\x03\x02\x02\x02\u0117\u0119\x07\x15\x02' +
+    '\x02\u0118\u0117\x03\x02\x02\x02\u0118\u0119\x03\x02\x02\x02\u0119\u011A' +
+    '\x03\x02\x02\x02\u011A\u011E\x05\x02\x02\x02\u011B\u011D\x07(\x02\x02' +
+    '\u011C\u011B\x03\x02\x02\x02\u011D\u0120\x03\x02\x02\x02\u011E\u011C\x03' +
+    '\x02\x02\x02\u011E\u011F\x03\x02\x02\x02\u011F\u012A\x03\x02\x02\x02\u0120' +
+    '\u011E\x03\x02\x02\x02\u0121\u0122\x07\x13\x02\x02\u0122\u0126\x07=\x02' +
+    '\x02\u0123\u0125\x07(\x02\x02\u0124\u0123\x03\x02\x02\x02\u0125\u0128' +
+    '\x03\x02\x02\x02\u0126\u0124\x03\x02\x02\x02\u0126\u0127\x03\x02\x02\x02' +
+    '\u0127\u012A\x03\x02\x02\x02\u0128\u0126\x03\x02\x02\x02\u0129\u0118\x03' +
+    '\x02\x02\x02\u0129\u0121\x03\x02\x02\x02\u012A\x1D\x03\x02\x02\x02\u012B' +
+    '\u012C\x07\x1C\x02\x02\u012C\u012D\x05 \x11\x02\u012D\u012E\x07\x1D\x02' +
+    '\x02\u012E\x1F\x03\x02\x02\x02\u012F\u0130\x05\x14\v\x02\u0130\u0131\x07' +
+    '2\x02\x02\u0131\u0133\x03\x02\x02\x02\u0132\u012F\x03\x02\x02\x02\u0133' +
+    '\u0136\x03\x02\x02\x02\u0134\u0132\x03\x02\x02\x02\u0134\u0135\x03\x02' +
+    '\x02\x02\u0135\u0137\x03\x02\x02\x02\u0136\u0134\x03\x02\x02\x02\u0137' +
+    '\u0138\x05\x14\v\x02\u0138!\x03\x02\x02\x02\u0139\u013B\x07(\x02\x02\u013A' +
+    '\u0139\x03\x02\x02\x02\u013B\u013E\x03\x02\x02\x02\u013C\u013A\x03\x02' +
+    '\x02\x02\u013C\u013D\x03\x02\x02\x02\u013D\u013F\x03\x02\x02\x02\u013E' +
+    '\u013C\x03\x02\x02\x02\u013F\u0140\x05$\x13\x02\u0140\u0143\x073\x02\x02' +
+    '\u0141\u0144\x05\x14\v\x02\u0142\u0144\x05\x1E\x10\x02\u0143\u0141\x03' +
+    '\x02\x02\x02\u0143\u0142\x03\x02\x02\x02\u0144#\x03\x02\x02\x02\u0145' +
+    '\u0146\x07=\x02\x02\u0146\u0147\x07\x1A\x02\x02\u0147\u0148\x05\x14\v' +
+    '\x02\u0148\u0149\x07\x1B\x02\x02\u0149\u0152\x03\x02\x02\x02\u014A\u014B' +
+    '\x07=\x02\x02\u014B\u014C\x07<\x02\x02\u014C\u0152\x07=\x02\x02\u014D' +
+    '\u014E\x07=\x02\x02\u014E\u014F\x07;\x02\x02\u014F\u0152\x07=\x02\x02' +
+    '\u0150\u0152\x07=\x02\x02\u0151\u0145\x03\x02\x02\x02\u0151\u014A\x03' +
+    '\x02\x02\x02\u0151\u014D\x03\x02\x02\x02\u0151\u0150\x03\x02\x02\x02\u0152' +
+    '%\x03\x02\x02\x02%-5<BLXny}\x82\x88\x8F\x98\xB2\xCC\xCE\xD4\xD9\xE0\xE8' +
+    '\xEF\xF1\xF7\xFC\u0105\u0111\u0115\u0118\u011E\u0126\u0129\u0134\u013C' +
+    '\u0143\u0151'
   public static __ATN: ATN
   public static get _ATN(): ATN {
     if (!SourCParser2.__ATN) {
@@ -2776,7 +2767,8 @@ export class WhileStmtContext extends StmtContext {
 export class ForStmtContext extends StmtContext {
   public _init!: AssignmentContext
   public _test!: ExprContext
-  public _incr!: ExprContext
+  public _incrExpr!: ExprContext
+  public _incrAssgn!: AssignmentContext
   public For(): TerminalNode {
     return this.getToken(SourCParser2.For, 0)
   }
@@ -2798,8 +2790,14 @@ export class ForStmtContext extends StmtContext {
   public compoundStatement(): CompoundStatementContext {
     return this.getRuleContext(0, CompoundStatementContext)
   }
-  public assignment(): AssignmentContext | undefined {
-    return this.tryGetRuleContext(0, AssignmentContext)
+  public assignment(): AssignmentContext[]
+  public assignment(i: number): AssignmentContext
+  public assignment(i?: number): AssignmentContext | AssignmentContext[] {
+    if (i === undefined) {
+      return this.getRuleContexts(AssignmentContext)
+    } else {
+      return this.getRuleContext(i, AssignmentContext)
+    }
   }
   public expr(): ExprContext[]
   public expr(i: number): ExprContext

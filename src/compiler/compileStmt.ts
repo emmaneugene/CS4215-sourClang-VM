@@ -313,9 +313,14 @@ function compileForStmt(stmt: es.ForStatement, fEnv: FunctionCTE, gEnv: GlobalCT
   // which is the same as `gotoAddr`
   const continueAddr = fEnv.instrs.length
   if (update) {
-    // If update is present, add it to the back of the block stmt.
-    // Continue statements in the blk should come to this address
-    compileExpr(update, fEnv, gEnv)
+    // update can be in 2 forms:
+    // an assignment e.g. for (; i < 6; i = i + 2) {...}, or,
+    // an expression e.g. i++
+    if (update.type === 'AssignmentExpression') {
+      compileAssignmentStmt(update, fEnv, gEnv)
+    } else {
+      compileExpr(update, fEnv, gEnv)
+    }
   }
 
   const gotoAddr = fEnv.instrs.length
