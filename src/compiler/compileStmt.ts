@@ -48,7 +48,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
     }
 
     if (stmt.type === 'WhileStatement') {
-      throw new CompileTimeError()
+      compileWhileStmt(stmt, fEnv, gEnv)
+      continue
     }
 
     if (stmt.type === 'ForStatement') {
@@ -134,10 +135,9 @@ export function compileAssignmentStmt(
  *
  * It should compile to:
  *
- * Without else: [test, jump-on-false, true-block]
+ * Without else: [test, jump-on-false, true-block, ..]
  *
- * With else: [test, jump-on-false, true-block, go-to, false-block]
- *
+ * With else: [test, jump-on-false, true-block, go-to, false-block, ...]
  */
 function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   const { test, consequent, alternate } = stmt
@@ -166,4 +166,32 @@ function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE)
     // for the true block to go-to the command after false-block
     gotor.relativeValue = BigInt(fEnv.instrs.length - gotorAddr)
   }
+}
+
+/**
+ * Compiles a WhileStatement.
+ *
+ * It should compile to:
+ *
+ * [test, jump-on-false, body, goto, ...]
+ */
+function compileWhileStmt(stmt: es.WhileStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+  const { test, body } = stmt
+
+  const jofor = MICROCODE.jofr(BigInt(0))
+  const gotor = MICROCODE.gotor(BigInt(0))
+
+  // Save the testAddr since we need to go back to this
+  const testAddr = fEnv.instrs.length
+  compileExpr(test, fEnv, gEnv)
+
+  fEnv.instrs.push(jofor)
+  const joforAddr = fEnv.instrs.length - 1
+
+  compileBlkStmt(body as es.BlockStatement, fEnv, gEnv)
+  fEnv.instrs.push(gotor)
+  const gotorAddr = fEnv.instrs.length - 1
+
+  gotor.relativeValue = BigInt(testAddr - gotorAddr) // go backwards
+  jofor.relativeValue = BigInt(fEnv.instrs.length - joforAddr)
 }
