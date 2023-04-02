@@ -1,7 +1,14 @@
 import * as es from 'estree'
 
 import { DataType } from './../typings/datatype'
-import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
+import {
+  CompileType,
+  FunctionCTE,
+  FunctionInfo,
+  getFxDecl,
+  getVar,
+  GlobalCTE
+} from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
 import { getUpdateSize } from './util'

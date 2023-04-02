@@ -179,7 +179,7 @@ export class FunctionCTE {
 export class GlobalCTE {
   functions: Record<string, FunctionCTE> = {}
 
-  functionAddr: Record<string, bigint> = {}
+  functionInfo: Record<string, FunctionInfo> = {}
 
   readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
 
@@ -195,7 +195,31 @@ export class GlobalCTE {
     return
   }
 
-  addFunction(fEnv: FunctionCTE): void {
+  /**
+   * Sets a function prototype into the global compile env.
+   *
+   *
+   * @returns the memory address of the function
+   */
+  setFunctionPrototype(functionInfo: Omit<FunctionInfo, 'addr'>): FunctionInfo {
+    const { name } = functionInfo
+    if (this.functionInfo[name]) {
+      throw new CompileTimeError(`${name} has already been declared`)
+    }
+
+    const prevLength = this.combinedInstrs.length
+    this.functionInfo[name] = {
+      ...functionInfo,
+      addr: BigInt(prevLength)
+    }
+    return this.functionInfo[name]
+  }
+
+  /**
+   * Sets the function's microcode into the global list
+   * of microcode.
+   */
+  addFunctionInstrs(fEnv: FunctionCTE): void {
     this.appendRetInstrIfMainFunction(fEnv)
     this.functions[fEnv.name] = fEnv
 
@@ -203,30 +227,23 @@ export class GlobalCTE {
       return
     }
 
-    const prevLength = this.combinedInstrs.length
     this.combinedInstrs.push(...fEnv.instrs)
-    this.functionAddr[fEnv.name] = BigInt(prevLength)
   }
 
   getFunctionAddr(sym: string): bigint {
-    if (this.functionAddr[sym] === undefined) {
+    if (this.functionInfo[sym] === undefined) {
       throw new CompileTimeError()
     }
 
-    return this.functionAddr[sym]
+    return this.functionInfo[sym].addr
   }
 
   getFunctionInfo(name: string): FunctionInfo {
-    const fxInfo = this.functions[name]
+    const fxInfo = this.functionInfo[name]
     if (!fxInfo) {
       throw new CompileTimeError()
     }
-    return {
-      name,
-      params: fxInfo.params.map(t => t[1]),
-      returnType: fxInfo.returnType,
-      addr: this.functionAddr[name]
-    }
+    return fxInfo
   }
 
   /**
