@@ -8,6 +8,7 @@ import {
   ReturnCommand,
   UnopCommand
 } from '../typings/microcode'
+import { GotoRelativeCommand, JumpOnFalseRelativeCommand } from './../typings/microcode'
 type RegOffset = ['rsp' | 'rbp' | 'rax', number]
 
 export const MICROCODE = {
@@ -92,5 +93,15 @@ export const MICROCODE = {
 
   return: {
     type: 'ReturnCommand'
-  } as ReturnCommand
+  } as ReturnCommand,
+
+  jofr: (relativeValue: bigint): JumpOnFalseRelativeCommand => ({
+    type: 'JumpOnFalseRelativeCommand',
+    relativeValue
+  }),
+
+  gotor: (relativeValue: bigint): GotoRelativeCommand => ({
+    type: 'GotoRelativeCommand',
+    relativeValue
+  })
 }

@@ -120,7 +120,8 @@ function compileBinExpr(
   fEnv: FunctionCTE,
   gEnv: GlobalCTE
 ): CompileType {
-  if (!['+', '-', '*', '/', '%'].includes(expr.operator)) throw new CompileTimeError()
+  if (!['+', '-', '*', '/', '%', '==', '!=', '<', '<=', '>', '>='].includes(expr.operator))
+    throw new CompileTimeError()
   const op = expr.operator as '+' | '-' | '*' | '/' | '%'
 
   const t1 = compileExpr(expr.left, fEnv, gEnv)

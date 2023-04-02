@@ -43,7 +43,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
     }
 
     if (stmt.type === 'IfStatement') {
-      throw new CompileTimeError()
+      compileIfStmt(stmt, fEnv, gEnv)
+      continue
     }
 
     if (stmt.type === 'WhileStatement') {
@@ -126,4 +127,43 @@ export function compileAssignmentStmt(
   }
 
   throw new CompileTimeError()
+}
+
+/**
+ * Compiles an IfStatement.
+ *
+ * It should compile to:
+ *
+ * Without else: [test, jump-on-false, true-block]
+ *
+ * With else: [test, jump-on-false, true-block, go-to, false-block]
+ *
+ */
+function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+  const { test, consequent, alternate } = stmt
+
+  const jofor = MICROCODE.jofr(BigInt(0))
+  const gotor = MICROCODE.gotor(BigInt(0))
+
+  compileExpr(test, fEnv, gEnv)
+  fEnv.instrs.push(jofor)
+  const joforAddr = fEnv.instrs.length - 1
+
+  // See `visitor.visitCompoundStatement()`
+  // It returns a BlockStatement
+  compileBlkStmt(consequent as es.BlockStatement, fEnv, gEnv)
+
+  // The address after the true block
+  const alternateAddr = fEnv.instrs.length
+  jofor.relativeValue = BigInt(alternateAddr - joforAddr)
+
+  if (alternate) {
+    jofor.relativeValue += BigInt(1)
+    fEnv.instrs.push(gotor)
+    const gotorAddr = fEnv.instrs.length - 1
+    compileBlkStmt(alternate as es.BlockStatement, fEnv, gEnv)
+
+    // for the true block to go-to the command after false-block
+    gotor.relativeValue = BigInt(fEnv.instrs.length - gotorAddr)
+  }
 }

@@ -1,5 +1,7 @@
 /* tslint:disable:max-classes-per-file */
 import { Context, Value } from '../types'
+import { GotoRelativeCommand } from './../typings/microcode'
+import { JumpOnFalseRelativeCommand } from './../typings/microcode'
 import { RelativeAddrMode } from './../typings/microcode'
 import {
   BinopCommand,
@@ -234,10 +236,10 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
         res = BigInt(arg1 <= arg2)
         break
       case '==':
-        res = BigInt(arg1 == arg2)
+        res = BigInt(arg1 === arg2)
         break
       case '!=':
-        res = BigInt(arg1 != arg2)
+        res = BigInt(arg1 !== arg2)
         break
       case '||':
         res = BigInt(arg1 || arg2)
@@ -347,6 +349,39 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
       BUILT_IN_IMPL_CTX[name](ctx)
     }
     ctx.cVmContext.PC++
+  },
+
+  /**
+   * Processes the `JumpOnFalseRelativeCommand` microcode within the context of a running
+   * program.
+   *
+   * Reads the top of stack. If false, sets PC via PC = PC + relativeValue.
+   * It will always pop the top of stack.
+   */
+  JumpOnFalseRelativeCommand: function* (cmd, ctx) {
+    const jofr = cmd as JumpOnFalseRelativeCommand
+    const { relativeValue } = jofr
+    const topOfStack = ctx.cVmContext.dataview.getBytesAt(lea(ctx, 'rsp', -8))
+
+    if (topOfStack == BigInt(0)) {
+      ctx.cVmContext.PC += relativeValue
+    } else {
+      ctx.cVmContext.PC++
+    }
+
+    ctx.cVmContext.SP -= BigInt(8)
+  },
+
+  /**
+   * Processes the `GotoRelativeCommand` microcode within the context of a running
+   * program.
+   *
+   * Sets PC via PC = PC + relativeValue.
+   */
+  GotoRelativeCommand: function* (cmd, ctx) {
+    const gotor = cmd as GotoRelativeCommand
+    const { relativeValue } = gotor
+    ctx.cVmContext.PC += relativeValue
   },
 
   /**

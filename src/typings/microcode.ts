@@ -14,6 +14,8 @@ export interface MicrocodeMap {
   ReturnCommand: ReturnCommand
   ExitCommand: ExitCommand
   ExecuteBuiltInFxCommand: ExecuteBuiltInFxCommand
+  JumpOnFalseRelativeCommand: JumpOnFalseRelativeCommand
+  GotoRelativeCommand: GotoRelativeCommand
 }
 
 /* Union types in MicrocodeMap */
@@ -27,7 +29,7 @@ export interface BaseCommand {
 /**
  * Moves an immediate value onto RSP.
  */
-export interface MovImmediateCommand {
+export interface MovImmediateCommand extends BaseCommand {
   type: 'MovImmediateCommand'
   value: number
 
@@ -138,4 +140,14 @@ export type BuiltInFxName = 'printf' | 'scanf' | 'malloc' | 'free'
 export interface ExecuteBuiltInFxCommand extends BaseCommand {
   type: 'ExecuteBuiltInFxCommand'
   name: BuiltInFxName
+}
+
+export interface JumpOnFalseRelativeCommand extends BaseCommand {
+  type: 'JumpOnFalseRelativeCommand'
+  relativeValue: bigint
+}
+
+export interface GotoRelativeCommand extends BaseCommand {
+  type: 'GotoRelativeCommand'
+  relativeValue: bigint
 }
