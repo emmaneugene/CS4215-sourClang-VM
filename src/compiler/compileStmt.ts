@@ -53,7 +53,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
     }
 
     if (stmt.type === 'ForStatement') {
-      throw new CompileTimeError()
+      compileForStmt(stmt, fEnv, gEnv)
+      continue
     }
 
     if (stmt.type === 'ReturnStatement') {
@@ -173,7 +174,7 @@ function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE)
  *
  * It should compile to:
  *
- * [test, jump-on-false, body, goto, ...]
+ * [test, jump-on-false, body, goto (test), ...]
  */
 function compileWhileStmt(stmt: es.WhileStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   const { test, body } = stmt
@@ -188,10 +189,76 @@ function compileWhileStmt(stmt: es.WhileStatement, fEnv: FunctionCTE, gEnv: Glob
   fEnv.instrs.push(jofor)
   const joforAddr = fEnv.instrs.length - 1
 
+  // See `visitWhileStmt`. It returns the body as a BlockStatement.
   compileBlkStmt(body as es.BlockStatement, fEnv, gEnv)
   fEnv.instrs.push(gotor)
   const gotorAddr = fEnv.instrs.length - 1
 
   gotor.relativeValue = BigInt(testAddr - gotorAddr) // go backwards
+  jofor.relativeValue = BigInt(fEnv.instrs.length - joforAddr)
+}
+
+/**
+ * Compiles a ForStmt.
+ *
+ * It should compile to:
+ * [init, test, jump-on-false, body, update, goto (test), ...]
+ *
+ * If init is present, simply add it to instructions.
+ *
+ * If test is present, we should jump to it after the block completes
+ * one iteration.
+ * If test is not present, jump to the first stmt of the block.
+ *
+ * If update is present, simply add it to the back of the block.
+ */
+function compileForStmt(stmt: es.ForStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+  const { init, test, update, body } = stmt
+
+  if (init) {
+    if (init.type === 'AssignmentExpression') {
+      compileAssignmentStmt(init, fEnv, gEnv)
+    } else if (init.type === 'DerefLeftAssignmentExpression') {
+      // TODO
+    }
+  }
+
+  // JOFOR is only added and properly set if test if present
+  const jofor = MICROCODE.jofr(BigInt(0))
+  let joforAddr = 0
+
+  const gotor = MICROCODE.gotor(BigInt(0))
+
+  // The actual instruction that goto is suppose to go to
+  let gotoDestAddr: number | undefined
+
+  if (test) {
+    // If there is a test, goto should go to the test
+    // instead of the first instr in the block
+    gotoDestAddr = fEnv.instrs.length
+    compileExpr(test, fEnv, gEnv)
+
+    joforAddr = fEnv.instrs.length
+    fEnv.instrs.push(jofor)
+  } else {
+    // If there is a no test,
+    // goto should go to the test
+    // instead of the first instr in the block
+    gotoDestAddr = fEnv.instrs.length
+  }
+
+  // See `visitForStmt`. It returns the body as a BlockStatement.
+  compileBlkStmt(body as es.BlockStatement, fEnv, gEnv)
+
+  // If update is present, add it to the back of the block
+  // statement
+  if (update) {
+    compileExpr(update, fEnv, gEnv)
+  }
+
+  const gotoAddr = fEnv.instrs.length
+  fEnv.instrs.push(gotor)
+
+  gotor.relativeValue = BigInt(gotoDestAddr - gotoAddr)
   jofor.relativeValue = BigInt(fEnv.instrs.length - joforAddr)
 }

@@ -596,7 +596,9 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     return {
       ...contextToLocation(ctx),
       type: 'ForStatement',
-      init: ctx._init ? (this.visit(ctx._init) as es.Expression) : undefined,
+      init: ctx._init
+        ? (this.visit(ctx._init) as es.DerefLeftAssignmentExpression | es.AssignmentExpression)
+        : undefined,
       test: ctx._test ? (this.visit(ctx._test) as es.Expression) : undefined,
       update: ctx._incr ? (this.visit(ctx._incr) as es.Expression) : undefined,
       body: this.visit(ctx.compoundStatement()) as es.BlockStatement
