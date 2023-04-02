@@ -1,12 +1,39 @@
 import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
+import { GotoRelativeCommand } from './../typings/microcode'
 import { compileExpr } from './compileExpr'
 import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
 
-export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+/**
+ * Represents a statement that needs to be patched.
+ *
+ * For example, a continue statement is a go-to
+ * command. The actual relative location to jump to
+ * needs to be patched later.
+ *
+ * Similar for break statements.
+ */
+type StmtWithLabel = {
+  /** The statement that needs patching. Should be a goto instruction. */
+  stmt: GotoRelativeCommand
+
+  /** The index where `stmt` is in the accompanying instr list. */
+  indexInInstrsList: number
+
+  /** Determines how to patch `stmt` */
+  patchType: 'loop-start' | 'loop-end'
+}
+
+export function compileBlkStmt(
+  node: es.BlockStatement,
+  fEnv: FunctionCTE,
+  gEnv: GlobalCTE
+): StmtWithLabel[] {
+  const stmtsWithLabel: StmtWithLabel[] = []
+
   for (const stmt of node.body) {
     if (stmt.type === 'VariableDeclaration') {
       compileVarDef(stmt, fEnv, gEnv)
@@ -21,7 +48,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
 
     if (stmt.type === 'BlockStatement') {
       fEnv.extendFrame([])
-      compileBlkStmt(stmt, fEnv, gEnv)
+      const ls = compileBlkStmt(stmt, fEnv, gEnv)
+      stmtsWithLabel.push(...ls)
       fEnv.popFrame()
       continue
     }
@@ -43,7 +71,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
     }
 
     if (stmt.type === 'IfStatement') {
-      compileIfStmt(stmt, fEnv, gEnv)
+      const ls = compileIfStmt(stmt, fEnv, gEnv)
+      stmtsWithLabel.push(...ls)
       continue
     }
 
@@ -63,11 +92,25 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
     }
 
     if (stmt.type === 'BreakStatement') {
-      throw new CompileTimeError()
+      const gotor = MICROCODE.gotor(BigInt(0))
+      fEnv.instrs.push(gotor)
+      stmtsWithLabel.push({
+        stmt: gotor,
+        indexInInstrsList: fEnv.instrs.length - 1,
+        patchType: 'loop-end'
+      })
+      continue
     }
 
     if (stmt.type === 'ContinueStatement') {
-      throw new CompileTimeError()
+      const gotor = MICROCODE.gotor(BigInt(0))
+      fEnv.instrs.push(gotor)
+      stmtsWithLabel.push({
+        stmt: gotor,
+        indexInInstrsList: fEnv.instrs.length - 1,
+        patchType: 'loop-start'
+      })
+      continue
     }
 
     if (stmt.type === 'EmptyStatement') {
@@ -76,6 +119,8 @@ export function compileBlkStmt(node: es.BlockStatement, fEnv: FunctionCTE, gEnv:
 
     throw new CompileTimeError()
   }
+
+  return stmtsWithLabel
 }
 
 function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
@@ -140,7 +185,7 @@ export function compileAssignmentStmt(
  *
  * With else: [test, jump-on-false, true-block, go-to, false-block, ...]
  */
-function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
+function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): StmtWithLabel[] {
   const { test, consequent, alternate } = stmt
 
   const jofor = MICROCODE.jofr(BigInt(0))
@@ -152,7 +197,7 @@ function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE)
 
   // See `visitor.visitCompoundStatement()`
   // It returns a BlockStatement
-  compileBlkStmt(consequent as es.BlockStatement, fEnv, gEnv)
+  const ls = compileBlkStmt(consequent as es.BlockStatement, fEnv, gEnv)
 
   // The address after the true block
   const alternateAddr = fEnv.instrs.length
@@ -167,6 +212,8 @@ function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE)
     // for the true block to go-to the command after false-block
     gotor.relativeValue = BigInt(fEnv.instrs.length - gotorAddr)
   }
+
+  return ls
 }
 
 /**
@@ -190,12 +237,22 @@ function compileWhileStmt(stmt: es.WhileStatement, fEnv: FunctionCTE, gEnv: Glob
   const joforAddr = fEnv.instrs.length - 1
 
   // See `visitWhileStmt`. It returns the body as a BlockStatement.
-  compileBlkStmt(body as es.BlockStatement, fEnv, gEnv)
+  const patchList = compileBlkStmt(body as es.BlockStatement, fEnv, gEnv)
   fEnv.instrs.push(gotor)
   const gotorAddr = fEnv.instrs.length - 1
 
+  const endOfBlkAddr = fEnv.instrs.length
   gotor.relativeValue = BigInt(testAddr - gotorAddr) // go backwards
-  jofor.relativeValue = BigInt(fEnv.instrs.length - joforAddr)
+  jofor.relativeValue = BigInt(endOfBlkAddr - joforAddr)
+
+  for (const patchStmt of patchList) {
+    const { stmt, patchType, indexInInstrsList } = patchStmt
+    if (patchType === 'loop-start') {
+      stmt.relativeValue = BigInt(testAddr - indexInInstrsList)
+    } else if (patchType === 'loop-end') {
+      stmt.relativeValue = BigInt(endOfBlkAddr - indexInInstrsList)
+    }
+  }
 }
 
 /**
@@ -233,8 +290,8 @@ function compileForStmt(stmt: es.ForStatement, fEnv: FunctionCTE, gEnv: GlobalCT
   let gotoDestAddr: number | undefined
 
   if (test) {
-    // If there is a test, goto should go to the test
-    // instead of the first instr in the block
+    // If there is a test, goto should go to the first
+    // instruction of test
     gotoDestAddr = fEnv.instrs.length
     compileExpr(test, fEnv, gEnv)
 
@@ -242,23 +299,38 @@ function compileForStmt(stmt: es.ForStatement, fEnv: FunctionCTE, gEnv: GlobalCT
     fEnv.instrs.push(jofor)
   } else {
     // If there is a no test,
-    // goto should go to the test
-    // instead of the first instr in the block
+    // goto should go to the first instr
+    // in the block
     gotoDestAddr = fEnv.instrs.length
   }
 
   // See `visitForStmt`. It returns the body as a BlockStatement.
-  compileBlkStmt(body as es.BlockStatement, fEnv, gEnv)
+  const patchList = compileBlkStmt(body as es.BlockStatement, fEnv, gEnv)
 
-  // If update is present, add it to the back of the block
-  // statement
+  // The instruction that continue is suppose to go to
+  // If update is present, this should be the update expr
+  // If update is not present, it will be start of the body,
+  // which is the same as `gotoAddr`
+  const continueAddr = fEnv.instrs.length
   if (update) {
+    // If update is present, add it to the back of the block stmt.
+    // Continue statements in the blk should come to this address
     compileExpr(update, fEnv, gEnv)
   }
 
   const gotoAddr = fEnv.instrs.length
   fEnv.instrs.push(gotor)
 
+  const endOfBlkAddr = fEnv.instrs.length
   gotor.relativeValue = BigInt(gotoDestAddr - gotoAddr)
-  jofor.relativeValue = BigInt(fEnv.instrs.length - joforAddr)
+  jofor.relativeValue = BigInt(endOfBlkAddr - joforAddr)
+
+  for (const patchStmt of patchList) {
+    const { stmt, patchType, indexInInstrsList } = patchStmt
+    if (patchType === 'loop-start') {
+      stmt.relativeValue = BigInt(continueAddr - indexInInstrsList)
+    } else if (patchType === 'loop-end') {
+      stmt.relativeValue = BigInt(endOfBlkAddr - indexInInstrsList)
+    }
+  }
 }
