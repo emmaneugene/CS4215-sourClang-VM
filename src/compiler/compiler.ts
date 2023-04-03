@@ -4,6 +4,7 @@ import { loadBuiltInFunctions } from '../interpreter/builtin'
 import { compileFunctionDef } from './compileFunctionDef'
 import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
+import { compileGlobalVarDef } from './compileGlobalVarDef'
 
 /**
  * Converts the AST (from `./parser`) into
@@ -36,7 +37,8 @@ export function compile(ast: es.Program): GlobalCTE | undefined {
      * int y3 = x; // will crash
      */
     if (stmt.type === 'VariableDeclaration') {
-      throw new CompileTimeError()
+      compileGlobalVarDef(stmt, gEnv)
+      continue
     }
 
     throw new CompileTimeError()

@@ -164,10 +164,10 @@ export function compileAssignmentStmt(
 
   if (stmt.left.type === 'Identifier') {
     const left = stmt.left as es.Identifier
-    const { typeList, offset } = getVar(left.name, fEnv, gEnv)
+    const [register, { typeList, offset }] = getVar(left.name, fEnv, gEnv)
     if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
     fEnv.instrs.push(
-      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, offset]),
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, offset]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )
     return

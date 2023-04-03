@@ -16,7 +16,7 @@ export function compileGlobalVarDef(stmt: es.VariableDeclaration, gEnv: GlobalCT
       continue
     }
     compileExpr(declaration.init, gEnv)
-    gEnv.combinedInstrs.push(
+    gEnv.globalDeclarationInstrs.push(
       MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BottomOfMemory, variableInfo.offset]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )

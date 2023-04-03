@@ -82,7 +82,7 @@ export async function sourceFilesRunner(
 function addInstrSegment(ctx: Context, gEnv: GlobalCTE): void {
   ctx.cVmContext = {
     ...ctx.cVmContext,
-    instrs: gEnv.combinedInstrs
+    instrs: gEnv.collateInstructions()
   }
 }
 
@@ -96,6 +96,8 @@ function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {}
  * Inserts global data defined at top level of the program.
  */
 function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
+
+
   ctx.cVmContext = {
     ...ctx.cVmContext
     // DATASEGMENT: gEnv.
@@ -114,14 +116,14 @@ function setupMemAndReg(ctx: Context, gEnv: GlobalCTE): void {
 
   // const START_OF_STACK = gEnv.totalDataSize + gEnv.totalRODataSize + gEnv.totalInstrSize
   const START_OF_STACK = gEnv.nextAvailableOffset
-  dataview.setBytesAt(BigInt(START_OF_STACK), gEnv.EXIT_COMMAND_ADDR)
 
+  const START_OF_PROGRAM = gEnv.functionInstrs.length
   ctx.cVmContext = {
     ...ctx.cVmContext,
     isRunning: true,
-    PC: gEnv.getFunctionAddr('main'),
-    BP: BigInt(START_OF_STACK + WORD_SIZE), // We add word size since the first memory space is reserved for the exit command address
-    SP: BigInt(START_OF_STACK + WORD_SIZE * 2), // We add 2 word size since it's after the BP
+    PC: BigInt(START_OF_PROGRAM),
+    BP: BigInt(START_OF_STACK), // We add word size since the first memory space is reserved for the exit command address
+    SP: BigInt(START_OF_STACK + WORD_SIZE), // We add 2 word size since it's after the BP
     AX: BigInt(0), // default return value of main
     dataview: new MemoryModel()
   }

@@ -2,7 +2,7 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { DataType } from '../typings/datatype'
-import { Microcode, ReturnValue, StackPointer } from '../typings/microcode'
+import { BasePointer, BottomOfMemory, Microcode, Registers, ReturnValue, StackPointer } from '../typings/microcode'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
 
@@ -194,13 +194,11 @@ export class GlobalCTE {
 
   nextAvailableOffset: number = 0
 
+  globalDeclarationInstrs: Microcode[] = []
+
   // when main function is called, we need to exit the process
   // https://linux.die.net/man/2/exit
-  combinedInstrs: Microcode[] = [
-    {
-      type: 'ExitCommand'
-    }
-  ]
+  functionInstrs: Microcode[] = []
 
   getVar(sym: string): VariableInfo | undefined {
     if (this.globalFrame[sym]) {
@@ -238,7 +236,7 @@ export class GlobalCTE {
       throw new CompileTimeError(`${name} has already been declared`)
     }
 
-    const prevLength = this.combinedInstrs.length
+    const prevLength = this.functionInstrs.length
     this.functionInfo[name] = {
       ...functionInfo,
       addr: BigInt(prevLength)
@@ -258,7 +256,7 @@ export class GlobalCTE {
       return
     }
 
-    this.combinedInstrs.push(...fEnv.instrs)
+    this.functionInstrs.push(...fEnv.instrs)
   }
 
   getFunctionAddr(sym: string): bigint {
@@ -294,6 +292,16 @@ export class GlobalCTE {
       MICROCODE.return
     )
   }
+
+  /**
+   * Combines the instruction segments into a single list.
+   */
+  collateInstructions(): Microcode[] {
+    const CALL_MAIN_AND_EXIT = [MICROCODE.call(this.getFunctionAddr('main')), MICROCODE.exit] 
+    return [...this.functionInstrs, ...this.globalDeclarationInstrs, ...CALL_MAIN_AND_EXIT]
+  }
+
+  
 }
 
 /**
@@ -317,18 +325,22 @@ export type CompileType = {
   structDef?: es.StructDef | undefined
 }
 
-export function getVar(name: string, fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): VariableInfo {
-  let varInfo
+export function getVar(name: string, fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): [Registers, VariableInfo] {
 
   if (fEnv) {
-    varInfo = fEnv.getVar(name)
+    const varInfo = fEnv.getVar(name);
+    if (varInfo) {
+      return [BasePointer, varInfo]
+    }
   }
-  varInfo = gEnv.getVar(name)
+  const varInfo = gEnv.getVar(name);
+  if (varInfo) {
+    return [BottomOfMemory, varInfo]
+  }
 
-  if (!varInfo) {
-    throw new CompileTimeError()
-  }
-  return varInfo
+
+  throw new CompileTimeError()
+
 }
 
 export function getFxDecl(name: string, gEnv: GlobalCTE): FunctionInfo {

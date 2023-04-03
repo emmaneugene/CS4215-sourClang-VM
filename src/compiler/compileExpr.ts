@@ -73,7 +73,7 @@ const getInstructions = (fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): Microc
   if (fEnv) {
     return fEnv.instrs
   } else {
-    return gEnv.combinedInstrs
+    return gEnv.globalDeclarationInstrs
   }
 }
 export function loadLit(expr: es.Literal, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
@@ -92,10 +92,10 @@ export function loadLit(expr: es.Literal, gEnv: GlobalCTE, fEnv?: FunctionCTE): 
 
 function loadIdentValue(expr: es.Identifier, gEnv: GlobalCTE, fEnv: FunctionCTE): CompileType {
   const { name } = expr
-  const varInfo = getVar(name, fEnv, gEnv)
+  const [register, varInfo] = getVar(name, fEnv, gEnv)
 
   fEnv.instrs.push(
-    MICROCODE.movMemToMem([BasePointer, varInfo.offset], [StackPointer, 0]),
+    MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
     MICROCODE.offsetRSP(WORD_SIZE)
   )
 
@@ -163,13 +163,13 @@ function compileUpdateExpr(
     throw new CompileTimeError()
   }
 
-  const varInfo = getVar(ident.name, fEnv, gEnv)
+  const [register, varInfo] = getVar(ident.name, fEnv, gEnv)
 
   if (expr.prefix) {
     // if prefix e.g. ++x
     fEnv.instrs.push(
       // 1. perform update (increment or decrement)
-      MICROCODE.movMemToMem([BasePointer, varInfo.offset], [StackPointer, 0]),
+      MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE),
       MICROCODE.movImm(getUpdateSize(varInfo.typeList), '2s'),
       MICROCODE.binop('+'),
@@ -208,9 +208,9 @@ function compileAddrOfExpr(
   fEnv?: FunctionCTE
 ): CompileType {
   if (expr.expression.type === 'Identifier') {
-    const v = getVar(expr.expression.name, fEnv, gEnv)
+    const [register, v] = getVar(expr.expression.name, fEnv, gEnv)
     getInstructions(fEnv, gEnv).push(
-      MICROCODE.leal([BasePointer, v.offset], [StackPointer, 0]),
+      MICROCODE.leal([register, v.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE)
     )
     return {

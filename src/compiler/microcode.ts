@@ -1,6 +1,7 @@
 import {
   BinopCommand,
   CallCommand,
+  ExitCommand,
   LeaCommand,
   MovCommand,
   MovImmediateCommand,
@@ -105,5 +106,9 @@ export const MICROCODE = {
   gotor: (relativeValue: bigint): GotoRelativeCommand => ({
     type: 'GotoRelativeCommand',
     relativeValue
-  })
+  }),
+
+  exit: {
+    type: 'ExitCommand'
+  } as ExitCommand
 }
