@@ -2,9 +2,9 @@ import * as es from 'estree'
 
 import { loadBuiltInFunctions } from '../interpreter/builtin'
 import { compileFunctionDef } from './compileFunctionDef'
+import { compileGlobalVarDef } from './compileGlobalVarDef'
 import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
-import { compileGlobalVarDef } from './compileGlobalVarDef'
 
 /**
  * Converts the AST (from `./parser`) into

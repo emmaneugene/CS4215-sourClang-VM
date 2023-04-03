@@ -96,8 +96,6 @@ function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {}
  * Inserts global data defined at top level of the program.
  */
 function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
-
-
   ctx.cVmContext = {
     ...ctx.cVmContext
     // DATASEGMENT: gEnv.

@@ -2,7 +2,14 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { DataType } from '../typings/datatype'
-import { BasePointer, BottomOfMemory, Microcode, Registers, ReturnValue, StackPointer } from '../typings/microcode'
+import {
+  BasePointer,
+  BottomOfMemory,
+  Microcode,
+  Registers,
+  ReturnValue,
+  StackPointer
+} from '../typings/microcode'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
 
@@ -297,11 +304,9 @@ export class GlobalCTE {
    * Combines the instruction segments into a single list.
    */
   collateInstructions(): Microcode[] {
-    const CALL_MAIN_AND_EXIT = [MICROCODE.call(this.getFunctionAddr('main')), MICROCODE.exit] 
+    const CALL_MAIN_AND_EXIT = [MICROCODE.call(this.getFunctionAddr('main')), MICROCODE.exit]
     return [...this.functionInstrs, ...this.globalDeclarationInstrs, ...CALL_MAIN_AND_EXIT]
   }
-
-  
 }
 
 /**
@@ -325,22 +330,23 @@ export type CompileType = {
   structDef?: es.StructDef | undefined
 }
 
-export function getVar(name: string, fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): [Registers, VariableInfo] {
-
+export function getVar(
+  name: string,
+  fEnv: FunctionCTE | undefined,
+  gEnv: GlobalCTE
+): [Registers, VariableInfo] {
   if (fEnv) {
-    const varInfo = fEnv.getVar(name);
+    const varInfo = fEnv.getVar(name)
     if (varInfo) {
       return [BasePointer, varInfo]
     }
   }
-  const varInfo = gEnv.getVar(name);
+  const varInfo = gEnv.getVar(name)
   if (varInfo) {
     return [BottomOfMemory, varInfo]
   }
 
-
   throw new CompileTimeError()
-
 }
 
 export function getFxDecl(name: string, gEnv: GlobalCTE): FunctionInfo {
