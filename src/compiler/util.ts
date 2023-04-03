@@ -9,7 +9,7 @@ import { WORD_SIZE } from './../constants'
  *
  * E.g. given x++:
  *
- * if x is a pointer, increase x's value by 8.
+ * if x is a pointer, increase x's value by WORD_SIZE.
  * if x is an int/float, increase x's value by 1
  */
 export function getUpdateSize(typeList: TypeList): number {

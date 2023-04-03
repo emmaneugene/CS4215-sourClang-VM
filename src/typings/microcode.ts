@@ -33,7 +33,11 @@ export const BottomOfMemory = 'bot'
  * RAX = Return Value
  * TOP = Top of the stack
  */
-export type Registers = typeof StackPointer | typeof BasePointer | typeof ReturnValue | typeof BottomOfMemory
+export type Registers =
+  | typeof StackPointer
+  | typeof BasePointer
+  | typeof ReturnValue
+  | typeof BottomOfMemory
 
 /* Base of all commands */
 export interface BaseCommand {

@@ -1,7 +1,7 @@
 import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
-import { GotoRelativeCommand } from './../typings/microcode'
+import { BasePointer, GotoRelativeCommand, ReturnValue, StackPointer } from './../typings/microcode'
 import { compileExpr } from './compileExpr'
 import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
@@ -136,7 +136,7 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
 
     compileExpr(declaration.init, fEnv, gEnv)
     fEnv.instrs.push(
-      MICROCODE.movMemToMem(['rsp', -WORD_SIZE], ['rbp', v.offset]),
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, v.offset]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )
   }
@@ -147,7 +147,7 @@ function compileRetStmt(stmt: es.ReturnStatement, fEnv: FunctionCTE, gEnv: Globa
     // doesn't consider the case when u return the struct
     compileExpr(stmt.argument, fEnv, gEnv)
     fEnv.instrs.push(
-      MICROCODE.movMemToReg('rax', ['rsp', -WORD_SIZE]),
+      MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )
   }
@@ -167,7 +167,7 @@ export function compileAssignmentStmt(
     const { typeList, offset } = getVar(left.name, fEnv, gEnv)
     if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
     fEnv.instrs.push(
-      MICROCODE.movMemToMem(['rsp', -WORD_SIZE], ['rbp', offset]),
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, offset]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )
     return

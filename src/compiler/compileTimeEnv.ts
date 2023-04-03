@@ -1,7 +1,8 @@
 import * as es from 'estree'
 
+import { WORD_SIZE } from '../constants'
 import { DataType } from '../typings/datatype'
-import { Microcode } from '../typings/microcode'
+import { Microcode, ReturnValue, StackPointer } from '../typings/microcode'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
 
@@ -30,9 +31,12 @@ export interface FunctionInfo {
   addr: bigint
 
   /**
-   * The type info for each arg.
+   * The type info for each arg
+   * to ensure typechecking
+   * TODO: This is not used yet, but will be used
+   * to do a compiler typecheck
    */
-  params: es.TypeList[]
+  argumentTypes: es.TypeList[]
 
   /**
    * Reflects what the function returns
@@ -47,7 +51,7 @@ export interface FunctionInfo {
  *
  * rbp points to prev_rbp (for stack restoration).
  * var1 is addressed relative to rbp, i.e.
- * var1.offset = rbp + 8
+ * var1.offset = rbp + WORD_SIZE
  *
  * prev_rbp is set at runtime.
  */
@@ -67,7 +71,7 @@ export class FunctionCTE {
   /**
    * The parameters of the function as an array of name-typeList pairs.
    */
-  params: Array<[string, es.TypeList]> = []
+  paramNameTypePairs: Record<string, es.TypeList> = {}
 
   /**
    * The microcode instructions for the function.
@@ -80,7 +84,7 @@ export class FunctionCTE {
   frames: Frame[] = []
 
   /** First slot at rbp is the old rbp value. */
-  nextAvailableOffset: number = 8
+  nextAvailableOffset: number = WORD_SIZE
 
   /**
    * The maximum offset that can be allocated for local variables on the stack.
@@ -100,11 +104,14 @@ export class FunctionCTE {
   constructor(name: string, returnType: es.TypeList, params: VariableInfo[], localVarSize: number) {
     this.name = name
     this.returnType = returnType
+    const populateParams = (p: VariableInfo) => (
+      this.paramNameTypePairs[p.name] = p.typeList
+    )
+    params.forEach(populateParams)
 
-    this.params = params.map(p => [p.name, p.typeList])
     this.extendFrame(params)
-    // Add 8 to account for the old rbp value
-    this.MAX_OFFSET = localVarSize + 8
+    // Add WORD_SIZE to account for the old rbp value
+    this.MAX_OFFSET = localVarSize + WORD_SIZE
   }
 
   /**
@@ -136,7 +143,7 @@ export class FunctionCTE {
     const v = {
       name,
       typeList,
-      offset: this.allocNBytesOnStack(8)
+      offset: this.allocNBytesOnStack(WORD_SIZE)
     }
 
     const lastFrame = this.frames[this.frames.length - 1]
@@ -194,6 +201,10 @@ export class GlobalCTE {
   getVar(sym: string): VariableInfo | undefined {
     return
   }
+
+  // addVar(sym: string, typeList: es.TypeList): VariableInfo {
+
+  // }
 
   /**
    * Sets a function prototype into the global compile env.
@@ -259,7 +270,7 @@ export class GlobalCTE {
     }
     fEnv.instrs.push(
       MICROCODE.movImm(0, '2s'),
-      MICROCODE.movMemToReg('rax', ['rsp', -8]),
+      MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
       MICROCODE.return
     )
   }

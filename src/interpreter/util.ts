@@ -1,22 +1,26 @@
 import { Context } from '../types'
-import { BasePointer, BottomOfMemory,Registers, ReturnValue, StackPointer } from '../typings/microcode'
-
+import {
+  BasePointer,
+  BottomOfMemory,
+  Registers,
+  ReturnValue,
+  StackPointer
+} from '../typings/microcode'
 
 export const getRegister = (ctx: Context) => ({
   [StackPointer]: ctx.cVmContext.SP,
   [BasePointer]: ctx.cVmContext.BP,
   [ReturnValue]: ctx.cVmContext.AX,
-  [BottomOfMemory]: ctx.cVmContext.BOT,
+  [BottomOfMemory]: ctx.cVmContext.BOT
 })
-
 
 /**
  * Sets the value of a register in the current context
- * @param ctx 
- * @param reg 
- * @param value 
+ * @param ctx
+ * @param reg
+ * @param value
  */
-export const setRegister = (ctx: Context,  reg: Registers, value: bigint) => {
+export const setRegister = (ctx: Context, reg: Registers, value: bigint) => {
   switch (reg) {
     case StackPointer:
       ctx.cVmContext.SP = value
@@ -30,11 +34,8 @@ export const setRegister = (ctx: Context,  reg: Registers, value: bigint) => {
     case BottomOfMemory:
       ctx.cVmContext.BOT = value
       break
-
   }
 }
-
-
 
 /**
  * Calculates the address of a register + offset
@@ -45,8 +46,6 @@ export const setRegister = (ctx: Context,  reg: Registers, value: bigint) => {
  * @param offset
  * @returns address
  */
-export function loadEffectiveAddress(ctx: Context, reg: Registers, offset: number): bigint {
-  if (reg === ReturnValue) { throw new Error('Cannot load effective address of return value') }
+export function calculateAddress(ctx: Context, reg: Registers, offset: number): bigint {
   return getRegister(ctx)[reg] + BigInt(offset)
-
 }
