@@ -27,10 +27,16 @@ FREE_CTE.instrs = [{ type: 'ExecuteBuiltInFxCommand', name: 'free' }, { type: 'R
  * @param gEnv The global environment to load into
  */
 export function loadBuiltInFunctions(gEnv: GlobalCTE): void {
-  gEnv.addFunction(PRINTF_CTE)
-  gEnv.addFunction(SCANF_CTE)
-  gEnv.addFunction(MALLOC_CTE)
-  gEnv.addFunction(FREE_CTE)
+  const builtinFunctions = [PRINTF_CTE, SCANF_CTE, MALLOC_CTE, FREE_CTE]
+
+  for (const cte of builtinFunctions) {
+    gEnv.setFunctionPrototype({
+      name: cte.name,
+      returnType: cte.returnType,
+      params: cte.params.map(p => p[1])
+    })
+    gEnv.addFunctionInstrs(cte)
+  }
 }
 
 /**

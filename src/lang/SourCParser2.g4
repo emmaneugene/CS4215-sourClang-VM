@@ -47,7 +47,7 @@ stmt:
     | compoundStatement # CmpdStmt
     | If LeftParen expr RightParen compoundStatement (Else compoundStatement)? # IfElseStmt
     | While LeftParen expr RightParen compoundStatement # WhileStmt
-    | For LeftParen init=assignment? Semi test=expr? Semi incr=expr? RightParen compoundStatement # ForStmt
+    | For LeftParen init=assignment? Semi test=expr? Semi (incrExpr=expr | incrAssgn=assignment)? RightParen compoundStatement # ForStmt
     | Return expr? Semi # ReturnExpr
     | Break Semi # BreakStmt
     | Continue Semi # ContinueStmt

@@ -19,6 +19,11 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
   const localVarSize = countLocalVarSize(node.body.body)
 
   const fEnv = new FunctionCTE(name, typeList, paramLs, localVarSize)
+  gEnv.setFunctionPrototype({
+    name,
+    params: paramLs.map(p => p.typeList),
+    returnType: typeList
+  })
 
   // alloc space on the stack for
   // all of this function's declarations
@@ -26,7 +31,7 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
 
   compileBlkStmt(node.body, fEnv, gEnv)
 
-  gEnv.addFunction(fEnv)
+  gEnv.addFunctionInstrs(fEnv)
 }
 
 /**
