@@ -29,6 +29,11 @@ export interface CVMContext {
   AX: bigint
 
   /**
+   * bottom of stack (default is 0)
+   */
+  BOT: bigint
+
+  /**
    * List of instructions.
    * TODO: Should go into dataview?
    */
@@ -42,10 +47,11 @@ export class MemoryModel {
 
   private SIZE: number
 
+  private static DEFAULT_SIZE = 2 ** 10
   /**
    * @param size Defaults to 1KB
    */
-  constructor(size: number = 2 ** 10) {
+  constructor(size: number = MemoryModel.DEFAULT_SIZE) {
     this.dv = new DataView(new ArrayBuffer(size))
     this.SIZE = size
   }

@@ -1,4 +1,41 @@
 import { Context } from '../types'
+import {
+  BasePointer,
+  BottomOfMemory,
+  Registers,
+  ReturnValue,
+  StackPointer
+} from '../typings/microcode'
+
+export const getRegister = (ctx: Context) => ({
+  [StackPointer]: ctx.cVmContext.SP,
+  [BasePointer]: ctx.cVmContext.BP,
+  [ReturnValue]: ctx.cVmContext.AX,
+  [BottomOfMemory]: ctx.cVmContext.BOT
+})
+
+/**
+ * Sets the value of a register in the current context
+ * @param ctx
+ * @param reg
+ * @param value
+ */
+export const setRegister = (ctx: Context, reg: Registers, value: bigint) => {
+  switch (reg) {
+    case StackPointer:
+      ctx.cVmContext.SP = value
+      break
+    case BasePointer:
+      ctx.cVmContext.BP = value
+      break
+    case ReturnValue:
+      ctx.cVmContext.AX = value
+      break
+    case BottomOfMemory:
+      ctx.cVmContext.BOT = value
+      break
+  }
+}
 
 /**
  * Calculates the address of a register + offset
@@ -9,20 +46,6 @@ import { Context } from '../types'
  * @param offset
  * @returns address
  */
-export function lea(ctx: Context, reg: 'rbp' | 'rsp' | 'rip' | 'rax', offset: number): bigint {
-  if (reg === 'rbp') {
-    return ctx.cVmContext.BP + BigInt(offset)
-  }
-
-  if (reg === 'rsp') {
-    return ctx.cVmContext.SP + BigInt(offset)
-  }
-
-  if (reg === 'rax') {
-    // Ignore offset, since AX is not
-    // a 'controlled' reg like rbp or rbp
-    return ctx.cVmContext.AX
-  }
-
-  throw new Error()
+export function calculateAddress(ctx: Context, reg: Registers, offset: number): bigint {
+  return getRegister(ctx)[reg] + BigInt(offset)
 }

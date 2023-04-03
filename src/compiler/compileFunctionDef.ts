@@ -1,5 +1,6 @@
 import * as es from 'estree'
 
+import { WORD_SIZE } from '../constants'
 import { compileBlkStmt } from './compileStmt'
 import { FunctionCTE, GlobalCTE, VariableInfo } from './compileTimeEnv'
 import { CompileTimeError } from './error'
@@ -17,11 +18,10 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
   const { name, typeList } = node.id!
   const paramLs = getParamsAsLs(node.params)
   const localVarSize = countLocalVarSize(node.body.body)
-
   const fEnv = new FunctionCTE(name, typeList, paramLs, localVarSize)
   gEnv.setFunctionPrototype({
     name,
-    params: paramLs.map(p => p.typeList),
+    argumentTypes: paramLs.map(p => p.typeList),
     returnType: typeList
   })
 
@@ -42,11 +42,11 @@ export function compileFunctionDef(node: es.FunctionDeclaration, gEnv: GlobalCTE
  */
 function getParamsAsLs(params: es.Pattern[]): VariableInfo[] {
   const rv: VariableInfo[] = []
-  let currArgOffset = -8
+  let currArgOffset = -WORD_SIZE
   for (let i = 0; i < params.length; i++) {
     const p = params[i]
     if (p.type !== 'Identifier') throw new CompileTimeError()
-    const vOffset = currArgOffset - 8
+    const vOffset = currArgOffset - WORD_SIZE
     rv.push({
       name: p.name,
       typeList: p.typeList,
@@ -66,7 +66,7 @@ function countLocalVarSize(stmts: es.Statement[]): number {
   let sum = 0
   for (const stmt of stmts) {
     if (stmt.type === 'VariableDeclaration') {
-      sum += 8 // TODO: Consider arrays and structs too
+      sum += WORD_SIZE // TODO: Consider arrays and structs too
     }
 
     if (stmt.type === 'BlockStatement') {

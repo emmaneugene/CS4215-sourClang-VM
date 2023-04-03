@@ -21,6 +21,24 @@ export interface MicrocodeMap {
 /* Union types in MicrocodeMap */
 export type Microcode = MicrocodeMap[keyof MicrocodeMap]
 
+export const StackPointer = 'rsp'
+export const BasePointer = 'rbp'
+export const ReturnValue = 'rax'
+export const BottomOfMemory = 'bot'
+
+/**
+ * Represents the various registers we have
+ * RSP = Stack Pointer
+ * RBP = Base Pointer
+ * RAX = Return Value
+ * TOP = Top of the stack
+ */
+export type Registers =
+  | typeof StackPointer
+  | typeof BasePointer
+  | typeof ReturnValue
+  | typeof BottomOfMemory
+
 /* Base of all commands */
 export interface BaseCommand {
   type: string
@@ -90,11 +108,11 @@ export interface UnopCommand extends BaseCommand {
 export interface LeaCommand extends BaseCommand {
   type: 'LeaCommand'
   value: {
-    reg: 'rbp' | 'rsp' | 'rip' | 'rax'
+    reg: Registers
     offset: number
   }
   dest: {
-    reg: 'rbp' | 'rsp' | 'rip' | 'rax'
+    reg: Registers
     offset: number
   }
 }
@@ -106,12 +124,12 @@ export type MovAddressingMode = RegisterAddrMode | RelativeAddrMode
 
 export type RegisterAddrMode = {
   type: 'register'
-  reg: 'rbp' | 'rsp' | 'rax'
+  reg: Registers
   offset?: number
 }
 export type RelativeAddrMode = {
   type: 'relative'
-  reg: 'rbp' | 'rsp' | 'rax'
+  reg: Registers
   offset: number
 }
 

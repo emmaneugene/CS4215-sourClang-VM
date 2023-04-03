@@ -2,6 +2,7 @@ import * as es from 'estree'
 
 import { loadBuiltInFunctions } from '../interpreter/builtin'
 import { compileFunctionDef } from './compileFunctionDef'
+import { compileGlobalVarDef } from './compileGlobalVarDef'
 import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 
@@ -36,7 +37,8 @@ export function compile(ast: es.Program): GlobalCTE | undefined {
      * int y3 = x; // will crash
      */
     if (stmt.type === 'VariableDeclaration') {
-      throw new CompileTimeError()
+      compileGlobalVarDef(stmt, gEnv)
+      continue
     }
 
     throw new CompileTimeError()

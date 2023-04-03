@@ -2,6 +2,7 @@ import * as es from 'estree'
 
 import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
+import { WORD_SIZE } from '../constants'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
 import { parse } from '../parser/parser'
@@ -40,9 +41,16 @@ export async function sourceRunner(
 
   const globalCte = compile(program)
   if (globalCte) {
-    addInstrSegment(context, globalCte)
-    addRODataSegment(context, globalCte)
+    // similar to C where segments are ordered in memory
+    /**
+     * 1. Data segment
+     * 2. Read-only data segment
+     * 3. Instructions segment
+     * 4. Stack
+     */
     addDataSegment(context, globalCte)
+    addRODataSegment(context, globalCte)
+    addInstrSegment(context, globalCte)
     setupMemAndReg(context, globalCte)
   }
 
@@ -74,7 +82,7 @@ export async function sourceFilesRunner(
 function addInstrSegment(ctx: Context, gEnv: GlobalCTE): void {
   ctx.cVmContext = {
     ...ctx.cVmContext,
-    instrs: gEnv.combinedInstrs
+    instrs: gEnv.collateInstructions()
   }
 }
 
@@ -87,27 +95,34 @@ function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {}
 /**
  * Inserts global data defined at top level of the program.
  */
-function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {}
+function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
+  ctx.cVmContext = {
+    ...ctx.cVmContext
+    // DATASEGMENT: gEnv.
+  }
+}
 
 /**
  * Set up the memory and registers prior to launch.
  *
  * For main,
- * rbp points to empty prev_rbp value.
+ * rbp points to empty prev_rbp value
  * rbp-8 points to return address
  */
 function setupMemAndReg(ctx: Context, gEnv: GlobalCTE): void {
   const dataview = new MemoryModel()
 
-  dataview.setBytesAt(BigInt(0), gEnv.EXIT_COMMAND_ADDR)
+  // const START_OF_STACK = gEnv.totalDataSize + gEnv.totalRODataSize + gEnv.totalInstrSize
+  const START_OF_STACK = gEnv.nextAvailableOffset
 
+  const START_OF_PROGRAM = gEnv.functionInstrs.length
   ctx.cVmContext = {
     ...ctx.cVmContext,
     isRunning: true,
-    PC: gEnv.getFunctionAddr('main'),
-    BP: BigInt(8), // offset by 8 for return addres
-    SP: BigInt(16),
-    AX: BigInt(0),
+    PC: BigInt(START_OF_PROGRAM),
+    BP: BigInt(START_OF_STACK), // We add word size since the first memory space is reserved for the exit command address
+    SP: BigInt(START_OF_STACK + WORD_SIZE), // We add 2 word size since it's after the BP
+    AX: BigInt(0), // default return value of main
     dataview: new MemoryModel()
   }
 }

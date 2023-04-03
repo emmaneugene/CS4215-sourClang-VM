@@ -33,7 +33,7 @@ export function loadBuiltInFunctions(gEnv: GlobalCTE): void {
     gEnv.setFunctionPrototype({
       name: cte.name,
       returnType: cte.returnType,
-      params: cte.params.map(p => p[1])
+      argumentTypes: Object.values(cte.paramNameTypePairs)
     })
     gEnv.addFunctionInstrs(cte)
   }
@@ -50,6 +50,7 @@ export function loadBuiltInFunctions(gEnv: GlobalCTE): void {
 export const BUILT_IN_IMPL_CTX: Record<BuiltInFxName, (c: Context) => void> = {
   printf: (ctx: Context): void => {
     const { dataview } = ctx.cVmContext
+    // printf first argument is a string
     const strPtr = getFirstArg(ctx.cVmContext.BP, dataview)
 
     // TODO: Implement the reading of the string from the strPtr

@@ -1,7 +1,15 @@
 import * as es from 'estree'
 
+import { WORD_SIZE } from '../constants'
 import { DataType } from '../typings/datatype'
-import { Microcode } from '../typings/microcode'
+import {
+  BasePointer,
+  BottomOfMemory,
+  Microcode,
+  Registers,
+  ReturnValue,
+  StackPointer
+} from '../typings/microcode'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
 
@@ -16,7 +24,9 @@ export interface VariableInfo {
    */
   typeList: es.TypeList
 
-  /** The "home" of a variable = rbp + offset */
+  /** The "home" of a variable = address + offset
+   *  Address will be bottom of memory for Global CompileTimeEnv or rbp for function CompileTimeEnv
+   */
   offset: number
 
   /** The initial value of a variable */
@@ -30,9 +40,12 @@ export interface FunctionInfo {
   addr: bigint
 
   /**
-   * The type info for each arg.
+   * The type info for each arg
+   * to ensure typechecking
+   * TODO: This is not used yet, but will be used
+   * to do a compiler typecheck
    */
-  params: es.TypeList[]
+  argumentTypes: es.TypeList[]
 
   /**
    * Reflects what the function returns
@@ -47,7 +60,7 @@ export interface FunctionInfo {
  *
  * rbp points to prev_rbp (for stack restoration).
  * var1 is addressed relative to rbp, i.e.
- * var1.offset = rbp + 8
+ * var1.offset = rbp + WORD_SIZE
  *
  * prev_rbp is set at runtime.
  */
@@ -67,7 +80,7 @@ export class FunctionCTE {
   /**
    * The parameters of the function as an array of name-typeList pairs.
    */
-  params: Array<[string, es.TypeList]> = []
+  paramNameTypePairs: Record<string, es.TypeList> = {}
 
   /**
    * The microcode instructions for the function.
@@ -80,7 +93,7 @@ export class FunctionCTE {
   frames: Frame[] = []
 
   /** First slot at rbp is the old rbp value. */
-  nextAvailableOffset: number = 8
+  nextAvailableOffset: number = WORD_SIZE
 
   /**
    * The maximum offset that can be allocated for local variables on the stack.
@@ -93,18 +106,19 @@ export class FunctionCTE {
    * @param {string} name - The name of the function.
    * @param {es.TypeList} returnType - The return type of the function.
    * @param {VariableInfo[]} params - The parameters of the function.
-   * @param {number} localVarSize - The size of the local variables in the function.
+   * @param {number} localVarSize - Total size of the local variables in the function.
    *
    * @throws {CompileTimeError} If the function's name, parameter list, or local variable size are invalid.
    */
   constructor(name: string, returnType: es.TypeList, params: VariableInfo[], localVarSize: number) {
     this.name = name
     this.returnType = returnType
+    const populateParams = (p: VariableInfo) => (this.paramNameTypePairs[p.name] = p.typeList)
+    params.forEach(populateParams)
 
-    this.params = params.map(p => [p.name, p.typeList])
     this.extendFrame(params)
-    // Add 8 to account for the old rbp value
-    this.MAX_OFFSET = localVarSize + 8
+    // Add WORD_SIZE to account for the old rbp value
+    this.MAX_OFFSET = localVarSize + WORD_SIZE
   }
 
   /**
@@ -136,7 +150,7 @@ export class FunctionCTE {
     const v = {
       name,
       typeList,
-      offset: this.allocNBytesOnStack(8)
+      offset: this.allocNBytesOnStack(WORD_SIZE)
     }
 
     const lastFrame = this.frames[this.frames.length - 1]
@@ -183,16 +197,38 @@ export class GlobalCTE {
 
   readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
 
+  globalFrame: Frame = {}
+
+  nextAvailableOffset: number = 0
+
+  globalDeclarationInstrs: Microcode[] = []
+
   // when main function is called, we need to exit the process
   // https://linux.die.net/man/2/exit
-  combinedInstrs: Microcode[] = [
-    {
-      type: 'ExitCommand'
-    }
-  ]
+  functionInstrs: Microcode[] = []
 
   getVar(sym: string): VariableInfo | undefined {
-    return
+    if (this.globalFrame[sym]) {
+      return this.globalFrame[sym]
+    }
+    throw new CompileTimeError(`error: '${sym}' undeclared`)
+  }
+
+  addVar(sym: string, typeList: es.TypeList): VariableInfo {
+    const variableAddress = this.allocateNBytesOnStack(WORD_SIZE)
+    const varInfo = {
+      name: sym,
+      typeList,
+      offset: variableAddress
+    }
+    this.globalFrame[sym] = varInfo
+    return varInfo
+  }
+
+  allocateNBytesOnStack(N: number): number {
+    const rv = this.nextAvailableOffset
+    this.nextAvailableOffset += N
+    return rv
   }
 
   /**
@@ -207,7 +243,7 @@ export class GlobalCTE {
       throw new CompileTimeError(`${name} has already been declared`)
     }
 
-    const prevLength = this.combinedInstrs.length
+    const prevLength = this.functionInstrs.length
     this.functionInfo[name] = {
       ...functionInfo,
       addr: BigInt(prevLength)
@@ -227,7 +263,7 @@ export class GlobalCTE {
       return
     }
 
-    this.combinedInstrs.push(...fEnv.instrs)
+    this.functionInstrs.push(...fEnv.instrs)
   }
 
   getFunctionAddr(sym: string): bigint {
@@ -259,9 +295,17 @@ export class GlobalCTE {
     }
     fEnv.instrs.push(
       MICROCODE.movImm(0, '2s'),
-      MICROCODE.movMemToReg('rax', ['rsp', -8]),
+      MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
       MICROCODE.return
     )
+  }
+
+  /**
+   * Combines the instruction segments into a single list.
+   */
+  collateInstructions(): Microcode[] {
+    const CALL_MAIN_AND_EXIT = [MICROCODE.call(this.getFunctionAddr('main')), MICROCODE.exit]
+    return [...this.functionInstrs, ...this.globalDeclarationInstrs, ...CALL_MAIN_AND_EXIT]
   }
 }
 
@@ -286,16 +330,23 @@ export type CompileType = {
   structDef?: es.StructDef | undefined
 }
 
-export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): VariableInfo {
-  let varInfo = fEnv.getVar(name)
-  if (!varInfo) {
-    varInfo = gEnv.getVar(name)
+export function getVar(
+  name: string,
+  fEnv: FunctionCTE | undefined,
+  gEnv: GlobalCTE
+): [Registers, VariableInfo] {
+  if (fEnv) {
+    const varInfo = fEnv.getVar(name)
+    if (varInfo) {
+      return [BasePointer, varInfo]
+    }
+  }
+  const varInfo = gEnv.getVar(name)
+  if (varInfo) {
+    return [BottomOfMemory, varInfo]
   }
 
-  if (!varInfo) {
-    throw new CompileTimeError()
-  }
-  return varInfo
+  throw new CompileTimeError()
 }
 
 export function getFxDecl(name: string, gEnv: GlobalCTE): FunctionInfo {

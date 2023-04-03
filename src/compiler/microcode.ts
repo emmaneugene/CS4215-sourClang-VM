@@ -1,15 +1,19 @@
 import {
   BinopCommand,
   CallCommand,
+  ExitCommand,
   LeaCommand,
   MovCommand,
   MovImmediateCommand,
   OffsetRspCommand,
+  Registers,
   ReturnCommand,
   UnopCommand
 } from '../typings/microcode'
 import { GotoRelativeCommand, JumpOnFalseRelativeCommand } from './../typings/microcode'
-type RegOffset = ['rsp' | 'rbp' | 'rax', number]
+
+// TODO: use a record
+type RegOffset = [Registers, number]
 
 export const MICROCODE = {
   movImm: (value: number, encoding: '2s' | 'ieee'): MovImmediateCommand => ({
@@ -32,7 +36,7 @@ export const MICROCODE = {
     }
   }),
 
-  movMemToReg: (reg: 'rbp' | 'rax', from: RegOffset): MovCommand => ({
+  movMemToReg: (reg: Registers, from: RegOffset): MovCommand => ({
     type: 'MovCommand',
     from: {
       type: 'relative',
@@ -45,12 +49,11 @@ export const MICROCODE = {
     }
   }),
 
-  movRegToMem: (reg: RegOffset, mem: RegOffset): MovCommand => ({
+  movRegToMem: (reg: Registers, mem: RegOffset): MovCommand => ({
     type: 'MovCommand',
     from: {
       type: 'register',
-      reg: reg[0],
-      offset: reg[1]
+      reg: reg
     },
     to: {
       type: 'relative',
@@ -103,5 +106,9 @@ export const MICROCODE = {
   gotor: (relativeValue: bigint): GotoRelativeCommand => ({
     type: 'GotoRelativeCommand',
     relativeValue
-  })
+  }),
+
+  exit: {
+    type: 'ExitCommand'
+  } as ExitCommand
 }

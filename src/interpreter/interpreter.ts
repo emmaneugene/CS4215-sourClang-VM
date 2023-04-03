@@ -1,23 +1,22 @@
 /* tslint:disable:max-classes-per-file */
+import { WORD_SIZE } from '../constants'
 import { Context, Value } from '../types'
-import { GotoRelativeCommand } from './../typings/microcode'
+import { GotoRelativeCommand, StackPointer } from './../typings/microcode'
 import { JumpOnFalseRelativeCommand } from './../typings/microcode'
 import { RelativeAddrMode } from './../typings/microcode'
 import {
   BinopCommand,
   CallCommand,
   ExecuteBuiltInFxCommand,
-  ExitCommand,
   LeaCommand,
   Microcode,
   MovCommand,
   MovImmediateCommand,
   OffsetRspCommand,
-  ReturnCommand,
   UnopCommand
 } from './../typings/microcode'
 import { BUILT_IN_IMPL_CTX } from './builtin'
-import { lea } from './util'
+import { calculateAddress, getRegister, setRegister } from './util'
 
 export function* evaluate(context: Context) {
   // previous impl:
@@ -95,8 +94,8 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     debugPrint(immCmd.type + ' ' + immCmd.value + ' ' + immCmd.encoding, ctx)
     const { dataview } = ctx.cVmContext
 
-    dataview.setBytesAt(lea(ctx, 'rsp', 0), BigInt(immCmd.value))
-    ctx.cVmContext.SP += BigInt(8)
+    dataview.setBytesAt(calculateAddress(ctx, StackPointer, 0), BigInt(immCmd.value))
+    ctx.cVmContext.SP += BigInt(WORD_SIZE)
 
     ctx.cVmContext.PC++
   },
@@ -119,42 +118,35 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     }
 
     // Mem[reg+offset] = Reg[reg] + offset
+    /**
+     * Used for the following cases:
+     * Returning Values: Mem[reg+offset] = AX
+     * Storing variable value to memory: Mem[reg+offset] = BP + offset
+     */
     if (from.type === 'register' && to.type === 'relative') {
       const { reg, offset } = to as RelativeAddrMode
-      const toAddr = lea(ctx, reg, offset)
+      const toAddr = calculateAddress(ctx, reg, offset)
 
       const fromOffset = BigInt(from.offset ?? 0)
-      if (from.reg === 'rax') {
-        dataview.setBytesAt(toAddr, ctx.cVmContext.AX + fromOffset)
-      } else if (from.reg === 'rbp') {
-        dataview.setBytesAt(toAddr, ctx.cVmContext.BP + fromOffset)
-      } else {
-        // Unsupported
-      }
+      dataview.setBytesAt(toAddr, getRegister(ctx)[from.reg] + fromOffset)
     }
 
     // R[reg] = Mem[reg+offset]
     // from's offset is ignore
     if (from.type === 'relative' && to.type === 'register') {
       const { reg, offset } = from as RelativeAddrMode
-      const fromAddr = lea(ctx, reg, offset)
-
-      if (to.reg === 'rax') {
-        ctx.cVmContext.AX = dataview.getBytesAt(fromAddr)
-      } else if (to.reg === 'rbp') {
-        ctx.cVmContext.BP = dataview.getBytesAt(fromAddr)
-      } else {
-        // Unsupported
-      }
+      const fromAddr = calculateAddress(ctx, reg, offset)
+      const valueFromMem = dataview.getBytesAt(fromAddr)
+      setRegister(ctx, to.reg, valueFromMem)
     }
 
     // M[reg+offset] = M[reg+offset]
     if (from.type === 'relative' && to.type === 'relative') {
-      const { reg: fReg, offset: fOff } = from as RelativeAddrMode
-      const fromAddr = lea(ctx, fReg, fOff)
+      const { reg: fromReg, offset: fOff } = from as RelativeAddrMode
+      const fromAddr = calculateAddress(ctx, fromReg, fOff)
 
-      const { reg: tReg, offset: tOff } = to as RelativeAddrMode
-      const toAddr = lea(ctx, tReg, tOff)
+      const { reg: toReg, offset: tOff } = to as RelativeAddrMode
+      const toAddr = calculateAddress(ctx, toReg, tOff)
 
       dataview.setBytesAt(toAddr, dataview.getBytesAt(fromAddr))
     }
@@ -164,6 +156,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
 
   /**
    * Calculates `value` and puts it into `dest`.
+   * To get the address of a certain variable (i.e. &x)
    * @param cmd
    * @param ctx
    */
@@ -172,8 +165,8 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const { dataview } = ctx.cVmContext
     const { value, dest } = leaCmd
 
-    const toAddr = lea(ctx, dest.reg, dest.offset)
-    const computedVal = lea(ctx, value.reg, value.offset)
+    const toAddr = calculateAddress(ctx, dest.reg, dest.offset)
+    const computedVal = calculateAddress(ctx, value.reg, value.offset)
 
     dataview.setBytesAt(toAddr, BigInt(computedVal))
 
@@ -202,8 +195,8 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const { dataview } = ctx.cVmContext
     const { op } = binopCmd
 
-    const arg1 = dataview.getBytesAt(lea(ctx, 'rsp', -16))
-    const arg2 = dataview.getBytesAt(lea(ctx, 'rsp', -8))
+    const arg1 = dataview.getBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2))
+    const arg2 = dataview.getBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE))
     debugPrint(`${binopCmd.type} ${op} ${arg1} ${arg2} `, ctx)
 
     let res = arg1
@@ -248,9 +241,9 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
         res = BigInt(arg1 && arg2)
         break
     }
-    dataview.setBytesAt(lea(ctx, 'rsp', -16), res)
+    dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2), res)
 
-    ctx.cVmContext.SP -= BigInt(8)
+    ctx.cVmContext.SP -= BigInt(WORD_SIZE)
     ctx.cVmContext.PC++
     dataview.debug()
   },
@@ -265,7 +258,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const { dataview } = ctx.cVmContext
     const { op } = unopCmd
 
-    const arg = dataview.getBytesAt(lea(ctx, 'rsp', -8))
+    const arg = dataview.getBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE))
     debugPrint(`${unopCmd.type} ${op} ${arg}`, ctx)
 
     let res = arg
@@ -277,7 +270,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
         res = -res
         break
     }
-    dataview.setBytesAt(lea(ctx, 'rsp', -8), res)
+    dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE), res)
 
     ctx.cVmContext.PC++
   },
@@ -300,7 +293,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
 
     // Pushes the return address onto stack
     dataview.setBytesAt(ctx.cVmContext.SP, ctx.cVmContext.PC + BigInt(1))
-    ctx.cVmContext.SP += BigInt(8)
+    ctx.cVmContext.SP += BigInt(WORD_SIZE)
 
     // Pushes and save the caller's rbp onto stack
     // Then, set the BP to the current SP
@@ -309,7 +302,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     dataview.setBytesAt(ctx.cVmContext.SP, ctx.cVmContext.BP)
     ctx.cVmContext.BP = ctx.cVmContext.SP
 
-    ctx.cVmContext.SP += BigInt(8)
+    ctx.cVmContext.SP += BigInt(WORD_SIZE)
     ctx.cVmContext.PC = addr
   },
 
@@ -320,7 +313,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    *
    * It performs the following:
    * - Restores the old bp (since it must be stored at Mem[rbp])
-   * - Restores the old return addresss [since it must be stored at Mem[rbp-8]]
+   * - Restores the old return addresss [since it must be stored at Mem[rbp-WORD_SIZE]]
    *
    * @param cmd
    * @param ctx
@@ -332,8 +325,8 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
 
     // restore caller's registers
     ctx.cVmContext.BP = dataview.getBytesAt(currFrameBP)
-    ctx.cVmContext.PC = dataview.getBytesAt(currFrameBP - BigInt(8))
-    ctx.cVmContext.SP = currFrameBP - BigInt(8)
+    ctx.cVmContext.PC = dataview.getBytesAt(currFrameBP - BigInt(WORD_SIZE))
+    ctx.cVmContext.SP = currFrameBP - BigInt(WORD_SIZE)
   },
 
   /**
@@ -361,7 +354,9 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   JumpOnFalseRelativeCommand: function* (cmd, ctx) {
     const jofr = cmd as JumpOnFalseRelativeCommand
     const { relativeValue } = jofr
-    const topOfStack = ctx.cVmContext.dataview.getBytesAt(lea(ctx, 'rsp', -8))
+    const topOfStack = ctx.cVmContext.dataview.getBytesAt(
+      calculateAddress(ctx, StackPointer, -WORD_SIZE)
+    )
 
     if (topOfStack == BigInt(0)) {
       ctx.cVmContext.PC += relativeValue
@@ -369,7 +364,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
       ctx.cVmContext.PC++
     }
 
-    ctx.cVmContext.SP -= BigInt(8)
+    ctx.cVmContext.SP -= BigInt(WORD_SIZE)
   },
 
   /**
