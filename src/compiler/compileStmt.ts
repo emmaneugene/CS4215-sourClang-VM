@@ -41,7 +41,7 @@ export function compileBlkStmt(
     }
 
     if (stmt.type === 'ExpressionStatement') {
-      compileExpr(stmt.expression, fEnv, gEnv)
+      compileExpr(stmt.expression, gEnv, fEnv)
       fEnv.instrs.push(MICROCODE.offsetRSP(-WORD_SIZE))
       continue
     }
@@ -134,7 +134,7 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
       continue
     }
 
-    compileExpr(declaration.init, fEnv, gEnv)
+    compileExpr(declaration.init, gEnv, fEnv)
     fEnv.instrs.push(
       MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, v.offset]),
       MICROCODE.offsetRSP(-WORD_SIZE)
@@ -145,7 +145,7 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
 function compileRetStmt(stmt: es.ReturnStatement, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   if (stmt.argument) {
     // doesn't consider the case when u return the struct
-    compileExpr(stmt.argument, fEnv, gEnv)
+    compileExpr(stmt.argument, gEnv, fEnv)
     fEnv.instrs.push(
       MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
       MICROCODE.offsetRSP(-WORD_SIZE)
@@ -160,7 +160,7 @@ export function compileAssignmentStmt(
   fEnv: FunctionCTE,
   gEnv: GlobalCTE
 ): void {
-  const rhs = compileExpr(stmt.right, fEnv, gEnv)
+  const rhs = compileExpr(stmt.right, gEnv, fEnv)
 
   if (stmt.left.type === 'Identifier') {
     const left = stmt.left as es.Identifier
@@ -191,7 +191,7 @@ function compileIfStmt(stmt: es.IfStatement, fEnv: FunctionCTE, gEnv: GlobalCTE)
   const jofor = MICROCODE.jofr(BigInt(0))
   const gotor = MICROCODE.gotor(BigInt(0))
 
-  compileExpr(test, fEnv, gEnv)
+  compileExpr(test, gEnv, fEnv)
   fEnv.instrs.push(jofor)
   const joforAddr = fEnv.instrs.length - 1
 
@@ -231,7 +231,7 @@ function compileWhileStmt(stmt: es.WhileStatement, fEnv: FunctionCTE, gEnv: Glob
 
   // Save the testAddr since we need to go back to this
   const testAddr = fEnv.instrs.length
-  compileExpr(test, fEnv, gEnv)
+  compileExpr(test, gEnv, fEnv)
 
   fEnv.instrs.push(jofor)
   const joforAddr = fEnv.instrs.length - 1
@@ -293,7 +293,7 @@ function compileForStmt(stmt: es.ForStatement, fEnv: FunctionCTE, gEnv: GlobalCT
     // If there is a test, goto should go to the first
     // instruction of test
     gotoDestAddr = fEnv.instrs.length
-    compileExpr(test, fEnv, gEnv)
+    compileExpr(test, gEnv, fEnv)
 
     joforAddr = fEnv.instrs.length
     fEnv.instrs.push(jofor)
@@ -319,7 +319,7 @@ function compileForStmt(stmt: es.ForStatement, fEnv: FunctionCTE, gEnv: GlobalCT
     if (update.type === 'AssignmentExpression') {
       compileAssignmentStmt(update, fEnv, gEnv)
     } else {
-      compileExpr(update, fEnv, gEnv)
+      compileExpr(update, gEnv, fEnv)
     }
   }
 
