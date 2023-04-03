@@ -2,6 +2,7 @@ import * as es from 'estree'
 
 import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
+import { WORD_SIZE } from '../constants'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
 import { parse } from '../parser/parser'
@@ -10,7 +11,6 @@ import { Context, Scheduler, Variant } from '../types'
 import { GlobalCTE } from './../compiler/compileTimeEnv'
 import { MemoryModel } from './../typings/runtime-context'
 import { determineVariant, resolvedErrorPromise } from './utils'
-import { WORD_SIZE } from '../constants'
 
 const DEFAULT_SOURCE_OPTIONS: IOptions = {
   scheduler: 'async',
@@ -97,7 +97,7 @@ function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {}
  */
 function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
   ctx.cVmContext = {
-    ...ctx.cVmContext,
+    ...ctx.cVmContext
     // DATASEGMENT: gEnv.
   }
 }
@@ -121,7 +121,7 @@ function setupMemAndReg(ctx: Context, gEnv: GlobalCTE): void {
     isRunning: true,
     PC: gEnv.getFunctionAddr('main'),
     BP: BigInt(START_OF_STACK + WORD_SIZE), // We add word size since the first memory space is reserved for the exit command address
-    SP: BigInt(START_OF_STACK + WORD_SIZE * 2),  // We add 2 word size since it's after the BP
+    SP: BigInt(START_OF_STACK + WORD_SIZE * 2), // We add 2 word size since it's after the BP
     AX: BigInt(0), // default return value of main
     dataview: new MemoryModel()
   }

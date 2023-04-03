@@ -206,7 +206,7 @@ export class GlobalCTE {
     if (this.globalFrame[sym]) {
       return this.globalFrame[sym]
     }
-    throw new CompileTimeError(`error: '${sym}' undeclared`)    
+    throw new CompileTimeError(`error: '${sym}' undeclared`)
   }
 
   addVar(sym: string, typeList: es.TypeList): VariableInfo {
