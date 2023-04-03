@@ -114,6 +114,7 @@ export const createEmptyContext = <T>(
       BP: BigInt(0),
       SP: BigInt(0),
       AX: BigInt(1),
+      BOT: BigInt(0),
       dataview: new MemoryModel()
     }
   }

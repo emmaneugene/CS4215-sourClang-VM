@@ -29,6 +29,11 @@ export interface CVMContext {
   AX: bigint
 
   /**
+   * bottom of stack (default is 0)
+   */
+  BOT: bigint
+
+  /**
    * List of instructions.
    * TODO: Should go into dataview?
    */
