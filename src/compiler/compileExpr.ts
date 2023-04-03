@@ -2,75 +2,88 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { DataType } from './../typings/datatype'
-import { BasePointer, ReturnValue, StackPointer } from './../typings/microcode'
+import { BasePointer, Microcode, ReturnValue, StackPointer } from './../typings/microcode'
 import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
 import { getUpdateSize } from './util'
 
-export function compileExpr(node: es.Expression, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
-  if (node.type === 'Literal') {
-    return loadLit(node, fEnv, gEnv)
+export function compileExpr(node: es.Expression, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
+  if (fEnv) {
+
+    if (node.type === 'MemberExpression') {
+      throw new CompileTimeError() //TODO: implement for array and struct
+    }
+  
+    if (node.type === 'CallExpression') {
+      return compileCallExpr(node, gEnv, fEnv)
+    }
+  
+    if (node.type === 'SequenceExpression') {
+      throw new CompileTimeError()
+    }
+    
+    if (node.type === 'DereferenceExpression') {
+      return compileValueOfExpr(node, gEnv, fEnv)
+    }
+    
+    if (node.type === 'ConditionalExpression') {
+      throw new CompileTimeError()
+    }
+
+    if (node.type === 'CastExpression') {
+      throw new CompileTimeError()
+    }
+    
+    if (node.type === 'UpdateExpression') {
+      return compileUpdateExpr(node, gEnv, fEnv)
+    }
+    
+    if (node.type === 'Identifier') {
+      return loadIdentValue(node, gEnv, fEnv)
+    }
   }
 
-  if (node.type === 'Identifier') {
-    return loadIdentValue(node, fEnv, gEnv)
+  if (node.type === 'Literal') {
+    return loadLit(node, gEnv, fEnv)
   }
+
 
   if (node.type === 'LogicalExpression') {
-    return compileLogicalExpr(node, fEnv, gEnv)
+    return compileLogicalExpr(node, gEnv, fEnv)
   }
 
   if (node.type === 'BinaryExpression') {
-    return compileBinExpr(node, fEnv, gEnv)
+    return compileBinExpr(node, gEnv, fEnv)
   }
 
-  if (node.type === 'ConditionalExpression') {
-    throw new CompileTimeError()
-  }
-
-  if (node.type === 'CastExpression') {
-    throw new CompileTimeError()
-  }
-
-  if (node.type === 'UpdateExpression') {
-    return compileUpdateExpr(node, fEnv, gEnv)
-  }
 
   if (node.type === 'SizeofExpression') {
-    throw new CompileTimeError()
+    throw new CompileTimeError() // TODO: to implement
   }
 
-  if (node.type === 'DereferenceExpression') {
-    return compileValueOfExpr(node, fEnv, gEnv)
-  }
 
   if (node.type === 'AddressofExpression') {
-    return compileAddrOfExpr(node, fEnv, gEnv)
+    return compileAddrOfExpr(node, gEnv, fEnv)
   }
 
   if (node.type === 'UnaryExpression') {
-    return compileUnaryExpr(node, fEnv, gEnv)
+    return compileUnaryExpr(node, gEnv, fEnv)
   }
 
-  if (node.type === 'MemberExpression') {
-    throw new CompileTimeError()
-  }
-
-  if (node.type === 'CallExpression') {
-    return compileCallExpr(node, fEnv, gEnv)
-  }
-
-  if (node.type === 'SequenceExpression') {
-    throw new CompileTimeError()
-  }
 
   throw new CompileTimeError()
 }
-
-function loadLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
+const getInstructions = (fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): Microcode[]  => {
+  if (fEnv) {
+    return fEnv.instrs
+  } else {
+    return gEnv.combinedInstrs
+  }
+}
+export function loadLit(expr: es.Literal, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
   if (typeof expr.value === 'number') {
-    fEnv.instrs.push(MICROCODE.movImm(expr.value, '2s'))
+    getInstructions(fEnv, gEnv).push(MICROCODE.movImm(expr.value, '2s'))
     return {
       // Return the largest possible
       // primitive type
@@ -82,7 +95,8 @@ function loadLit(expr: es.Literal, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileT
   throw new CompileTimeError()
 }
 
-function loadIdentValue(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
+
+function loadIdentValue(expr: es.Identifier, gEnv: GlobalCTE, fEnv: FunctionCTE): CompileType {
   const { name } = expr
   const varInfo = getVar(name, fEnv, gEnv)
 
@@ -99,18 +113,19 @@ function loadIdentValue(expr: es.Identifier, fEnv: FunctionCTE, gEnv: GlobalCTE)
 
 function compileLogicalExpr(
   expr: es.LogicalExpression,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE,
+
 ): CompileType {
   if (!['||', '&&'].includes(expr.operator)) throw new CompileTimeError()
   const op = expr.operator as '||' | '&&'
 
-  const t1 = compileExpr(expr.left, fEnv, gEnv)
-  const t2 = compileExpr(expr.right, fEnv, gEnv)
+  const t1 = compileExpr(expr.left, gEnv, fEnv)
+  const t2 = compileExpr(expr.right, gEnv, fEnv)
 
   // TODO: Check for valid type pairs
 
-  fEnv.instrs.push(MICROCODE.binop(op))
+  getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
   return {
     t: DataType.LONG,
     typeList: [DataType.LONG]
@@ -119,20 +134,20 @@ function compileLogicalExpr(
 
 function compileBinExpr(
   expr: es.BinaryExpression,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE,
 ): CompileType {
   if (!['+', '-', '*', '/', '%', '==', '!=', '<', '<=', '>', '>='].includes(expr.operator))
     throw new CompileTimeError()
   const op = expr.operator as '+' | '-' | '*' | '/' | '%'
 
-  const t1 = compileExpr(expr.left, fEnv, gEnv)
-  const t2 = compileExpr(expr.right, fEnv, gEnv)
+  const t1 = compileExpr(expr.left, gEnv, fEnv)
+  const t2 = compileExpr(expr.right, gEnv, fEnv)
 
   // TODO: Check for valid type pairs
   // typechecker.throwIfPointer([t1, t2])
 
-  fEnv.instrs.push(MICROCODE.binop(op))
+  getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
   return {
     t: DataType.LONG,
     typeList: [DataType.LONG]
@@ -141,8 +156,9 @@ function compileBinExpr(
 
 function compileUpdateExpr(
   expr: es.UpdateExpression,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
+  gEnv: GlobalCTE,
+fEnv: FunctionCTE,
+
 ): CompileType {
   const op = expr.operator === '++' ? '+' : expr.operator === '--' ? '-' : undefined
   if (!op) {
@@ -196,12 +212,13 @@ function compileUpdateExpr(
 
 function compileAddrOfExpr(
   expr: es.AddressofExpression,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE,
+
 ): CompileType {
   if (expr.expression.type === 'Identifier') {
     const v = getVar(expr.expression.name, fEnv, gEnv)
-    fEnv.instrs.push(
+    getInstructions(fEnv, gEnv).push(
       MICROCODE.leal([BasePointer, v.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE)
     )
@@ -217,10 +234,11 @@ function compileAddrOfExpr(
 
 function compileValueOfExpr(
   expr: es.DereferenceExpression,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
+  gEnv: GlobalCTE,
+fEnv: FunctionCTE,
+
 ): CompileType {
-  const t = compileExpr(expr.expression, fEnv, gEnv)
+  const t = compileExpr(expr.expression, gEnv, fEnv)
 
   // Check that the expr is indeed a pointer
   typechecker.throwIfNotPointer([t])
@@ -240,15 +258,15 @@ function compileValueOfExpr(
 
 function compileUnaryExpr(
   expr: es.UnaryExpression,
-  fEnv: FunctionCTE,
-  gEnv: GlobalCTE
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
 ): CompileType {
   if (expr.operator !== '-' && expr.operator !== '!') {
     throw new CompileTimeError()
   }
 
-  const t = compileExpr(expr.argument, fEnv, gEnv)
-  fEnv.instrs.push(MICROCODE.unop(expr.operator))
+  const t = compileExpr(expr.argument, gEnv, fEnv)
+  getInstructions(fEnv, gEnv).push(MICROCODE.unop(expr.operator))
 
   if (expr.operator === '!') {
     return {
@@ -265,7 +283,7 @@ function compileUnaryExpr(
   }
 }
 
-function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: GlobalCTE): CompileType {
+function compileCallExpr(expr: es.CallExpression, gEnv: GlobalCTE, fEnv: FunctionCTE): CompileType {
   const { callee, arguments: args } = expr // eslint disallows vars called variables
 
   // Based on `visitor.visitFunctionCall`, CallExpression
@@ -282,7 +300,7 @@ function compileCallExpr(expr: es.CallExpression, fEnv: FunctionCTE, gEnv: Globa
   // push onto stack in reverse over
   for (let i = args.length - 1; i >= 0; i--) {
     const supposedArgType = params[i]
-    const givenArgType = compileExpr(args[i] as es.Expression, fEnv, gEnv)
+    const givenArgType = compileExpr(args[i] as es.Expression, gEnv, fEnv)
 
     // TODO: Need to check if user provided valid types
     // But there may be a need to do implicit casting

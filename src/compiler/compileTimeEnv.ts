@@ -17,7 +17,9 @@ export interface VariableInfo {
    */
   typeList: es.TypeList
 
-  /** The "home" of a variable = rbp + offset */
+  /** The "home" of a variable = address + offset
+   *  Address will be bottom of memory for Global CompileTimeEnv or rbp for function CompileTimeEnv
+   */
   offset: number
 
   /** The initial value of a variable */
@@ -97,16 +99,14 @@ export class FunctionCTE {
    * @param {string} name - The name of the function.
    * @param {es.TypeList} returnType - The return type of the function.
    * @param {VariableInfo[]} params - The parameters of the function.
-   * @param {number} localVarSize - The size of the local variables in the function.
+   * @param {number} localVarSize - Total size of the local variables in the function.
    *
    * @throws {CompileTimeError} If the function's name, parameter list, or local variable size are invalid.
    */
   constructor(name: string, returnType: es.TypeList, params: VariableInfo[], localVarSize: number) {
     this.name = name
     this.returnType = returnType
-    const populateParams = (p: VariableInfo) => (
-      this.paramNameTypePairs[p.name] = p.typeList
-    )
+    const populateParams = (p: VariableInfo) => (this.paramNameTypePairs[p.name] = p.typeList)
     params.forEach(populateParams)
 
     this.extendFrame(params)
@@ -190,6 +190,10 @@ export class GlobalCTE {
 
   readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
 
+  globalFrame: Frame = {}
+
+  nextAvailableOffset: number = 0
+
   // when main function is called, we need to exit the process
   // https://linux.die.net/man/2/exit
   combinedInstrs: Microcode[] = [
@@ -199,12 +203,28 @@ export class GlobalCTE {
   ]
 
   getVar(sym: string): VariableInfo | undefined {
-    return
+    if (this.globalFrame[sym]) {
+      return this.globalFrame[sym]
+    }
+    throw new CompileTimeError(`error: '${sym}' undeclared`)    
   }
 
-  // addVar(sym: string, typeList: es.TypeList): VariableInfo {
+  addVar(sym: string, typeList: es.TypeList): VariableInfo {
+    const variableAddress = this.allocateNBytesOnStack(WORD_SIZE)
+    const varInfo = {
+      name: sym,
+      typeList,
+      offset: variableAddress
+    }
+    this.globalFrame[sym] = varInfo
+    return varInfo
+  }
 
-  // }
+  allocateNBytesOnStack(N: number): number {
+    const rv = this.nextAvailableOffset
+    this.nextAvailableOffset += N
+    return rv
+  }
 
   /**
    * Sets a function prototype into the global compile env.
@@ -297,11 +317,13 @@ export type CompileType = {
   structDef?: es.StructDef | undefined
 }
 
-export function getVar(name: string, fEnv: FunctionCTE, gEnv: GlobalCTE): VariableInfo {
-  let varInfo = fEnv.getVar(name)
-  if (!varInfo) {
-    varInfo = gEnv.getVar(name)
+export function getVar(name: string, fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): VariableInfo {
+  let varInfo
+
+  if (fEnv) {
+    varInfo = fEnv.getVar(name)
   }
+  varInfo = gEnv.getVar(name)
 
   if (!varInfo) {
     throw new CompileTimeError()
