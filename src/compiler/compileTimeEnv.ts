@@ -12,6 +12,7 @@ import {
 } from '../typings/microcode'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
+import { RODataSegment } from './rodataSegment'
 
 export type Frame = Record<string, VariableInfo>
 
@@ -218,6 +219,9 @@ export class GlobalCTE {
   /** Reflects the next unused free address. This is only set after `collateInstructions` */
   nextFreeAddr: bigint | undefined
 
+  /** A read only data segment. Used to look up strings. */
+  rodata: RODataSegment
+
   /**
    * When compiling the program into a list of instructions,
    * we need to figure out
@@ -228,12 +232,15 @@ export class GlobalCTE {
    *
    * @param writableDataStartAddr the start of the writable data segment
    * @param instrStartAddr the start of the instruction segment
+   * @param declaredStrings a list of strings in the program
    */
-  constructor(writableDataStartAddr: number, instrStartAddr: number) {
+  constructor(writableDataStartAddr: number, instrStartAddr: number, rodataSegment: RODataSegment) {
     this.startOfInstructionSegment = instrStartAddr
 
     this.nextAvailableVariableOffset = writableDataStartAddr
     this.nextAvailableInstructionAddress = instrStartAddr
+
+    this.rodata = rodataSegment
   }
 
   getVar(sym: string): VariableInfo | undefined {
@@ -252,6 +259,10 @@ export class GlobalCTE {
     }
     this.globalFrame[sym] = varInfo
     return varInfo
+  }
+
+  getStringAddr(s: string): number {
+    return this.rodata.getStringAddr(s)
   }
 
   allocateNBytesOnStack(N: number): number {

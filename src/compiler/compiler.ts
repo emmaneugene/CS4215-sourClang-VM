@@ -5,6 +5,7 @@ import { compileFunctionDef } from './compileFunctionDef'
 import { compileGlobalVarDef } from './compileGlobalVarDef'
 import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
+import { RODataSegment } from './rodataSegment'
 
 /**
  * Converts the AST (from `./parser`) into
@@ -21,7 +22,8 @@ export function compile(
   ast: es.Program,
   declaredStructDefinitions: Record<string, es.StructDef>,
   writableDataStartAddr: number,
-  instrStartingAddr: number
+  instrStartingAddr: number,
+  roDataSegment: RODataSegment
 ): GlobalCTE | undefined {
   if (ast.loc?.source === '') {
     // handle the case when the program is empty
@@ -34,7 +36,7 @@ export function compile(
   // We need to know where is the start of
   // the writable data segement,
   // and the instruction segment
-  const gEnv = new GlobalCTE(writableDataStartAddr, instrStartingAddr)
+  const gEnv = new GlobalCTE(writableDataStartAddr, instrStartingAddr, roDataSegment)
 
   // Add in the built-in functions instructions
   loadBuiltInFunctions(gEnv)

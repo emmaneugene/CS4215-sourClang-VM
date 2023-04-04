@@ -1,14 +1,13 @@
 import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
+import { RODataSegment } from '../compiler/rodataSegment'
 import { WORD_SIZE } from '../constants'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
 import { parse } from '../parser/parser'
 import { PreemptiveScheduler } from '../schedulers'
 import { Context, Scheduler, Variant } from '../types'
-import { convertCharToASCII } from '../utils/asciiConvertor'
 import { GlobalCTE } from './../compiler/compileTimeEnv'
-import { MemoryModel } from './../typings/runtime-context'
 import { determineVariant, resolvedErrorPromise } from './utils'
 
 const DEFAULT_SOURCE_OPTIONS: IOptions = {
@@ -45,12 +44,20 @@ export async function sourceRunner(
   // - Instructions:  [dataSegmentSize, globalCTE.nextInstrLocation - 1]
   // - Stack:         [globalCTE.nextInstrLocation, ...]
   const { ast, declaredStrings, declaredStructDefinitions, globalVariableSize } = parseResult
-  const roDataSegmentSize = getRODataSegmentSize(declaredStrings)
+
+  const roDataSegment = new RODataSegment(declaredStrings)
+  const roDataSegmentSize = roDataSegment.getRODataSegmentSize()
   const dataSegmentSize = roDataSegmentSize + globalVariableSize
 
-  const globalCte = compile(ast, declaredStructDefinitions, roDataSegmentSize, dataSegmentSize)
+  const globalCte = compile(
+    ast,
+    declaredStructDefinitions,
+    roDataSegmentSize,
+    dataSegmentSize,
+    roDataSegment
+  )
   if (globalCte) {
-    addRODataSegment(context, declaredStrings)
+    roDataSegment.setupRODataSegment(context)
     addInstrSegment(context, globalCte, dataSegmentSize)
     setupMemAndReg(context, globalCte)
   }
@@ -73,38 +80,6 @@ export async function sourceFilesRunner(
   context.variant = determineVariant(context, options)
 
   return sourceRunner(entrypointCode, context, options)
-}
-
-/**
- * Using the `declaredStrings`, determines the amount
- * of memory needed for all the strings.
- */
-function getRODataSegmentSize(declaredStrings: string[]): number {
-  let count = 0
-  declaredStrings.forEach(s => {
-    // Each character in the string occupies 8 bytes
-    count += s.length * WORD_SIZE
-  })
-  return count
-}
-
-/**
- * Inserts read-only segment of a program.
- * E.g. strings defined with double quotes
- *
- * Each character takes 8 bytes, and is allocated space
- * on the memory model.
- */
-function addRODataSegment(ctx: Context, declaredStrings: string[]): void {
-  const { dataview } = ctx.cVmContext
-  let nextAddr = 0
-
-  declaredStrings.forEach(str => {
-    ;[...str].forEach(char => {
-      dataview.setBytesAt(BigInt(nextAddr), BigInt(convertCharToASCII(char)))
-      nextAddr += WORD_SIZE
-    })
-  })
 }
 
 /**

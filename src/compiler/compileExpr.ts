@@ -2,7 +2,13 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { DataType } from './../typings/datatype'
-import { BasePointer, Microcode, ReturnValue, StackPointer } from './../typings/microcode'
+import {
+  BasePointer,
+  BottomOfMemory,
+  Microcode,
+  ReturnValue,
+  StackPointer
+} from './../typings/microcode'
 import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
@@ -77,6 +83,8 @@ const getInstructions = (fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): Microc
   }
 }
 export function loadLit(expr: es.Literal, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
+  const isStrLiteral = (input: string) => input.charAt(0) === '"'
+
   if (typeof expr.value === 'number') {
     getInstructions(fEnv, gEnv).push(MICROCODE.movImm(expr.value, '2s'))
     return {
@@ -84,6 +92,15 @@ export function loadLit(expr: es.Literal, gEnv: GlobalCTE, fEnv?: FunctionCTE): 
       // primitive type
       t: DataType.LONG,
       typeList: [DataType.LONG]
+    }
+  }
+
+  if (expr.raw && isStrLiteral(expr.raw)) {
+    const strAddr = gEnv.getStringAddr(expr.raw)
+    getInstructions(fEnv, gEnv).push(MICROCODE.movImm(strAddr, '2s'))
+    return {
+      t: DataType.CHAR,
+      typeList: ['*', DataType.CHAR]
     }
   }
 
