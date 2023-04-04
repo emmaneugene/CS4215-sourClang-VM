@@ -1,6 +1,7 @@
 import { FunctionCTE, GlobalCTE, VariableInfo } from '../compiler/compileTimeEnv'
 import { DataType } from '../typings/datatype'
 import { MemoryModel } from '../typings/runtime-context'
+import { convertASCIIToChar } from '../utils/asciiConvertor'
 import { WORD_SIZE } from './../constants'
 import { Context } from './../types'
 import { BuiltInFxName } from './../typings/microcode'
@@ -50,12 +51,14 @@ export function loadBuiltInFunctions(gEnv: GlobalCTE): void {
 export const BUILT_IN_IMPL_CTX: Record<BuiltInFxName, (c: Context) => void> = {
   printf: (ctx: Context): void => {
     const { dataview } = ctx.cVmContext
-    // printf first argument is a string
-    const strPtr = getFirstArg(ctx.cVmContext.BP, dataview)
 
-    // TODO: Implement the reading of the string from the strPtr
-    // Implement the processing/substituting of %d/%c/%s/%p from the str
-    const resultStr = 'printf called!'
+    // Get the 1st argument, which is the string
+    // that printf is supposed to print
+    const strAddr = getNthArg(1, ctx.cVmContext.BP, dataview)
+    const formatStr = getStringFromAddr(strAddr, ctx.cVmContext.dataview)
+
+    // Process/substitute of %d/%c/%s/%p from the str
+    const resultStr = performPlaceholderSubstitution(formatStr, ctx)
 
     if (ctx.externalBuiltIns?.rawDisplay) {
       ctx.externalBuiltIns.rawDisplay(undefined, resultStr, ctx)
@@ -68,7 +71,7 @@ export const BUILT_IN_IMPL_CTX: Record<BuiltInFxName, (c: Context) => void> = {
 
   malloc: (ctx: Context): void => {
     const { dataview } = ctx.cVmContext
-    const size = getFirstArg(ctx.cVmContext.BP, dataview)
+    const size = getNthArg(1, ctx.cVmContext.BP, dataview)
 
     // TODO: Implement the actual allocation algorithm
     // Put the allocated ptr onto ctx.cVmContext.AX
@@ -85,7 +88,7 @@ export const BUILT_IN_IMPL_CTX: Record<BuiltInFxName, (c: Context) => void> = {
 
   free: (ctx: Context): void => {
     const { dataview } = ctx.cVmContext
-    const ptr = getFirstArg(ctx.cVmContext.BP, dataview)
+    const ptr = getNthArg(1, ctx.cVmContext.BP, dataview)
 
     // TODO: Implement the actual free algorithm
     // The size is NOT given by the user
@@ -97,27 +100,6 @@ export const BUILT_IN_IMPL_CTX: Record<BuiltInFxName, (c: Context) => void> = {
     } else {
       console.log(resultStr)
     }
-  }
-}
-
-/**
- * Tokenizes the format string.
- */
-function tokenizeFormatStr(str: string): {
-  placeholderIndex: number[]
-  tokenizedStr: string[]
-} {
-  const placeholderRegex = /(\%%[dspx]{1})/g
-  const tokenizedStr = str.split(placeholderRegex)
-  const placeholderIndex: number[] = []
-  for (let i = 0; i < tokenizedStr.length; i++) {
-    if (placeholderRegex.exec(tokenizedStr[i])) {
-      placeholderIndex.push(i)
-    }
-  }
-  return {
-    placeholderIndex,
-    tokenizedStr
   }
 }
 
@@ -162,12 +144,102 @@ function freeVars(): VariableInfo[] {
 }
 
 /**
- * Gets the first argument from the stack frame.
+ * Gets the Nth argument from the stack frame.
+ *
+ * The stack frame has:
+ * - Previous base pointer: [rbp, rbp+8)
+ * - Return PC value: [rbp-8, rbp)
+ * - Arg1: [rbp-16, rbp-8)
+ * - Arg2: [rbp-24, rbp-16)
+ * ...
+ * - ArgN: [rbp-((N+1)*8), rbp-(N * 8))
  *
  * @param bp function base pointer
  * @param dataview runtime memory model
  * @returns first argument as a bigint
  */
-function getFirstArg(bp: bigint, dataview: MemoryModel): bigint {
-  return dataview.getBytesAt(bp - BigInt(2 * WORD_SIZE))
+function getNthArg(N: number, bp: bigint, memory: MemoryModel): bigint {
+  const bpOffset = BigInt((N + 1) * WORD_SIZE)
+  return memory.getBytesAt(bp - bpOffset)
+}
+
+/**
+ * Using the address, scan the context until the end
+ * of string (i.e. \0) is met.
+ */
+function getStringFromAddr(addr: bigint, memory: MemoryModel): string {
+  let nextAddr = addr
+  const characterList = []
+  while (memory.getBytesAt(nextAddr) !== BigInt(0)) {
+    const char = convertASCIIToChar(memory.getBytesAt(nextAddr))
+    characterList.push(char)
+    nextAddr += BigInt(WORD_SIZE)
+  }
+
+  return characterList.join('')
+}
+
+/**
+ * Performs the placeholder substitution in the format string.
+ *
+ * Substitutes values using values on the stack.
+ *
+ * Supported placeholders:
+ * - %d
+ * - %p
+ */
+function performPlaceholderSubstitution(formatStr: string, context: Context): string {
+  const { placeholderIndex, tokenizedStr } = tokenizeFormatStr(formatStr)
+  let nextArgumentOnStackIndex = 2 // Because the first one is the format string
+
+  placeholderIndex.forEach(i => {
+    const value = getNthArg(
+      nextArgumentOnStackIndex,
+      context.cVmContext.BP,
+      context.cVmContext.dataview
+    )
+    tokenizedStr[i] = convertValueToString(tokenizedStr[i], value)
+    nextArgumentOnStackIndex++
+  })
+
+  return tokenizedStr.join('')
+}
+
+/**
+ * Converts the value to its string representation,
+ * based on what the placeholder is.
+ */
+function convertValueToString(placeholder: string, value: bigint): string {
+  const INTEGER_PLACEHOLDER = '%d'
+  const POINTER_PLACEHOLDER = '%p'
+
+  switch (placeholder) {
+    case INTEGER_PLACEHOLDER:
+      return value.toString()
+    case POINTER_PLACEHOLDER:
+    default:
+      return '0x' + value.toString(16)
+  }
+}
+
+/**
+ * Tokenizes the format string.
+ */
+function tokenizeFormatStr(str: string): {
+  placeholderIndex: number[]
+  tokenizedStr: string[]
+} {
+  const placeholderRegex = /(\%[dsp]{1})/g
+  const tokenizedStr = str.split(placeholderRegex).filter(s => s !== '')
+
+  const placeholderIndex: number[] = []
+  for (let i = 0; i < tokenizedStr.length; i++) {
+    if (placeholderRegex.exec(tokenizedStr[i])) {
+      placeholderIndex.push(i)
+    }
+  }
+  return {
+    placeholderIndex,
+    tokenizedStr
+  }
 }
