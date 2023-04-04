@@ -193,9 +193,9 @@ const transformers: ASTTransformers = new Map([
         vector_to_list(node.params.map(transform)),
         node.body.type === 'BlockStatement'
           ? // body.body: strip away one layer of block:
-          // The body of a function is the statement
-          // inside the curly braces.
-          makeBlockIfNeeded(node.body.body)
+            // The body of a function is the statement
+            // inside the curly braces.
+            makeBlockIfNeeded(node.body.body)
           : vector_to_list(['return_statement', transform(node.body)])
       ])
     }

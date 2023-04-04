@@ -607,8 +607,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     const updateNode = ctx._incrExpr
       ? (this.visit(ctx._incrExpr) as es.Expression)
       : ctx._incrAssgn
-        ? (this.visit(ctx._incrAssgn) as es.AssignmentExpression)
-        : undefined
+      ? (this.visit(ctx._incrAssgn) as es.AssignmentExpression)
+      : undefined
 
     return {
       ...contextToLocation(ctx),
