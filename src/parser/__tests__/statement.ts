@@ -2,12 +2,12 @@ import { FunctionDeclaration, Program } from 'estree'
 
 import createContext from '../../createContext'
 import { Context, Variant } from '../../types'
-import { parse } from '../parser'
+import { parse, ParseResult } from '../parser'
 
 const f = (when: string, should: string) => `When_\'${when}\'_Should_${should}`
 const prependFixture = (stmt: string) => `int main() { ${stmt} }`
-const getStmt = (result: Program | undefined) => {
-  const fx = result?.body[0] as FunctionDeclaration
+const getStmt = (result: ParseResult | undefined) => {
+  const fx = result?.ast.body[0] as FunctionDeclaration
   const stmt = fx.body.body[0]
   return stmt
 }

@@ -221,86 +221,91 @@ Object {
 
 exports[`FunctionDefinition When_'int foo() { return 10;} '_Should_ParseSuccessfully 1`] = `
 Object {
-  "body": Array [
-    Object {
-      "body": Object {
-        "body": Array [
-          Object {
-            "argument": Object {
+  "ast": Object {
+    "body": Array [
+      Object {
+        "body": Object {
+          "body": Array [
+            Object {
+              "argument": Object {
+                "end": Object {
+                  "column": 19,
+                  "line": 1,
+                },
+                "raw": "10",
+                "start": Object {
+                  "column": 19,
+                  "line": 1,
+                },
+                "type": "Literal",
+                "value": 10,
+              },
               "end": Object {
-                "column": 19,
+                "column": 21,
                 "line": 1,
               },
-              "raw": "10",
               "start": Object {
-                "column": 19,
+                "column": 12,
                 "line": 1,
               },
-              "type": "Literal",
-              "value": 10,
+              "type": "ReturnStatement",
             },
-            "end": Object {
-              "column": 21,
-              "line": 1,
-            },
-            "start": Object {
-              "column": 12,
-              "line": 1,
-            },
-            "type": "ReturnStatement",
+          ],
+          "end": Object {
+            "column": 22,
+            "line": 1,
           },
-        ],
+          "start": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "type": "BlockStatement",
+        },
         "end": Object {
           "column": 22,
           "line": 1,
         },
+        "id": Object {
+          "datatype": "int",
+          "name": "foo",
+          "type": "Identifier",
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "params": Array [],
         "start": Object {
-          "column": 10,
+          "column": 0,
           "line": 1,
         },
-        "type": "BlockStatement",
+        "type": "FunctionDeclaration",
       },
-      "end": Object {
-        "column": 22,
-        "line": 1,
-      },
-      "id": Object {
-        "datatype": "int",
-        "name": "foo",
-        "type": "Identifier",
-        "typeList": Array [
-          "int",
-        ],
-      },
-      "params": Array [],
-      "start": Object {
-        "column": 0,
-        "line": 1,
-      },
-      "type": "FunctionDeclaration",
-    },
-  ],
-  "end": Object {
-    "column": 22,
-    "line": 1,
-  },
-  "loc": Object {
+    ],
     "end": Object {
       "column": 22,
       "line": 1,
     },
-    "source": "int foo() { return 10;} ",
+    "loc": Object {
+      "end": Object {
+        "column": 22,
+        "line": 1,
+      },
+      "source": "int foo() { return 10;} ",
+      "start": Object {
+        "column": 0,
+        "line": 1,
+      },
+    },
+    "sourceType": "script",
     "start": Object {
       "column": 0,
       "line": 1,
     },
+    "type": "Program",
   },
-  "sourceType": "script",
-  "start": Object {
-    "column": 0,
-    "line": 1,
-  },
-  "type": "Program",
+  "declaredStrings": Array [],
+  "declaredStructDefinitions": Object {},
+  "globalVariableSize": 0,
 }
 `;
 
