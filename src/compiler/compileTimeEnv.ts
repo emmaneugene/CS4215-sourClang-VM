@@ -195,17 +195,46 @@ export class GlobalCTE {
 
   functionInfo: Record<string, FunctionInfo> = {}
 
-  readonly EXIT_COMMAND_ADDR: bigint = BigInt(0)
-
   globalFrame: Frame = {}
 
-  nextAvailableOffset: number = 0
+  // This is set in the constructor
+  nextAvailableVariableOffset: number
+
+  // This is set in the constructor
+  nextAvailableInstructionAddress: number
+
+  startOfInstructionSegment: number
 
   globalDeclarationInstrs: Microcode[] = []
 
-  // when main function is called, we need to exit the process
-  // https://linux.die.net/man/2/exit
   functionInstrs: Microcode[] = []
+
+  /** A combined list of instrs to reflect what to run. */
+  combinedInstrs: Microcode[] = []
+
+  /** Reflects the starting PC. This is only set after `collateInstructions` */
+  startingPC: bigint | undefined
+
+  /** Reflects the next unused free address. This is only set after `collateInstructions` */
+  nextFreeAddr: bigint | undefined
+
+  /**
+   * When compiling the program into a list of instructions,
+   * we need to figure out
+   *
+   * - where the writable data segment should start from,
+   * since the read-only data segment has already been determined.
+   * - where in memory should the list of instructions should start from.
+   *
+   * @param writableDataStartAddr the start of the writable data segment
+   * @param instrStartAddr the start of the instruction segment
+   */
+  constructor(writableDataStartAddr: number, instrStartAddr: number) {
+    this.startOfInstructionSegment = instrStartAddr
+
+    this.nextAvailableVariableOffset = writableDataStartAddr
+    this.nextAvailableInstructionAddress = instrStartAddr
+  }
 
   getVar(sym: string): VariableInfo | undefined {
     if (this.globalFrame[sym]) {
@@ -226,14 +255,13 @@ export class GlobalCTE {
   }
 
   allocateNBytesOnStack(N: number): number {
-    const rv = this.nextAvailableOffset
-    this.nextAvailableOffset += N
+    const rv = this.nextAvailableVariableOffset
+    this.nextAvailableVariableOffset += N
     return rv
   }
 
   /**
    * Sets a function prototype into the global compile env.
-   *
    *
    * @returns the memory address of the function
    */
@@ -243,10 +271,10 @@ export class GlobalCTE {
       throw new CompileTimeError(`${name} has already been declared`)
     }
 
-    const prevLength = this.functionInstrs.length
+    const addr = this.nextAvailableInstructionAddress
     this.functionInfo[name] = {
       ...functionInfo,
-      addr: BigInt(prevLength)
+      addr: BigInt(addr)
     }
     return this.functionInfo[name]
   }
@@ -264,6 +292,7 @@ export class GlobalCTE {
     }
 
     this.functionInstrs.push(...fEnv.instrs)
+    this.nextAvailableInstructionAddress += fEnv.instrs.length * WORD_SIZE
   }
 
   getFunctionAddr(sym: string): bigint {
@@ -305,7 +334,39 @@ export class GlobalCTE {
    */
   collateInstructions(): Microcode[] {
     const CALL_MAIN_AND_EXIT = [MICROCODE.call(this.getFunctionAddr('main')), MICROCODE.exit]
-    return [...this.functionInstrs, ...this.globalDeclarationInstrs, ...CALL_MAIN_AND_EXIT]
+    this.combinedInstrs = [
+      ...this.functionInstrs,
+      ...this.globalDeclarationInstrs,
+      ...CALL_MAIN_AND_EXIT
+    ]
+
+    const firstInstrToRunAddr =
+      this.startOfInstructionSegment + this.functionInstrs.length * WORD_SIZE
+    this.startingPC = BigInt(firstInstrToRunAddr)
+
+    const totalSizeOfDataAndInstr =
+      this.startOfInstructionSegment + this.combinedInstrs.length * WORD_SIZE
+    this.nextFreeAddr = BigInt(totalSizeOfDataAndInstr)
+
+    return this.combinedInstrs
+  }
+
+  /**
+   * Gets the starting PC value.
+   *
+   * This should be called after collateInstructions, which is responsible for
+   * calling main after doing data initialisation.
+   */
+  getStartingPC(): bigint | undefined {
+    return this.startingPC
+  }
+
+  /**
+   * Gets the next free address after we include
+   * data and instructions.
+   */
+  getNextFreeAddr(): bigint | undefined {
+    return this.nextFreeAddr
   }
 }
 

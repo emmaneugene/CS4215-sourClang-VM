@@ -11,7 +11,7 @@ import { CompileTimeError } from './error'
  * a list of microcode commands (to be loaded into `./interpeter`).
  *
  * This is the integration point between the "compiler" and the rest of this codebase.
- * 
+ *
  * @param ast the user program's AST.
  * @param declaredStructDefinitions a list of struct definitions in the user's program.
  * @param writableDataStartAddr this is used to determine the start of the writable data segment.
@@ -21,7 +21,7 @@ export function compile(
   ast: es.Program,
   declaredStructDefinitions: Record<string, es.StructDef>,
   writableDataStartAddr: number,
-  instrStartingAddr: number,
+  instrStartingAddr: number
 ): GlobalCTE | undefined {
   if (ast.loc?.source === '') {
     // handle the case when the program is empty
