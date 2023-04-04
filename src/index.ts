@@ -59,11 +59,11 @@ export function findDeclaration(
   if (!program) {
     return null
   }
-  const identifierNode = findIdentifierNode(program, context, loc)
+  const identifierNode = findIdentifierNode(program.ast, context, loc)
   if (!identifierNode) {
     return null
   }
-  const declarationNode = findDeclarationNode(program, identifierNode)
+  const declarationNode = findDeclarationNode(program.ast, identifierNode)
   if (!declarationNode || identifierNode === declarationNode) {
     return null
   }
@@ -79,11 +79,11 @@ export function hasDeclaration(
   if (!program) {
     return false
   }
-  const identifierNode = findIdentifierNode(program, context, loc)
+  const identifierNode = findIdentifierNode(program.ast, context, loc)
   if (!identifierNode) {
     return false
   }
-  const declarationNode = findDeclarationNode(program, identifierNode)
+  const declarationNode = findDeclarationNode(program.ast, identifierNode)
   if (declarationNode == null || declarationNode.loc == null) {
     return false
   }

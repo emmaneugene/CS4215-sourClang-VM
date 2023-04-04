@@ -11,8 +11,18 @@ import { CompileTimeError } from './error'
  * a list of microcode commands (to be loaded into `./interpeter`).
  *
  * This is the integration point between the "compiler" and the rest of this codebase.
+ * 
+ * @param ast the user program's AST.
+ * @param declaredStructDefinitions a list of struct definitions in the user's program.
+ * @param writableDataStartAddr this is used to determine the start of the writable data segment.
+ * @param instrStartAddr determines where the instruction segment should start from.
  */
-export function compile(ast: es.Program): GlobalCTE | undefined {
+export function compile(
+  ast: es.Program,
+  declaredStructDefinitions: Record<string, es.StructDef>,
+  writableDataStartAddr: number,
+  instrStartingAddr: number,
+): GlobalCTE | undefined {
   if (ast.loc?.source === '') {
     // handle the case when the program is empty
     return
@@ -20,7 +30,13 @@ export function compile(ast: es.Program): GlobalCTE | undefined {
 
   const stmts = ast.body as es.Statement[]
 
-  const gEnv = new GlobalCTE()
+  // Initialise the global CE
+  // We need to know where is the start of
+  // the writable data segement,
+  // and the instruction segment
+  const gEnv = new GlobalCTE(writableDataStartAddr, instrStartingAddr)
+
+  // Add in the built-in functions instructions
   loadBuiltInFunctions(gEnv)
 
   for (const stmt of stmts) {
@@ -49,5 +65,9 @@ export function compile(ast: es.Program): GlobalCTE | undefined {
     throw new CompileTimeError('No reference to main!')
   }
 
+  // Combine the instruction set used
+  // to initialise the global data
+  // and the instructions for each function
+  gEnv.collateInstructions()
   return gEnv
 }
