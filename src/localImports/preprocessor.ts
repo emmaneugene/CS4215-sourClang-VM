@@ -81,9 +81,9 @@ const parseProgramsAndConstructImportGraph = (
       return
     }
 
-    programs[currentFilePath] = program
+    programs.ast[currentFilePath] = program
 
-    const importedLocalModulePaths = getImportedLocalModulePaths(program, currentFilePath)
+    const importedLocalModulePaths = getImportedLocalModulePaths(program.ast, currentFilePath)
     for (const importedLocalModulePath of importedLocalModulePaths) {
       // If the source & destination nodes in the import graph are the
       // same, then the file is trying to import from itself. This is a

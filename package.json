@@ -44,7 +44,7 @@
     "benchmark": "jest --runInBand --testPathPattern='.*benchmark.*' --testPathIgnorePatterns='/dist/'",
     "build": "yarn tsc --build --force",
     "build_sicp_package": "./scripts/build_sicp_package.sh",
-    "ci": "yarn jsdoc && yarn autocomplete && yarn format:ci && yarn eslint",
+    "ci": "yarn format:ci && yarn eslint",
     "compile": "yarn tsc",
     "docs": "yarn jsdoc && yarn autocomplete",
     "eslint": "eslint --ext \".ts,.tsx\" src",

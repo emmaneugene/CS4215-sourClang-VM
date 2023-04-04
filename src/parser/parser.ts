@@ -6,10 +6,28 @@ import { SourCParser2 } from '../lang/SourCParser2'
 import { Context, ErrorSeverity } from '../types'
 import { ProgramContext } from './../lang/SourCParser2'
 import { FatalSyntaxError } from './error'
-import { contextToLocation } from './parser.util'
+import { contextToLocation } from './utils'
 import { Visitor } from './visitor'
 
-function convertSource(source: string, ctx: ProgramContext): es.Program {
+/**
+ * The return result after a program
+ * has been parsed.
+ */
+export type ParseResult = {
+  /** The program AST. */
+  ast: es.Program
+
+  /** A list of strings declared in the program. */
+  declaredStrings: string[]
+
+  /** A record of user-defined struct. */
+  declaredStructDefinitions: Record<string, es.StructDef>
+
+  /** The amount of memory needed by global variables */
+  globalVariableSize: number
+}
+
+function convertSource(source: string, ctx: ProgramContext): ParseResult {
   const visitor = new Visitor()
   const program = visitor.visit(ctx) as es.Program
 
@@ -19,11 +37,16 @@ function convertSource(source: string, ctx: ProgramContext): es.Program {
     source
   }
 
-  return program
+  return {
+    ast: program,
+    declaredStrings: visitor.getStrings(),
+    declaredStructDefinitions: visitor.getStructDefs(),
+    globalVariableSize: visitor.getGlobalVariablesSize()
+  }
 }
 
-export function parse(source: string, context: Context) {
-  let program: es.Program | undefined
+export function parse(source: string, context: Context): ParseResult | undefined {
+  let parseResult: ParseResult | undefined
 
   if (context.variant === 'calc') {
     const inputStream = CharStreams.fromString(source)
@@ -31,9 +54,10 @@ export function parse(source: string, context: Context) {
     const tokenStream = new CommonTokenStream(lexer)
     const parser = new SourCParser2(tokenStream)
     parser.buildParseTree = true
+
     try {
       const tree = parser.program()
-      program = convertSource(source, tree)
+      parseResult = convertSource(source, tree)
     } catch (error) {
       if (error instanceof FatalSyntaxError) {
         context.errors.push(error)
@@ -41,10 +65,10 @@ export function parse(source: string, context: Context) {
         throw error
       }
     }
+
     const hasErrors = context.errors.find(m => m.severity === ErrorSeverity.ERROR)
-    if (program && !hasErrors) {
-      console.log(JSON.stringify(program, null, 2))
-      return program
+    if (parseResult && !hasErrors) {
+      return parseResult
     } else {
       return undefined
     }
@@ -52,122 +76,3 @@ export function parse(source: string, context: Context) {
     return undefined
   }
 }
-
-/*
-import { CalcLexer } from '../lang/CalcLexer'
-import {
-  AdditionContext,
-  CalcParser,
-  DivisionContext,
-  ExpressionContext,
-  MultiplicationContext,
-  NumberContext,
-  ParenthesesContext,
-  PowerContext,
-  StartContext,
-  SubtractionContext
-} from '../lang/CalcParser'
-import { CalcVisitor } from '../lang/CalcVisitor'
-
-class ExpressionGenerator implements CalcVisitor<es.Expression> {
-  visitNumber(ctx: NumberContext): es.Expression {
-    return {
-      type: 'Literal',
-      value: parseInt(ctx.text),
-      raw: ctx.text,
-      loc: contextToLocation(ctx)
-    }
-  }
-  visitParentheses(ctx: ParenthesesContext): es.Expression {
-    return this.visit(ctx.expression())
-  }
-  visitPower(ctx: PowerContext): es.Expression {
-    return {
-      type: 'BinaryExpression',
-      operator: '^',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
-    }
-  }
-
-  visitMultiplication(ctx: MultiplicationContext): es.Expression {
-    return {
-      type: 'BinaryExpression',
-      operator: '*',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
-    }
-  }
-  visitDivision(ctx: DivisionContext): es.Expression {
-    return {
-      type: 'BinaryExpression',
-      operator: '/',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
-    }
-  }
-  visitAddition(ctx: AdditionContext): es.Expression {
-    return {
-      type: 'BinaryExpression',
-      operator: '+',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
-    }
-  }
-
-  visitSubtraction(ctx: SubtractionContext): es.Expression {
-    return {
-      type: 'BinaryExpression',
-      operator: '-',
-      left: this.visit(ctx._left),
-      right: this.visit(ctx._right),
-      loc: contextToLocation(ctx)
-    }
-  }
-
-  visitExpression?: ((ctx: ExpressionContext) => es.Expression) | undefined
-  visitStart?: ((ctx: StartContext) => es.Expression) | undefined
-
-  visit(tree: ParseTree): es.Expression {
-    return tree.accept(this)
-  }
-  visitChildren(node: RuleNode): es.Expression {
-    const expressions: es.Expression[] = []
-    for (let i = 0; i < node.childCount; i++) {
-      expressions.push(node.getChild(i).accept(this))
-    }
-    return {
-      type: 'SequenceExpression',
-      expressions
-    }
-  }
-  visitTerminal(node: TerminalNode): es.Expression {
-    return node.accept(this)
-  }
-
-  visitErrorNode(node: ErrorNode): es.Expression {
-    throw new FatalSyntaxError(
-      {
-        start: {
-          line: node.symbol.line,
-          column: node.symbol.charPositionInLine
-        },
-        end: {
-          line: node.symbol.line,
-          column: node.symbol.charPositionInLine + 1
-        }
-      },
-      `invalid syntax ${node.text}`
-    )
-  }
-}
-
-function convertExpression(expression: ExpressionContext): es.Expression {
-  const generator = new ExpressionGenerator()
-  return expression.accept(generator)
-}
-*/

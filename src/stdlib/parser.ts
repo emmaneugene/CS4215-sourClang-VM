@@ -496,7 +496,7 @@ export function parse(x: string, context: Context): Value {
   }
 
   if (program !== undefined) {
-    return transform(program)
+    return transform(program.ast)
   } else {
     unreachable()
     throw new ParseError('Invalid parse')

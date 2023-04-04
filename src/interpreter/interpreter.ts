@@ -19,13 +19,6 @@ import { BUILT_IN_IMPL_CTX } from './builtin'
 import { calculateAddress, getRegister, setRegister } from './util'
 
 export function* evaluate(context: Context) {
-  // previous impl:
-  // export function* evaluate(node: es.Node, context: Context) {
-  //   const result = yield* evaluators[node.type](node, context)
-  //   yield* leave(context)
-  //   return result
-  // }
-
   let returnValue: bigint | undefined
   while (true) {
     if (!context.cVmContext.isRunning) {
@@ -33,7 +26,9 @@ export function* evaluate(context: Context) {
       break
     }
 
-    const cmd: Microcode | undefined = decodePC(context, context.cVmContext.PC)
+    const node = getInstrNode(context)
+    const cmd: Microcode | undefined = getCmdFromNode(context.cVmContext.instrs, node)
+
     if (!cmd) {
       break
     }
@@ -58,8 +53,21 @@ function* leave(context: Context) {
   yield context
 }
 
-function decodePC(ctx: Context, pc: bigint): Microcode | undefined {
-  return ctx.cVmContext.instrs[Number(pc)]
+/**
+ * Based on the current PC, get the instruction node
+ * that is placed onto the memory.
+ */
+function getInstrNode(context: Context): bigint {
+  const { dataview } = context.cVmContext
+  return dataview.getBytesAt(context.cVmContext.PC)
+}
+
+/**
+ * Interpret the node's contents and then get the
+ * actual command to execute.
+ */
+function getCmdFromNode(instrsList: Microcode[], node: bigint): Microcode | undefined {
+  return instrsList[Number(node)]
 }
 
 /* Supporting typedef for MACHINE. */
@@ -97,7 +105,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     dataview.setBytesAt(calculateAddress(ctx, StackPointer, 0), BigInt(immCmd.value))
     ctx.cVmContext.SP += BigInt(WORD_SIZE)
 
-    ctx.cVmContext.PC++
+    incrementPC(ctx)
   },
 
   /**
@@ -151,7 +159,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
       dataview.setBytesAt(toAddr, dataview.getBytesAt(fromAddr))
     }
 
-    ctx.cVmContext.PC++
+    incrementPC(ctx)
   },
 
   /**
@@ -170,7 +178,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
 
     dataview.setBytesAt(toAddr, BigInt(computedVal))
 
-    ctx.cVmContext.PC++
+    incrementPC(ctx)
   },
 
   /**
@@ -182,7 +190,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   OffsetRspCommand: function* (cmd, ctx) {
     const offsetCmd = cmd as OffsetRspCommand
     ctx.cVmContext.SP += BigInt(offsetCmd.value)
-    ctx.cVmContext.PC++
+    incrementPC(ctx)
   },
 
   /**
@@ -244,7 +252,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2), res)
 
     ctx.cVmContext.SP -= BigInt(WORD_SIZE)
-    ctx.cVmContext.PC++
+    incrementPC(ctx)
     dataview.debug()
   },
 
@@ -272,7 +280,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     }
     dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE), res)
 
-    ctx.cVmContext.PC++
+    incrementPC(ctx)
   },
   /**
    * Processes the `CallCommand` microcode within the context of a running
@@ -292,7 +300,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const { dataview } = ctx.cVmContext
 
     // Pushes the return address onto stack
-    dataview.setBytesAt(ctx.cVmContext.SP, ctx.cVmContext.PC + BigInt(1))
+    dataview.setBytesAt(ctx.cVmContext.SP, ctx.cVmContext.PC + BigInt(WORD_SIZE))
     ctx.cVmContext.SP += BigInt(WORD_SIZE)
 
     // Pushes and save the caller's rbp onto stack
@@ -341,7 +349,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     if (BUILT_IN_IMPL_CTX[name]) {
       BUILT_IN_IMPL_CTX[name](ctx)
     }
-    ctx.cVmContext.PC++
+    incrementPC(ctx)
   },
 
   /**
@@ -359,9 +367,9 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     )
 
     if (topOfStack == BigInt(0)) {
-      ctx.cVmContext.PC += relativeValue
+      ctx.cVmContext.PC += relativeValue * BigInt(WORD_SIZE)
     } else {
-      ctx.cVmContext.PC++
+      incrementPC(ctx)
     }
 
     ctx.cVmContext.SP -= BigInt(WORD_SIZE)
@@ -376,7 +384,7 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   GotoRelativeCommand: function* (cmd, ctx) {
     const gotor = cmd as GotoRelativeCommand
     const { relativeValue } = gotor
-    ctx.cVmContext.PC += relativeValue
+    ctx.cVmContext.PC += relativeValue * BigInt(WORD_SIZE)
   },
 
   /**
@@ -394,6 +402,10 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * @param ctx
    */
   PopCommand: function* (cmd, ctx) {}
+}
+
+function incrementPC(ctx: Context): void {
+  ctx.cVmContext.PC += BigInt(WORD_SIZE)
 }
 
 function debugPrint(str: string, ctx: Context): void {

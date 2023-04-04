@@ -4,6 +4,7 @@ import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
+import { WORD_SIZE } from '../constants'
 import {
   AddContext,
   AddressableOperandsContext,
@@ -72,13 +73,23 @@ import {
   getUnaryOp,
   getUpdateOp,
   nodeToLocation
-} from './parser.util'
+} from './utils'
 
+/**
+ * Builds the AST by traversing the token tree generated
+ * by ANTLR.
+ *
+ * It also keeps a list of:
+ * - Found strings (e.g. `"hello world"`)
+ * - Struct definitions (e.g. `struct Person { int id; }`)
+ * - Amount of data needed for global variables
+ */
 export class Visitor implements SourCParser2Visitor<es.Node> {
   private PARSER_MISCONFIG = 'Parser is misconfigured'
 
-  private STRUCT_DECLARATIONS: Record<string, es.StructDef> = {}
-  private GLOBAL_STRINGS: string[] = []
+  private structDefinitions: Record<string, es.StructDef> = {}
+  private globalStrings: string[] = []
+  private globalVariablesSize: number = 0
 
   // === Primary Identifiers ===
 
@@ -96,7 +107,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     }
 
     if (s) {
-      this.GLOBAL_STRINGS.push(s.text)
+      this.globalStrings.push(s.text)
       return {
         ...contextToLocation(ctx),
         type: 'Literal',
@@ -146,7 +157,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
   visitStructAccess(ctx: StructAccessContext): es.MemberExpression {
     const structName = ctx.Identifier().at(0)!.text
 
-    if (!this.STRUCT_DECLARATIONS[structName]) {
+    if (!this.structDefinitions[structName]) {
       throw new FatalSyntaxError(contextToLocation(ctx))
     }
 
@@ -158,7 +169,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         name: ctx.Identifier().at(0)!.text,
         datatype: DataType.UNKNOWN, // To be determined by the compiler
         typeList: [DataType.UNKNOWN],
-        structFields: this.STRUCT_DECLARATIONS[structName]
+        structFields: this.structDefinitions[structName]
       },
       computed: false, // This field is used to determine if array or struct access
       property: {
@@ -295,8 +306,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       structDef[id.name] = id.typeList
     })
 
-    if (this.STRUCT_DECLARATIONS[structName]) throw new FatalSyntaxError(contextToLocation(ctx))
-    this.STRUCT_DECLARATIONS[structName] = structDef
+    if (this.structDefinitions[structName]) throw new FatalSyntaxError(contextToLocation(ctx))
+    this.structDefinitions[structName] = structDef
 
     // Don't return anything useful
     // Since it updates the global struct declarations
@@ -720,7 +731,9 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     if (ctx.functionDefinition()) {
       return this.visit(ctx.functionDefinition()!) as es.FunctionDeclaration
     } else if (ctx.declaration()) {
-      return this.visit(ctx.declaration()!) as es.VariableDeclaration
+      const varDef = this.visit(ctx.declaration()!) as es.VariableDeclaration
+      this.globalVariablesSize += this.getVarDefinitionSize(varDef)
+      return varDef
     } else {
       throw new FatalSyntaxError(contextToLocation(ctx))
     }
@@ -736,10 +749,10 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     return {
       ...contextToLocation(ctx),
       type: 'FunctionDeclaration',
-      id: getIdentifier(typeDef, name, this.STRUCT_DECLARATIONS),
+      id: getIdentifier(typeDef, name, this.structDefinitions),
       params:
         paramLs?._pLs.map(p =>
-          getIdentifier(p.typeDef(), p.Identifier().text, this.STRUCT_DECLARATIONS)
+          getIdentifier(p.typeDef(), p.Identifier().text, this.structDefinitions)
         ) ?? [],
       body
     }
@@ -802,10 +815,50 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       declarations: [
         {
           type: 'VariableDeclarator',
-          id: getIdentifier(typedef, name, this.STRUCT_DECLARATIONS)
+          id: getIdentifier(typedef, name, this.structDefinitions)
         }
       ]
     }
+  }
+
+  /**
+   * Gets the amount of memory needed by a variable definition.
+   * This is used to track the total amount of memory needed for global
+   * variables.
+   */
+  private getVarDefinitionSize(varDef: es.VariableDeclaration): number {
+    let count = 0
+    varDef.declarations.forEach(d => {
+      if (d.id.type !== 'Identifier') {
+        return
+      }
+      // TODO: Consider arrays and structs too
+      count += WORD_SIZE
+    })
+    return count
+  }
+
+  /**
+   * Returns a list of strings (declared using double quotes e.g. "hello world")
+   * found while parsing the program.
+   */
+  getStrings(): string[] {
+    return this.globalStrings
+  }
+
+  /**
+   * Returns an object, mapping a list a struct's name to the its struct
+   * definition.
+   */
+  getStructDefs(): Record<string, es.StructDef> {
+    return this.structDefinitions
+  }
+
+  /**
+   * Returns the amount of memory needed by the global variables
+   */
+  getGlobalVariablesSize(): number {
+    return this.globalVariablesSize
   }
 }
 

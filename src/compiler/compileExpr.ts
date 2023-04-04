@@ -2,7 +2,13 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { DataType } from './../typings/datatype'
-import { BasePointer, Microcode, ReturnValue, StackPointer } from './../typings/microcode'
+import {
+  BasePointer,
+  BottomOfMemory,
+  Microcode,
+  ReturnValue,
+  StackPointer
+} from './../typings/microcode'
 import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
@@ -77,6 +83,8 @@ const getInstructions = (fEnv: FunctionCTE | undefined, gEnv: GlobalCTE): Microc
   }
 }
 export function loadLit(expr: es.Literal, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
+  const isStrLiteral = (input: string) => input.charAt(0) === '"'
+
   if (typeof expr.value === 'number') {
     getInstructions(fEnv, gEnv).push(MICROCODE.movImm(expr.value, '2s'))
     return {
@@ -84,6 +92,15 @@ export function loadLit(expr: es.Literal, gEnv: GlobalCTE, fEnv?: FunctionCTE): 
       // primitive type
       t: DataType.LONG,
       typeList: [DataType.LONG]
+    }
+  }
+
+  if (expr.raw && isStrLiteral(expr.raw)) {
+    const strAddr = gEnv.getStringAddr(expr.raw)
+    getInstructions(fEnv, gEnv).push(MICROCODE.movImm(strAddr, '2s'))
+    return {
+      t: DataType.CHAR,
+      typeList: ['*', DataType.CHAR]
     }
   }
 
@@ -172,26 +189,26 @@ function compileUpdateExpr(
       MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE),
       MICROCODE.movImm(getUpdateSize(varInfo.typeList), '2s'),
-      MICROCODE.binop('+'),
+      MICROCODE.binop(op),
       // 2. save the updated value
-      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, varInfo.offset])
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, varInfo.offset])
       // 3. the top of stack already has the updated variable value
     )
   } else {
     // if postfix
     fEnv.instrs.push(
       // 1. push the variable's old data onto stack
-      MICROCODE.movMemToMem([BasePointer, varInfo.offset], [StackPointer, 0]),
+      MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE),
       // 2. perform update (increment or decrement)
       // we need a copy of the variable since binop overrides it
-      MICROCODE.movMemToMem([BasePointer, varInfo.offset], [StackPointer, 0]),
+      MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE),
       MICROCODE.movImm(getUpdateSize(varInfo.typeList), '2s'),
-      MICROCODE.binop('+'),
+      MICROCODE.binop(op),
       // 3. save the updated value
       // ensure that top tof stack has updated variable value
-      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, varInfo.offset]),
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, varInfo.offset]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )
   }

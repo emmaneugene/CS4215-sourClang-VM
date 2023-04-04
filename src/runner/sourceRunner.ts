@@ -1,7 +1,6 @@
-import * as es from 'estree'
-
 import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
+import { RODataSegment } from '../compiler/rodataSegment'
 import { WORD_SIZE } from '../constants'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
@@ -9,7 +8,6 @@ import { parse } from '../parser/parser'
 import { PreemptiveScheduler } from '../schedulers'
 import { Context, Scheduler, Variant } from '../types'
 import { GlobalCTE } from './../compiler/compileTimeEnv'
-import { MemoryModel } from './../typings/runtime-context'
 import { determineVariant, resolvedErrorPromise } from './utils'
 
 const DEFAULT_SOURCE_OPTIONS: IOptions = {
@@ -34,23 +32,33 @@ export async function sourceRunner(
   context.errors = []
 
   // Parse and validate
-  const program: es.Program | undefined = parse(code, context)
-  if (!program) {
+  const parseResult = parse(code, context)
+  if (!parseResult) {
     return resolvedErrorPromise
   }
 
-  const globalCte = compile(program)
+  // similar to C where segments are ordered in memory
+  // Memory layout (by segments):
+  // - ROData:        [0, roDataSegmentSize - 1]
+  // - Writable data: [roDataSegment, dataSegmentSize - 1]
+  // - Instructions:  [dataSegmentSize, globalCTE.nextInstrLocation - 1]
+  // - Stack:         [globalCTE.nextInstrLocation, ...]
+  const { ast, declaredStrings, declaredStructDefinitions, globalVariableSize } = parseResult
+
+  const roDataSegment = new RODataSegment(declaredStrings)
+  const roDataSegmentSize = roDataSegment.getRODataSegmentSize()
+  const dataSegmentSize = roDataSegmentSize + globalVariableSize
+
+  const globalCte = compile(
+    ast,
+    declaredStructDefinitions,
+    roDataSegmentSize,
+    dataSegmentSize,
+    roDataSegment
+  )
   if (globalCte) {
-    // similar to C where segments are ordered in memory
-    /**
-     * 1. Data segment
-     * 2. Read-only data segment
-     * 3. Instructions segment
-     * 4. Stack
-     */
-    addDataSegment(context, globalCte)
-    addRODataSegment(context, globalCte)
-    addInstrSegment(context, globalCte)
+    roDataSegment.setupRODataSegment(context)
+    addInstrSegment(context, globalCte, dataSegmentSize)
     setupMemAndReg(context, globalCte)
   }
 
@@ -77,29 +85,27 @@ export async function sourceFilesRunner(
 /**
  * Inserts the instruction/text segment of the program.
  *
+ * Each instruction takes up 8 bytes, and is allocated space
+ * on the memory model.
+ *
  * @throws {CompileTimeError} if main function is not defined
  */
-function addInstrSegment(ctx: Context, gEnv: GlobalCTE): void {
+function addInstrSegment(ctx: Context, gEnv: GlobalCTE, startingAddr: number): void {
+  const { dataview } = ctx.cVmContext
+  const instrs = gEnv.combinedInstrs
+  let nextInstrAddr = startingAddr
+
   ctx.cVmContext = {
     ...ctx.cVmContext,
-    instrs: gEnv.collateInstructions()
+    instrs
   }
-}
 
-/**
- * Inserts read-only segment of a program.
- * E.g. strings defined with double quotes
- */
-function addRODataSegment(ctx: Context, gEnv: GlobalCTE): void {}
+  instrs.forEach((_instruction, index) => {
+    dataview.setBytesAt(BigInt(nextInstrAddr), BigInt(index))
+    nextInstrAddr += WORD_SIZE
+  })
 
-/**
- * Inserts global data defined at top level of the program.
- */
-function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
-  ctx.cVmContext = {
-    ...ctx.cVmContext
-    // DATASEGMENT: gEnv.
-  }
+  console.log(nextInstrAddr, gEnv.nextAvailableInstructionAddress)
 }
 
 /**
@@ -110,20 +116,16 @@ function addDataSegment(ctx: Context, gEnv: GlobalCTE): void {
  * rbp-8 points to return address
  */
 function setupMemAndReg(ctx: Context, gEnv: GlobalCTE): void {
-  const dataview = new MemoryModel()
+  const START_OF_PROGRAM = gEnv.getStartingPC()
+  const nextFreeAddr = gEnv.getNextFreeAddr()
 
-  // const START_OF_STACK = gEnv.totalDataSize + gEnv.totalRODataSize + gEnv.totalInstrSize
-  const START_OF_STACK = gEnv.nextAvailableOffset
-
-  const START_OF_PROGRAM = gEnv.functionInstrs.length
   ctx.cVmContext = {
     ...ctx.cVmContext,
     isRunning: true,
-    PC: BigInt(START_OF_PROGRAM),
-    BP: BigInt(START_OF_STACK), // We add word size since the first memory space is reserved for the exit command address
-    SP: BigInt(START_OF_STACK + WORD_SIZE), // We add 2 word size since it's after the BP
-    AX: BigInt(0), // default return value of main
-    dataview: new MemoryModel()
+    PC: START_OF_PROGRAM!,
+    BP: nextFreeAddr!,
+    SP: nextFreeAddr!,
+    AX: BigInt(0) // default return value of main
   }
 }
 

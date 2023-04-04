@@ -1,13 +1,16 @@
-import { Program, VariableDeclaration } from 'estree'
+import { VariableDeclaration } from 'estree'
 
 import createContext from '../../createContext'
 import { Context, Variant } from '../../types'
-import { parse } from '../parser'
+import { parse, ParseResult } from '../parser'
 
 const f = (when: string, should: string) => `When_\'${when}\'_Should_${should}`
 const prependFixture = (expr: string) => `int x = ${expr};`
-const getBinop = (result: Program | undefined) => {
-  const v = result?.body[0] as VariableDeclaration
+const getBinop = (result: ParseResult | undefined) => {
+  if (!result) {
+    return undefined
+  }
+  const v = result?.ast.body[0] as VariableDeclaration
   const stmt = v.declarations[0].init
   return stmt
 }
