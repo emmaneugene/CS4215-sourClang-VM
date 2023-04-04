@@ -172,26 +172,26 @@ function compileUpdateExpr(
       MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE),
       MICROCODE.movImm(getUpdateSize(varInfo.typeList), '2s'),
-      MICROCODE.binop('+'),
+      MICROCODE.binop(op),
       // 2. save the updated value
-      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, varInfo.offset])
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, varInfo.offset])
       // 3. the top of stack already has the updated variable value
     )
   } else {
     // if postfix
     fEnv.instrs.push(
       // 1. push the variable's old data onto stack
-      MICROCODE.movMemToMem([BasePointer, varInfo.offset], [StackPointer, 0]),
+      MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE),
       // 2. perform update (increment or decrement)
       // we need a copy of the variable since binop overrides it
-      MICROCODE.movMemToMem([BasePointer, varInfo.offset], [StackPointer, 0]),
+      MICROCODE.movMemToMem([register, varInfo.offset], [StackPointer, 0]),
       MICROCODE.offsetRSP(WORD_SIZE),
       MICROCODE.movImm(getUpdateSize(varInfo.typeList), '2s'),
-      MICROCODE.binop('+'),
+      MICROCODE.binop(op),
       // 3. save the updated value
       // ensure that top tof stack has updated variable value
-      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, varInfo.offset]),
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, varInfo.offset]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )
   }
