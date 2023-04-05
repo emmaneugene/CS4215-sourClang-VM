@@ -2,16 +2,17 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { DataType } from './../typings/datatype'
-import {
-  BasePointer,
-  BottomOfMemory,
-  Microcode,
-  ReturnValue,
-  StackPointer
-} from './../typings/microcode'
+import { Microcode, ReturnValue, StackPointer } from './../typings/microcode'
 import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
+import {
+  getBiggerType,
+  getExprType,
+  isBinaryExprAllowed,
+  isPointer,
+  throwIfNotPointer
+} from './typeChecker'
 import { getUpdateSize } from './util'
 
 export function compileExpr(node: es.Expression, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
@@ -142,6 +143,20 @@ function compileLogicalExpr(
   }
 }
 
+/**
+ * Compiles a binary expression.
+ *
+ * Additional checks are needed for addition/subtraction
+ * due to cases of pointer arithmetic.
+ *
+ * The performance of this check is quite bad, but the cost
+ * is done during compilation so it is ignored for now.
+ *
+ * In a better implementation, we will need to embed the
+ * type information into `es.BinaryExpression`, but it is
+ * quite hard to do with our current AST typedefinitions
+ * provided by estree package.
+ */
 function compileBinExpr(
   expr: es.BinaryExpression,
   gEnv: GlobalCTE,
@@ -151,16 +166,50 @@ function compileBinExpr(
     throw new CompileTimeError()
   const op = expr.operator as '+' | '-' | '*' | '/' | '%'
 
-  const t1 = compileExpr(expr.left, gEnv, fEnv)
-  const t2 = compileExpr(expr.right, gEnv, fEnv)
+  const typeofLeftExpr = getExprType(expr.left, gEnv, fEnv)
+  const typeofRightExpr = getExprType(expr.right, gEnv, fEnv)
 
-  // TODO: Check for valid type pairs
-  // typechecker.throwIfPointer([t1, t2])
+  if (!isBinaryExprAllowed(op, typeofLeftExpr, typeofRightExpr)) {
+    throw new CompileTimeError()
+  }
 
-  getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
-  return {
-    t: DataType.LONG,
-    typeList: [DataType.LONG]
+  if (!isPointer(typeofLeftExpr.typeList) && !isPointer(typeofRightExpr.typeList)) {
+    // Case 1: if both are not pointers
+    compileExpr(expr.left, gEnv, fEnv)
+    compileExpr(expr.right, gEnv, fEnv)
+    getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
+
+    return getBiggerType(typeofLeftExpr, typeofRightExpr)
+  } else if (isPointer(typeofLeftExpr.typeList)) {
+    // Case 2: left is pointer, right is normal
+
+    compileExpr(expr.left, gEnv, fEnv)
+
+    // we have to multiply the normal one by WORD_SIZE
+    // due to pointer arithmetic
+    compileExpr(expr.right, gEnv, fEnv)
+    getInstructions(fEnv, gEnv).push(
+      MICROCODE.movImm(WORD_SIZE, '2s'), // TODO: this does not consider structs
+      MICROCODE.binop('*')
+    )
+
+    getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
+    return typeofLeftExpr
+  } else {
+    // Case 3: left is normal, right is pointer
+
+    // we have to multiply the normal one by WORD_SIZE
+    // due to pointer arithmetic
+    compileExpr(expr.left, gEnv, fEnv)
+    getInstructions(fEnv, gEnv).push(
+      MICROCODE.movImm(WORD_SIZE, '2s'), // TODO: this does not consider structs
+      MICROCODE.binop('*')
+    )
+
+    compileExpr(expr.right, gEnv, fEnv)
+
+    getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
+    return typeofLeftExpr
   }
 }
 
@@ -248,7 +297,7 @@ function compileValueOfExpr(
   const t = compileExpr(expr.expression, gEnv, fEnv)
 
   // Check that the expr is indeed a pointer
-  typechecker.throwIfNotPointer([t])
+  throwIfNotPointer([t])
 
   fEnv.instrs.push(
     MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
@@ -337,29 +386,5 @@ function compileCallExpr(expr: es.CallExpression, gEnv: GlobalCTE, fEnv: Functio
   return {
     t: returnType[returnType.length - 1] as DataType,
     typeList: returnType
-  }
-}
-
-const typechecker = {
-  isPointer(ls: es.TypeList): boolean {
-    return ls[0] === '*'
-  },
-
-  throwIfPointer(ls: CompileType[]): void {
-    ls.forEach(e => {
-      if (this.isPointer(e.typeList)) throw new CompileTimeError()
-    })
-  },
-
-  throwIfNotPointer(ls: CompileType[]): void {
-    ls.forEach(e => {
-      if (!this.isPointer(e.typeList)) throw new CompileTimeError()
-    })
-  },
-
-  throwIfFloat(ls: CompileType[]): void {
-    ls.forEach(e => {
-      if ([DataType.FLOAT, DataType.DOUBLE].includes(e.t)) throw new CompileTimeError()
-    })
   }
 }
