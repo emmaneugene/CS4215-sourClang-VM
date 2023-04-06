@@ -1,4 +1,4 @@
-import { Identifier, TypeList } from 'estree'
+import { Identifier, MemberExpression, TypeList } from 'estree'
 
 import { WORD_SIZE } from './../constants'
 import { CompileTimeError } from './error'
@@ -50,4 +50,11 @@ export function getIdentSize(ident: Identifier): number {
   } else {
     return unitSize
   }
+}
+
+/**
+ * Checks if a es.MemberExpression is an array access.
+ */
+export function isArrayAccess(node: MemberExpression): boolean {
+  return node.computed
 }

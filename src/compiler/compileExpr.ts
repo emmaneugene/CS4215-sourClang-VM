@@ -13,12 +13,12 @@ import {
   isPointer,
   throwIfNotPointer
 } from './typeChecker'
-import { getUpdateSize } from './util'
+import { getUpdateSize, isArrayAccess } from './util'
 
 export function compileExpr(node: es.Expression, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
   if (fEnv) {
     if (node.type === 'MemberExpression') {
-      throw new CompileTimeError() //TODO: implement for array and struct
+      return compileMemberExpr(node, gEnv, fEnv) // TODO: implement for struct
     }
 
     if (node.type === 'CallExpression') {
@@ -424,5 +424,93 @@ function compileSeqExpr(
     ...prevExprType,
     typeList: ['*', ...prevExprType.typeList],
     isArray: true
+  }
+}
+
+/**
+ * Compiles a member expression.
+ *
+ * This can be either an array access or struct
+ * access.
+ */
+function compileMemberExpr(
+  node: es.MemberExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  if (isArrayAccess(node)) {
+    return compileArrayAccess(node, gEnv, fEnv)
+  }
+
+  throw new CompileTimeError()
+}
+
+/**
+ * Compile an array access.
+ *
+ * 1. Compile the index (i.e. an expression).
+ * This places it on the top of the stack.
+ *
+ * 2. Multiply that value by the size of the array's
+ * type.
+ *
+ * 3. Put the memory address of the array on
+ * the stack, and then compute the final memory
+ * address of the desired index.
+ *
+ * 4. Then, dereference that memory address.
+ */
+function compileArrayAccess(
+  node: es.MemberExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  const t = loadMemoryAddressOfArrayAccess(node, gEnv, fEnv)
+
+  getInstructions(fEnv, gEnv).push(
+    MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
+    MICROCODE.movMemToMem([ReturnValue, 0], [StackPointer, -WORD_SIZE])
+  )
+
+  return t
+}
+
+/**
+ * Places the memory address of the array access onto the stack.
+ *
+ * e.g. `x[i]` places the memory address denoted by `x + (i * SIZE)`
+ *
+ * @returns the compileType for the array
+ */
+export function loadMemoryAddressOfArrayAccess(
+  node: es.MemberExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  const index = node.property as es.Expression
+  const indexType = compileExpr(index, gEnv, fEnv)
+  if (isPointer(indexType.typeList)) {
+    throw new CompileTimeError()
+  }
+
+  getInstructions(fEnv, gEnv).push(
+    MICROCODE.movImm(WORD_SIZE, '2s'), // TODO: this doesn't consider structs
+    MICROCODE.binop('*')
+  )
+
+  // See visitor.visitArraySubscript
+  // This field is always a Identifier
+  const arrayIdent = node.object as es.Identifier
+  const [arrayRegister, arrayVarInfo] = getVar(arrayIdent.name, fEnv, gEnv)
+  getInstructions(fEnv, gEnv).push(
+    MICROCODE.movMemToMem([arrayRegister, arrayVarInfo.offset], [StackPointer, 0]),
+    MICROCODE.offsetRSP(WORD_SIZE),
+    MICROCODE.binop('+')
+  )
+
+  const { typeList } = arrayVarInfo
+  return {
+    t: typeList[typeList.length - 1] as DataType,
+    typeList: typeList
   }
 }

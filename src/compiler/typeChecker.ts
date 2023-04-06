@@ -10,7 +10,18 @@ import { CompileTimeError } from './error'
 export function getExprType(node: es.Expression, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
   if (fEnv) {
     if (node.type === 'MemberExpression') {
-      throw new CompileTimeError() // TODO: implement for array and struct
+      if (node.computed) {
+        // array acccess
+        const arrayObj = node.object as es.Identifier
+        const [, varInfo] = getVar(arrayObj.name, fEnv, gEnv)
+        const { typeList } = varInfo
+        return {
+          t: typeList[typeList.length - 1] as DataType,
+          typeList: typeList
+        }
+      }
+
+      throw new CompileTimeError() // TODO: implement for struct
     }
 
     if (node.type === 'CallExpression') {

@@ -2,11 +2,11 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { BasePointer, GotoRelativeCommand, ReturnValue, StackPointer } from './../typings/microcode'
-import { compileExpr } from './compileExpr'
+import { compileExpr, loadMemoryAddressOfArrayAccess } from './compileExpr'
 import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
-import { getIdentSize } from './util'
+import { getIdentSize, isArrayAccess } from './util'
 
 /**
  * Represents a statement that needs to be patched.
@@ -212,18 +212,32 @@ export function compileAssignmentStmt(
 ): void {
   const rhs = compileExpr(stmt.right, gEnv, fEnv)
 
-  if (stmt.left.type !== 'Identifier') {
-    throw new CompileTimeError()
+  if (stmt.left.type === 'Identifier') {
+    const left = stmt.left as es.Identifier
+    const [register, { typeList, offset }] = getVar(left.name, fEnv, gEnv)
+    if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
+    fEnv.instrs.push(
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, offset]),
+      MICROCODE.offsetRSP(-WORD_SIZE)
+    )
+    return
   }
 
-  const left = stmt.left as es.Identifier
-  const [register, { typeList, offset }] = getVar(left.name, fEnv, gEnv)
-  if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
-  fEnv.instrs.push(
-    MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, offset]),
-    MICROCODE.offsetRSP(-WORD_SIZE)
-  )
-  return
+  if (stmt.left.type === 'MemberExpression' && isArrayAccess(stmt.left)) {
+    loadMemoryAddressOfArrayAccess(stmt.left, gEnv, fEnv)
+
+    // The stack at this point is:
+    // [rhs-value, dest-address]
+    fEnv.instrs.push(
+      MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
+      MICROCODE.offsetRSP(-WORD_SIZE),
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [ReturnValue, 0]),
+      MICROCODE.offsetRSP(-WORD_SIZE)
+    )
+    return
+  }
+
+  throw new CompileTimeError()
 }
 
 /**
