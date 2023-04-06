@@ -147,11 +147,11 @@ export class FunctionCTE {
    *
    * @throws {CompileTimeError} If the variable already exists in the current frame.
    */
-  addVar(name: string, typeList: es.TypeList): VariableInfo {
+  addVar(name: string, typeList: es.TypeList, varSize: number): VariableInfo {
     const v = {
       name,
       typeList,
-      offset: this.allocNBytesOnStack(WORD_SIZE)
+      offset: this.allocNBytesOnStack(varSize)
     }
 
     const lastFrame = this.frames[this.frames.length - 1]
@@ -250,8 +250,8 @@ export class GlobalCTE {
     throw new CompileTimeError(`error: '${sym}' undeclared`)
   }
 
-  addVar(sym: string, typeList: es.TypeList): VariableInfo {
-    const variableAddress = this.allocateNBytesOnStack(WORD_SIZE)
+  addVar(sym: string, typeList: es.TypeList, varSize: number): VariableInfo {
+    const variableAddress = this.allocateNBytesOnStack(varSize)
     const varInfo = {
       name: sym,
       typeList,

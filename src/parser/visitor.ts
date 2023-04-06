@@ -4,6 +4,7 @@ import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
+import { getIdentSize } from '../compiler/util'
 import { WORD_SIZE } from '../constants'
 import {
   AddContext,
@@ -267,7 +268,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         .seqExprLs()
         ._eLs.map(e => this.visit(e) as es.Expression)
 
-      if (size !== undefined && size > expressions.length) {
+      if (size !== undefined && expressions.length > size) {
         expressions = expressions.slice(0, size)
       }
 
@@ -843,8 +844,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       if (d.id.type !== 'Identifier') {
         return
       }
-      // TODO: Consider arrays and structs too
-      count += WORD_SIZE
+      // TODO: Consider structs too
+      count += getIdentSize(d.id)
     })
     return count
   }

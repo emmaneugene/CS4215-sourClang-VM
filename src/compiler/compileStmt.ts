@@ -6,6 +6,7 @@ import { compileExpr } from './compileExpr'
 import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
+import { getIdentSize } from './util'
 
 /**
  * Represents a statement that needs to be patched.
@@ -128,7 +129,7 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
     if (declaration.id.type !== 'Identifier') throw new CompileTimeError()
 
     const { name, typeList } = declaration.id
-    const v = fEnv.addVar(name, typeList)
+    const v = fEnv.addVar(name, typeList, getIdentSize(declaration.id))
 
     if (!declaration.init) {
       continue
