@@ -738,7 +738,7 @@ Object {
   },
   "declaredStrings": Array [],
   "declaredStructDefinitions": Object {},
-  "globalVariableSize": 8,
+  "globalVariableSize": 32,
 }
 `;
 
@@ -829,7 +829,7 @@ Object {
   },
   "declaredStrings": Array [],
   "declaredStructDefinitions": Object {},
-  "globalVariableSize": 8,
+  "globalVariableSize": 32,
 }
 `;
 
@@ -889,7 +889,7 @@ Object {
   },
   "declaredStrings": Array [],
   "declaredStructDefinitions": Object {},
-  "globalVariableSize": 8,
+  "globalVariableSize": 32,
 }
 `;
 
