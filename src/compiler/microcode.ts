@@ -72,11 +72,11 @@ export const MICROCODE = {
     op: op
   }),
 
-  leal: (from: RegOffset, to: RegOffset): LeaCommand => ({
+  leal: (value: RegOffset, to: RegOffset): LeaCommand => ({
     type: 'LeaCommand',
     value: {
-      reg: from[0],
-      offset: from[1]
+      reg: value[0],
+      offset: value[1]
     },
     dest: {
       reg: to[0],

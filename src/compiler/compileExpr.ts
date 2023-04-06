@@ -25,10 +25,6 @@ export function compileExpr(node: es.Expression, gEnv: GlobalCTE, fEnv?: Functio
       return compileCallExpr(node, gEnv, fEnv)
     }
 
-    if (node.type === 'SequenceExpression') {
-      throw new CompileTimeError()
-    }
-
     if (node.type === 'DereferenceExpression') {
       return compileValueOfExpr(node, gEnv, fEnv)
     }
@@ -72,6 +68,10 @@ export function compileExpr(node: es.Expression, gEnv: GlobalCTE, fEnv?: Functio
 
   if (node.type === 'UnaryExpression') {
     return compileUnaryExpr(node, gEnv, fEnv)
+  }
+
+  if (node.type === 'SequenceExpression') {
+    return compileSeqExpr(node, gEnv, fEnv)
   }
 
   throw new CompileTimeError()
@@ -386,5 +386,43 @@ function compileCallExpr(expr: es.CallExpression, gEnv: GlobalCTE, fEnv: Functio
   return {
     t: returnType[returnType.length - 1] as DataType,
     typeList: returnType
+  }
+}
+
+/**
+ * Compiles a sequence expression.
+ *
+ * This expression is used when assigning a value
+ * to an array or struct.
+ *
+ * @returns the type of x, which is a pointer to
+ * the start of the array.
+ * @throws if the expressions are not of the same
+ * type.
+ */
+function compileSeqExpr(
+  node: es.SequenceExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  let prevExprType: CompileType | undefined
+  node.expressions.forEach(e => {
+    // TODO: Check that all the expressions
+    // in the sequence expressions are compatible
+    const t = compileExpr(e, gEnv, fEnv)
+    if (!prevExprType) {
+      prevExprType = t
+    }
+  })
+
+  if (!prevExprType) {
+    // Empty sequence expressions are not allowed
+    throw new CompileTimeError()
+  }
+
+  return {
+    ...prevExprType,
+    typeList: ['*', ...prevExprType.typeList],
+    isArray: true
   }
 }
