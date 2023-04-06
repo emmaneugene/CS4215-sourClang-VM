@@ -646,7 +646,9 @@ Object {
         "declarations": Array [
           Object {
             "id": Object {
+              "arraySize": 3,
               "datatype": "int",
+              "isArray": true,
               "name": "x",
               "type": "Identifier",
               "typeList": Array [
@@ -750,6 +752,7 @@ Object {
             "id": Object {
               "arraySize": 3,
               "datatype": "int",
+              "isArray": true,
               "name": "x",
               "type": "Identifier",
               "typeList": Array [
@@ -840,6 +843,7 @@ Object {
             "id": Object {
               "arraySize": 3,
               "datatype": "int",
+              "isArray": true,
               "name": "x",
               "type": "Identifier",
               "typeList": Array [
