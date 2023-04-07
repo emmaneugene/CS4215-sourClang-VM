@@ -243,10 +243,10 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
         res = BigInt(arg1 !== arg2)
         break
       case '||':
-        res = (arg1 || arg2) ? BigInt(1) : BigInt(0)
+        res = arg1 || arg2 ? BigInt(1) : BigInt(0)
         break
       case '&&':
-        res = (arg1 && arg2) ? BigInt(1) : BigInt(0)
+        res = arg1 && arg2 ? BigInt(1) : BigInt(0)
         break
     }
     dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2), res)
