@@ -110,22 +110,50 @@ export class Allocator {
 
   private limit: number
 
-  private heapStart: number
+  private heapStart: bigint
+
+  private heapCurr: bigint
 
   private tracker: HeapEntry[]
 
   constructor(memory: MemoryModel) {
     this.memory = memory
     this.limit = memory.getHeapLimit()
-    this.heapStart = this.memory.getSize()
+    this.heapStart = BigInt(this.memory.getSize())
+    this.heapCurr = this.heapStart
+    this.tracker = []
   }
 
+  /**
+   * Allocates `size` bytes of memory on the heap and returns the address
+   * @param size The size of the memory to allocate (in bytes)
+   * @returns address of the allocated memory
+   */
   allocate(size: number): bigint {
-    // TODO
+    if (this.heapCurr - BigInt(size) < this.heapStart) {
+      // TODO: Heap overflow error handling
+      throw new Error('Out of memory')
+    }
+
+    let entry: HeapEntry = new HeapEntry(size, this.heapCurr - BigInt(size))
+    this.tracker.push(entry)
+    this.heapCurr = entry.getAddr()
+
+    return this.heapCurr
   }
 
+  /**
+   * Deallocates the chunk of memory stores at `addr` and shrinks the heap if possible
+   * @param addr The address of the memory to free
+   */
   deallocate(addr: bigint): void {
-    // TODO
+    let entry: HeapEntry | undefined = this.tracker.find(e => e.getAddr() === addr)
+    if (entry === undefined) {
+      throw new Error('Attempted to free unallocated memory')
+    }
+
+    this.tracker = this.tracker.filter(e => e.getAddr() !== addr)
+    this.heapCurr = this.tracker.length > 0 ? this.tracker.at(-1).getAddr() : this.heapStart
   }
 }
 
@@ -135,9 +163,9 @@ export class Allocator {
 class HeapEntry {
   private size: number
   
-  private addr: number
+  private addr: bigint
 
-  constructor(size: number, addr: number) {
+  constructor(size: number, addr: bigint) {
     this.size = size
     this.addr = addr
   }
@@ -146,7 +174,7 @@ class HeapEntry {
     return this.size
   }
 
-  getAddr(): number {
+  getAddr(): bigint {
     return this.addr
   }
 }
