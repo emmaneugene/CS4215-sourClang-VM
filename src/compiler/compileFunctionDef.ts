@@ -5,6 +5,7 @@ import { compileBlkStmt } from './compileStmt'
 import { FunctionCTE, GlobalCTE, VariableInfo } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
+import { getIdentifierSize } from './util'
 
 /**
  * Compiles a function declaration node into a `FunctionCTE` object and adds it to the global compile-time environment.
@@ -66,7 +67,8 @@ function countLocalVarSize(stmts: es.Statement[]): number {
   let sum = 0
   for (const stmt of stmts) {
     if (stmt.type === 'VariableDeclaration') {
-      sum += WORD_SIZE // TODO: Consider arrays and structs too
+      const id = stmt.declarations[0].id as es.Identifier
+      sum += getIdentifierSize(id) // TODO: Consider structs too
     }
 
     if (stmt.type === 'BlockStatement') {

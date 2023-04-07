@@ -2,30 +2,27 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { DataType } from './../typings/datatype'
-import {
-  BasePointer,
-  BottomOfMemory,
-  Microcode,
-  ReturnValue,
-  StackPointer
-} from './../typings/microcode'
+import { Microcode, ReturnValue, StackPointer } from './../typings/microcode'
 import { CompileType, FunctionCTE, getFxDecl, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
-import { getUpdateSize } from './util'
+import {
+  getBiggerType,
+  getExprType,
+  isBinaryExprAllowed,
+  isPointer,
+  throwIfNotPointer
+} from './typeChecker'
+import { getUpdateSize, isArrayAccess } from './util'
 
 export function compileExpr(node: es.Expression, gEnv: GlobalCTE, fEnv?: FunctionCTE): CompileType {
   if (fEnv) {
     if (node.type === 'MemberExpression') {
-      throw new CompileTimeError() //TODO: implement for array and struct
+      return compileMemberExpr(node, gEnv, fEnv) // TODO: implement for struct
     }
 
     if (node.type === 'CallExpression') {
       return compileCallExpr(node, gEnv, fEnv)
-    }
-
-    if (node.type === 'SequenceExpression') {
-      throw new CompileTimeError()
     }
 
     if (node.type === 'DereferenceExpression') {
@@ -71,6 +68,10 @@ export function compileExpr(node: es.Expression, gEnv: GlobalCTE, fEnv?: Functio
 
   if (node.type === 'UnaryExpression') {
     return compileUnaryExpr(node, gEnv, fEnv)
+  }
+
+  if (node.type === 'SequenceExpression') {
+    return compileSeqExpr(node, gEnv, fEnv)
   }
 
   throw new CompileTimeError()
@@ -142,6 +143,20 @@ function compileLogicalExpr(
   }
 }
 
+/**
+ * Compiles a binary expression.
+ *
+ * Additional checks are needed for addition/subtraction
+ * due to cases of pointer arithmetic.
+ *
+ * The performance of this check is quite bad, but the cost
+ * is done during compilation so it is ignored for now.
+ *
+ * In a better implementation, we will need to embed the
+ * type information into `es.BinaryExpression`, but it is
+ * quite hard to do with our current AST typedefinitions
+ * provided by estree package.
+ */
 function compileBinExpr(
   expr: es.BinaryExpression,
   gEnv: GlobalCTE,
@@ -151,16 +166,50 @@ function compileBinExpr(
     throw new CompileTimeError()
   const op = expr.operator as '+' | '-' | '*' | '/' | '%'
 
-  const t1 = compileExpr(expr.left, gEnv, fEnv)
-  const t2 = compileExpr(expr.right, gEnv, fEnv)
+  const typeofLeftExpr = getExprType(expr.left, gEnv, fEnv)
+  const typeofRightExpr = getExprType(expr.right, gEnv, fEnv)
 
-  // TODO: Check for valid type pairs
-  // typechecker.throwIfPointer([t1, t2])
+  if (!isBinaryExprAllowed(op, typeofLeftExpr, typeofRightExpr)) {
+    throw new CompileTimeError()
+  }
 
-  getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
-  return {
-    t: DataType.LONG,
-    typeList: [DataType.LONG]
+  if (!isPointer(typeofLeftExpr.typeList) && !isPointer(typeofRightExpr.typeList)) {
+    // Case 1: if both are not pointers
+    compileExpr(expr.left, gEnv, fEnv)
+    compileExpr(expr.right, gEnv, fEnv)
+    getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
+
+    return getBiggerType(typeofLeftExpr, typeofRightExpr)
+  } else if (isPointer(typeofLeftExpr.typeList)) {
+    // Case 2: left is pointer, right is normal
+
+    compileExpr(expr.left, gEnv, fEnv)
+
+    // we have to multiply the normal one by WORD_SIZE
+    // due to pointer arithmetic
+    compileExpr(expr.right, gEnv, fEnv)
+    getInstructions(fEnv, gEnv).push(
+      MICROCODE.movImm(WORD_SIZE, '2s'), // TODO: this does not consider structs
+      MICROCODE.binop('*')
+    )
+
+    getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
+    return typeofLeftExpr
+  } else {
+    // Case 3: left is normal, right is pointer
+
+    // we have to multiply the normal one by WORD_SIZE
+    // due to pointer arithmetic
+    compileExpr(expr.left, gEnv, fEnv)
+    getInstructions(fEnv, gEnv).push(
+      MICROCODE.movImm(WORD_SIZE, '2s'), // TODO: this does not consider structs
+      MICROCODE.binop('*')
+    )
+
+    compileExpr(expr.right, gEnv, fEnv)
+
+    getInstructions(fEnv, gEnv).push(MICROCODE.binop(op))
+    return typeofLeftExpr
   }
 }
 
@@ -248,7 +297,7 @@ function compileValueOfExpr(
   const t = compileExpr(expr.expression, gEnv, fEnv)
 
   // Check that the expr is indeed a pointer
-  typechecker.throwIfNotPointer([t])
+  throwIfNotPointer([t])
 
   fEnv.instrs.push(
     MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
@@ -340,26 +389,128 @@ function compileCallExpr(expr: es.CallExpression, gEnv: GlobalCTE, fEnv: Functio
   }
 }
 
-const typechecker = {
-  isPointer(ls: es.TypeList): boolean {
-    return ls[0] === '*'
-  },
+/**
+ * Compiles a sequence expression.
+ *
+ * This expression is used when assigning a value
+ * to an array or struct.
+ *
+ * @returns the type of x, which is a pointer to
+ * the start of the array.
+ * @throws if the expressions are not of the same
+ * type.
+ */
+function compileSeqExpr(
+  node: es.SequenceExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  let prevExprType: CompileType | undefined
+  node.expressions.forEach(e => {
+    // TODO: Check that all the expressions
+    // in the sequence expressions are compatible
+    const t = compileExpr(e, gEnv, fEnv)
+    if (!prevExprType) {
+      prevExprType = t
+    }
+  })
 
-  throwIfPointer(ls: CompileType[]): void {
-    ls.forEach(e => {
-      if (this.isPointer(e.typeList)) throw new CompileTimeError()
-    })
-  },
+  if (!prevExprType) {
+    // Empty sequence expressions are not allowed
+    throw new CompileTimeError()
+  }
 
-  throwIfNotPointer(ls: CompileType[]): void {
-    ls.forEach(e => {
-      if (!this.isPointer(e.typeList)) throw new CompileTimeError()
-    })
-  },
+  return {
+    ...prevExprType,
+    typeList: ['*', ...prevExprType.typeList],
+    isArray: true
+  }
+}
 
-  throwIfFloat(ls: CompileType[]): void {
-    ls.forEach(e => {
-      if ([DataType.FLOAT, DataType.DOUBLE].includes(e.t)) throw new CompileTimeError()
-    })
+/**
+ * Compiles a member expression.
+ *
+ * This can be either an array access or struct
+ * access.
+ */
+function compileMemberExpr(
+  node: es.MemberExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  if (isArrayAccess(node)) {
+    return compileArrayAccess(node, gEnv, fEnv)
+  }
+
+  throw new CompileTimeError()
+}
+
+/**
+ * Compile an array access.
+ *
+ * 1. Compile the index (i.e. an expression).
+ * This places it on the top of the stack.
+ *
+ * 2. Multiply that value by the size of the array's
+ * type.
+ *
+ * 3. Put the memory address of the array on
+ * the stack, and then compute the final memory
+ * address of the desired index.
+ *
+ * 4. Then, dereference that memory address.
+ */
+function compileArrayAccess(
+  node: es.MemberExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  const t = loadMemoryAddressOfArrayAccess(node, gEnv, fEnv)
+
+  getInstructions(fEnv, gEnv).push(
+    MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
+    MICROCODE.movMemToMem([ReturnValue, 0], [StackPointer, -WORD_SIZE])
+  )
+
+  return t
+}
+
+/**
+ * Places the memory address of the array access onto the stack.
+ *
+ * e.g. `x[i]` places the memory address denoted by `x + (i * SIZE)`
+ *
+ * @returns the compileType for the array
+ */
+export function loadMemoryAddressOfArrayAccess(
+  node: es.MemberExpression,
+  gEnv: GlobalCTE,
+  fEnv?: FunctionCTE
+): CompileType {
+  const index = node.property as es.Expression
+  const indexType = compileExpr(index, gEnv, fEnv)
+  if (isPointer(indexType.typeList)) {
+    throw new CompileTimeError()
+  }
+
+  getInstructions(fEnv, gEnv).push(
+    MICROCODE.movImm(WORD_SIZE, '2s'), // TODO: this doesn't consider structs
+    MICROCODE.binop('*')
+  )
+
+  // See visitor.visitArraySubscript
+  // This field is always a Identifier
+  const arrayIdent = node.object as es.Identifier
+  const [arrayRegister, arrayVarInfo] = getVar(arrayIdent.name, fEnv, gEnv)
+  getInstructions(fEnv, gEnv).push(
+    MICROCODE.movMemToMem([arrayRegister, arrayVarInfo.offset], [StackPointer, 0]),
+    MICROCODE.offsetRSP(WORD_SIZE),
+    MICROCODE.binop('+')
+  )
+
+  const { typeList } = arrayVarInfo
+  return {
+    t: typeList[typeList.length - 1] as DataType,
+    typeList: typeList
   }
 }

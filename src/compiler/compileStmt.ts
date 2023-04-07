@@ -2,10 +2,11 @@ import * as es from 'estree'
 
 import { WORD_SIZE } from '../constants'
 import { BasePointer, GotoRelativeCommand, ReturnValue, StackPointer } from './../typings/microcode'
-import { compileExpr } from './compileExpr'
+import { compileExpr, loadMemoryAddressOfArrayAccess } from './compileExpr'
 import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
+import { getIdentifierSize, isArrayAccess } from './util'
 
 /**
  * Represents a statement that needs to be patched.
@@ -123,22 +124,71 @@ export function compileBlkStmt(
   return stmtsWithLabel
 }
 
+/**
+ * Compiles a variable definition.
+ * There is a simple variable (e.g. int x = 1),
+ * an array and a struct variable declaration.
+ *
+ * In all cases, we always need to
+ * - Simply allocate some space on the stack
+ * - Get the "home" address of the variable
+ *
+ * Each type of variable declaration needs
+ * some handling.
+ *
+ * Case 1: Declaring a simple variable
+ * Case 2: Array variables (e.g. int x[3];)
+ */
 function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: GlobalCTE): void {
   for (const declaration of stmt.declarations) {
     if (declaration.id.type !== 'Identifier') throw new CompileTimeError()
 
-    const { name, typeList } = declaration.id
-    const v = fEnv.addVar(name, typeList)
+    const ident = declaration.id
+    const { name, typeList } = ident
+    const v = fEnv.addVar(name, typeList, getIdentifierSize(ident))
 
-    if (!declaration.init) {
-      continue
+    // Case 1: Simple variable
+    // - Compile the init expression
+    // - Move the top of stack into the variable's "home"
+    if (!ident.isArray) {
+      if (!declaration.init) {
+        continue
+      }
+
+      compileExpr(declaration.init, gEnv, fEnv)
+      fEnv.instrs.push(
+        MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, v.offset]),
+        MICROCODE.offsetRSP(-WORD_SIZE)
+      )
     }
 
-    compileExpr(declaration.init, gEnv, fEnv)
-    fEnv.instrs.push(
-      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, v.offset]),
-      MICROCODE.offsetRSP(-WORD_SIZE)
-    )
+    // Case 2: Arrays
+    // - The array identifier (i.e. x) is a pointer to x[0]
+    // - After that, then comes x[0], x[1], ...
+    // - Then, go to Case 1, but need to move the top of stack
+    // multiple times
+    if (ident.isArray && ident.arraySize) {
+      const arrayPtrOffset = v.offset
+      fEnv.instrs.push(
+        MICROCODE.leal([BasePointer, arrayPtrOffset + WORD_SIZE], [BasePointer, arrayPtrOffset])
+      )
+
+      if (!declaration.init) {
+        continue
+      }
+
+      compileExpr(declaration.init, gEnv, fEnv)
+      // Move each element starting from the last
+      // element, since compileExpr puts last
+      // value on top
+      for (let i = ident.arraySize; i >= 1; i--) {
+        const arrayElementOffset = arrayPtrOffset + i * WORD_SIZE
+        fEnv.instrs.push(
+          MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [BasePointer, arrayElementOffset]),
+          MICROCODE.offsetRSP(-WORD_SIZE)
+        )
+      }
+    }
   }
 }
 
@@ -168,6 +218,20 @@ export function compileAssignmentStmt(
     if (rhs.typeList.length !== typeList.length) throw new CompileTimeError()
     fEnv.instrs.push(
       MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [register, offset]),
+      MICROCODE.offsetRSP(-WORD_SIZE)
+    )
+    return
+  }
+
+  if (stmt.left.type === 'MemberExpression' && isArrayAccess(stmt.left)) {
+    loadMemoryAddressOfArrayAccess(stmt.left, gEnv, fEnv)
+
+    // The stack at this point is:
+    // [rhs-value, dest-address]
+    fEnv.instrs.push(
+      MICROCODE.movMemToReg(ReturnValue, [StackPointer, -WORD_SIZE]),
+      MICROCODE.offsetRSP(-WORD_SIZE),
+      MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], [ReturnValue, 0]),
       MICROCODE.offsetRSP(-WORD_SIZE)
     )
     return

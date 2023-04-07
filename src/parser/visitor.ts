@@ -4,6 +4,7 @@ import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
+import { getIdentifierSize } from '../compiler/util'
 import { WORD_SIZE } from '../constants'
 import {
   AddContext,
@@ -248,21 +249,31 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
     const c = ctx.Constant()
     let size: number | undefined
     if (c !== undefined && !isNaN(parseInt(c.text))) {
+      // Gets the size of the array using the LHS of
+      // the declaration.
       size = parseInt(c.text)
       const id = v.declarations[0].id as es.Identifier
       id.arraySize = size
     }
 
     if (ctx.exprLs()) {
+      // Parse the RHS expressions if any
+      // Note that the size declared on the LHS
+      // takes precedence.
+      // E.g int x[2] = {1, 2, 3, 4};
+      // Should only take 1, 2 from the RHS
+
       let expressions = ctx
         .exprLs()!
         .seqExprLs()
         ._eLs.map(e => this.visit(e) as es.Expression)
 
-      if (size !== undefined && size > expressions.length) {
-        // E.g int x[2] = {1, 2, 3, 4};
-        // Should only take 1, 2 from the RHS
+      if (size !== undefined && expressions.length > size) {
         expressions = expressions.slice(0, size)
+      }
+
+      if (size === undefined) {
+        size = expressions.length
       }
 
       v.declarations[0].init = {
@@ -271,11 +282,12 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       }
     }
 
-    if (size === undefined && !ctx.exprLs()) {
+    if (size === undefined) {
       // The size cannot be determined
       throw new FatalSyntaxError(contextToLocation(ctx))
     }
 
+    setArrayAttributes(v, size)
     return v
   }
 
@@ -832,8 +844,8 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
       if (d.id.type !== 'Identifier') {
         return
       }
-      // TODO: Consider arrays and structs too
-      count += WORD_SIZE
+      // TODO: Consider structs too
+      count += getIdentifierSize(d.id)
     })
     return count
   }
@@ -869,4 +881,15 @@ function validateExprTypes(nodes: es.Node[], types: string[]): boolean {
     }
   }
   return false
+}
+
+/**
+ * Sets the necessary attributes for arrays in the
+ * given variableDeclaration.
+ */
+function setArrayAttributes(v: es.VariableDeclaration, size: number): void {
+  const id = v.declarations[0].id as es.Identifier
+
+  id.isArray = true
+  id.arraySize = size
 }

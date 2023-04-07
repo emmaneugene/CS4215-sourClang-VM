@@ -1,6 +1,7 @@
-import { TypeList } from 'estree'
+import { Identifier, MemberExpression, TypeList } from 'estree'
 
 import { WORD_SIZE } from './../constants'
+import { CompileTimeError } from './error'
 
 /**
  * Given a certain variable's type, determines how much to update
@@ -20,4 +21,40 @@ export function getUpdateSize(typeList: TypeList): number {
   }
 
   return 1
+}
+
+/**
+ * Returns the size of an identifier.
+ */
+export function getIdentifierSize(ident: Identifier): number {
+  const unitSize: number = WORD_SIZE
+
+  if (ident.structFields) {
+    // Structs are not supported
+    throw new CompileTimeError()
+  }
+
+  if (ident.isArray) {
+    const size = ident.arraySize
+    if (!size) {
+      // Parser is misconfigured
+      throw new CompileTimeError()
+    }
+
+    // We need 1 more than the declared array size
+    // because the array itself is a pointer
+    // i.e. in `int x[3]`
+    // - x is a pointer to x[0]
+    // -x[i] is the actual data
+    return (size + 1) * unitSize
+  } else {
+    return unitSize
+  }
+}
+
+/**
+ * Checks if a es.MemberExpression is an array access.
+ */
+export function isArrayAccess(node: MemberExpression): boolean {
+  return node.computed
 }

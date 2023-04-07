@@ -646,7 +646,9 @@ Object {
         "declarations": Array [
           Object {
             "id": Object {
+              "arraySize": 3,
               "datatype": "int",
+              "isArray": true,
               "name": "x",
               "type": "Identifier",
               "typeList": Array [
@@ -736,7 +738,7 @@ Object {
   },
   "declaredStrings": Array [],
   "declaredStructDefinitions": Object {},
-  "globalVariableSize": 8,
+  "globalVariableSize": 32,
 }
 `;
 
@@ -750,6 +752,7 @@ Object {
             "id": Object {
               "arraySize": 3,
               "datatype": "int",
+              "isArray": true,
               "name": "x",
               "type": "Identifier",
               "typeList": Array [
@@ -826,7 +829,7 @@ Object {
   },
   "declaredStrings": Array [],
   "declaredStructDefinitions": Object {},
-  "globalVariableSize": 8,
+  "globalVariableSize": 32,
 }
 `;
 
@@ -840,6 +843,7 @@ Object {
             "id": Object {
               "arraySize": 3,
               "datatype": "int",
+              "isArray": true,
               "name": "x",
               "type": "Identifier",
               "typeList": Array [
@@ -885,7 +889,7 @@ Object {
   },
   "declaredStrings": Array [],
   "declaredStructDefinitions": Object {},
-  "globalVariableSize": 8,
+  "globalVariableSize": 32,
 }
 `;
 
