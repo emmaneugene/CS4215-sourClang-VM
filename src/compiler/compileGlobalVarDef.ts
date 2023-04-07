@@ -6,13 +6,13 @@ import { compileExpr } from './compileExpr'
 import { GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
-import { getIdentSize } from './util'
+import { getIdentifierSize } from './util'
 
 export function compileGlobalVarDef(stmt: es.VariableDeclaration, gEnv: GlobalCTE): void {
   for (const declaration of stmt.declarations) {
     if (declaration.id.type !== 'Identifier') throw new CompileTimeError()
     const { name, typeList } = declaration.id
-    const variableInfo = gEnv.addVar(name, typeList, getIdentSize(declaration.id))
+    const variableInfo = gEnv.addVar(name, typeList, getIdentifierSize(declaration.id))
     if (!declaration.init) {
       continue
     }

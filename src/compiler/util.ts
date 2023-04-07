@@ -26,7 +26,7 @@ export function getUpdateSize(typeList: TypeList): number {
 /**
  * Returns the size of an identifier.
  */
-export function getIdentSize(ident: Identifier): number {
+export function getIdentifierSize(ident: Identifier): number {
   const unitSize: number = WORD_SIZE
 
   if (ident.structFields) {

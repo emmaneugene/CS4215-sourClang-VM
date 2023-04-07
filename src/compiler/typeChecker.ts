@@ -158,6 +158,23 @@ export function throwIfNotPointer(ls: CompileType[]): void {
   })
 }
 
+/**
+ * This function is meant to simplify the type checking when
+ * a binary operator is applied onto 2 normal/primitive types.
+ *
+ * For example, if we have an `int x` and `long y`,
+ * `x+y` is permitted.
+ *
+ * What this function does is that it compares 2 types, and returns the
+ * one that is "bigger". The type of a binary expression between 2 different
+ * types is the type that is bigger - or implying that the "smaller" type
+ * has been type-casted/extended to bigger one.
+ *
+ * In the example above, `x+y` is of the type `long` - `int x` is considered
+ * to be (safely) casted to `long`.
+ *
+ * The concept of "bigger" uses a ranking system of each type.
+ */
 export function getBiggerType(t1: CompileType, t2: CompileType): CompileType {
   const RANKING = [DataType.CHAR, DataType.SHORT, DataType.INT, DataType.LONG]
   const assignRanking = (t: DataType) => RANKING.indexOf(t)
@@ -168,6 +185,10 @@ export function getBiggerType(t1: CompileType, t2: CompileType): CompileType {
   return t1Rank >= t2Rank ? t1 : t2
 }
 
+/**
+ * Given a literal node in the AST (like 3 or "hello"),
+ * check if it is a number or a string.
+ */
 function getLiteralType(node: es.Literal): CompileType {
   const isStrLiteral = (input: string) => input.charAt(0) === '"'
 

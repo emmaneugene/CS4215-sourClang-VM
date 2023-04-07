@@ -6,7 +6,7 @@ import { compileExpr, loadMemoryAddressOfArrayAccess } from './compileExpr'
 import { FunctionCTE, getVar, GlobalCTE } from './compileTimeEnv'
 import { CompileTimeError } from './error'
 import { MICROCODE } from './microcode'
-import { getIdentSize, isArrayAccess } from './util'
+import { getIdentifierSize, isArrayAccess } from './util'
 
 /**
  * Represents a statement that needs to be patched.
@@ -145,7 +145,7 @@ function compileVarDef(stmt: es.VariableDeclaration, fEnv: FunctionCTE, gEnv: Gl
 
     const ident = declaration.id
     const { name, typeList } = ident
-    const v = fEnv.addVar(name, typeList, getIdentSize(ident))
+    const v = fEnv.addVar(name, typeList, getIdentifierSize(ident))
 
     // Case 1: Simple variable
     // - Compile the init expression

@@ -4,7 +4,7 @@ import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import * as es from 'estree'
 
-import { getIdentSize } from '../compiler/util'
+import { getIdentifierSize } from '../compiler/util'
 import { WORD_SIZE } from '../constants'
 import {
   AddContext,
@@ -845,7 +845,7 @@ export class Visitor implements SourCParser2Visitor<es.Node> {
         return
       }
       // TODO: Consider structs too
-      count += getIdentSize(d.id)
+      count += getIdentifierSize(d.id)
     })
     return count
   }
