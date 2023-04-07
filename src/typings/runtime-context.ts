@@ -42,24 +42,42 @@ export interface CVMContext {
   dataview: MemoryModel
 }
 
+/**
+ * Represents the total memory allocated a running program. The memory model 
+ * comprises a stack and heap. We enforce a stack limit of 3 / 4 of the total
+ * size, with the remainder reserved for the heap.
+ */
 export class MemoryModel {
   private dv: DataView
 
   private SIZE: number
-  
+
   /**
    * Impose a limit on the size of the stack
   */
   private STACK_LIMIT: number
 
   private static DEFAULT_SIZE = 2 ** 13 // 8KiB
+
   /**
-   * @param size Defaults to 1KB
-   */
+   * @param size Defaults to 8KiB
+  */
   constructor(size: number = MemoryModel.DEFAULT_SIZE) {
     this.dv = new DataView(new ArrayBuffer(size))
     this.SIZE = size
     this.STACK_LIMIT = (size * 3 / 4) as number
+  }
+
+  getSize(): number {
+    return this.SIZE
+  }
+
+  getStackLimit(): number {
+    return this.STACK_LIMIT
+  }
+
+  getHeapLimit(): number {
+    return this.SIZE - this.STACK_LIMIT
   }
 
   getBytesAt(addr: bigint): bigint {
@@ -81,5 +99,54 @@ export class MemoryModel {
       rv += `${i}\t: ${s} ${Number(sp) === i ? '<-- SP' : ''}\n`
     }
     return rv
+  }
+}
+
+/**
+ * Manages the allocation of memory on the heap.
+ */
+export class Allocator {
+  private memory: MemoryModel
+
+  private limit: number
+
+  private heapStart: number
+
+  private tracker: HeapEntry[]
+
+  constructor(memory: MemoryModel) {
+    this.memory = memory
+    this.limit = memory.getHeapLimit()
+    this.heapStart = this.memory.getSize()
+  }
+
+  allocate(size: number): bigint {
+    // TODO
+  }
+
+  deallocate(addr: bigint): void {
+    // TODO
+  }
+}
+
+/**
+ * Represents a chunk of allocated memory in the heap
+ */
+class HeapEntry {
+  private size: number
+  
+  private addr: number
+
+  constructor(size: number, addr: number) {
+    this.size = size
+    this.addr = addr
+  }
+
+  getSize(): number {
+    return this.size
+  }
+
+  getAddr(): number {
+    return this.addr
   }
 }
