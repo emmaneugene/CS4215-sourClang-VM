@@ -46,14 +46,20 @@ export class MemoryModel {
   private dv: DataView
 
   private SIZE: number
+  
+  /**
+   * Impose a limit on the size of the stack
+  */
+  private STACK_LIMIT: number
 
-  private static DEFAULT_SIZE = 2 ** 10
+  private static DEFAULT_SIZE = 2 ** 13 // 8KiB
   /**
    * @param size Defaults to 1KB
    */
   constructor(size: number = MemoryModel.DEFAULT_SIZE) {
     this.dv = new DataView(new ArrayBuffer(size))
     this.SIZE = size
+    this.STACK_LIMIT = (size * 3 / 4) as number
   }
 
   getBytesAt(addr: bigint): bigint {
