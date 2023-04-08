@@ -36,14 +36,13 @@ import {
   WhileStmtContext
 } from '../lang/SourCParser2'
 import { SourCParser2Visitor } from '../lang/SourCParser2Visitor'
-import { FatalSyntaxError } from '../parser/parser.error'
-import { ParserMisconfigError } from './error'
-import { contextToLocation } from './util'
+import { FatalSyntaxError, ParserMisconfigError } from './error'
 import {
   AddDeclarationCallbackFunction,
+  contextToLocation,
   errorNodeToLocation,
   IdentifierLookupFunction
-} from './util'
+} from './utils'
 import { DeclarationGenerator } from './visitor.declaration'
 import { ExpressionGenerator } from './visitor.expression'
 

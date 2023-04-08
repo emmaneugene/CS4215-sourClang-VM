@@ -5,18 +5,18 @@ import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 
 import { DataType } from '../ast/ast.core'
 import {
+  AddressableOperands,
   AddressOfExpression,
   ArrayAccess,
   BinaryOperatorExpression,
   DereferenceExpression,
   Expression,
+  FunctionCallExpression,
   Identifier,
+  NegationExpression,
+  UnaryMinusExpression,
   UpdateExpression
 } from '../ast/ast.expression'
-import { AddressableOperands } from '../ast/ast.expression'
-import { FunctionCallExpression } from '../ast/ast.expression'
-import { NegationExpression } from '../ast/ast.expression'
-import { UnaryMinusExpression } from '../ast/ast.expression'
 import { IdentifierInfo } from '../ast/identifierHandler'
 import {
   AddContext,
@@ -45,17 +45,17 @@ import {
   UnopContext
 } from '../lang/SourCParser2'
 import { SourCParser2Visitor } from '../lang/SourCParser2Visitor'
-import { FatalSyntaxError } from '../parser/parser.error'
-import { ParserMisconfigError } from './error'
-import { contextToLocation, getMultOp } from './util'
+import { FatalSyntaxError, ParserMisconfigError } from './error'
 import {
+  contextToLocation,
   errorNodeToLocation,
   getAddOp,
   getEqOp,
+  getMultOp,
   getOutputDatatype,
   getRelOp,
   removeOnePtr
-} from './util'
+} from './utils'
 
 export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
   private identifierLookupFunction: (name: string) => IdentifierInfo
@@ -146,7 +146,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       ...contextToLocation(ctx),
       type: 'DereferenceExpression',
       operand,
-      datatype: removeOnePtr(operand.datatype)
+      datatype: removeOnePtr(operand.datatype, contextToLocation(ctx))
     }
   }
 
@@ -175,7 +175,12 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     const operator = getMultOp(ctx)
     const leftExpr = this.visit(ctx.expr().at(0)!)
     const rightExpr = this.visit(ctx.expr().at(1)!)
-    const outputDatatype = getOutputDatatype(operator, leftExpr.datatype, rightExpr.datatype)
+    const outputDatatype = getOutputDatatype(
+      operator,
+      leftExpr.datatype,
+      rightExpr.datatype,
+      contextToLocation(ctx)
+    )
 
     return {
       ...contextToLocation(ctx),
@@ -191,7 +196,12 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     const operator = getAddOp(ctx)
     const leftExpr = this.visit(ctx.expr().at(0)!)
     const rightExpr = this.visit(ctx.expr().at(1)!)
-    const outputDatatype = getOutputDatatype(operator, leftExpr.datatype, rightExpr.datatype)
+    const outputDatatype = getOutputDatatype(
+      operator,
+      leftExpr.datatype,
+      rightExpr.datatype,
+      contextToLocation(ctx)
+    )
 
     return {
       ...contextToLocation(ctx),

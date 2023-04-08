@@ -6,7 +6,7 @@ import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 import { PrimaryIdentifierContext } from '../lang/SourCParser2'
 import { SourCParser2Visitor } from '../lang/SourCParser2Visitor'
 import { FatalSyntaxError } from './error'
-import { errorNodeToLocation } from './util'
+import { errorNodeToLocation } from './utils'
 
 /**
  * Visits every node in the token tree, and returns a list

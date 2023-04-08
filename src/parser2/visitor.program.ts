@@ -19,7 +19,7 @@ import { getSizeofVariable } from '../utils/sizeHandler'
 import { convertTypedefCtxToTypeList } from '../utils/typeHandler'
 import { SourCParser2Visitor } from './../lang/SourCParser2Visitor'
 import { FatalSyntaxError, ParserMisconfigError } from './error'
-import { contextToLocation, errorNodeToLocation, getStackFrameReturnPCLocation } from './util'
+import { contextToLocation, errorNodeToLocation, getStackFrameReturnPCLocation } from './utils'
 import { DeclarationGenerator } from './visitor.declaration'
 import { StatementGenerator } from './visitor.statement'
 

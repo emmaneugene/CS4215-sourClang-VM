@@ -3,14 +3,13 @@ import { ErrorNode } from 'antlr4ts/tree/ErrorNode'
 
 import { Address, DataType, SourceLocation, TypeList } from '../ast/ast.core'
 import { IdentifierInfo } from '../ast/identifierHandler'
-import { CompileTimeError } from '../compiler/error'
 import { WORD_SIZE } from '../constants'
 import { AddContext, EqualityContext, MultContext, RelOprContext } from '../lang/SourCParser2'
-import { FatalSyntaxError } from '../parser/parser.error'
+import { FatalSyntaxError } from './error'
 
-export function removeOnePtr(t: TypeList): TypeList {
+export function removeOnePtr(t: TypeList, source: SourceLocation): TypeList {
   if (t.typeList[0] !== '*') {
-    throw new CompileTimeError()
+    throw new FatalSyntaxError(source)
   }
   return {
     typeList: t.typeList.splice(1, t.typeList.length),
@@ -56,11 +55,12 @@ export function getEqOp(ctx: EqualityContext): '==' | '!=' {
 export function getOutputDatatype(
   operator: string,
   leftType: TypeList,
-  rightType: TypeList
+  rightType: TypeList,
+  source: SourceLocation
 ): TypeList {
   if (['*', '/', '%'].includes(operator)) {
     if (isPointer(leftType) || isPointer(rightType)) {
-      throw new CompileTimeError()
+      throw new FatalSyntaxError(source)
     }
 
     return getBiggerType(leftType, rightType)
@@ -71,7 +71,7 @@ export function getOutputDatatype(
     const isRightPointer = isPointer(rightType)
 
     if (isLeftPointer && isRightPointer) {
-      throw new CompileTimeError()
+      throw new FatalSyntaxError(source)
     }
 
     if (isLeftPointer || isRightPointer) {
@@ -81,7 +81,7 @@ export function getOutputDatatype(
     return getBiggerType(leftType, rightType)
   }
 
-  throw new CompileTimeError()
+  throw new FatalSyntaxError(source)
 }
 
 /**

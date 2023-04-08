@@ -13,16 +13,15 @@ import {
   VariableDeclContext
 } from '../lang/SourCParser2'
 import { SourCParser2Visitor } from '../lang/SourCParser2Visitor'
-import { FatalSyntaxError } from '../parser/parser.error'
-import { contextToLocation } from '../parser/utils'
 import { getSizeofArrayVariable, getSizeofVariable } from '../utils/sizeHandler'
 import { convertTypedefCtxToTypeList } from '../utils/typeHandler'
-import { ParserMisconfigError } from './error'
+import { FatalSyntaxError, ParserMisconfigError } from './error'
 import {
   AddDeclarationCallbackFunction,
+  contextToLocation,
   errorNodeToLocation,
   IdentifierLookupFunction
-} from './util'
+} from './utils'
 import { ExpressionGenerator } from './visitor.expression'
 
 export class DeclarationGenerator implements SourCParser2Visitor<Declaration> {
