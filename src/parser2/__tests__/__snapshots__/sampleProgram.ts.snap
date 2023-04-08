@@ -22,7 +22,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                -1,
+                8,
               ],
               "isInstructionAddr": false,
             },
@@ -100,7 +100,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                31,
+                40,
               ],
               "isInstructionAddr": false,
             },
@@ -124,7 +124,7 @@ Object {
                   "address": Object {
                     "address": Array [
                       "rbp",
-                      -1,
+                      8,
                     ],
                     "isInstructionAddr": false,
                   },
@@ -132,7 +132,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        -1,
+                        8,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -157,7 +157,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        31,
+                        40,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -198,7 +198,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        -1,
+                        8,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -206,7 +206,7 @@ Object {
                       "address": Object {
                         "address": Array [
                           "rbp",
-                          -1,
+                          8,
                         ],
                         "isInstructionAddr": false,
                       },
@@ -251,7 +251,7 @@ Object {
                           "address": Object {
                             "address": Array [
                               "rbp",
-                              31,
+                              40,
                             ],
                             "isInstructionAddr": false,
                           },
@@ -385,7 +385,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -447,7 +447,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -507,7 +507,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -613,7 +613,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                -1,
+                8,
               ],
               "isInstructionAddr": false,
             },
@@ -657,7 +657,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                31,
+                40,
               ],
               "isInstructionAddr": false,
             },
@@ -681,7 +681,7 @@ Object {
                   "address": Object {
                     "address": Array [
                       "rbp",
-                      -1,
+                      8,
                     ],
                     "isInstructionAddr": false,
                   },
@@ -689,7 +689,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        -1,
+                        8,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -714,7 +714,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        31,
+                        40,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -755,7 +755,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        31,
+                        40,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -819,7 +819,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -881,7 +881,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -941,7 +941,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -1047,7 +1047,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                -1,
+                8,
               ],
               "isInstructionAddr": false,
             },
@@ -1065,7 +1065,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                31,
+                40,
               ],
               "isInstructionAddr": false,
             },
@@ -1089,7 +1089,7 @@ Object {
                   "address": Object {
                     "address": Array [
                       "rbp",
-                      -1,
+                      8,
                     ],
                     "isInstructionAddr": false,
                   },
@@ -1097,7 +1097,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        -1,
+                        8,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -1122,7 +1122,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        31,
+                        40,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -1163,7 +1163,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        31,
+                        40,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -1227,7 +1227,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -1289,7 +1289,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -1349,7 +1349,7 @@ Object {
                 "address": Object {
                   "address": Array [
                     "rbp",
-                    31,
+                    40,
                   ],
                   "isInstructionAddr": false,
                 },
@@ -1584,7 +1584,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                -1,
+                8,
               ],
               "isInstructionAddr": false,
             },
@@ -1606,7 +1606,7 @@ Object {
               "address": Object {
                 "address": Array [
                   "rbp",
-                  -1,
+                  8,
                 ],
                 "isInstructionAddr": false,
               },
@@ -1791,7 +1791,7 @@ Object {
               "address": Object {
                 "address": Array [
                   "rbp",
-                  -1,
+                  8,
                 ],
                 "isInstructionAddr": false,
               },
@@ -1877,7 +1877,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                -1,
+                8,
               ],
               "isInstructionAddr": false,
             },
@@ -1910,7 +1910,7 @@ Object {
             "address": Object {
               "address": Array [
                 "rbp",
-                7,
+                16,
               ],
               "isInstructionAddr": false,
             },
@@ -1968,7 +1968,7 @@ Object {
                   "address": Object {
                     "address": Array [
                       "rbp",
-                      -1,
+                      8,
                     ],
                     "isInstructionAddr": false,
                   },
@@ -1992,7 +1992,7 @@ Object {
                   "address": Object {
                     "address": Array [
                       "rbp",
-                      7,
+                      16,
                     ],
                     "isInstructionAddr": false,
                   },
@@ -2057,7 +2057,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        -1,
+                        8,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -2098,7 +2098,7 @@ Object {
                     "address": Object {
                       "address": Array [
                         "rbp",
-                        7,
+                        16,
                       ],
                       "isInstructionAddr": false,
                     },
@@ -2176,7 +2176,7 @@ Object {
                   "address": Object {
                     "address": Array [
                       "rbp",
-                      -1,
+                      8,
                     ],
                     "isInstructionAddr": false,
                   },
@@ -2200,7 +2200,7 @@ Object {
                   "address": Object {
                     "address": Array [
                       "rbp",
-                      7,
+                      16,
                     ],
                     "isInstructionAddr": false,
                   },

@@ -1,6 +1,6 @@
 import { BUILTINS } from '../builtin/parser'
 import { CompileTimeError } from '../compiler/error'
-import { BasePointer } from '../typings/microcode'
+import { BasePointer, BottomOfMemory, Registers } from '../typings/microcode'
 import { Address, DataType, TypeList } from './ast.core'
 import { FunctionDefinition } from './ast.declaration'
 
@@ -59,6 +59,8 @@ export class IdentifierHandler {
       throw new CompileTimeError()
     }
 
+    const register: Registers = this.hasOnlyGlobalFrame() ? BottomOfMemory : BasePointer
+
     const topmostFrame = this.peekTopmostFrame()
 
     topmostFrame.mapping[v.name] = {
@@ -66,7 +68,7 @@ export class IdentifierHandler {
       datatype: v.datatype,
       address: {
         isInstructionAddr: false,
-        address: [BasePointer, topmostFrame.nextOffset]
+        address: [register, topmostFrame.nextOffset]
       }
     }
     topmostFrame.nextOffset += v.size
@@ -81,7 +83,7 @@ export class IdentifierHandler {
     if (!this.hasOnlyGlobalFrame()) throw new CompileTimeError()
 
     const functionFrame: Frame = {
-      nextOffset: -1,
+      nextOffset: 8,
       mapping: {}
     }
 

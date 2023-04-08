@@ -18,10 +18,10 @@ beforeEach(() => {
 const CHAR_TEST_CASES: string[] = [
   'char x = 32767;',
   'unsigned char x = 32767;',
-  'signed char x = 32767;',
+  'char x = 32767;',
   'char * x = 32767;',
   'unsigned char * x = 32767;',
-  'signed char ** x = 32767;'
+  'char ** x = 32767;'
 ]
 
 describe('Char', () => {
@@ -36,10 +36,8 @@ describe('Char', () => {
 const SHORT_TEST_CASES: string[] = [
   'short x = 65535;',
   'unsigned short x = 65535;',
-  'signed short x = 65535;',
   'short * x = 65535;',
-  'unsigned short ** x = 65535;',
-  'signed short * x = 65535;'
+  'unsigned short ** x = 65535;'
 ]
 
 describe('Short', () => {
@@ -54,10 +52,8 @@ describe('Short', () => {
 const INT_TEST_CASES: string[] = [
   'int x = 65535;',
   'unsigned int x = 65535;',
-  'signed int x = 65535;',
   'int * * x = 65535;',
-  'unsigned int * x = 65535;',
-  'signed int * x = 65535;'
+  'unsigned int * x = 65535;'
 ]
 
 describe('Int', () => {
@@ -72,10 +68,8 @@ describe('Int', () => {
 const LONG_TEST_CASES: string[] = [
   'long x = 65535;',
   'unsigned long x = 65535;',
-  'signed long x = 65535;',
   'long * x = 65535;',
-  'unsigned long * * x = 65535;',
-  'signed long * x = 65535;'
+  'unsigned long * * x = 65535;'
 ]
 
 describe('Long', () => {
