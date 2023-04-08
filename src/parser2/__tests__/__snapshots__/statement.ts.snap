@@ -1,0 +1,1438 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`For When_'for (x = 1; x < 10; x++) { y++; }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "end": Object {
+            "column": 66,
+            "line": 1,
+          },
+          "expression": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "end": Object {
+              "column": 64,
+              "line": 1,
+            },
+            "isPrefix": false,
+            "operand": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  8,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 63,
+                "line": 1,
+              },
+              "name": "y",
+              "start": Object {
+                "column": 63,
+                "line": 1,
+              },
+              "type": "Identifier",
+            },
+            "start": Object {
+              "column": 63,
+              "line": 1,
+            },
+            "type": "UpdateExpression",
+          },
+          "start": Object {
+            "column": 63,
+            "line": 1,
+          },
+          "type": "ExpressionStatement",
+        },
+      ],
+      "end": Object {
+        "column": 68,
+        "line": 1,
+      },
+      "init": Object {
+        "end": Object {
+          "column": 45,
+          "line": 1,
+        },
+        "left": Object {
+          "address": Object {
+            "address": Array [
+              "rbp",
+              0,
+            ],
+            "isInstructionAddr": false,
+          },
+          "datatype": Object {
+            "typeList": Array [
+              "int",
+            ],
+          },
+          "end": Object {
+            "column": 41,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 41,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "=",
+        "right": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 45,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 45,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 1,
+        },
+        "start": Object {
+          "column": 41,
+          "line": 1,
+        },
+        "type": "AssignmentStatement",
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "char",
+          ],
+        },
+        "end": Object {
+          "column": 52,
+          "line": 1,
+        },
+        "left": Object {
+          "address": Object {
+            "address": Array [
+              "rbp",
+              0,
+            ],
+            "isInstructionAddr": false,
+          },
+          "datatype": Object {
+            "typeList": Array [
+              "int",
+            ],
+          },
+          "end": Object {
+            "column": 48,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 48,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "<",
+        "right": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 52,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 52,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 10,
+        },
+        "start": Object {
+          "column": 48,
+          "line": 1,
+        },
+        "type": "BinaryOperatorExpression",
+      },
+      "type": "ForStatement",
+      "update": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "end": Object {
+          "column": 57,
+          "line": 1,
+        },
+        "isPrefix": false,
+        "operand": Object {
+          "address": Object {
+            "address": Array [
+              "rbp",
+              0,
+            ],
+            "isInstructionAddr": false,
+          },
+          "datatype": Object {
+            "typeList": Array [
+              "int",
+            ],
+          },
+          "end": Object {
+            "column": 56,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 56,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "start": Object {
+          "column": 56,
+          "line": 1,
+        },
+        "type": "UpdateExpression",
+      },
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 70,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`For When_'for(;;) { continue; }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "end": Object {
+            "column": 54,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 46,
+            "line": 1,
+          },
+          "type": "ContinueStatement",
+        },
+      ],
+      "end": Object {
+        "column": 56,
+        "line": 1,
+      },
+      "init": undefined,
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": undefined,
+      "type": "ForStatement",
+      "update": undefined,
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 58,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`FunctionDefinition When_'int foo() { return 10;} '_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "isInstructionAddr": true,
+        },
+        "body": Array [
+          Object {
+            "end": Object {
+              "column": 21,
+              "line": 1,
+            },
+            "expression": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 19,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 19,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 10,
+            },
+            "start": Object {
+              "column": 12,
+              "line": 1,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "end": Object {
+          "column": 22,
+          "line": 1,
+        },
+        "name": "foo",
+        "params": Array [],
+        "start": Object {
+          "column": 0,
+          "line": 1,
+        },
+        "type": "FunctionDefinition",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`If When_'if (x == -1) { x = 10; } else { x = x - 1; } '_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "alternate": Array [
+        Object {
+          "end": Object {
+            "column": 76,
+            "line": 1,
+          },
+          "left": Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                0,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "end": Object {
+              "column": 68,
+              "line": 1,
+            },
+            "name": "x",
+            "start": Object {
+              "column": 68,
+              "line": 1,
+            },
+            "type": "Identifier",
+          },
+          "operator": "=",
+          "right": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "long",
+              ],
+            },
+            "end": Object {
+              "column": 76,
+              "line": 1,
+            },
+            "left": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  0,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 72,
+                "line": 1,
+              },
+              "name": "x",
+              "start": Object {
+                "column": 72,
+                "line": 1,
+              },
+              "type": "Identifier",
+            },
+            "operator": "-",
+            "right": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 76,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 76,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 1,
+            },
+            "start": Object {
+              "column": 72,
+              "line": 1,
+            },
+            "type": "BinaryOperatorExpression",
+          },
+          "start": Object {
+            "column": 68,
+            "line": 1,
+          },
+          "type": "AssignmentStatement",
+        },
+      ],
+      "consequent": Array [
+        Object {
+          "end": Object {
+            "column": 55,
+            "line": 1,
+          },
+          "left": Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                0,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "end": Object {
+              "column": 51,
+              "line": 1,
+            },
+            "name": "x",
+            "start": Object {
+              "column": 51,
+              "line": 1,
+            },
+            "type": "Identifier",
+          },
+          "operator": "=",
+          "right": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "long",
+              ],
+            },
+            "end": Object {
+              "column": 55,
+              "line": 1,
+            },
+            "start": Object {
+              "column": 55,
+              "line": 1,
+            },
+            "type": "IntLiteral",
+            "value": 10,
+          },
+          "start": Object {
+            "column": 51,
+            "line": 1,
+          },
+          "type": "AssignmentStatement",
+        },
+      ],
+      "end": Object {
+        "column": 79,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "char",
+          ],
+        },
+        "end": Object {
+          "column": 46,
+          "line": 1,
+        },
+        "left": Object {
+          "address": Object {
+            "address": Array [
+              "rbp",
+              0,
+            ],
+            "isInstructionAddr": false,
+          },
+          "datatype": Object {
+            "typeList": Array [
+              "int",
+            ],
+          },
+          "end": Object {
+            "column": 40,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 40,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "==",
+        "right": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 46,
+            "line": 1,
+          },
+          "operand": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "long",
+              ],
+            },
+            "end": Object {
+              "column": 46,
+              "line": 1,
+            },
+            "start": Object {
+              "column": 46,
+              "line": 1,
+            },
+            "type": "IntLiteral",
+            "value": 1,
+          },
+          "start": Object {
+            "column": 45,
+            "line": 1,
+          },
+          "type": "UnaryMinusExpression",
+        },
+        "start": Object {
+          "column": 40,
+          "line": 1,
+        },
+        "type": "BinaryOperatorExpression",
+      },
+      "type": "IfElseStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 82,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`If When_'if (x == 1) { x = 10; } '_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "alternate": undefined,
+      "consequent": Array [
+        Object {
+          "end": Object {
+            "column": 54,
+            "line": 1,
+          },
+          "left": Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                0,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "end": Object {
+              "column": 50,
+              "line": 1,
+            },
+            "name": "x",
+            "start": Object {
+              "column": 50,
+              "line": 1,
+            },
+            "type": "Identifier",
+          },
+          "operator": "=",
+          "right": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "long",
+              ],
+            },
+            "end": Object {
+              "column": 54,
+              "line": 1,
+            },
+            "start": Object {
+              "column": 54,
+              "line": 1,
+            },
+            "type": "IntLiteral",
+            "value": 10,
+          },
+          "start": Object {
+            "column": 50,
+            "line": 1,
+          },
+          "type": "AssignmentStatement",
+        },
+      ],
+      "end": Object {
+        "column": 58,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "char",
+          ],
+        },
+        "end": Object {
+          "column": 45,
+          "line": 1,
+        },
+        "left": Object {
+          "address": Object {
+            "address": Array [
+              "rbp",
+              0,
+            ],
+            "isInstructionAddr": false,
+          },
+          "datatype": Object {
+            "typeList": Array [
+              "int",
+            ],
+          },
+          "end": Object {
+            "column": 40,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 40,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "==",
+        "right": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 45,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 45,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 1,
+        },
+        "start": Object {
+          "column": 40,
+          "line": 1,
+        },
+        "type": "BinaryOperatorExpression",
+      },
+      "type": "IfElseStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 61,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`While When_'while (1) { }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [],
+      "end": Object {
+        "column": 48,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "long",
+          ],
+        },
+        "end": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "type": "IntLiteral",
+        "value": 1,
+      },
+      "type": "WhileStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 50,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`While When_'while (1) { break; }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "end": Object {
+            "column": 53,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 48,
+            "line": 1,
+          },
+          "type": "BreakStatement",
+        },
+      ],
+      "end": Object {
+        "column": 55,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "long",
+          ],
+        },
+        "end": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "type": "IntLiteral",
+        "value": 1,
+      },
+      "type": "WhileStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 57,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`While When_'while (1) { continue; }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "end": Object {
+            "column": 56,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 48,
+            "line": 1,
+          },
+          "type": "ContinueStatement",
+        },
+      ],
+      "end": Object {
+        "column": 58,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "long",
+          ],
+        },
+        "end": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "type": "IntLiteral",
+        "value": 1,
+      },
+      "type": "WhileStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 60,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`While When_'while (1) { return -x + 10; }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "end": Object {
+            "column": 62,
+            "line": 1,
+          },
+          "expression": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "long",
+              ],
+            },
+            "end": Object {
+              "column": 60,
+              "line": 1,
+            },
+            "left": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 56,
+                "line": 1,
+              },
+              "operand": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    0,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 56,
+                  "line": 1,
+                },
+                "name": "x",
+                "start": Object {
+                  "column": 56,
+                  "line": 1,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 55,
+                "line": 1,
+              },
+              "type": "UnaryMinusExpression",
+            },
+            "operator": "+",
+            "right": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 60,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 60,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 10,
+            },
+            "start": Object {
+              "column": 55,
+              "line": 1,
+            },
+            "type": "BinaryOperatorExpression",
+          },
+          "start": Object {
+            "column": 48,
+            "line": 1,
+          },
+          "type": "ReturnStatement",
+        },
+      ],
+      "end": Object {
+        "column": 64,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "long",
+          ],
+        },
+        "end": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "start": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "type": "IntLiteral",
+        "value": 1,
+      },
+      "type": "WhileStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 66,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`While When_'while (10 + 5 < x) { x--; }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "end": Object {
+            "column": 60,
+            "line": 1,
+          },
+          "expression": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "end": Object {
+              "column": 58,
+              "line": 1,
+            },
+            "isPrefix": false,
+            "operand": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  0,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 57,
+                "line": 1,
+              },
+              "name": "x",
+              "start": Object {
+                "column": 57,
+                "line": 1,
+              },
+              "type": "Identifier",
+            },
+            "start": Object {
+              "column": 57,
+              "line": 1,
+            },
+            "type": "UpdateExpression",
+          },
+          "start": Object {
+            "column": 57,
+            "line": 1,
+          },
+          "type": "ExpressionStatement",
+        },
+      ],
+      "end": Object {
+        "column": 62,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "char",
+          ],
+        },
+        "end": Object {
+          "column": 52,
+          "line": 1,
+        },
+        "left": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 48,
+            "line": 1,
+          },
+          "left": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "long",
+              ],
+            },
+            "end": Object {
+              "column": 43,
+              "line": 1,
+            },
+            "start": Object {
+              "column": 43,
+              "line": 1,
+            },
+            "type": "IntLiteral",
+            "value": 10,
+          },
+          "operator": "+",
+          "right": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "long",
+              ],
+            },
+            "end": Object {
+              "column": 48,
+              "line": 1,
+            },
+            "start": Object {
+              "column": 48,
+              "line": 1,
+            },
+            "type": "IntLiteral",
+            "value": 5,
+          },
+          "start": Object {
+            "column": 43,
+            "line": 1,
+          },
+          "type": "BinaryOperatorExpression",
+        },
+        "operator": "<",
+        "right": Object {
+          "address": Object {
+            "address": Array [
+              "rbp",
+              0,
+            ],
+            "isInstructionAddr": false,
+          },
+          "datatype": Object {
+            "typeList": Array [
+              "int",
+            ],
+          },
+          "end": Object {
+            "column": 52,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 52,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "start": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "type": "BinaryOperatorExpression",
+      },
+      "type": "WhileStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 64,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;
+
+exports[`While When_'while (x < 5) { x++; }'_Should_ParseSuccessfully 1`] = `
+Object {
+  "address": Object {
+    "isInstructionAddr": true,
+  },
+  "body": Array [
+    Object {
+      "body": Array [
+        Object {
+          "end": Object {
+            "column": 55,
+            "line": 1,
+          },
+          "expression": Object {
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "end": Object {
+              "column": 53,
+              "line": 1,
+            },
+            "isPrefix": false,
+            "operand": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  0,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 52,
+                "line": 1,
+              },
+              "name": "x",
+              "start": Object {
+                "column": 52,
+                "line": 1,
+              },
+              "type": "Identifier",
+            },
+            "start": Object {
+              "column": 52,
+              "line": 1,
+            },
+            "type": "UpdateExpression",
+          },
+          "start": Object {
+            "column": 52,
+            "line": 1,
+          },
+          "type": "ExpressionStatement",
+        },
+      ],
+      "end": Object {
+        "column": 57,
+        "line": 1,
+      },
+      "start": Object {
+        "column": 36,
+        "line": 1,
+      },
+      "test": Object {
+        "datatype": Object {
+          "typeList": Array [
+            "char",
+          ],
+        },
+        "end": Object {
+          "column": 47,
+          "line": 1,
+        },
+        "left": Object {
+          "address": Object {
+            "address": Array [
+              "rbp",
+              0,
+            ],
+            "isInstructionAddr": false,
+          },
+          "datatype": Object {
+            "typeList": Array [
+              "int",
+            ],
+          },
+          "end": Object {
+            "column": 43,
+            "line": 1,
+          },
+          "name": "x",
+          "start": Object {
+            "column": 43,
+            "line": 1,
+          },
+          "type": "Identifier",
+        },
+        "operator": "<",
+        "right": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 47,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 47,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 5,
+        },
+        "start": Object {
+          "column": 43,
+          "line": 1,
+        },
+        "type": "BinaryOperatorExpression",
+      },
+      "type": "WhileStatement",
+    },
+  ],
+  "datatype": Object {
+    "typeList": Array [
+      "int",
+    ],
+  },
+  "end": Object {
+    "column": 59,
+    "line": 1,
+  },
+  "name": "main",
+  "params": Array [],
+  "start": Object {
+    "column": 23,
+    "line": 1,
+  },
+  "type": "FunctionDefinition",
+}
+`;

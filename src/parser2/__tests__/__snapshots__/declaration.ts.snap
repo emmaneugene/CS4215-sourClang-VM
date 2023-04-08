@@ -1,0 +1,1290 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Char When_'char * x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "char",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 11,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 11,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 32767,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Char When_'char x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "char",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 9,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 9,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 32767,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Char When_'signed char ** x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Char When_'signed char x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Char When_'unsigned char * x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "unsigned_char",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 20,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 20,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 32767,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Char When_'unsigned char x = 32767;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "unsigned_char",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 18,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 18,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 32767,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Double When_'double * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "double",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 13,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 13,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Double When_'double x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "double",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 11,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 11,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Float When_'float *** x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "*",
+            "*",
+            "float",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 14,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 14,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Float When_'float x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "float",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`GoodArray When_'int x[] = {1, 2, 3};'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "expressions": Array [
+            Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 11,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 11,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 1,
+            },
+            Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 14,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 14,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 2,
+            },
+            Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 17,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 17,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 3,
+            },
+          ],
+          "type": "SequenceExpression",
+        },
+        "name": "x",
+        "size": 3,
+        "type": "ArrayDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`GoodArray When_'int x[3] = {1, 2};'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "expressions": Array [
+            Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 12,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 12,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 1,
+            },
+            Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 15,
+                "line": 1,
+              },
+              "start": Object {
+                "column": 15,
+                "line": 1,
+              },
+              "type": "IntLiteral",
+              "value": 2,
+            },
+          ],
+          "type": "SequenceExpression",
+        },
+        "name": "x",
+        "size": 3,
+        "type": "ArrayDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`GoodArray When_'int x[3];'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "init": undefined,
+        "name": "x",
+        "size": 3,
+        "type": "ArrayDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Int When_'int * * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "*",
+            "int",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 12,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 12,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Int When_'int x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 8,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 8,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Int When_'signed int * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Int When_'signed int x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Int When_'unsigned int * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "unsigned_int",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 19,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 19,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Int When_'unsigned int x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "unsigned_int",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 17,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 17,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Long When_'long * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "long",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 11,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 11,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Long When_'long x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "long",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 9,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 9,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Long When_'signed long * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Long When_'signed long x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Long When_'unsigned long * * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "*",
+            "unsigned_long",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 22,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 22,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Long When_'unsigned long x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "unsigned_long",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 18,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 18,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Short When_'short * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "short",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 12,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 12,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Short When_'short x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "short",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 10,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Short When_'signed short * x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Short When_'signed short x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Short When_'unsigned short ** x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "*",
+            "*",
+            "unsigned_short",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 22,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 22,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`Short When_'unsigned short x = 65535;'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "address": Array [
+            "rbp",
+            0,
+          ],
+          "isInstructionAddr": false,
+        },
+        "datatype": Object {
+          "typeList": Array [
+            "unsigned_short",
+          ],
+        },
+        "init": Object {
+          "datatype": Object {
+            "typeList": Array [
+              "long",
+            ],
+          },
+          "end": Object {
+            "column": 19,
+            "line": 1,
+          },
+          "start": Object {
+            "column": 19,
+            "line": 1,
+          },
+          "type": "IntLiteral",
+          "value": 65535,
+        },
+        "name": "x",
+        "type": "VariableDeclaration",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;

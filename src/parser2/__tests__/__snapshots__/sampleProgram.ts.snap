@@ -1,0 +1,2307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SamplePrograms When_'
+int main() {
+  int list[] = {1, 2, 3};
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = list[i + (-1) + 1] * 10;
+  }
+  return 0;
+}
+'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "isInstructionAddr": true,
+        },
+        "body": Array [
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                -1,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "expressions": Array [
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "long",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 16,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 16,
+                    "line": 3,
+                  },
+                  "type": "IntLiteral",
+                  "value": 1,
+                },
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "long",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 19,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 19,
+                    "line": 3,
+                  },
+                  "type": "IntLiteral",
+                  "value": 2,
+                },
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "long",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 22,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 22,
+                    "line": 3,
+                  },
+                  "type": "IntLiteral",
+                  "value": 3,
+                },
+              ],
+              "type": "SequenceExpression",
+            },
+            "name": "list",
+            "size": 3,
+            "type": "ArrayDeclaration",
+          },
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                31,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": undefined,
+            "name": "i",
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "body": Array [
+              Object {
+                "end": Object {
+                  "column": 35,
+                  "line": 6,
+                },
+                "left": Object {
+                  "address": Object {
+                    "address": Array [
+                      "rbp",
+                      -1,
+                    ],
+                    "isInstructionAddr": false,
+                  },
+                  "array": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        -1,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "name": "list",
+                    "type": "Identifier",
+                  },
+                  "datatype": Object {
+                    "typeList": Array [
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 10,
+                    "line": 6,
+                  },
+                  "index": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        31,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 9,
+                      "line": 6,
+                    },
+                    "name": "i",
+                    "start": Object {
+                      "column": 9,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 4,
+                    "line": 6,
+                  },
+                  "type": "ArrayAccess",
+                },
+                "operator": "=",
+                "right": Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "long",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 35,
+                    "line": 6,
+                  },
+                  "left": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        -1,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "array": Object {
+                      "address": Object {
+                        "address": Array [
+                          "rbp",
+                          -1,
+                        ],
+                        "isInstructionAddr": false,
+                      },
+                      "datatype": Object {
+                        "typeList": Array [
+                          "int",
+                        ],
+                      },
+                      "name": "list",
+                      "type": "Identifier",
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 31,
+                      "line": 6,
+                    },
+                    "index": Object {
+                      "datatype": Object {
+                        "typeList": Array [
+                          "long",
+                        ],
+                      },
+                      "end": Object {
+                        "column": 30,
+                        "line": 6,
+                      },
+                      "left": Object {
+                        "datatype": Object {
+                          "typeList": Array [
+                            "long",
+                          ],
+                        },
+                        "end": Object {
+                          "column": 26,
+                          "line": 6,
+                        },
+                        "left": Object {
+                          "address": Object {
+                            "address": Array [
+                              "rbp",
+                              31,
+                            ],
+                            "isInstructionAddr": false,
+                          },
+                          "datatype": Object {
+                            "typeList": Array [
+                              "int",
+                            ],
+                          },
+                          "end": Object {
+                            "column": 19,
+                            "line": 6,
+                          },
+                          "name": "i",
+                          "start": Object {
+                            "column": 19,
+                            "line": 6,
+                          },
+                          "type": "Identifier",
+                        },
+                        "operator": "+",
+                        "right": Object {
+                          "datatype": Object {
+                            "typeList": Array [
+                              "long",
+                            ],
+                          },
+                          "end": Object {
+                            "column": 25,
+                            "line": 6,
+                          },
+                          "operand": Object {
+                            "datatype": Object {
+                              "typeList": Array [
+                                "long",
+                              ],
+                            },
+                            "end": Object {
+                              "column": 25,
+                              "line": 6,
+                            },
+                            "start": Object {
+                              "column": 25,
+                              "line": 6,
+                            },
+                            "type": "IntLiteral",
+                            "value": 1,
+                          },
+                          "start": Object {
+                            "column": 24,
+                            "line": 6,
+                          },
+                          "type": "UnaryMinusExpression",
+                        },
+                        "start": Object {
+                          "column": 19,
+                          "line": 6,
+                        },
+                        "type": "BinaryOperatorExpression",
+                      },
+                      "operator": "+",
+                      "right": Object {
+                        "datatype": Object {
+                          "typeList": Array [
+                            "long",
+                          ],
+                        },
+                        "end": Object {
+                          "column": 30,
+                          "line": 6,
+                        },
+                        "start": Object {
+                          "column": 30,
+                          "line": 6,
+                        },
+                        "type": "IntLiteral",
+                        "value": 1,
+                      },
+                      "start": Object {
+                        "column": 19,
+                        "line": 6,
+                      },
+                      "type": "BinaryOperatorExpression",
+                    },
+                    "start": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "type": "ArrayAccess",
+                  },
+                  "operator": "*",
+                  "right": Object {
+                    "datatype": Object {
+                      "typeList": Array [
+                        "long",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 35,
+                      "line": 6,
+                    },
+                    "start": Object {
+                      "column": 35,
+                      "line": 6,
+                    },
+                    "type": "IntLiteral",
+                    "value": 10,
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 6,
+                  },
+                  "type": "BinaryOperatorExpression",
+                },
+                "start": Object {
+                  "column": 4,
+                  "line": 6,
+                },
+                "type": "AssignmentStatement",
+              },
+            ],
+            "end": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 11,
+                "line": 5,
+              },
+              "left": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "=",
+              "right": Object {
+                "datatype": Object {
+                  "typeList": Array [
+                    "long",
+                  ],
+                },
+                "end": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "type": "IntLiteral",
+                "value": 0,
+              },
+              "start": Object {
+                "column": 7,
+                "line": 5,
+              },
+              "type": "AssignmentStatement",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "test": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "char",
+                ],
+              },
+              "end": Object {
+                "column": 18,
+                "line": 5,
+              },
+              "left": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<",
+              "right": Object {
+                "datatype": Object {
+                  "typeList": Array [
+                    "long",
+                  ],
+                },
+                "end": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "type": "IntLiteral",
+                "value": 3,
+              },
+              "start": Object {
+                "column": 14,
+                "line": 5,
+              },
+              "type": "BinaryOperatorExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 22,
+                "line": 5,
+              },
+              "isPrefix": false,
+              "operand": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 21,
+                "line": 5,
+              },
+              "type": "UpdateExpression",
+            },
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 8,
+            },
+            "expression": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "start": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "type": "IntLiteral",
+              "value": 0,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "end": Object {
+          "column": 0,
+          "line": 9,
+        },
+        "name": "main",
+        "params": Array [],
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
+        "type": "FunctionDefinition",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`SamplePrograms When_'
+int main() {
+  int list[3] = { 1 };
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = i * 10;
+  }
+  return 0;
+}
+'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "isInstructionAddr": true,
+        },
+        "body": Array [
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                -1,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "expressions": Array [
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "long",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 18,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 18,
+                    "line": 3,
+                  },
+                  "type": "IntLiteral",
+                  "value": 1,
+                },
+              ],
+              "type": "SequenceExpression",
+            },
+            "name": "list",
+            "size": 3,
+            "type": "ArrayDeclaration",
+          },
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                31,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": undefined,
+            "name": "i",
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "body": Array [
+              Object {
+                "end": Object {
+                  "column": 18,
+                  "line": 6,
+                },
+                "left": Object {
+                  "address": Object {
+                    "address": Array [
+                      "rbp",
+                      -1,
+                    ],
+                    "isInstructionAddr": false,
+                  },
+                  "array": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        -1,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "name": "list",
+                    "type": "Identifier",
+                  },
+                  "datatype": Object {
+                    "typeList": Array [
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 10,
+                    "line": 6,
+                  },
+                  "index": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        31,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 9,
+                      "line": 6,
+                    },
+                    "name": "i",
+                    "start": Object {
+                      "column": 9,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 4,
+                    "line": 6,
+                  },
+                  "type": "ArrayAccess",
+                },
+                "operator": "=",
+                "right": Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "long",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 18,
+                    "line": 6,
+                  },
+                  "left": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        31,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "name": "i",
+                    "start": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "operator": "*",
+                  "right": Object {
+                    "datatype": Object {
+                      "typeList": Array [
+                        "long",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "start": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "type": "IntLiteral",
+                    "value": 10,
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 6,
+                  },
+                  "type": "BinaryOperatorExpression",
+                },
+                "start": Object {
+                  "column": 4,
+                  "line": 6,
+                },
+                "type": "AssignmentStatement",
+              },
+            ],
+            "end": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 11,
+                "line": 5,
+              },
+              "left": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "=",
+              "right": Object {
+                "datatype": Object {
+                  "typeList": Array [
+                    "long",
+                  ],
+                },
+                "end": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "type": "IntLiteral",
+                "value": 0,
+              },
+              "start": Object {
+                "column": 7,
+                "line": 5,
+              },
+              "type": "AssignmentStatement",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "test": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "char",
+                ],
+              },
+              "end": Object {
+                "column": 18,
+                "line": 5,
+              },
+              "left": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<",
+              "right": Object {
+                "datatype": Object {
+                  "typeList": Array [
+                    "long",
+                  ],
+                },
+                "end": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "type": "IntLiteral",
+                "value": 3,
+              },
+              "start": Object {
+                "column": 14,
+                "line": 5,
+              },
+              "type": "BinaryOperatorExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 22,
+                "line": 5,
+              },
+              "isPrefix": false,
+              "operand": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 21,
+                "line": 5,
+              },
+              "type": "UpdateExpression",
+            },
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 8,
+            },
+            "expression": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "start": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "type": "IntLiteral",
+              "value": 0,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "end": Object {
+          "column": 0,
+          "line": 9,
+        },
+        "name": "main",
+        "params": Array [],
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
+        "type": "FunctionDefinition",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`SamplePrograms When_'
+int main() {
+  int list[3];
+  int i;
+  for (i = 0; i < 3; i++) {
+    list[i] = i * 10;
+  }
+  return 0;
+}
+'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "isInstructionAddr": true,
+        },
+        "body": Array [
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                -1,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": undefined,
+            "name": "list",
+            "size": 3,
+            "type": "ArrayDeclaration",
+          },
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                31,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": undefined,
+            "name": "i",
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "body": Array [
+              Object {
+                "end": Object {
+                  "column": 18,
+                  "line": 6,
+                },
+                "left": Object {
+                  "address": Object {
+                    "address": Array [
+                      "rbp",
+                      -1,
+                    ],
+                    "isInstructionAddr": false,
+                  },
+                  "array": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        -1,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "name": "list",
+                    "type": "Identifier",
+                  },
+                  "datatype": Object {
+                    "typeList": Array [
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 10,
+                    "line": 6,
+                  },
+                  "index": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        31,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 9,
+                      "line": 6,
+                    },
+                    "name": "i",
+                    "start": Object {
+                      "column": 9,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 4,
+                    "line": 6,
+                  },
+                  "type": "ArrayAccess",
+                },
+                "operator": "=",
+                "right": Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "long",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 18,
+                    "line": 6,
+                  },
+                  "left": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        31,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "name": "i",
+                    "start": Object {
+                      "column": 14,
+                      "line": 6,
+                    },
+                    "type": "Identifier",
+                  },
+                  "operator": "*",
+                  "right": Object {
+                    "datatype": Object {
+                      "typeList": Array [
+                        "long",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "start": Object {
+                      "column": 18,
+                      "line": 6,
+                    },
+                    "type": "IntLiteral",
+                    "value": 10,
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 6,
+                  },
+                  "type": "BinaryOperatorExpression",
+                },
+                "start": Object {
+                  "column": 4,
+                  "line": 6,
+                },
+                "type": "AssignmentStatement",
+              },
+            ],
+            "end": Object {
+              "column": 2,
+              "line": 7,
+            },
+            "init": Object {
+              "end": Object {
+                "column": 11,
+                "line": 5,
+              },
+              "left": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 7,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "=",
+              "right": Object {
+                "datatype": Object {
+                  "typeList": Array [
+                    "long",
+                  ],
+                },
+                "end": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 11,
+                  "line": 5,
+                },
+                "type": "IntLiteral",
+                "value": 0,
+              },
+              "start": Object {
+                "column": 7,
+                "line": 5,
+              },
+              "type": "AssignmentStatement",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "test": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "char",
+                ],
+              },
+              "end": Object {
+                "column": 18,
+                "line": 5,
+              },
+              "left": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 14,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "operator": "<",
+              "right": Object {
+                "datatype": Object {
+                  "typeList": Array [
+                    "long",
+                  ],
+                },
+                "end": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "start": Object {
+                  "column": 18,
+                  "line": 5,
+                },
+                "type": "IntLiteral",
+                "value": 3,
+              },
+              "start": Object {
+                "column": 14,
+                "line": 5,
+              },
+              "type": "BinaryOperatorExpression",
+            },
+            "type": "ForStatement",
+            "update": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 22,
+                "line": 5,
+              },
+              "isPrefix": false,
+              "operand": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    31,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "int",
+                  ],
+                },
+                "end": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "name": "i",
+                "start": Object {
+                  "column": 21,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 21,
+                "line": 5,
+              },
+              "type": "UpdateExpression",
+            },
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 8,
+            },
+            "expression": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "start": Object {
+                "column": 9,
+                "line": 8,
+              },
+              "type": "IntLiteral",
+              "value": 0,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 8,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "end": Object {
+          "column": 0,
+          "line": 9,
+        },
+        "name": "main",
+        "params": Array [],
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
+        "type": "FunctionDefinition",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [],
+    "rodataSize": 0,
+    "stringToAddr": Object {},
+  },
+}
+`;
+
+exports[`SamplePrograms When_'
+int main() {
+  printf("Hello, World!");
+  return 0;
+}
+'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "isInstructionAddr": true,
+        },
+        "body": Array [
+          Object {
+            "end": Object {
+              "column": 25,
+              "line": 3,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "*",
+                      "char",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 9,
+                    "line": 3,
+                  },
+                  "start": Object {
+                    "column": 9,
+                    "line": 3,
+                  },
+                  "stringValue": "\\"Hello, World!\\"",
+                  "type": "StringLiteral",
+                },
+              ],
+              "callee": "printf",
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 24,
+                "line": 3,
+              },
+              "start": Object {
+                "column": 2,
+                "line": 3,
+              },
+              "type": "FunctionCallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 3,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 4,
+            },
+            "expression": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 9,
+                "line": 4,
+              },
+              "start": Object {
+                "column": 9,
+                "line": 4,
+              },
+              "type": "IntLiteral",
+              "value": 0,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "end": Object {
+          "column": 0,
+          "line": 5,
+        },
+        "name": "main",
+        "params": Array [],
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
+        "type": "FunctionDefinition",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [
+      "\\"Hello, World!\\"",
+    ],
+    "rodataSize": 112,
+    "stringToAddr": Object {
+      "Hello, World! ": 0,
+    },
+  },
+}
+`;
+
+exports[`SamplePrograms When_'
+void swap(int *a, int *b) {
+  int temp;
+  temp = *a;
+  *a = *b;
+  *b = temp;
+}
+int main() {
+  int num1 = 10;
+  int num2 = 20;
+  printf("Before swap: num1 = %d, num2 = %d\\n", num1, num2);
+  swap(&num1, &num2);
+  printf("After swap: num1 = %d, num2 = %d\\n", num1, num2);
+  return 0;
+}
+'_Should_ParseSuccessfully 1`] = `
+Object {
+  "program": Object {
+    "body": Array [
+      Object {
+        "address": Object {
+          "isInstructionAddr": true,
+        },
+        "body": Array [
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                -1,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": undefined,
+            "name": "temp",
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 4,
+            },
+            "left": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  -1,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 2,
+                "line": 4,
+              },
+              "name": "temp",
+              "start": Object {
+                "column": 2,
+                "line": 4,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "datatype": Object {
+                "structDef": undefined,
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 10,
+                "line": 4,
+              },
+              "operand": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    -16,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "*",
+                  ],
+                },
+                "end": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+                "name": "a",
+                "start": Object {
+                  "column": 10,
+                  "line": 4,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 9,
+                "line": 4,
+              },
+              "type": "DereferenceExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 4,
+            },
+            "type": "AssignmentStatement",
+          },
+          Object {
+            "derefChain": Array [
+              "*",
+            ],
+            "end": Object {
+              "column": 8,
+              "line": 5,
+            },
+            "left": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  -16,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "*",
+                ],
+              },
+              "end": Object {
+                "column": 3,
+                "line": 5,
+              },
+              "name": "a",
+              "start": Object {
+                "column": 3,
+                "line": 5,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "datatype": Object {
+                "structDef": undefined,
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 8,
+                "line": 5,
+              },
+              "operand": Object {
+                "address": Object {
+                  "address": Array [
+                    "rbp",
+                    -24,
+                  ],
+                  "isInstructionAddr": false,
+                },
+                "datatype": Object {
+                  "typeList": Array [
+                    "*",
+                  ],
+                },
+                "end": Object {
+                  "column": 8,
+                  "line": 5,
+                },
+                "name": "b",
+                "start": Object {
+                  "column": 8,
+                  "line": 5,
+                },
+                "type": "Identifier",
+              },
+              "start": Object {
+                "column": 7,
+                "line": 5,
+              },
+              "type": "DereferenceExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 5,
+            },
+            "type": "DerefLeftAssignmentStatement",
+          },
+          Object {
+            "derefChain": Array [
+              "*",
+            ],
+            "end": Object {
+              "column": 7,
+              "line": 6,
+            },
+            "left": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  -24,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "*",
+                ],
+              },
+              "end": Object {
+                "column": 3,
+                "line": 6,
+              },
+              "name": "b",
+              "start": Object {
+                "column": 3,
+                "line": 6,
+              },
+              "type": "Identifier",
+            },
+            "operator": "=",
+            "right": Object {
+              "address": Object {
+                "address": Array [
+                  "rbp",
+                  -1,
+                ],
+                "isInstructionAddr": false,
+              },
+              "datatype": Object {
+                "typeList": Array [
+                  "int",
+                ],
+              },
+              "end": Object {
+                "column": 7,
+                "line": 6,
+              },
+              "name": "temp",
+              "start": Object {
+                "column": 7,
+                "line": 6,
+              },
+              "type": "Identifier",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 6,
+            },
+            "type": "DerefLeftAssignmentStatement",
+          },
+        ],
+        "datatype": Object {
+          "typeList": Array [
+            "void",
+          ],
+        },
+        "end": Object {
+          "column": 0,
+          "line": 7,
+        },
+        "name": "swap",
+        "params": Array [
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                -16,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "*",
+              ],
+            },
+            "name": "a",
+            "type": "Identifier",
+          },
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                -24,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "*",
+              ],
+            },
+            "name": "b",
+            "type": "Identifier",
+          },
+        ],
+        "start": Object {
+          "column": 0,
+          "line": 2,
+        },
+        "type": "FunctionDefinition",
+      },
+      Object {
+        "address": Object {
+          "isInstructionAddr": true,
+        },
+        "body": Array [
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                -1,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 13,
+                "line": 9,
+              },
+              "start": Object {
+                "column": 13,
+                "line": 9,
+              },
+              "type": "IntLiteral",
+              "value": 10,
+            },
+            "name": "num1",
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "address": Object {
+              "address": Array [
+                "rbp",
+                7,
+              ],
+              "isInstructionAddr": false,
+            },
+            "datatype": Object {
+              "typeList": Array [
+                "int",
+              ],
+            },
+            "init": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 13,
+                "line": 10,
+              },
+              "start": Object {
+                "column": 13,
+                "line": 10,
+              },
+              "type": "IntLiteral",
+              "value": 20,
+            },
+            "name": "num2",
+            "type": "VariableDeclaration",
+          },
+          Object {
+            "end": Object {
+              "column": 59,
+              "line": 11,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "*",
+                      "char",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 9,
+                    "line": 11,
+                  },
+                  "start": Object {
+                    "column": 9,
+                    "line": 11,
+                  },
+                  "stringValue": "\\"Before swap: num1 = %d, num2 = %d\\\\n\\"",
+                  "type": "StringLiteral",
+                },
+                Object {
+                  "address": Object {
+                    "address": Array [
+                      "rbp",
+                      -1,
+                    ],
+                    "isInstructionAddr": false,
+                  },
+                  "datatype": Object {
+                    "typeList": Array [
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 48,
+                    "line": 11,
+                  },
+                  "name": "num1",
+                  "start": Object {
+                    "column": 48,
+                    "line": 11,
+                  },
+                  "type": "Identifier",
+                },
+                Object {
+                  "address": Object {
+                    "address": Array [
+                      "rbp",
+                      7,
+                    ],
+                    "isInstructionAddr": false,
+                  },
+                  "datatype": Object {
+                    "typeList": Array [
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 54,
+                    "line": 11,
+                  },
+                  "name": "num2",
+                  "start": Object {
+                    "column": 54,
+                    "line": 11,
+                  },
+                  "type": "Identifier",
+                },
+              ],
+              "callee": "printf",
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 58,
+                "line": 11,
+              },
+              "start": Object {
+                "column": 2,
+                "line": 11,
+              },
+              "type": "FunctionCallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 11,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 20,
+              "line": 12,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "*",
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 8,
+                    "line": 12,
+                  },
+                  "operand": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        -1,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 8,
+                      "line": 12,
+                    },
+                    "name": "num1",
+                    "start": Object {
+                      "column": 8,
+                      "line": 12,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 7,
+                    "line": 12,
+                  },
+                  "type": "AddressOfExpression",
+                },
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "*",
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 15,
+                    "line": 12,
+                  },
+                  "operand": Object {
+                    "address": Object {
+                      "address": Array [
+                        "rbp",
+                        7,
+                      ],
+                      "isInstructionAddr": false,
+                    },
+                    "datatype": Object {
+                      "typeList": Array [
+                        "int",
+                      ],
+                    },
+                    "end": Object {
+                      "column": 15,
+                      "line": 12,
+                    },
+                    "name": "num2",
+                    "start": Object {
+                      "column": 15,
+                      "line": 12,
+                    },
+                    "type": "Identifier",
+                  },
+                  "start": Object {
+                    "column": 14,
+                    "line": 12,
+                  },
+                  "type": "AddressOfExpression",
+                },
+              ],
+              "callee": "swap",
+              "datatype": Object {
+                "typeList": Array [
+                  "void",
+                ],
+              },
+              "end": Object {
+                "column": 19,
+                "line": 12,
+              },
+              "start": Object {
+                "column": 2,
+                "line": 12,
+              },
+              "type": "FunctionCallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 12,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 58,
+              "line": 13,
+            },
+            "expression": Object {
+              "arguments": Array [
+                Object {
+                  "datatype": Object {
+                    "typeList": Array [
+                      "*",
+                      "char",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 9,
+                    "line": 13,
+                  },
+                  "start": Object {
+                    "column": 9,
+                    "line": 13,
+                  },
+                  "stringValue": "\\"After swap: num1 = %d, num2 = %d\\\\n\\"",
+                  "type": "StringLiteral",
+                },
+                Object {
+                  "address": Object {
+                    "address": Array [
+                      "rbp",
+                      -1,
+                    ],
+                    "isInstructionAddr": false,
+                  },
+                  "datatype": Object {
+                    "typeList": Array [
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 47,
+                    "line": 13,
+                  },
+                  "name": "num1",
+                  "start": Object {
+                    "column": 47,
+                    "line": 13,
+                  },
+                  "type": "Identifier",
+                },
+                Object {
+                  "address": Object {
+                    "address": Array [
+                      "rbp",
+                      7,
+                    ],
+                    "isInstructionAddr": false,
+                  },
+                  "datatype": Object {
+                    "typeList": Array [
+                      "int",
+                    ],
+                  },
+                  "end": Object {
+                    "column": 53,
+                    "line": 13,
+                  },
+                  "name": "num2",
+                  "start": Object {
+                    "column": 53,
+                    "line": 13,
+                  },
+                  "type": "Identifier",
+                },
+              ],
+              "callee": "printf",
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 57,
+                "line": 13,
+              },
+              "start": Object {
+                "column": 2,
+                "line": 13,
+              },
+              "type": "FunctionCallExpression",
+            },
+            "start": Object {
+              "column": 2,
+              "line": 13,
+            },
+            "type": "ExpressionStatement",
+          },
+          Object {
+            "end": Object {
+              "column": 10,
+              "line": 14,
+            },
+            "expression": Object {
+              "datatype": Object {
+                "typeList": Array [
+                  "long",
+                ],
+              },
+              "end": Object {
+                "column": 9,
+                "line": 14,
+              },
+              "start": Object {
+                "column": 9,
+                "line": 14,
+              },
+              "type": "IntLiteral",
+              "value": 0,
+            },
+            "start": Object {
+              "column": 2,
+              "line": 14,
+            },
+            "type": "ReturnStatement",
+          },
+        ],
+        "datatype": Object {
+          "typeList": Array [
+            "int",
+          ],
+        },
+        "end": Object {
+          "column": 0,
+          "line": 15,
+        },
+        "name": "main",
+        "params": Array [],
+        "start": Object {
+          "column": 0,
+          "line": 8,
+        },
+        "type": "FunctionDefinition",
+      },
+    ],
+    "type": "Program",
+  },
+  "rodataSegment": RODataSegment {
+    "declaredStrings": Array [
+      "\\"Before swap: num1 = %d, num2 = %d\\\\n\\"",
+      "\\"After swap: num1 = %d, num2 = %d\\\\n\\"",
+    ],
+    "rodataSize": 568,
+    "stringToAddr": Object {
+      "After swap: num1 = %d, num2 = %d\\\\n ": 288,
+      "Before swap: num1 = %d, num2 = %d\\\\n ": 0,
+    },
+  },
+}
+`;
