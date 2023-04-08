@@ -5,23 +5,17 @@ import { SourCLexer } from '../lang/SourCLexer'
 import { ProgramContext, SourCParser2 } from '../lang/SourCParser2'
 import { FatalSyntaxError } from '../parser/error'
 import { Context, ErrorSeverity } from '../types'
-import { AstVisitor } from './visitor.ast'
+import { RODataSegment } from './rosegment'
+import { ProgramGenerator } from './visitor.program'
 import { RODataFinder } from './visitor.rodata'
 
-function buildAst(ctx: ProgramContext): Program {
-  const rodataFinder = new RODataFinder()
-  const rodataStrings = rodataFinder.visit(ctx)
-
-  const tokenTreeVisitor = new AstVisitor(rodataStrings)
-  tokenTreeVisitor.visitProgram(ctx)
-  const program = tokenTreeVisitor.getAst()
-  return program
+export type ParseResult = {
+  program: Program
+  rodataSegment: RODataSegment
 }
 
-export function parse(source: string, context: Context): Program | undefined {
-  if (source === '') return
-
-  let program: Program | undefined
+export function parse(source: string, context: Context): ParseResult | undefined {
+  let parseResult: ParseResult | undefined
 
   const inputStream = CharStreams.fromString(source)
   const lexer = new SourCLexer(inputStream)
@@ -31,7 +25,7 @@ export function parse(source: string, context: Context): Program | undefined {
 
   try {
     const tree = parser.program()
-    program = buildAst(tree)
+    parseResult = buildAst(tree)
   } catch (error) {
     if (error instanceof FatalSyntaxError) {
       context.errors.push(error)
@@ -41,9 +35,23 @@ export function parse(source: string, context: Context): Program | undefined {
   }
 
   const hasErrors = context.errors.find(m => m.severity === ErrorSeverity.ERROR)
-  if (program && !hasErrors) {
-    return program
+  if (parseResult && !hasErrors) {
+    return parseResult
   } else {
     return undefined
+  }
+}
+
+function buildAst(ctx: ProgramContext): ParseResult {
+  const rodataFinder = new RODataFinder()
+  const rodataStrings = rodataFinder.visit(ctx)
+  const rodataSegment = new RODataSegment(rodataStrings)
+
+  const tokenTreeVisitor = new ProgramGenerator(rodataSegment.getRODataSegmentSize())
+  tokenTreeVisitor.visitProgram(ctx)
+  const program = tokenTreeVisitor.getAst()
+  return {
+    program,
+    rodataSegment
   }
 }

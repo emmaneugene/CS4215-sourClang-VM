@@ -1,5 +1,5 @@
 import { Address, BaseNode, TypeList } from './ast.core'
-import { Expression, SequenceExpression } from './ast.expression'
+import { Expression, Identifier, SequenceExpression } from './ast.expression'
 import { Statement } from './ast.statement'
 
 /**
@@ -41,6 +41,6 @@ export interface ArrayDeclaration extends BaseDeclaration {
  */
 export interface FunctionDefinition extends BaseDeclaration {
   type: 'FunctionDefinition'
-  params: Array<Omit<VariableDeclaration, 'init'>>
+  params: Array<Identifier>
   body: Array<Statement>
 }

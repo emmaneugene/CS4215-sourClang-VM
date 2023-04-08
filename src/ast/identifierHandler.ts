@@ -1,5 +1,6 @@
+import { BUILTINS } from '../builtin/parser'
 import { CompileTimeError } from '../compiler/error'
-import { BasePointer, BottomOfMemory, Registers } from '../typings/microcode'
+import { BasePointer } from '../typings/microcode'
 import { Address, DataType, TypeList } from './ast.core'
 import { FunctionDefinition } from './ast.declaration'
 
@@ -18,12 +19,34 @@ export class IdentifierHandler {
   /**
    * Construct an IdentifierHandler.
    */
-  constructor() {
+  constructor(rodataSegmentSize: number) {
     const globalFrame: Frame = {
-      nextOffset: 0,
+      nextOffset: rodataSegmentSize,
       mapping: {}
     }
     this.frames.push(globalFrame)
+
+    this.initGlobalFunctions()
+  }
+
+  /**
+   * Adds a function name to the global frame.
+   */
+  addFunctionNameToGlobalFrame(v: { name: string; datatype: TypeList }): IdentifierInfo {
+    if (!this.hasOnlyGlobalFrame()) {
+      throw new CompileTimeError()
+    }
+
+    const { name, datatype } = v
+    this.frames[0].mapping[name] = {
+      name,
+      datatype,
+      address: {
+        isInstructionAddr: true
+      }
+    }
+
+    return this.frames[0].mapping[name]
   }
 
   /**
@@ -57,12 +80,12 @@ export class IdentifierHandler {
   initFunctionFrame(functionName: string, functionArgs: FunctionDefinition['params']): Frame {
     if (!this.hasOnlyGlobalFrame()) throw new CompileTimeError()
 
-    const newFrame: Frame = {
+    const functionFrame: Frame = {
       nextOffset: -1,
       mapping: {}
     }
 
-    newFrame.mapping[functionName] = {
+    functionFrame.mapping[functionName] = {
       name: functionName,
       datatype: {
         typeList: [DataType.FUNCTION]
@@ -73,14 +96,15 @@ export class IdentifierHandler {
     }
 
     functionArgs.forEach(arg => {
-      newFrame.mapping[arg.name] = {
+      functionFrame.mapping[arg.name] = {
         name: arg.name,
         datatype: arg.datatype,
         address: arg.address
       }
     })
 
-    return newFrame
+    this.frames.push(functionFrame)
+    return functionFrame
   }
 
   /**
@@ -93,11 +117,12 @@ export class IdentifierHandler {
     }
 
     const topmostFrame = this.peekTopmostFrame()
-
     const newFrame: Frame = {
       nextOffset: topmostFrame.nextOffset,
       mapping: {}
     }
+
+    this.frames.push(newFrame)
 
     return newFrame
   }
@@ -140,8 +165,8 @@ export class IdentifierHandler {
    */
   getIdentifierInfo(name: string): IdentifierInfo {
     for (let i = this.frames.length - 1; i >= 0; i--) {
-      if (this.frames[i][name]) {
-        return this.frames[i][name]
+      if (this.frames[i].mapping[name]) {
+        return this.frames[i].mapping[name]
       }
     }
     throw new CompileTimeError()
@@ -152,7 +177,12 @@ export class IdentifierHandler {
    * either as a function or global variable.
    */
   private isDuplicateIdentifier(name: string): boolean {
-    return this.frames[name] !== undefined
+    try {
+      this.getIdentifierInfo(name)
+      return true
+    } catch {
+      return false
+    }
   }
 
   /**
@@ -178,6 +208,22 @@ export class IdentifierHandler {
    */
   private hasFunctionFrame(): boolean {
     return this.frames.length >= 2
+  }
+
+  /**
+   * Initialise the global functions.
+   */
+  private initGlobalFunctions(): void {
+    BUILTINS.forEach(builtin => {
+      const { name, datatype } = builtin
+      this.frames[0].mapping[name] = {
+        datatype,
+        name,
+        address: {
+          isInstructionAddr: true
+        }
+      }
+    })
   }
 
   private peekTopmostFrame(): Frame {

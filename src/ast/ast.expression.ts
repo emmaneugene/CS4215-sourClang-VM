@@ -26,10 +26,12 @@ export type PrimaryIdentifier = AddressableOperands | IntLiteral | FloatLiteral 
 
 export interface IntLiteral extends BaseExpression {
   type: 'IntLiteral'
+  value: number
 }
 
 export interface FloatLiteral extends BaseExpression {
   type: 'FloatLiteral'
+  value: number
 }
 
 export interface StringLiteral extends BaseExpression {
@@ -37,6 +39,7 @@ export interface StringLiteral extends BaseExpression {
   datatype: {
     typeList: ['*', DataType.CHAR]
   }
+  stringValue: string
 }
 
 /**
@@ -73,6 +76,7 @@ export type Expression =
   | SizeofExpression
   | BinaryOperatorExpression
   | TernaryExpression
+  | SequenceExpression
 
 export interface UpdateExpression extends BaseExpression {
   type: 'UpdateExpression'
@@ -122,6 +126,7 @@ export interface SizeofExpression extends BaseExpression {
 
 export interface BinaryOperatorExpression extends BaseExpression {
   type: 'BinaryOperatorExpression'
+  operator: string
   left: Expression
   right: Expression
 }
