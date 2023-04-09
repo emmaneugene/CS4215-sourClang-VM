@@ -1,6 +1,6 @@
 import { Address, BaseNode, TypeList } from './ast.core'
 import { Expression, Identifier, SequenceExpression } from './ast.expression'
-import { Statement } from './ast.statement'
+import { CompoundStatement } from './ast.statement'
 
 /**
  * A base interface to describe declarations.
@@ -42,5 +42,5 @@ export interface ArrayDeclaration extends BaseDeclaration {
 export interface FunctionDefinition extends BaseDeclaration {
   type: 'FunctionDefinition'
   params: Array<Identifier>
-  body: Array<Statement>
+  body: CompoundStatement
 }

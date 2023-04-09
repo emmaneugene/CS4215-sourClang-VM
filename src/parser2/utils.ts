@@ -123,6 +123,8 @@ export type AddDeclarationCallbackFunction = (variable: {
 
 export type IdentifierLookupFunction = (name: string) => IdentifierInfo
 
+export type StringLitAddrLookupFunction = (s: string) => number
+
 /**
  * Gets the token location.
  */

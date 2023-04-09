@@ -16,6 +16,10 @@ import { FunctionDefinition } from './ast.declaration'
 export class IdentifierHandler {
   private frames: Frame[] = []
 
+  private stackFrameSizePerFunction: Record<string, number> = {}
+
+  private globalVarSize: number = 0
+
   /**
    * Construct an IdentifierHandler.
    */
@@ -152,9 +156,10 @@ export class IdentifierHandler {
    *
    * @throws if attempt to pop off any other frame
    */
-  popFunctionFrame(): Frame {
+  popFunctionFrame(functionName: string): Frame {
     if (!this.hasOnlyFunctionFrame()) throw new CompileTimeError()
     const functionFrame = this.popTopmostFrame()
+    this.stackFrameSizePerFunction[functionName] = functionFrame.nextOffset
     return functionFrame
   }
 
@@ -172,6 +177,14 @@ export class IdentifierHandler {
       }
     }
     throw new CompileTimeError()
+  }
+
+  getStackFrameSizePerFunction(): Record<string, number> {
+    return this.stackFrameSizePerFunction
+  }
+
+  getGlobalVarSize(): number {
+    return this.globalVarSize
   }
 
   /**

@@ -1,17 +1,18 @@
 import { CharStreams, CommonTokenStream } from 'antlr4ts'
 
 import { Program } from '../ast/ast.core'
+import { RODataSegment } from '../compiler2/segment.ro'
 import { SourCLexer } from '../lang/SourCLexer'
 import { ProgramContext, SourCParser2 } from '../lang/SourCParser2'
 import { Context, ErrorSeverity } from '../types'
-import { FatalSyntaxError } from './error'
-import { RODataSegment } from './rosegment'
 import { ProgramGenerator } from './visitor.program'
 import { RODataFinder } from './visitor.rodata'
 
 export type ParseResult = {
   program: Program
   rodataSegment: RODataSegment
+  stackFrameSizePerFunction: Record<string, number>
+  globalVarSize: number
 }
 
 export function parse(source: string, context: Context): ParseResult | undefined {
@@ -37,11 +38,16 @@ function buildAst(ctx: ProgramContext): ParseResult {
   const rodataStrings = rodataFinder.visit(ctx)
   const rodataSegment = new RODataSegment(rodataStrings)
 
-  const tokenTreeVisitor = new ProgramGenerator(rodataSegment.getRODataSegmentSize())
+  const tokenTreeVisitor = new ProgramGenerator(rodataSegment)
   tokenTreeVisitor.visitProgram(ctx)
   const program = tokenTreeVisitor.getAst()
+  const stackFrameSizePerFunction = tokenTreeVisitor.getStackFrameSizePerFunction()
+  const globalVarSize = tokenTreeVisitor.getGlobalVarSize()
+
   return {
     program,
-    rodataSegment
+    rodataSegment,
+    stackFrameSizePerFunction,
+    globalVarSize
   }
 }

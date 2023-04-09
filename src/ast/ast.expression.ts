@@ -40,6 +40,7 @@ export interface StringLiteral extends BaseExpression {
     typeList: ['*', DataType.CHAR]
   }
   stringValue: string
+  address: number
 }
 
 /**

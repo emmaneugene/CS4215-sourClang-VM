@@ -20,19 +20,23 @@ import {
   AddDeclarationCallbackFunction,
   contextToLocation,
   errorNodeToLocation,
-  IdentifierLookupFunction
+  IdentifierLookupFunction,
+  StringLitAddrLookupFunction
 } from './utils'
 import { ExpressionGenerator } from './visitor.expression'
 
 export class DeclarationGenerator implements SourCParser2Visitor<Declaration> {
   private identifierLookupFunction: IdentifierLookupFunction
+  private stringAddrLookupFunction: StringLitAddrLookupFunction
   private addDeclarationCallback: AddDeclarationCallbackFunction
 
   constructor(
     lookupFunction: IdentifierLookupFunction,
-    addDeclarationCallback: AddDeclarationCallbackFunction
+    addDeclarationCallback: AddDeclarationCallbackFunction,
+    stringAddrLookup: StringLitAddrLookupFunction
   ) {
     this.identifierLookupFunction = lookupFunction
+    this.stringAddrLookupFunction = stringAddrLookup
     this.addDeclarationCallback = addDeclarationCallback
   }
 
@@ -50,7 +54,10 @@ export class DeclarationGenerator implements SourCParser2Visitor<Declaration> {
       size
     })
 
-    const exprVisitor = new ExpressionGenerator(this.identifierLookupFunction)
+    const exprVisitor = new ExpressionGenerator(
+      this.identifierLookupFunction,
+      this.stringAddrLookupFunction
+    )
 
     return {
       type: 'VariableDeclaration',
@@ -72,7 +79,10 @@ export class DeclarationGenerator implements SourCParser2Visitor<Declaration> {
       size
     })
 
-    const exprVisitor = new ExpressionGenerator(this.identifierLookupFunction)
+    const exprVisitor = new ExpressionGenerator(
+      this.identifierLookupFunction,
+      this.stringAddrLookupFunction
+    )
     let initExpressions: Expression[] | undefined
     if (ctx.exprLs()) {
       initExpressions = ctx

@@ -41,7 +41,8 @@ import {
   AddDeclarationCallbackFunction,
   contextToLocation,
   errorNodeToLocation,
-  IdentifierLookupFunction
+  IdentifierLookupFunction,
+  StringLitAddrLookupFunction
 } from './utils'
 import { DeclarationGenerator } from './visitor.declaration'
 import { ExpressionGenerator } from './visitor.expression'
@@ -51,11 +52,15 @@ export class StatementGenerator implements SourCParser2Visitor<Statement> {
 
   private identifierLookupFunction: IdentifierLookupFunction
   private addDeclarationCallback: AddDeclarationCallbackFunction
+  private stringAddrLookupFunction: StringLitAddrLookupFunction
 
   private expressionVisitor: ExpressionGenerator
   private declrVisitor: DeclarationGenerator
 
-  constructor(identifierHandler: IdentifierHandler) {
+  constructor(
+    identifierHandler: IdentifierHandler,
+    stringAddrLookupFunction: StringLitAddrLookupFunction
+  ) {
     this.identifierHandler = identifierHandler
 
     this.identifierLookupFunction = (name: string) => identifierHandler.getIdentifierInfo(name)
@@ -63,11 +68,16 @@ export class StatementGenerator implements SourCParser2Visitor<Statement> {
       const info = identifierHandler.addLocalVarToCurrentFrame(declarationInfo)
       return info.address
     }
+    this.stringAddrLookupFunction = stringAddrLookupFunction
 
-    this.expressionVisitor = new ExpressionGenerator(this.identifierLookupFunction)
+    this.expressionVisitor = new ExpressionGenerator(
+      this.identifierLookupFunction,
+      this.stringAddrLookupFunction
+    )
     this.declrVisitor = new DeclarationGenerator(
       this.identifierLookupFunction,
-      this.addDeclarationCallback
+      this.addDeclarationCallback,
+      this.stringAddrLookupFunction
     )
   }
 
@@ -151,8 +161,8 @@ export class StatementGenerator implements SourCParser2Visitor<Statement> {
       ...contextToLocation(ctx),
       type: 'IfElseStatement',
       test: this._visitExpr(ctx.expr()),
-      consequent: this.visitCompoundStatement(con).body,
-      alternate: alt ? this.visitCompoundStatement(alt).body : undefined
+      consequent: this.visitCompoundStatement(con),
+      alternate: alt ? this.visitCompoundStatement(alt) : undefined
     }
   }
 
@@ -163,7 +173,7 @@ export class StatementGenerator implements SourCParser2Visitor<Statement> {
       ...contextToLocation(ctx),
       type: 'WhileStatement',
       test: this._visitExpr(ctx.expr()),
-      body: compoundStatement.body
+      body: compoundStatement
     }
   }
 
@@ -186,7 +196,7 @@ export class StatementGenerator implements SourCParser2Visitor<Statement> {
       init,
       test,
       update,
-      body: compoundStatement.body
+      body: compoundStatement
     }
   }
 

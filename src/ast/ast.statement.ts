@@ -51,14 +51,14 @@ export interface DerefLeftAssignmentStatement extends BaseStatement {
 export interface IfElseStatement extends BaseStatement {
   type: 'IfElseStatement'
   test: Expression
-  consequent: Statement[]
-  alternate?: Statement[] | undefined
+  consequent: CompoundStatement
+  alternate?: CompoundStatement | undefined
 }
 
 export interface WhileStatement extends BaseStatement {
   type: 'WhileStatement'
   test: Expression
-  body: Array<Statement>
+  body: CompoundStatement
 }
 
 export interface ForStatement extends BaseStatement {
@@ -66,7 +66,7 @@ export interface ForStatement extends BaseStatement {
   init?: AssignmentStatement | undefined
   test?: Expression | undefined
   update?: Expression | AssignmentStatement | DerefLeftAssignmentStatement | undefined
-  body: Array<Statement>
+  body: CompoundStatement
 }
 
 export interface ReturnStatement extends BaseStatement {

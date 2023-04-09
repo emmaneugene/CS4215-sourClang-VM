@@ -54,14 +54,20 @@ import {
   getMultOp,
   getOutputDatatype,
   getRelOp,
-  removeOnePtr
+  removeOnePtr,
+  StringLitAddrLookupFunction
 } from './utils'
 
 export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
   private identifierLookupFunction: (name: string) => IdentifierInfo
+  private stringAddrLookupFunction: StringLitAddrLookupFunction
 
-  constructor(lookupFunction: (name: string) => IdentifierInfo) {
-    this.identifierLookupFunction = lookupFunction
+  constructor(
+    identiferLookup: (name: string) => IdentifierInfo,
+    stringAddrLookup: StringLitAddrLookupFunction
+  ) {
+    this.identifierLookupFunction = identiferLookup
+    this.stringAddrLookupFunction = stringAddrLookup
   }
 
   visitExpr(ctx: ExprContext): Expression {
@@ -317,7 +323,8 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
         stringValue: s.text,
         datatype: {
           typeList: ['*', DataType.CHAR]
-        }
+        },
+        address: this.stringAddrLookupFunction(s.text)
       }
     }
 
