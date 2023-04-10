@@ -59,6 +59,8 @@ export class MemoryModel {
 
   private static DEFAULT_SIZE = 2 ** 13 // 8KiB
 
+  private allocator: Allocator
+
   /**
    * @param size Defaults to 8KiB
   */
@@ -66,6 +68,7 @@ export class MemoryModel {
     this.dv = new DataView(new ArrayBuffer(size))
     this.SIZE = size
     this.STACK_LIMIT = (size * 3 / 4) as number
+    this.allocator = new Allocator(BigInt(this.STACK_LIMIT), BigInt(this.SIZE))
   }
 
   getSize(): number {
@@ -76,16 +79,20 @@ export class MemoryModel {
     return this.STACK_LIMIT
   }
 
-  getHeapLimit(): number {
-    return this.SIZE - this.STACK_LIMIT
-  }
-
   getBytesAt(addr: bigint): bigint {
     return this.dv.getBigUint64(Number(addr))
   }
 
   setBytesAt(addr: bigint, v: bigint): void {
     this.dv.setBigUint64(Number(addr), v)
+  }
+
+  allocate(size: number): bigint {
+    return this.allocator.allocate(size)
+  }
+
+  free(addr: bigint): void {
+    this.allocator.deallocate(addr)
   }
 
   debug(sp?: bigint, from: number = 0, to: number = this.SIZE): string {
@@ -103,78 +110,87 @@ export class MemoryModel {
 }
 
 /**
- * Manages the allocation of memory on the heap.
+ * Represents a chunk of allocated memory in the heap
  */
-export class Allocator {
-  private memory: MemoryModel
+type HeapEntry = {
+  start: bigint
+  end: bigint
+}
 
-  private limit: number
-
+/**
+ * Keeps track of allocated heap memory in an interval list. For simplicity, the
+ * allocator assigns memory from low-high addresses. 
+ * 
+ * In order to minimize fragmentation, the allocator performs a linear search 
+ * over the interval list to find the smallest free interval.
+ */
+class Allocator {
   private heapStart: bigint
 
-  private heapCurr: bigint
+  private heapEnd: bigint
 
   private tracker: HeapEntry[]
 
-  constructor(memory: MemoryModel) {
-    this.memory = memory
-    this.limit = memory.getHeapLimit()
-    this.heapStart = BigInt(this.memory.getSize())
-    this.heapCurr = this.heapStart
+  constructor(heapStart: bigint, heapEnd: bigint) {
+    this.heapStart = heapStart
+    this.heapEnd = heapEnd
     this.tracker = []
   }
 
   /**
    * Allocates `size` bytes of memory on the heap and returns the address
    * @param size The size of the memory to allocate (in bytes)
-   * @returns address of the allocated memory
+   * @returns address of the allocated memory, or 0 if unsuccessful
    */
   allocate(size: number): bigint {
-    if (this.heapCurr - BigInt(size) < this.heapStart) {
-      // TODO: Heap overflow error handling
-      throw new Error('Out of memory')
+    if (size > this.heapEnd - this.heapStart) {
+      return BigInt(0)
     }
 
-    let entry: HeapEntry = new HeapEntry(size, this.heapCurr - BigInt(size))
-    this.tracker.push(entry)
-    this.heapCurr = entry.getAddr()
+    if (this.tracker.length === 0) {
+      this.tracker.push({ start: this.heapStart, end: this.heapStart + BigInt(size) })
+      return this.heapStart
+    }
 
-    return this.heapCurr
+    let addr: bigint = BigInt(0)
+    let intervalFound: boolean = false
+    let smallestInterval: bigint = 0
+
+    if (this.heapStart - this.tracker[0].end >= BigInt(size)) {
+      addr = this.heapStart
+      intervalFound = true
+      smallestInterval = this.tracker[0].start - this.heapStart
+    }
+    
+    for (let i = 0; i < this.tracker.length-1; i++) {
+      const curr = this.tracker[i]
+      const next = this.tracker[i + 1]
+
+      let nextInterval = next.start - curr.end
+      
+      if (nextInterval >= BigInt(size) && (!intervalFound || nextInterval < smallestInterval)) {
+        if (!intervalFound)  intervalFound = true
+        addr = curr.end
+        smallestInterval = nextInterval
+      }
+    }
+
+    let nextInterval = this.heapEnd - this.tracker[this.tracker.length-1].end
+    if (nextInterval >= BigInt(size) && (!intervalFound || nextInterval < smallestInterval)) {
+      addr = this.tracker[this.tracker.length-1].end
+    }
+
+    this.tracker.push({ start: addr, end: addr + BigInt(size) })
+    return addr
   }
 
   /**
    * Deallocates the chunk of memory stores at `addr` and shrinks the heap if possible
    * @param addr The address of the memory to free
+   * 
+   * If the address provided does not map to a valid HeapEntry, no operations are performed.
    */
   deallocate(addr: bigint): void {
-    let entry: HeapEntry | undefined = this.tracker.find(e => e.getAddr() === addr)
-    if (entry === undefined) {
-      throw new Error('Attempted to free unallocated memory')
-    }
-
-    this.tracker = this.tracker.filter(e => e.getAddr() !== addr)
-    this.heapCurr = this.tracker.length > 0 ? this.tracker.at(-1).getAddr() : this.heapStart
-  }
-}
-
-/**
- * Represents a chunk of allocated memory in the heap
- */
-class HeapEntry {
-  private size: number
-  
-  private addr: bigint
-
-  constructor(size: number, addr: bigint) {
-    this.size = size
-    this.addr = addr
-  }
-
-  getSize(): number {
-    return this.size
-  }
-
-  getAddr(): bigint {
-    return this.addr
+    this.tracker = this.tracker.filter(e => e.start !== addr)
   }
 }
