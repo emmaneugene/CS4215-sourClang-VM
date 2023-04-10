@@ -100,7 +100,7 @@ export class FunctionDefCompiler {
         throw new CompileTimeError('Cannot assign to function')
       }
 
-      MICROCODE.popFromStack(left.address.address)
+      this.instrSegment.addInstrs([...MICROCODE.popFromStack(left.address.address)])
       return []
     }
 
@@ -192,7 +192,7 @@ export class FunctionDefCompiler {
     const { test, body } = stmt
 
     const jmpEndInstr = MICROCODE.jofr(BigInt(0))
-    const gotoTestInstr = MICROCODE.jofr(BigInt(0))
+    const gotoTestInstr = MICROCODE.gotor(BigInt(0))
 
     const testExprPos = this.instrSegment.getNextPos()
     this.exprCompiler.compileExpr(test)
@@ -236,7 +236,7 @@ export class FunctionDefCompiler {
 
     // Only properly added and set
     // if there is a test statement
-    const jmpOnFalseInstr = MICROCODE.jofr(BigInt(0))
+    const jmpToEndInstr = MICROCODE.jofr(BigInt(0))
 
     // Determines where to goto after the block completes
     let gotoPosAfterBlock: number | undefined
@@ -249,10 +249,10 @@ export class FunctionDefCompiler {
 
       this.exprCompiler.compileExpr(test)
 
-      const jmpOnFalseInstrPos = this.instrSegment.getNextPos()
-      jmpOnFalseInstr.relativeValue = BigInt(jmpOnFalseInstrPos)
+      const jmpToEndInstrPos = this.instrSegment.getNextPos()
+      jmpToEndInstr.relativeValue = BigInt(jmpToEndInstrPos)
       this.instrSegment.addInstrs([
-        jmpOnFalseInstr // temporary relative value
+        jmpToEndInstr // temporary relative value
       ])
     } else {
       // If test is not present,
@@ -273,6 +273,7 @@ export class FunctionDefCompiler {
         this.compileDerefAssignmentStmt(update)
       } else {
         this.exprCompiler.compileExpr(update)
+        this.instrSegment.addInstrs([...MICROCODE.popFromStack()])
       }
 
       loopStart = updateInstrPos
@@ -285,6 +286,9 @@ export class FunctionDefCompiler {
     gotoInstr.relativeValue = BigInt(gotoPosAfterBlock - gotoInstrPos)
 
     const loopEnd = this.instrSegment.getNextPos()
+
+    jmpToEndInstr.relativeValue = BigInt(loopEnd) - jmpToEndInstr.relativeValue
+
     this.patchCompileStmtResult(forRes, loopStart, loopEnd)
     return []
   }

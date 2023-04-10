@@ -164,7 +164,8 @@ function sourceRunner2(
 
   // console.log(JSON.stringify(parseResult.program, null, ' '))
 
-  const { instrSegment } = compile2(parseResult)
+  const { rodataSegment, instrSegment } = compile2(parseResult)
+  rodataSegment.setupSegment(context)
   const startOfStack = instrSegment.setupSegment(context)
   const startingPC = instrSegment.getStartingPC()
 

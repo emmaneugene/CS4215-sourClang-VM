@@ -28,7 +28,7 @@ export class IdentifierHandler {
     }
     this.frames.push(globalFrame)
 
-    this.initGlobalFunctions()
+    this.initBuiltInFunctions()
   }
 
   /**
@@ -243,12 +243,16 @@ export class IdentifierHandler {
   /**
    * Initialise the global functions.
    */
-  private initGlobalFunctions(): void {
+  private initBuiltInFunctions(): void {
     BUILTINS.forEach(builtin => {
-      const { name, datatype } = builtin
+      const { name, hasVariableArgs, args } = builtin
       this.frames[0].mapping[name] = {
-        datatype,
         name,
+        datatype: {
+          typeList: [DataType.FUNCTION],
+          functionParams: args,
+          functionHasVariableArguments: hasVariableArgs ?? false
+        },
         address: {
           isInstructionAddr: true
         }

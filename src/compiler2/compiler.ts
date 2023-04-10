@@ -1,6 +1,6 @@
 import { Declaration, FunctionDefinition } from '../ast/ast.declaration'
 import { ParseResult } from '../parser2/parser'
-import { Microcode } from '../typings/microcode'
+import { BUILTINS } from './../builtin/parser'
 import { DeclarationCompiler } from './compiler.declaration'
 import { ExpressionCompiler } from './compiler.expr'
 import { FunctionDefCompiler } from './compiler.functionDefinition'
@@ -50,6 +50,8 @@ export function compile(parseResult: ParseResult): Segments {
     declarationCompiler
   )
 
+  setupBuiltinFunctions(instrSegment)
+
   parseResult.program.body.forEach(stmt => {
     if (isFunctionDefinition(stmt)) {
       return functionDefCompiler.compileFunctionDefinition(stmt)
@@ -74,4 +76,12 @@ function isFunctionDefinition(stmt: FunctionDefinition | Declaration): stmt is F
 
 function isDeclaration(stmt: FunctionDefinition | Declaration): stmt is Declaration {
   return stmt.type === 'ArrayDeclaration' || stmt.type === 'VariableDeclaration'
+}
+
+function setupBuiltinFunctions(instrSegment: InstrSegment): void {
+  BUILTINS.forEach(f => {
+    const functionAddr = instrSegment.getNextPos()
+    instrSegment.addInstrs(f.instrs)
+    instrSegment.labelInstr(f.name, functionAddr)
+  })
 }

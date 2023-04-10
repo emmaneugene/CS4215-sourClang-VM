@@ -51,10 +51,10 @@ export class RODataSegment {
       const [strToken, address] = entry
       let nextAddr = address
 
-      ;[...strToken].forEach(char => {
-        dataview.setBytesAt(BigInt(nextAddr), BigInt(convertCharToASCII(char)))
+      for (let i = 0; i < strToken.length; i++) {
+        dataview.setBytesAt(BigInt(nextAddr), BigInt(convertCharToASCII(strToken.at(i)!)))
         nextAddr += WORD_SIZE
-      })
+      }
     })
 
     return this.rodataSize

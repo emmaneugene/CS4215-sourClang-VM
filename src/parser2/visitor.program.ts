@@ -53,7 +53,7 @@ export class ProgramGenerator implements SourCParser2Visitor<void> {
       s => rodataSegment.getStringAddr(RODataSegment.convertToCString(s))
     )
     this.statementGenerator = new StatementGenerator(this.identifierHandler, s =>
-      rodataSegment.getStringAddr(RODataSegment.convertToCString(s))
+      rodataSegment.getStringAddr(s)
     )
   }
 

@@ -120,6 +120,7 @@ export class ExpressionCompiler {
         MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], address)
         // 4. the top of stack already has the updated variable value
       ])
+      return
     }
 
     if (operand.type === 'ArrayAccess') {
@@ -144,9 +145,8 @@ export class ExpressionCompiler {
       ])
 
       // 4. the top of stack already has the updated variable value
+      return
     }
-
-    throw new CompileTimeError()
   }
 
   compileSuffixExpr(expr: UpdateExpression, op: '+' | '-'): void {
@@ -169,10 +169,9 @@ export class ExpressionCompiler {
         // 3. save the updated value
         MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], address),
         // 4. pop everything added (1)
-        // there are 2 things on the stack after (1)
-        // the updated value and the immediate operand
-        MICROCODE.offsetRSP(-2 * WORD_SIZE)
+        MICROCODE.offsetRSP(-WORD_SIZE)
       ])
+      return
     }
 
     if (operand.type === 'ArrayAccess') {
@@ -201,12 +200,9 @@ export class ExpressionCompiler {
       ])
 
       // 4. pop everything added (1)
-      // there are 2 things on the stack after (1)
-      // the updated value and the immediate operand
-      this.instrSegment.addInstrs([MICROCODE.offsetRSP(-2 * WORD_SIZE)])
+      this.instrSegment.addInstrs([MICROCODE.offsetRSP(-WORD_SIZE)])
+      return
     }
-
-    throw new CompileTimeError()
   }
 
   compileFunctionCallExpr(expr: FunctionCallExpression): void {
