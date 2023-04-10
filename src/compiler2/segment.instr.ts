@@ -1,5 +1,7 @@
 import { WORD_SIZE } from '../constants'
+import { Context } from '../types'
 import { Microcode } from '../typings/microcode'
+import { MICROCODE } from './utils'
 
 export class InstrSegment {
   private startingAddr: number
@@ -9,6 +11,8 @@ export class InstrSegment {
   private instrsLs: Microcode[] = []
 
   private labeledInstr: Record<string, number> = {}
+
+  private startingPC: number | undefined
 
   constructor(args: {
     instrStartingOffset: number
@@ -63,7 +67,15 @@ export class InstrSegment {
     return this.startingAddr + WORD_SIZE * this.labeledInstr[name]
   }
 
-  setGlobalDataInitialisationInstrs(instrs: Microcode[]): void {}
+  setGlobalDataInitialisationInstrs(globalInstrs: Microcode[]): void {
+    const globalVarInitInstrPos = this.getNextPos()
+    this.startingPC = this.startingAddr + WORD_SIZE * globalVarInitInstrPos
+    this.addInstrs([
+      ...globalInstrs,
+      MICROCODE.call(BigInt(this.getLabelledInstrAddr('main'))),
+      MICROCODE.exit
+    ])
+  }
 
   /**
    * Get stack frame size for a given
@@ -71,5 +83,31 @@ export class InstrSegment {
    */
   getStackFrameSizeForFunction(functionName: string): number {
     return this.stackFrameSizePerFunction[functionName]
+  }
+
+  getInstrs(): Microcode[] {
+    return this.instrsLs
+  }
+
+  getStartingPC(): number | undefined {
+    return this.startingPC
+  }
+
+  /**
+   * Inserts instr of a program.
+   *
+   * Each instruction takes 8 bytes, and is allocated space
+   * on the memory model.
+   */
+  setupSegment(ctx: Context): number {
+    const { dataview } = ctx.cVmContext
+
+    let nextAvailableAddr = this.startingAddr
+    this.instrsLs.forEach((_instr, index) => {
+      dataview.setBytesAt(BigInt(nextAvailableAddr), BigInt(index))
+      nextAvailableAddr += WORD_SIZE
+    })
+
+    return nextAvailableAddr
   }
 }

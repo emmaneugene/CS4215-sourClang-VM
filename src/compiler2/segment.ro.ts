@@ -44,12 +44,11 @@ export class RODataSegment {
    * on the memory model.
    *
    */
-  setupRODataSegment(ctx: Context): void {
+  setupSegment(ctx: Context): number {
     const { dataview } = ctx.cVmContext
 
     Object.entries(this.stringToAddr).forEach(entry => {
       const [strToken, address] = entry
-
       let nextAddr = address
 
       ;[...strToken].forEach(char => {
@@ -57,6 +56,8 @@ export class RODataSegment {
         nextAddr += WORD_SIZE
       })
     })
+
+    return this.rodataSize
   }
 
   getStringAddr(s: string): number {

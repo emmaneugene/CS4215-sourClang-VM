@@ -15,31 +15,31 @@ export type Segments = {
   instrSegment: InstrSegment
 }
 
-export function compile(args: {
-  parseResult: ParseResult
-  rodataSegment: RODataSegment
-}): Segments {
-  const { rodataSegment } = args
+export function compile(parseResult: ParseResult): Segments {
+  const { rodataSegment } = parseResult
   const dataSegment = new DataSegment({
-    startingAddr: args.rodataSegment.getRODataSegmentSize(),
-    totalSize: args.parseResult.globalVarSize
+    startingAddr: rodataSegment.getRODataSegmentSize(),
+    totalSize: parseResult.globalVarSize
   })
   const instrSegment = new InstrSegment({
     instrStartingOffset: dataSegment.getNextAvailableAddr(),
-    stackFrameSizePerFunction: args.parseResult.stackFrameSizePerFunction
+    stackFrameSizePerFunction: parseResult.stackFrameSizePerFunction
+  })
+  const globalInstrSegment = new InstrSegment({
+    instrStartingOffset: dataSegment.getNextAvailableAddr(),
+    stackFrameSizePerFunction: parseResult.stackFrameSizePerFunction
   })
 
-  const globalDataInitialisationInstrs: Microcode[] = []
-
   const getIdentifier: GetIdentifierFunction = name => {
-    return args.parseResult.globalFrame.mapping[name].datatype
+    return parseResult.globalFrame.mapping[name].datatype
   }
 
-  const globalExprCompiler = new ExpressionCompiler(false, getIdentifier, instrSegment)
+  const globalExprCompiler = new ExpressionCompiler(false, getIdentifier, globalInstrSegment)
   const functionExprCompiler = new ExpressionCompiler(true, getIdentifier, instrSegment)
 
   const declarationCompiler = new DeclarationCompiler(
     instrSegment,
+    globalInstrSegment,
     getIdentifier,
     globalExprCompiler,
     functionExprCompiler
@@ -50,7 +50,7 @@ export function compile(args: {
     declarationCompiler
   )
 
-  args.parseResult.program.body.forEach(stmt => {
+  parseResult.program.body.forEach(stmt => {
     if (isFunctionDefinition(stmt)) {
       return functionDefCompiler.compileFunctionDefinition(stmt)
     } else if (isDeclaration(stmt)) {
@@ -59,7 +59,7 @@ export function compile(args: {
     }
   })
 
-  instrSegment.setGlobalDataInitialisationInstrs(globalDataInitialisationInstrs)
+  instrSegment.setGlobalDataInitialisationInstrs(globalInstrSegment.getInstrs())
 
   return {
     rodataSegment,

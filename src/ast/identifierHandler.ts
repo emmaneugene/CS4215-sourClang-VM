@@ -18,8 +18,6 @@ export class IdentifierHandler {
 
   private stackFrameSizePerFunction: Record<string, number> = {}
 
-  private globalVarSize: number = 0
-
   /**
    * Construct an IdentifierHandler.
    */
@@ -194,11 +192,11 @@ export class IdentifierHandler {
   }
 
   getGlobalVarSize(): number {
-    return this.globalVarSize
+    return this.getGlobalFrame().nextOffset
   }
 
   getGlobalFrame(): Frame {
-    if (!this.hasOnlyFunctionFrame()) {
+    if (!this.hasOnlyGlobalFrame()) {
       throw new CompileTimeError()
     }
     return this.frames[0]

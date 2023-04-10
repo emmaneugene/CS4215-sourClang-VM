@@ -292,7 +292,10 @@ export class FunctionDefCompiler {
   compileReturnStmt(stmt: ReturnStatement): CompileStmtResult {
     if (stmt.expression) {
       this.exprCompiler.compileExpr(stmt.expression)
-      this.instrSegment.addInstrs(MICROCODE.popFromStack([ReturnValue, 0]))
+      this.instrSegment.addInstrs([
+        MICROCODE.movMemToReg([StackPointer, -WORD_SIZE], ReturnValue),
+        ...MICROCODE.popFromStack()
+      ])
     }
 
     this.instrSegment.addInstrs([MICROCODE.return])

@@ -1,3 +1,5 @@
+import { Context } from '../types'
+
 export class DataSegment {
   private startingAddr: number
   private totalSize: number
@@ -8,6 +10,10 @@ export class DataSegment {
   }
 
   getNextAvailableAddr(): number {
+    return this.startingAddr + this.totalSize
+  }
+
+  setupSegment(_ctx: Context): number {
     return this.startingAddr + this.totalSize
   }
 }

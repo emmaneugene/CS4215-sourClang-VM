@@ -1,6 +1,7 @@
 import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
 import { RODataSegment } from '../compiler/rodataSegment'
+import { compile as compile2 } from '../compiler2/compiler'
 import { WORD_SIZE } from '../constants'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
@@ -161,6 +162,26 @@ function sourceRunner2(
     return resolvedErrorPromise
   }
 
-  console.log(JSON.stringify(parseResult.program, null, ' '))
+  // console.log(JSON.stringify(parseResult.program, null, ' '))
+
+  const { instrSegment } = compile2(parseResult)
+  const startOfStack = instrSegment.setupSegment(context)
+  const startingPC = instrSegment.getStartingPC()
+
+  if (!startingPC) {
+    return resolvedErrorPromise
+  }
+
+  context.cVmContext.instrs = instrSegment.getInstrs()
+
+  context.cVmContext = {
+    ...context.cVmContext,
+    isRunning: true,
+    PC: BigInt(startingPC),
+    BP: BigInt(startOfStack)!,
+    SP: BigInt(startOfStack)!,
+    AX: BigInt(0) // default return value of main
+  }
+
   return runInterpreter(context, theOptions)
 }

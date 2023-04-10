@@ -7,16 +7,19 @@ import { GetIdentifierFunction, MICROCODE } from './utils'
 
 export class DeclarationCompiler {
   private instrSegment: InstrSegment
+  private globalInstrSegment: InstrSegment
   private globalExprCompiler: ExpressionCompiler
   private functionExprCompiler: ExpressionCompiler
 
   constructor(
     instrSegment: InstrSegment,
+    globalInstrSegment: InstrSegment,
     getIdentifier: GetIdentifierFunction,
     globalExprCompiler: ExpressionCompiler,
     functionExprCompiler: ExpressionCompiler
   ) {
     this.instrSegment = instrSegment
+    this.globalInstrSegment = globalInstrSegment
     this.globalExprCompiler = globalExprCompiler
     this.functionExprCompiler = functionExprCompiler
   }
@@ -26,9 +29,9 @@ export class DeclarationCompiler {
    */
   compileDeclaration(stmt: Declaration): void {
     if (stmt.type === 'ArrayDeclaration') {
-      return this.compileArrayVariable(stmt, this.functionExprCompiler)
+      return this.compileArrayVariable(stmt, this.functionExprCompiler, this.instrSegment)
     } else {
-      return this.compileVariable(stmt, this.functionExprCompiler)
+      return this.compileVariable(stmt, this.functionExprCompiler, this.instrSegment)
     }
   }
 
@@ -37,13 +40,17 @@ export class DeclarationCompiler {
    */
   compileGlobalDeclaration(stmt: Declaration): void {
     if (stmt.type === 'ArrayDeclaration') {
-      return this.compileArrayVariable(stmt, this.globalExprCompiler)
+      return this.compileArrayVariable(stmt, this.globalExprCompiler, this.globalInstrSegment)
     } else {
-      return this.compileVariable(stmt, this.globalExprCompiler)
+      return this.compileVariable(stmt, this.globalExprCompiler, this.globalInstrSegment)
     }
   }
 
-  private compileVariable(stmt: VariableDeclaration, exprCompiler: ExpressionCompiler): void {
+  private compileVariable(
+    stmt: VariableDeclaration,
+    exprCompiler: ExpressionCompiler,
+    instrSegment: InstrSegment
+  ): void {
     if (stmt.address.isInstructionAddr) {
       throw new CompileTimeError('Cannot assign to function address')
     }
@@ -52,17 +59,23 @@ export class DeclarationCompiler {
     }
 
     exprCompiler.compileExpr(stmt.init)
-    this.instrSegment.addInstrs([...MICROCODE.popFromStack(stmt.address.address)])
+    instrSegment.addInstrs([...MICROCODE.popFromStack(stmt.address.address)])
   }
 
-  private compileArrayVariable(stmt: ArrayDeclaration, exprCompiler: ExpressionCompiler): void {
+  private compileArrayVariable(
+    stmt: ArrayDeclaration,
+    exprCompiler: ExpressionCompiler,
+    instrSegment: InstrSegment
+  ): void {
     if (stmt.address.isInstructionAddr) {
       throw new CompileTimeError('Cannot assign to function address')
     }
 
     // Set the array pointer to point to the arr[0]
     const [arrayPtrReg, arrayPtrOffset] = stmt.address.address
-    MICROCODE.leal([arrayPtrReg, arrayPtrOffset + WORD_SIZE], [arrayPtrReg, arrayPtrOffset])
+    instrSegment.addInstrs([
+      MICROCODE.leal([arrayPtrReg, arrayPtrOffset + WORD_SIZE], [arrayPtrReg, arrayPtrOffset])
+    ])
 
     if (!stmt.init) {
       return
@@ -71,7 +84,7 @@ export class DeclarationCompiler {
     exprCompiler.compileExpr(stmt.init)
     for (let i = stmt.size; i >= 1; i--) {
       const arrayElementOffset = arrayPtrOffset + i * WORD_SIZE
-      this.instrSegment.addInstrs([
+      instrSegment.addInstrs([
         ...MICROCODE.popFromStack([arrayPtrReg, arrayPtrOffset + arrayElementOffset])
       ])
     }
