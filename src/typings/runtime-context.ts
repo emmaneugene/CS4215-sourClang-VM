@@ -87,7 +87,7 @@ export class MemoryModel {
     this.dv.setBigUint64(Number(addr), v)
   }
 
-  allocate(size: number): bigint {
+  allocate(size: bigint): bigint {
     return this.allocator.allocate(size)
   }
 
@@ -142,21 +142,21 @@ class Allocator {
    * @param size The size of the memory to allocate (in bytes)
    * @returns address of the allocated memory, or 0 if unsuccessful
    */
-  allocate(size: number): bigint {
+  allocate(size: bigint): bigint {
     if (size > this.heapEnd - this.heapStart) {
       return BigInt(0)
     }
 
     if (this.tracker.length === 0) {
-      this.tracker.push({ start: this.heapStart, end: this.heapStart + BigInt(size) })
+      this.tracker.push({ start: this.heapStart, end: this.heapStart + size })
       return this.heapStart
     }
 
     let addr: bigint = BigInt(0)
     let intervalFound: boolean = false
-    let smallestInterval: bigint = 0
+    let smallestInterval: bigint = BigInt(0)
 
-    if (this.heapStart - this.tracker[0].end >= BigInt(size)) {
+    if (this.heapStart - this.tracker[0].end >= size) {
       addr = this.heapStart
       intervalFound = true
       smallestInterval = this.tracker[0].start - this.heapStart
@@ -168,7 +168,7 @@ class Allocator {
 
       let nextInterval = next.start - curr.end
       
-      if (nextInterval >= BigInt(size) && (!intervalFound || nextInterval < smallestInterval)) {
+      if (nextInterval >= size && (!intervalFound || nextInterval < smallestInterval)) {
         if (!intervalFound)  intervalFound = true
         addr = curr.end
         smallestInterval = nextInterval
@@ -176,11 +176,11 @@ class Allocator {
     }
 
     let nextInterval = this.heapEnd - this.tracker[this.tracker.length-1].end
-    if (nextInterval >= BigInt(size) && (!intervalFound || nextInterval < smallestInterval)) {
+    if (nextInterval >= size && (!intervalFound || nextInterval < smallestInterval)) {
       addr = this.tracker[this.tracker.length-1].end
     }
 
-    this.tracker.push({ start: addr, end: addr + BigInt(size) })
+    this.tracker.push({ start: addr, end: addr + size })
     return addr
   }
 
