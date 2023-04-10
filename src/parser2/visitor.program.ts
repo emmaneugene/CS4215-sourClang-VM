@@ -50,7 +50,7 @@ export class ProgramGenerator implements SourCParser2Visitor<void> {
     this.declarationGenerator = new DeclarationGenerator(
       name => this.identifierHandler.getIdentifierInfo(name),
       v => this.identifierHandler.addLocalVarToCurrentFrame(v).address,
-      s => rodataSegment.getStringAddr(RODataSegment.convertToCString(s))
+      s => rodataSegment.getStringAddr(s)
     )
     this.statementGenerator = new StatementGenerator(this.identifierHandler, s =>
       rodataSegment.getStringAddr(s)

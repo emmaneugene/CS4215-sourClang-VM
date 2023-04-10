@@ -203,14 +203,14 @@ export class IdentifierHandler {
   }
 
   /**
-   * Returns true if the identifier has already been declared,
-   * either as a function or global variable.
+   * Returns true if the identifier has already been declared
+   * in the current frame.
    */
   private isDuplicateIdentifier(name: string): boolean {
-    try {
-      this.getIdentifierInfo(name)
+    const topmostFrame = this.peekTopmostFrame()
+    if (topmostFrame.mapping[name]) {
       return true
-    } catch {
+    } else {
       return false
     }
   }
