@@ -63,7 +63,7 @@ export interface WhileStatement extends BaseStatement {
 
 export interface ForStatement extends BaseStatement {
   type: 'ForStatement'
-  init?: AssignmentStatement | undefined
+  init?: AssignmentStatement | DerefLeftAssignmentStatement | undefined
   test?: Expression | undefined
   update?: Expression | AssignmentStatement | DerefLeftAssignmentStatement | undefined
   body: CompoundStatement

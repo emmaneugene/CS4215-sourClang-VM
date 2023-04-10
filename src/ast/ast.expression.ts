@@ -76,6 +76,7 @@ export type Expression =
   | AddressOfExpression
   | SizeofExpression
   | BinaryOperatorExpression
+  | LogicalExpression
   | TernaryExpression
   | SequenceExpression
 
@@ -83,6 +84,7 @@ export interface UpdateExpression extends BaseExpression {
   type: 'UpdateExpression'
   operand: AddressableOperands
   isPrefix: boolean
+  operator: '++' | '--'
 }
 
 export interface FunctionCallExpression extends BaseExpression {
@@ -127,7 +129,14 @@ export interface SizeofExpression extends BaseExpression {
 
 export interface BinaryOperatorExpression extends BaseExpression {
   type: 'BinaryOperatorExpression'
-  operator: string
+  operator: '+' | '-' | '*' | '/' | '%' | '>' | '>=' | '<' | '<=' | '==' | '!='
+  left: Expression
+  right: Expression
+}
+
+export interface LogicalExpression extends BaseExpression {
+  type: 'LogicalExpression'
+  operator: '||' | '&&'
   left: Expression
   right: Expression
 }

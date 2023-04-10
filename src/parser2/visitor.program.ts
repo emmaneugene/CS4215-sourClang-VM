@@ -86,12 +86,7 @@ export class ProgramGenerator implements SourCParser2Visitor<void> {
     const datatype = convertTypedefCtxToTypeList(typeDef)
     const params = this.getParamsList(paramLs)
 
-    this.identifierHandler.addFunctionNameToGlobalFrame({
-      name,
-      datatype
-    })
-
-    this.identifierHandler.initFunctionFrame(name, params)
+    this.identifierHandler.initFunctionFrame(name, params, false)
 
     const body = this.statementGenerator.visitCompoundStatement(stmt)
 
@@ -121,6 +116,10 @@ export class ProgramGenerator implements SourCParser2Visitor<void> {
 
   getGlobalVarSize() {
     return this.identifierHandler.getGlobalVarSize()
+  }
+
+  getGlobalFrame() {
+    return this.identifierHandler.getGlobalFrame()
   }
 
   visit(tree: ParseTree): void {

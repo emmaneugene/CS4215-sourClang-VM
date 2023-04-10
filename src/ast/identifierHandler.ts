@@ -83,9 +83,14 @@ export class IdentifierHandler {
   /**
    * Initialises a function frame.
    */
-  initFunctionFrame(functionName: string, functionArgs: FunctionDefinition['params']): Frame {
+  initFunctionFrame(
+    functionName: string,
+    functionArgs: FunctionDefinition['params'],
+    hasVariableArgs?: boolean
+  ): Frame {
     if (!this.hasOnlyGlobalFrame()) throw new CompileTimeError()
 
+    // Setup the new function frame
     const functionFrame: Frame = {
       nextOffset: 8,
       mapping: {}
@@ -94,7 +99,9 @@ export class IdentifierHandler {
     functionFrame.mapping[functionName] = {
       name: functionName,
       datatype: {
-        typeList: [DataType.FUNCTION]
+        typeList: [DataType.FUNCTION],
+        functionParams: functionArgs.map(arg => arg.datatype),
+        functionHasVariableArguments: hasVariableArgs ?? false
       },
       address: {
         isInstructionAddr: true
@@ -108,6 +115,9 @@ export class IdentifierHandler {
         address: arg.address
       }
     })
+
+    // The global frame also needs the functionName
+    this.frames[0].mapping[functionName] = functionFrame.mapping[functionName]
 
     this.frames.push(functionFrame)
     return functionFrame
@@ -187,6 +197,13 @@ export class IdentifierHandler {
     return this.globalVarSize
   }
 
+  getGlobalFrame(): Frame {
+    if (!this.hasOnlyFunctionFrame()) {
+      throw new CompileTimeError()
+    }
+    return this.frames[0]
+  }
+
   /**
    * Returns true if the identifier has already been declared,
    * either as a function or global variable.
@@ -259,7 +276,7 @@ export class IdentifierHandler {
  *
  * Similar to environment model in the HW.
  */
-type Frame = {
+export type Frame = {
   nextOffset: number
   mapping: Record<string, IdentifierInfo>
 }

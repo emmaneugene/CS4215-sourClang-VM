@@ -5,10 +5,13 @@ import { WORD_SIZE } from '../constants'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
 import { parse } from '../parser/parser'
+import { parse as parse2 } from '../parser2/parser'
 import { PreemptiveScheduler } from '../schedulers'
 import { Context, Scheduler, Variant } from '../types'
 import { GlobalCTE } from './../compiler/compileTimeEnv'
 import { determineVariant, resolvedErrorPromise } from './utils'
+
+const VERSION: 1 | 2 = 2
 
 const DEFAULT_SOURCE_OPTIONS: IOptions = {
   scheduler: 'async',
@@ -27,6 +30,10 @@ export async function sourceRunner(
   context: Context,
   options: Partial<IOptions> = {}
 ): Promise<Result> {
+  if (VERSION === 2) {
+    return sourceRunner2(code, context, options)
+  }
+
   const theOptions: IOptions = { ...DEFAULT_SOURCE_OPTIONS, ...options }
   context.variant = determineVariant(context, options)
   context.errors = []
@@ -133,4 +140,27 @@ function runInterpreter(context: Context, options: IOptions): Promise<Result> {
   const it = evaluate(context)
   const scheduler: Scheduler = new PreemptiveScheduler(options.steps)
   return scheduler.run(it, context)
+}
+
+function sourceRunner2(
+  code: string,
+  context: Context,
+  options: Partial<IOptions> = {}
+): Promise<Result> {
+  const theOptions: IOptions = { ...DEFAULT_SOURCE_OPTIONS, ...options }
+  context.variant = determineVariant(context, options)
+  context.errors = []
+
+  if (code === '') {
+    return runInterpreter(context, theOptions)
+  }
+
+  // Parse and validate
+  const parseResult = parse2(code, context)
+  if (!parseResult) {
+    return resolvedErrorPromise
+  }
+
+  console.log(JSON.stringify(parseResult.program, null, ' '))
+  return runInterpreter(context, theOptions)
 }

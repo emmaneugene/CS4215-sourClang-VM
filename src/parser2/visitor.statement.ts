@@ -178,7 +178,9 @@ export class StatementGenerator implements SourCParser2Visitor<Statement> {
   }
 
   visitForStmt(ctx: ForStmtContext): ForStatement {
-    const init = ctx._init ? (this.visit(ctx._init) as AssignmentStatement) : undefined
+    const init = ctx._init
+      ? (this.visit(ctx._init) as AssignmentStatement | DerefLeftAssignmentStatement)
+      : undefined
 
     const test = ctx._test ? this._visitExpr(ctx._test) : undefined
 

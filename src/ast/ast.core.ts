@@ -69,6 +69,8 @@ export type StructDef = { [attribute: string]: StructDef | TypeList }
 export type TypeList = {
   typeList: Array<'*' | DataType>
   structDef?: StructDef | undefined
+  functionParams?: TypeList[]
+  functionHasVariableArguments?: boolean
 }
 
 /**

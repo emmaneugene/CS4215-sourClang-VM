@@ -13,7 +13,9 @@ import {
   Expression,
   FunctionCallExpression,
   Identifier,
+  LogicalExpression,
   NegationExpression,
+  TernaryExpression,
   UnaryMinusExpression,
   UpdateExpression
 } from '../ast/ast.expression'
@@ -86,7 +88,8 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       type: 'UpdateExpression',
       operand: operand as AddressableOperands,
       isPrefix: false,
-      datatype: operand.datatype
+      datatype: operand.datatype,
+      operator: ctx.PlusPlus() ? '++' : '--'
     }
   }
 
@@ -114,7 +117,8 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       type: 'UpdateExpression',
       operand: operand as AddressableOperands,
       isPrefix: true,
-      datatype: operand.datatype
+      datatype: operand.datatype,
+      operator: ctx.PlusPlus() ? '++' : '--'
     }
   }
 
@@ -253,14 +257,14 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     }
   }
 
-  visitAnd(ctx: AndContext): BinaryOperatorExpression {
+  visitAnd(ctx: AndContext): LogicalExpression {
     const operator = '&&'
     const leftExpr = this.visit(ctx.expr().at(0)!)
     const rightExpr = this.visit(ctx.expr().at(1)!)
 
     return {
       ...contextToLocation(ctx),
-      type: 'BinaryOperatorExpression',
+      type: 'LogicalExpression',
       operator,
       left: leftExpr,
       right: rightExpr,
@@ -270,14 +274,14 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     }
   }
 
-  visitOr(ctx: OrContext): Expression {
+  visitOr(ctx: OrContext): LogicalExpression {
     const operator = '||'
     const leftExpr = this.visit(ctx.expr().at(0)!)
     const rightExpr = this.visit(ctx.expr().at(1)!)
 
     return {
       ...contextToLocation(ctx),
-      type: 'BinaryOperatorExpression',
+      type: 'LogicalExpression',
       operator,
       left: leftExpr,
       right: rightExpr,
@@ -291,8 +295,17 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     return this.visit(ctx.expr())
   }
 
-  visitTernary(ctx: TernaryContext): Expression {
-    throw new Error('Unsupported')
+  visitTernary(ctx: TernaryContext): TernaryExpression {
+    const consequent = this.visit(ctx._cons)
+    const alternate = this.visit(ctx._alt)
+
+    return {
+      type: 'TernaryExpression',
+      test: this.visit(ctx._cond),
+      consequent: this.visit(ctx._cons),
+      alternate: this.visit(ctx._alt),
+      datatype: consequent.datatype // TODO: this is wrong
+    }
   }
 
   visitPriIdentifier(ctx: PriIdentifierContext): Expression {
