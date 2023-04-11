@@ -594,7 +594,7 @@ export class ExpressionCompiler {
   }
 
   private validateBinaryOp(op: string): BinaryOperatorExpression['operator'] {
-    if (['+', '-', '*', '/', '%', '<', '<=', '>', '>='].includes(op)) {
+    if (['+', '-', '*', '/', '%', '<', '<=', '>', '>=', '==', '!='].includes(op)) {
       return op as BinaryOperatorExpression['operator']
     }
 

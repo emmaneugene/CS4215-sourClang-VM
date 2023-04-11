@@ -24,7 +24,9 @@ export class IdentifierHandler {
   /** Maps a variable to its address within each function */
   private stackFrameMappingPerFunction: Record<string, AddressToIdentifierMap> = {}
 
-  private currFunctionName: string | undefined
+  private readonly GLOBAL_FRAME_NAME: string = '<global>'
+
+  private currFunctionName: string = this.GLOBAL_FRAME_NAME
 
   /**
    * Construct an IdentifierHandler.
@@ -46,10 +48,6 @@ export class IdentifierHandler {
    */
   addLocalVarToCurrentFrame(v: { name: string; datatype: TypeList; size: number }): IdentifierInfo {
     if (this.isDuplicateIdentifier(v.name)) {
-      throw new CompileTimeError()
-    }
-    if (!this.currFunctionName) {
-      // There is a misconfiguration
       throw new CompileTimeError()
     }
 
@@ -171,6 +169,9 @@ export class IdentifierHandler {
     // Minus WORD_SIZE because the nextOffset considers that
     // rbp points to the caller's base-pointer value
     this.stackFrameSizePerFunction[functionName] = functionFrame.nextOffset - WORD_SIZE
+
+    this.currFunctionName = this.GLOBAL_FRAME_NAME
+
     return functionFrame
   }
 

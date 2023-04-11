@@ -84,9 +84,7 @@ export class DeclarationCompiler {
     exprCompiler.compileExpr(stmt.init)
     for (let i = stmt.size; i >= 1; i--) {
       const arrayElementOffset = arrayPtrOffset + i * WORD_SIZE
-      instrSegment.addInstrs([
-        ...MICROCODE.popFromStack([arrayPtrReg, arrayPtrOffset + arrayElementOffset])
-      ])
+      instrSegment.addInstrs([...MICROCODE.popFromStack([arrayPtrReg, arrayElementOffset])])
     }
   }
 }
