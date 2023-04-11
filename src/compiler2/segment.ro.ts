@@ -73,7 +73,6 @@ export class RODataSegment {
     return res
   }
 
-
   /**
    * During parsing, the string is provided with
    * the leading and trailing double quotes (").

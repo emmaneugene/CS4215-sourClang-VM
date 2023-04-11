@@ -190,7 +190,12 @@ function sourceRunner2(
   return runInterpreter(context, theOptions)
 }
 
-function setupContextForVisualisation(ctx: Context, rodataSegment: RODataSegment2, dataSegment: DataSegment, instrSegment: InstrSegment): void {
+function setupContextForVisualisation(
+  ctx: Context,
+  rodataSegment: RODataSegment2,
+  dataSegment: DataSegment,
+  instrSegment: InstrSegment
+): void {
   ctx.cVmContext.formattedInstrs = () => {
     return instrSegment.getFormattedInstrs()
   }
@@ -203,8 +208,3 @@ function setupContextForVisualisation(ctx: Context, rodataSegment: RODataSegment
     return dataSegment.getFormattedGlobalVars(ctx)
   }
 }
-
-
-
-
-

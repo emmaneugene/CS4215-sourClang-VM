@@ -45,7 +45,7 @@ export class EnvTree {
 export class EnvTreeNode {
   private _children: EnvTreeNode[] = []
 
-  constructor(readonly environment: Environment, public parent: EnvTreeNode | null) { }
+  constructor(readonly environment: Environment, public parent: EnvTreeNode | null) {}
 
   get children(): EnvTreeNode[] {
     return this._children
@@ -132,17 +132,17 @@ function formattedInstrs(): string[] {
 }
 
 /**
-* Returns the rodata segment in a
-* displayable format.
-*/
+ * Returns the rodata segment in a
+ * displayable format.
+ */
 function formattedRODataSegment(): string[] {
   return []
 }
 
 /**
-* Returns the data segment in a
-* displayable format.
-*/
+ * Returns the data segment in a
+ * displayable format.
+ */
 function formattedDataSegment(): string[] {
   return []
 }

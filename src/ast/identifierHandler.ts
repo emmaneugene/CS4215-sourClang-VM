@@ -5,6 +5,8 @@ import { BasePointer, BottomOfMemory, Registers } from '../typings/microcode'
 import { Address, DataType, TypeList } from './ast.core'
 import { FunctionDefinition } from './ast.declaration'
 
+export type AddressToIdentifierMap = Record<number, string>
+
 /**
  * This class handles identifiers by:
  * - Assigning memory addresses
@@ -18,6 +20,11 @@ export class IdentifierHandler {
   private frames: Frame[] = []
 
   private stackFrameSizePerFunction: Record<string, number> = {}
+
+  /** Maps a variable to its address within each function */
+  private stackFrameMappingPerFunction: Record<string, AddressToIdentifierMap> = {}
+
+  private currFunctionName: string | undefined
 
   /**
    * Construct an IdentifierHandler.
@@ -33,32 +40,16 @@ export class IdentifierHandler {
   }
 
   /**
-   * Adds a function name to the global frame.
-   */
-  addFunctionNameToGlobalFrame(v: { name: string; datatype: TypeList }): IdentifierInfo {
-    if (!this.hasOnlyGlobalFrame()) {
-      throw new CompileTimeError()
-    }
-
-    const { name, datatype } = v
-    this.frames[0].mapping[name] = {
-      name,
-      datatype,
-      address: {
-        isInstructionAddr: true
-      }
-    }
-
-    return this.frames[0].mapping[name]
-  }
-
-  /**
    * Adds a new local var declaration to the current frame.
    * Used for new variable declarations (both at global and
    * local).
    */
   addLocalVarToCurrentFrame(v: { name: string; datatype: TypeList; size: number }): IdentifierInfo {
     if (this.isDuplicateIdentifier(v.name)) {
+      throw new CompileTimeError()
+    }
+    if (!this.currFunctionName) {
+      // There is a misconfiguration
       throw new CompileTimeError()
     }
 
@@ -76,6 +67,8 @@ export class IdentifierHandler {
     }
     topmostFrame.nextOffset += v.size
 
+    this.stackFrameMappingPerFunction[this.currFunctionName] = v
+
     return topmostFrame.mapping[v.name]
   }
 
@@ -85,8 +78,9 @@ export class IdentifierHandler {
   initFunctionFrame(
     functionName: string,
     functionArgs: FunctionDefinition['params'],
+    functionReturnType: TypeList,
     hasVariableArgs?: boolean
-  ): Frame {
+  ): IdentifierInfo {
     if (!this.hasOnlyGlobalFrame()) throw new CompileTimeError()
 
     // Setup the new function frame
@@ -95,18 +89,21 @@ export class IdentifierHandler {
       mapping: {}
     }
 
+    // Setup function name itself
     functionFrame.mapping[functionName] = {
       name: functionName,
       datatype: {
         typeList: [DataType.FUNCTION],
         functionParams: functionArgs.map(arg => arg.datatype),
-        functionHasVariableArguments: hasVariableArgs ?? false
+        functionHasVariableArguments: hasVariableArgs ?? false,
+        functionReturnType
       },
       address: {
         isInstructionAddr: true
       }
     }
 
+    // Setup arguments
     functionArgs.forEach(arg => {
       functionFrame.mapping[arg.name] = {
         name: arg.name,
@@ -117,9 +114,12 @@ export class IdentifierHandler {
 
     // The global frame also needs the functionName
     this.frames[0].mapping[functionName] = functionFrame.mapping[functionName]
-
     this.frames.push(functionFrame)
-    return functionFrame
+
+    this.currFunctionName = functionName
+    this.stackFrameMappingPerFunction[functionName] = {}
+
+    return functionFrame.mapping[functionName]
   }
 
   /**
@@ -203,6 +203,10 @@ export class IdentifierHandler {
       throw new CompileTimeError()
     }
     return this.frames[0]
+  }
+
+  getStackFrameMappingPerFunction() {
+    return this.stackFrameMappingPerFunction
   }
 
   /**
