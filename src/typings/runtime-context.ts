@@ -40,6 +40,24 @@ export interface CVMContext {
   instrs: Microcode[]
 
   dataview: MemoryModel
+
+  /**
+   * Returns the instructions in a
+   * displayable format.
+   */
+  formattedInstrs(): string[]
+
+  /**
+ * Returns the rodata segment in a
+ * displayable format.
+ */
+  formattedRODataSegment(): string[]
+
+  /**
+ * Returns the data segment in a
+ * displayable format.
+ */
+  formattedDataSegment(): string[]
 }
 
 /**

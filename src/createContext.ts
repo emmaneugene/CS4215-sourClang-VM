@@ -45,7 +45,7 @@ export class EnvTree {
 export class EnvTreeNode {
   private _children: EnvTreeNode[] = []
 
-  constructor(readonly environment: Environment, public parent: EnvTreeNode | null) {}
+  constructor(readonly environment: Environment, public parent: EnvTreeNode | null) { }
 
   get children(): EnvTreeNode[] {
     return this._children
@@ -115,9 +115,36 @@ export const createEmptyContext = <T>(
       SP: BigInt(0),
       AX: BigInt(1),
       BOT: BigInt(0),
-      dataview: new MemoryModel()
+      dataview: new MemoryModel(),
+      formattedInstrs,
+      formattedDataSegment,
+      formattedRODataSegment
     }
   }
+}
+
+/**
+ * Returns the instructions in a
+ * displayable format.
+ */
+function formattedInstrs(): string[] {
+  return []
+}
+
+/**
+* Returns the rodata segment in a
+* displayable format.
+*/
+function formattedRODataSegment(): string[] {
+  return []
+}
+
+/**
+* Returns the data segment in a
+* displayable format.
+*/
+function formattedDataSegment(): string[] {
+  return []
 }
 
 export const ensureGlobalEnvironmentExist = (context: Context) => {

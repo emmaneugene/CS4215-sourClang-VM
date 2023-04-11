@@ -1,4 +1,5 @@
 import { WORD_SIZE } from '../constants'
+import { prettyPrintInstr } from '../interpreter/util'
 import { Context } from '../types'
 import { Microcode } from '../typings/microcode'
 import { MICROCODE } from './utils'
@@ -109,5 +110,15 @@ export class InstrSegment {
     })
 
     return nextAvailableAddr
+  }
+
+  getFormattedInstrs(): string[] {
+    const res: string[] = []
+    for (let i = 0; i < this.instrsLs.length; i++) {
+      const addr = this.startingAddr + i * WORD_SIZE
+      const instr = this.instrsLs[i]
+      res.push(`${addr}: <instr at idx ${i}}----> ${prettyPrintInstr[instr.type](instr)}`)
+    }
+    return res
   }
 }

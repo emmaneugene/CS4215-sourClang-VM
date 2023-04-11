@@ -2,9 +2,13 @@ import { IOptions, Result } from '..'
 import { compile } from '../compiler/compiler'
 import { RODataSegment } from '../compiler/rodataSegment'
 import { compile as compile2 } from '../compiler2/compiler'
+import { DataSegment } from '../compiler2/segment.data'
+import { InstrSegment } from '../compiler2/segment.instr'
+import { RODataSegment as RODataSegment2 } from '../compiler2/segment.ro'
 import { WORD_SIZE } from '../constants'
 import { CannotFindModuleError } from '../errors/localImportErrors'
 import { evaluate } from '../interpreter/interpreter'
+import { prettyPrintInstr } from '../interpreter/util'
 import { parse } from '../parser/parser'
 import { parse as parse2 } from '../parser2/parser'
 import { PreemptiveScheduler } from '../schedulers'
@@ -162,18 +166,15 @@ function sourceRunner2(
     return resolvedErrorPromise
   }
 
-  // console.log(JSON.stringify(parseResult.program, null, ' '))
-
-  const { rodataSegment, instrSegment } = compile2(parseResult)
+  const { dataSegment, rodataSegment, instrSegment } = compile2(parseResult)
   rodataSegment.setupSegment(context)
   const startOfStack = instrSegment.setupSegment(context)
   const startingPC = instrSegment.getStartingPC()
+  context.cVmContext.instrs = instrSegment.getInstrs()
 
   if (!startingPC) {
     return resolvedErrorPromise
   }
-
-  context.cVmContext.instrs = instrSegment.getInstrs()
 
   context.cVmContext = {
     ...context.cVmContext,
@@ -184,5 +185,26 @@ function sourceRunner2(
     AX: BigInt(0) // default return value of main
   }
 
+  setupContextForVisualisation(context, rodataSegment, dataSegment, instrSegment)
+
   return runInterpreter(context, theOptions)
 }
+
+function setupContextForVisualisation(ctx: Context, rodataSegment: RODataSegment2, dataSegment: DataSegment, instrSegment: InstrSegment): void {
+  ctx.cVmContext.formattedInstrs = () => {
+    return instrSegment.getFormattedInstrs()
+  }
+
+  ctx.cVmContext.formattedRODataSegment = () => {
+    return rodataSegment.getFormattedStringToAddr()
+  }
+
+  ctx.cVmContext.formattedDataSegment = () => {
+    return dataSegment.getFormattedGlobalVars(ctx)
+  }
+}
+
+
+
+
+

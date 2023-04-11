@@ -64,6 +64,16 @@ export class RODataSegment {
     return this.stringToAddr[RODataSegment.convertToCString(s)]
   }
 
+  getFormattedStringToAddr(): string[] {
+    const res: string[] = []
+    Object.entries(this.stringToAddr).forEach(entry => {
+      const [strTok, addr] = entry
+      res.push(`${addr}: ${strTok}`)
+    })
+    return res
+  }
+
+
   /**
    * During parsing, the string is provided with
    * the leading and trailing double quotes (").

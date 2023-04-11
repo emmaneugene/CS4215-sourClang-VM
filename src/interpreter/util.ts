@@ -1,10 +1,21 @@
 import { Context } from '../types'
 import {
   BasePointer,
+  BinopCommand,
   BottomOfMemory,
+  CallCommand,
+  ExecuteBuiltInFxCommand,
+  GotoRelativeCommand,
+  JumpOnFalseRelativeCommand,
+  LeaCommand,
+  Microcode,
+  MovCommand,
+  MovImmediateCommand,
+  OffsetRspCommand,
   Registers,
   ReturnValue,
-  StackPointer
+  StackPointer,
+  UnopCommand
 } from '../typings/microcode'
 
 export const getRegister = (ctx: Context) => ({
@@ -48,4 +59,114 @@ export const setRegister = (ctx: Context, reg: Registers, value: bigint) => {
  */
 export function calculateAddress(ctx: Context, reg: Registers, offset: number): bigint {
   return getRegister(ctx)[reg] + BigInt(offset)
+}
+
+
+/**
+ * Returns a nicely formatted string for each type of microcode.
+ */
+export const prettyPrintInstr: { [cmd: string]: (cmd: Microcode) => string } = {
+  ExitCommand: function (_cmd) {
+    return 'ExitCommand'
+  },
+
+  MovImmediateCommand: function (cmd) {
+    const movCmd = cmd as MovImmediateCommand
+    const { value, encoding } = movCmd
+    return `MovImmediateCommand: ${value} in '${encoding}'`
+  },
+
+
+  MovCommand: function (cmd) {
+    const movCmd = cmd as MovCommand
+    const { from, to } = movCmd
+
+    if (from.type === 'register' && to.type === 'register') {
+      return `MovCommand: Reg[${from}] -> Reg[${to}]`
+    }
+
+    // Mem[reg+offset] = Reg[reg] + offset
+    /**
+     * Used for the following cases:
+     * Returning Values: Mem[reg+offset] = AX
+     * Storing variable value to memory: Mem[reg+offset] = BP + offset
+     */
+    if (from.type === 'register' && to.type === 'relative') {
+      return `MovCommand: Reg[${from.reg}}] -> Mem[${to.reg}${getNumberWithSign(to.offset)}]`
+    }
+
+    // R[reg] = Mem[reg+offset]
+    // from's offset is ignore
+    if (from.type === 'relative' && to.type === 'register') {
+      return `MovCommand: Mem[${from.reg}${getNumberWithSign(from.offset)}] -> Reg[${to.reg}]`
+    }
+
+    // M[reg+offset] = M[reg+offset]
+    if (from.type === 'relative' && to.type === 'relative') {
+      return `MovCommand: Mem[${from.reg}${getNumberWithSign(from.offset)}] -> Mem[${to.reg}${getNumberWithSign(to.offset)}]`
+    }
+
+    return 'MovCommand: ???'
+  },
+
+
+  LeaCommand: function (cmd) {
+    const leaCmd = cmd as LeaCommand
+    const { value, dest } = leaCmd
+    return `LeaCommand: ${value.reg}${getNumberWithSign(value.offset)} -> ${dest.reg}${getNumberWithSign(dest.offset)}`
+  },
+
+
+  OffsetRspCommand: function (cmd) {
+    const offsetCmd = cmd as OffsetRspCommand
+    return `OffsetRspCommand: ${getNumberWithSign(offsetCmd.value)}`
+  },
+
+
+  BinopCommand: function (cmd) {
+    const binopCmd = cmd as BinopCommand
+    return `BinopCommand: ${binopCmd.op}`
+  },
+
+  UnopCommand: function (cmd) {
+    const unopCmd = cmd as UnopCommand
+    return `UnopCommand: ${unopCmd.op}`
+  },
+
+  CallCommand: function (cmd) {
+    const callCmd = cmd as CallCommand
+    return `CallCommand: ${callCmd.addr}`
+  },
+
+  ReturnCommand: function (_cmd) {
+    return `ReturnCommand`
+  },
+
+  ExecuteBuiltInFxCommand: function (cmd) {
+    const xcmd = cmd as ExecuteBuiltInFxCommand
+    return `ExecuteBuiltInFxCommand: ${xcmd.name}`
+  },
+
+  JumpOnFalseRelativeCommand: function (cmd) {
+    const xcmd = cmd as JumpOnFalseRelativeCommand
+    return `JumpOnFalseRelativeCommand: ${xcmd.relativeValue}`
+  },
+
+  GotoRelativeCommand: function (cmd) {
+    const xcmd = cmd as GotoRelativeCommand
+    return `GotoRelativeCommand: ${xcmd.relativeValue}`
+
+  },
+}
+
+/**
+ * Returns a positive number with the + sign.
+ * Returns a negative number with the - sign
+ */
+function getNumberWithSign(n: number): string {
+  if (n >= 0) {
+    return `+${n}`
+  } else {
+    return `${n}`
+  }
 }
