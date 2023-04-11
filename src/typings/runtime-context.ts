@@ -161,23 +161,23 @@ class Allocator {
       intervalFound = true
       smallestInterval = this.tracker[0].start - this.heapStart
     }
-    
-    for (let i = 0; i < this.tracker.length-1; i++) {
+
+    for (let i = 0; i < this.tracker.length - 1; i++) {
       const curr = this.tracker[i]
       const next = this.tracker[i + 1]
 
-      let nextInterval = next.start - curr.end
-      
+      const nextInterval = next.start - curr.end
+
       if (nextInterval >= size && (!intervalFound || nextInterval < smallestInterval)) {
-        if (!intervalFound)  intervalFound = true
+        if (!intervalFound) intervalFound = true
         addr = curr.end
         smallestInterval = nextInterval
       }
     }
 
-    let nextInterval = this.heapEnd - this.tracker[this.tracker.length-1].end
+    const nextInterval = this.heapEnd - this.tracker[this.tracker.length - 1].end
     if (nextInterval >= size && (!intervalFound || nextInterval < smallestInterval)) {
-      addr = this.tracker[this.tracker.length-1].end
+      addr = this.tracker[this.tracker.length - 1].end
     }
 
     this.tracker.push({ start: addr, end: addr + size })
