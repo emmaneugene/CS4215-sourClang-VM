@@ -1,5 +1,6 @@
 import { BUILTINS } from '../builtin/parser'
 import { CompileTimeError } from '../compiler/error'
+import { WORD_SIZE } from '../constants'
 import { BasePointer, BottomOfMemory, Registers } from '../typings/microcode'
 import { Address, DataType, TypeList } from './ast.core'
 import { FunctionDefinition } from './ast.declaration'
@@ -167,7 +168,9 @@ export class IdentifierHandler {
   popFunctionFrame(functionName: string): Frame {
     if (!this.hasOnlyFunctionFrame()) throw new CompileTimeError()
     const functionFrame = this.popTopmostFrame()
-    this.stackFrameSizePerFunction[functionName] = functionFrame.nextOffset
+    // Minus WORD_SIZE because the nextOffset considers that
+    // rbp points to the caller's base-pointer value
+    this.stackFrameSizePerFunction[functionName] = functionFrame.nextOffset - WORD_SIZE
     return functionFrame
   }
 

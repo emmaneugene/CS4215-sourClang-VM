@@ -372,12 +372,12 @@ export class ExpressionCompiler {
     // Compile left
     // and multiply if needed
     this.compileExpr(expr.left)
-    if (isPtrOnLeft) {
+    if (!isPtrOnLeft) {
       this.instrSegment.addInstrs([...this.multiplyTopofStackForPointerArithmetic()])
     }
 
     this.compileExpr(expr.right)
-    if (!isPtrOnLeft) {
+    if (isPtrOnLeft) {
       this.instrSegment.addInstrs([...this.multiplyTopofStackForPointerArithmetic()])
     }
 
