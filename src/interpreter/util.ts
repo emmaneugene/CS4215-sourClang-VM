@@ -61,7 +61,6 @@ export function calculateAddress(ctx: Context, reg: Registers, offset: number): 
   return getRegister(ctx)[reg] + BigInt(offset)
 }
 
-
 /**
  * Returns a nicely formatted string for each type of microcode.
  */
@@ -75,7 +74,6 @@ export const prettyPrintInstr: { [cmd: string]: (cmd: Microcode) => string } = {
     const { value, encoding } = movCmd
     return `MovImmediateCommand: ${value} in '${encoding}'`
   },
-
 
   MovCommand: function (cmd) {
     const movCmd = cmd as MovCommand
@@ -103,25 +101,26 @@ export const prettyPrintInstr: { [cmd: string]: (cmd: Microcode) => string } = {
 
     // M[reg+offset] = M[reg+offset]
     if (from.type === 'relative' && to.type === 'relative') {
-      return `MovCommand: Mem[${from.reg}${getNumberWithSign(from.offset)}] -> Mem[${to.reg}${getNumberWithSign(to.offset)}]`
+      return `MovCommand: Mem[${from.reg}${getNumberWithSign(from.offset)}] -> Mem[${
+        to.reg
+      }${getNumberWithSign(to.offset)}]`
     }
 
     return 'MovCommand: ???'
   },
 
-
   LeaCommand: function (cmd) {
     const leaCmd = cmd as LeaCommand
     const { value, dest } = leaCmd
-    return `LeaCommand: ${value.reg}${getNumberWithSign(value.offset)} -> ${dest.reg}${getNumberWithSign(dest.offset)}`
+    return `LeaCommand: ${value.reg}${getNumberWithSign(value.offset)} -> ${
+      dest.reg
+    }${getNumberWithSign(dest.offset)}`
   },
-
 
   OffsetRspCommand: function (cmd) {
     const offsetCmd = cmd as OffsetRspCommand
     return `OffsetRspCommand: ${getNumberWithSign(offsetCmd.value)}`
   },
-
 
   BinopCommand: function (cmd) {
     const binopCmd = cmd as BinopCommand
@@ -155,8 +154,7 @@ export const prettyPrintInstr: { [cmd: string]: (cmd: Microcode) => string } = {
   GotoRelativeCommand: function (cmd) {
     const xcmd = cmd as GotoRelativeCommand
     return `GotoRelativeCommand: ${xcmd.relativeValue}`
-
-  },
+  }
 }
 
 /**

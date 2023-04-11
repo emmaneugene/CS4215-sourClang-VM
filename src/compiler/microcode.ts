@@ -69,7 +69,9 @@ export const MICROCODE = {
 
   binop: (op: BinopCommand['op']): BinopCommand => ({
     type: 'BinopCommand',
-    op: op
+    op: op,
+    leftEncoding: '2s',
+    rightEncoding: '2s'
   }),
 
   leal: (value: RegOffset, to: RegOffset): LeaCommand => ({
@@ -86,7 +88,8 @@ export const MICROCODE = {
 
   unop: (op: UnopCommand['op']): UnopCommand => ({
     type: 'UnopCommand',
-    op
+    op,
+    encoding: '2s'
   }),
 
   call: (addr: bigint): CallCommand => ({

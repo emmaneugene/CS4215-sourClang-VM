@@ -96,7 +96,7 @@ export interface FunctionCallExpression extends BaseExpression {
 export interface NegationExpression extends BaseExpression {
   type: 'NegationExpression'
   datatype: {
-    typeList: [DataType.CHAR]
+    typeList: [DataType.INT]
   }
   operand: Expression
 }

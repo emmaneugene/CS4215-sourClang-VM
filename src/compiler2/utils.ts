@@ -3,6 +3,7 @@ import { WORD_SIZE } from '../constants'
 import {
   BinopCommand,
   CallCommand,
+  CastCommand,
   ExitCommand,
   GotoRelativeCommand,
   JumpOnFalseRelativeCommand,
@@ -71,9 +72,15 @@ export const MICROCODE = {
     value
   }),
 
-  binop: (op: BinopCommand['op']): BinopCommand => ({
+  binop: (
+    op: BinopCommand['op'],
+    leftEncoding: '2s' | 'ieee',
+    rightEncoding: '2s' | 'ieee'
+  ): BinopCommand => ({
     type: 'BinopCommand',
-    op: op
+    op: op,
+    leftEncoding,
+    rightEncoding
   }),
 
   leal: (value: RegOffset, to: RegOffset): LeaCommand => ({
@@ -88,9 +95,10 @@ export const MICROCODE = {
     }
   }),
 
-  unop: (op: UnopCommand['op']): UnopCommand => ({
+  unop: (op: UnopCommand['op'], encoding: '2s' | 'ieee'): UnopCommand => ({
     type: 'UnopCommand',
-    op
+    op,
+    encoding
   }),
 
   call: (addr: bigint): CallCommand => ({
@@ -115,6 +123,18 @@ export const MICROCODE = {
   exit: {
     type: 'ExitCommand'
   } as ExitCommand,
+
+  castFromIntToFloat: {
+    type: 'CastCommand',
+    from: '2s',
+    to: 'ieee'
+  } as CastCommand,
+
+  castFromFloatToInt: {
+    type: 'CastCommand',
+    from: 'ieee',
+    to: '2s'
+  } as CastCommand,
 
   pushMemOntoStack: (from: RegOffset): Microcode[] => [
     MICROCODE.movMemToMem(from, [StackPointer, 0]),

@@ -21,7 +21,7 @@ import {
 } from '../ast/ast.expression'
 import { CompileTimeError } from '../compiler/error'
 import { WORD_SIZE } from '../constants'
-import { isPointer } from '../parser2/utils'
+import { getPrimitiveType, isPointer } from '../parser2/utils'
 import { BottomOfMemory, Microcode, ReturnValue, StackPointer } from '../typings/microcode'
 import { InstrSegment } from './segment.instr'
 import { GetIdentifierFunction, GetInstrAddress, MICROCODE } from './utils'
@@ -109,13 +109,15 @@ export class ExpressionCompiler {
         throw new CompileTimeError('Cannot update function address')
       }
 
+      const opEncoding = this.convertDatatypeToEncoding(operand.datatype)
+
       const { address } = operand.address
       this.instrSegment.addInstrs([
         // 1. load initial value
         ...MICROCODE.pushMemOntoStack(address),
         // 2. perform update (increment or decrement)
-        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), '2s'), // TODO: How about floats?
-        MICROCODE.binop(op),
+        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), opEncoding),
+        MICROCODE.binop(op, opEncoding, opEncoding),
         // 3. save the updated value
         MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], address)
         // 4. the top of stack already has the updated variable value
@@ -124,6 +126,8 @@ export class ExpressionCompiler {
     }
 
     if (operand.type === 'ArrayAccess') {
+      const opEncoding = this.convertDatatypeToEncoding(operand.datatype)
+
       // 1. load operand's memory address
       this.loadMemoryAddressOfArrayAccess(operand)
 
@@ -135,8 +139,8 @@ export class ExpressionCompiler {
       // by loading the actual value
       this.instrSegment.addInstrs([
         ...this.derefTopofStack(),
-        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), '2s'), // TODO: How about floats?
-        MICROCODE.binop(op)
+        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), opEncoding),
+        MICROCODE.binop(op, opEncoding, opEncoding)
       ])
 
       // 3. save the updated value
@@ -158,14 +162,16 @@ export class ExpressionCompiler {
       }
 
       const { address } = operand.address
+      const opEncoding = this.convertDatatypeToEncoding(operand.datatype)
+
       this.instrSegment.addInstrs([
         // 1. load initial address
         // this is the value to be returned
         ...MICROCODE.pushMemOntoStack(address),
         // 2. perform update (increment or decrement)
         ...MICROCODE.pushMemOntoStack(address),
-        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), '2s'), // TODO: How about floats?
-        MICROCODE.binop(op),
+        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), opEncoding),
+        MICROCODE.binop(op, opEncoding, opEncoding),
         // 3. save the updated value
         MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], address),
         // 4. pop everything added (1)
@@ -175,6 +181,8 @@ export class ExpressionCompiler {
     }
 
     if (operand.type === 'ArrayAccess') {
+      const opEncoding = this.convertDatatypeToEncoding(operand.datatype)
+
       // 1. load operand's memory address
       this.loadMemoryAddressOfArrayAccess(operand)
 
@@ -190,8 +198,8 @@ export class ExpressionCompiler {
       // by loading the actual value
       this.instrSegment.addInstrs([
         ...MICROCODE.pushMemOntoStack([StackPointer, -WORD_SIZE]),
-        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), '2s'), // TODO: How about floats?
-        MICROCODE.binop(op)
+        MICROCODE.movImm(this.getUpdateExprIncrValue(expr), opEncoding),
+        MICROCODE.binop(op, opEncoding, opEncoding)
       ])
 
       // 4. save the updated value
@@ -265,7 +273,7 @@ export class ExpressionCompiler {
     this.compileExpr(expr.index)
     this.instrSegment.addInstrs([...this.multiplyTopofStackForPointerArithmetic()])
     this.loadIdentifierValue(expr.array)
-    this.instrSegment.addInstrs([MICROCODE.binop('+')])
+    this.instrSegment.addInstrs([MICROCODE.binop('+', '2s', '2s')])
 
     // dereference that memory address
     this.instrSegment.addInstrs([...this.derefTopofStack()])
@@ -292,12 +300,16 @@ export class ExpressionCompiler {
 
   compileUnaryMinusExpr(expr: UnaryMinusExpression): void {
     this.compileExpr(expr.operand)
-    this.instrSegment.addInstrs([MICROCODE.unop('-')])
+    this.instrSegment.addInstrs([
+      MICROCODE.unop('-', this.convertDatatypeToEncoding(expr.operand.datatype))
+    ])
   }
 
   compileNegationExpr(expr: NegationExpression): void {
     this.compileExpr(expr.operand)
-    this.instrSegment.addInstrs([MICROCODE.unop('!')])
+    this.instrSegment.addInstrs([
+      MICROCODE.unop('!', this.convertDatatypeToEncoding(expr.operand.datatype))
+    ])
   }
 
   compileAddrOfExpr(expr: AddressOfExpression): void {
@@ -355,8 +367,11 @@ export class ExpressionCompiler {
     this.compileExpr(expr.left)
     this.compileExpr(expr.right)
     this.instrSegment.addInstrs([
-      // TODO: Fix this cast
-      MICROCODE.binop(expr.operator as any)
+      MICROCODE.binop(
+        this.validateBinaryOp(expr.operator),
+        this.convertDatatypeToEncoding(expr.left.datatype),
+        this.convertDatatypeToEncoding(expr.right.datatype)
+      )
     ])
 
     // TODO: Consider casting
@@ -382,8 +397,11 @@ export class ExpressionCompiler {
     }
 
     this.instrSegment.addInstrs([
-      // TODO: Fix this use of any
-      MICROCODE.binop(expr.operator as any)
+      MICROCODE.binop(
+        this.validateBinaryOp(expr.operator),
+        this.convertDatatypeToEncoding(expr.left.datatype),
+        this.convertDatatypeToEncoding(expr.right.datatype)
+      )
     ])
   }
 
@@ -523,7 +541,7 @@ export class ExpressionCompiler {
    * Used for pointer arithmetic.
    */
   private multiplyTopofStackForPointerArithmetic(): Microcode[] {
-    return [MICROCODE.movImm(WORD_SIZE, '2s'), MICROCODE.binop('*')]
+    return [MICROCODE.movImm(WORD_SIZE, '2s'), MICROCODE.binop('*', '2s', '2s')]
   }
 
   /**
@@ -560,6 +578,29 @@ export class ExpressionCompiler {
     }
   }
 
+  private convertDatatypeToEncoding(datatype: TypeList): '2s' | 'ieee' {
+    if (isPointer(datatype)) {
+      return '2s'
+    }
+
+    if (
+      getPrimitiveType(datatype) === DataType.DOUBLE ||
+      getPrimitiveType(datatype) === DataType.DOUBLE
+    ) {
+      return 'ieee'
+    } else {
+      return '2s'
+    }
+  }
+
+  private validateBinaryOp(op: string): BinaryOperatorExpression['operator'] {
+    if (['+', '-', '*', '/', '%', '<', '<=', '>', '>='].includes(op)) {
+      return op as BinaryOperatorExpression['operator']
+    }
+
+    throw new CompileTimeError()
+  }
+
   /**
    * Puts the memory address of the array element
    * to access on the top of the stack.
@@ -570,6 +611,6 @@ export class ExpressionCompiler {
     this.compileExpr(index)
     this.instrSegment.addInstrs([...this.multiplyTopofStackForPointerArithmetic()])
     this.loadIdentifierValue(array)
-    this.instrSegment.addInstrs([MICROCODE.binop('+')])
+    this.instrSegment.addInstrs([MICROCODE.binop('+', '2s', '2s')])
   }
 }

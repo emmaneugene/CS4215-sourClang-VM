@@ -97,12 +97,17 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     const functionName = ctx.Identifier().text
     const args = ctx.seqExprLs()?._eLs.map(e => this.visit(e)) ?? []
 
+    const functionIdentifierInfo = this.identifierLookupFunction(functionName)
+
+    // TODO: perform validation
+    // this.validateFunctionCallExpr(functionIdentifierInfo, args);
+
     return {
       ...contextToLocation(ctx),
       type: 'FunctionCallExpression',
       callee: functionName,
       arguments: args,
-      datatype: this.identifierLookupFunction(functionName).datatype
+      datatype: functionIdentifierInfo.datatype
     }
   }
 
@@ -140,7 +145,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
         type: 'NegationExpression',
         operand,
         datatype: {
-          typeList: [DataType.CHAR]
+          typeList: [DataType.INT]
         }
       }
     }
@@ -235,7 +240,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       left: leftExpr,
       right: rightExpr,
       datatype: {
-        typeList: [DataType.CHAR]
+        typeList: [DataType.INT]
       }
     }
   }
@@ -252,7 +257,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       left: leftExpr,
       right: rightExpr,
       datatype: {
-        typeList: [DataType.CHAR]
+        typeList: [DataType.INT]
       }
     }
   }
@@ -269,7 +274,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       left: leftExpr,
       right: rightExpr,
       datatype: {
-        typeList: [DataType.CHAR]
+        typeList: [DataType.INT]
       }
     }
   }
@@ -286,7 +291,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       left: leftExpr,
       right: rightExpr,
       datatype: {
-        typeList: [DataType.CHAR]
+        typeList: [DataType.INT]
       }
     }
   }
@@ -302,8 +307,8 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     return {
       type: 'TernaryExpression',
       test: this.visit(ctx._cond),
-      consequent: this.visit(ctx._cons),
-      alternate: this.visit(ctx._alt),
+      consequent,
+      alternate,
       datatype: consequent.datatype // TODO: this is wrong
     }
   }

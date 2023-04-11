@@ -71,6 +71,7 @@ export type TypeList = {
   structDef?: StructDef | undefined
   functionParams?: TypeList[]
   functionHasVariableArguments?: boolean
+  functionReturnType?: TypeList
 }
 
 /**
@@ -86,9 +87,9 @@ export interface Program extends BaseNode {
  */
 export type Address =
   | {
-      isInstructionAddr: true
-    }
+    isInstructionAddr: true
+  }
   | {
-      isInstructionAddr: false
-      address: [Registers, number]
-    }
+    isInstructionAddr: false
+    address: [Registers, number]
+  }

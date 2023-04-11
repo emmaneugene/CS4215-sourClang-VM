@@ -86,14 +86,14 @@ export class ProgramGenerator implements SourCParser2Visitor<void> {
     const datatype = convertTypedefCtxToTypeList(typeDef)
     const params = this.getParamsList(paramLs)
 
-    this.identifierHandler.initFunctionFrame(name, params, false)
+    const fnIdentifierInfo = this.identifierHandler.initFunctionFrame(name, params, datatype, false)
 
     const body = this.statementGenerator.visitCompoundStatement(stmt)
 
     const functionDef: FunctionDefinition = {
       ...contextToLocation(ctx),
       type: 'FunctionDefinition',
-      datatype,
+      datatype: fnIdentifierInfo.datatype,
       name,
       params,
       body,
