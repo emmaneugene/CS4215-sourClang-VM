@@ -73,11 +73,8 @@ export const BUILT_IN_IMPL_CTX: Record<BuiltInFxName, (c: Context) => void> = {
     const { dataview } = ctx.cVmContext
     const size = getNthArg(1, ctx.cVmContext.BP, dataview)
 
-    // TODO: Implement the actual allocation algorithm
-    // Put the allocated ptr onto ctx.cVmContext.AX
-    // below are just placeholder code
-    ctx.cVmContext.AX = BigInt(516)
     const resultStr = 'malloc called with size: ' + size.toString()
+    ctx.cVmContext.AX = ctx.cVmContext.dataview.allocate(size)
 
     if (ctx.externalBuiltIns?.rawDisplay) {
       ctx.externalBuiltIns.rawDisplay(undefined, resultStr, ctx)
@@ -90,10 +87,8 @@ export const BUILT_IN_IMPL_CTX: Record<BuiltInFxName, (c: Context) => void> = {
     const { dataview } = ctx.cVmContext
     const ptr = getNthArg(1, ctx.cVmContext.BP, dataview)
 
-    // TODO: Implement the actual free algorithm
-    // The size is NOT given by the user
-    // C is supposed to track the size by itself
     const resultStr = 'free called with ptr: 0x' + ptr.toString(16)
+    ctx.cVmContext.dataview.free(ptr)
 
     if (ctx.externalBuiltIns?.rawDisplay) {
       ctx.externalBuiltIns.rawDisplay(undefined, resultStr, ctx)

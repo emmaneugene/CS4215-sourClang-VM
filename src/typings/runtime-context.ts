@@ -42,18 +42,41 @@ export interface CVMContext {
   dataview: MemoryModel
 }
 
+/**
+ * Represents the total memory allocated a running program. The memory model 
+ * comprises a stack and heap. We enforce a stack limit of 3 / 4 of the total
+ * size, with the remainder reserved for the heap.
+ */
 export class MemoryModel {
   private dv: DataView
 
   private SIZE: number
 
-  private static DEFAULT_SIZE = 2 ** 10
   /**
-   * @param size Defaults to 1KB
-   */
+   * Impose a limit on the size of the stack
+  */
+  private STACK_LIMIT: number
+
+  private static DEFAULT_SIZE = 2 ** 13 // 8KiB
+
+  private allocator: Allocator
+
+  /**
+   * @param size Defaults to 8KiB
+  */
   constructor(size: number = MemoryModel.DEFAULT_SIZE) {
     this.dv = new DataView(new ArrayBuffer(size))
     this.SIZE = size
+    this.STACK_LIMIT = (size * 3 / 4) as number
+    this.allocator = new Allocator(BigInt(this.STACK_LIMIT), BigInt(this.SIZE))
+  }
+
+  getSize(): number {
+    return this.SIZE
+  }
+
+  getStackLimit(): number {
+    return this.STACK_LIMIT
   }
 
   getBytesAt(addr: bigint): bigint {
@@ -62,6 +85,14 @@ export class MemoryModel {
 
   setBytesAt(addr: bigint, v: bigint): void {
     this.dv.setBigUint64(Number(addr), v)
+  }
+
+  allocate(size: bigint): bigint {
+    return this.allocator.allocate(size)
+  }
+
+  free(addr: bigint): void {
+    this.allocator.deallocate(addr)
   }
 
   debug(sp?: bigint, from: number = 0, to: number = this.SIZE): string {
@@ -75,5 +106,91 @@ export class MemoryModel {
       rv += `${i}\t: ${s} ${Number(sp) === i ? '<-- SP' : ''}\n`
     }
     return rv
+  }
+}
+
+/**
+ * Represents a chunk of allocated memory in the heap
+ */
+type HeapEntry = {
+  start: bigint
+  end: bigint
+}
+
+/**
+ * Keeps track of allocated heap memory in an interval list. For simplicity, the
+ * allocator assigns memory from low-high addresses. 
+ * 
+ * In order to minimize fragmentation, the allocator performs a linear search 
+ * over the interval list to find the smallest free interval.
+ */
+class Allocator {
+  private heapStart: bigint
+
+  private heapEnd: bigint
+
+  private tracker: HeapEntry[]
+
+  constructor(heapStart: bigint, heapEnd: bigint) {
+    this.heapStart = heapStart
+    this.heapEnd = heapEnd
+    this.tracker = []
+  }
+
+  /**
+   * Allocates `size` bytes of memory on the heap and returns the address
+   * @param size The size of the memory to allocate (in bytes)
+   * @returns address of the allocated memory, or 0 if unsuccessful
+   */
+  allocate(size: bigint): bigint {
+    if (size > this.heapEnd - this.heapStart) {
+      return BigInt(0)
+    }
+
+    if (this.tracker.length === 0) {
+      this.tracker.push({ start: this.heapStart, end: this.heapStart + size })
+      return this.heapStart
+    }
+
+    let addr: bigint = BigInt(0)
+    let intervalFound: boolean = false
+    let smallestInterval: bigint = BigInt(0)
+
+    if (this.heapStart - this.tracker[0].end >= size) {
+      addr = this.heapStart
+      intervalFound = true
+      smallestInterval = this.tracker[0].start - this.heapStart
+    }
+    
+    for (let i = 0; i < this.tracker.length-1; i++) {
+      const curr = this.tracker[i]
+      const next = this.tracker[i + 1]
+
+      let nextInterval = next.start - curr.end
+      
+      if (nextInterval >= size && (!intervalFound || nextInterval < smallestInterval)) {
+        if (!intervalFound)  intervalFound = true
+        addr = curr.end
+        smallestInterval = nextInterval
+      }
+    }
+
+    let nextInterval = this.heapEnd - this.tracker[this.tracker.length-1].end
+    if (nextInterval >= size && (!intervalFound || nextInterval < smallestInterval)) {
+      addr = this.tracker[this.tracker.length-1].end
+    }
+
+    this.tracker.push({ start: addr, end: addr + size })
+    return addr
+  }
+
+  /**
+   * Deallocates the chunk of memory stores at `addr` and shrinks the heap if possible
+   * @param addr The address of the memory to free
+   * 
+   * If the address provided does not map to a valid HeapEntry, no operations are performed.
+   */
+  deallocate(addr: bigint): void {
+    this.tracker = this.tracker.filter(e => e.start !== addr)
   }
 }
