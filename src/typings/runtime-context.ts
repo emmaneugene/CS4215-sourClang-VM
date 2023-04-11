@@ -43,7 +43,7 @@ export interface CVMContext {
 }
 
 /**
- * Represents the total memory allocated a running program. The memory model 
+ * Represents the total memory allocated a running program. The memory model
  * comprises a stack and heap. We enforce a stack limit of 3 / 4 of the total
  * size, with the remainder reserved for the heap.
  */
@@ -54,7 +54,7 @@ export class MemoryModel {
 
   /**
    * Impose a limit on the size of the stack
-  */
+   */
   private STACK_LIMIT: number
 
   private static DEFAULT_SIZE = 2 ** 13 // 8KiB
@@ -63,11 +63,11 @@ export class MemoryModel {
 
   /**
    * @param size Defaults to 8KiB
-  */
+   */
   constructor(size: number = MemoryModel.DEFAULT_SIZE) {
     this.dv = new DataView(new ArrayBuffer(size))
     this.SIZE = size
-    this.STACK_LIMIT = (size * 3 / 4) as number
+    this.STACK_LIMIT = ((size * 3) / 4) as number
     this.allocator = new Allocator(BigInt(this.STACK_LIMIT), BigInt(this.SIZE))
   }
 
@@ -119,9 +119,9 @@ type HeapEntry = {
 
 /**
  * Keeps track of allocated heap memory in an interval list. For simplicity, the
- * allocator assigns memory from low-high addresses. 
- * 
- * In order to minimize fragmentation, the allocator performs a linear search 
+ * allocator assigns memory from low-high addresses.
+ *
+ * In order to minimize fragmentation, the allocator performs a linear search
  * over the interval list to find the smallest free interval.
  */
 class Allocator {
@@ -187,7 +187,7 @@ class Allocator {
   /**
    * Deallocates the chunk of memory stores at `addr` and shrinks the heap if possible
    * @param addr The address of the memory to free
-   * 
+   *
    * If the address provided does not map to a valid HeapEntry, no operations are performed.
    */
   deallocate(addr: bigint): void {
