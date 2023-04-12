@@ -1,18 +1,23 @@
+import { TypeList } from '../ast/ast.core'
+import { WORD_SIZE } from '../constants'
 import {
   BinopCommand,
   CallCommand,
+  CastCommand,
   ExitCommand,
+  GotoRelativeCommand,
+  JumpOnFalseRelativeCommand,
   LeaCommand,
+  Microcode,
   MovCommand,
   MovImmediateCommand,
   OffsetRspCommand,
   Registers,
   ReturnCommand,
+  StackPointer,
   UnopCommand
 } from '../typings/microcode'
-import { GotoRelativeCommand, JumpOnFalseRelativeCommand } from './../typings/microcode'
 
-// TODO: use a record
 type RegOffset = [Registers, number]
 
 export const MICROCODE = {
@@ -36,7 +41,7 @@ export const MICROCODE = {
     }
   }),
 
-  movMemToReg: (reg: Registers, from: RegOffset): MovCommand => ({
+  movMemToReg: (from: RegOffset, reg: Registers): MovCommand => ({
     type: 'MovCommand',
     from: {
       type: 'relative',
@@ -67,11 +72,15 @@ export const MICROCODE = {
     value
   }),
 
-  binop: (op: BinopCommand['op']): BinopCommand => ({
+  binop: (
+    op: BinopCommand['op'],
+    leftEncoding: '2s' | 'ieee',
+    rightEncoding: '2s' | 'ieee'
+  ): BinopCommand => ({
     type: 'BinopCommand',
     op: op,
-    leftEncoding: '2s',
-    rightEncoding: '2s'
+    leftEncoding,
+    rightEncoding
   }),
 
   leal: (value: RegOffset, to: RegOffset): LeaCommand => ({
@@ -86,10 +95,10 @@ export const MICROCODE = {
     }
   }),
 
-  unop: (op: UnopCommand['op']): UnopCommand => ({
+  unop: (op: UnopCommand['op'], encoding: '2s' | 'ieee'): UnopCommand => ({
     type: 'UnopCommand',
     op,
-    encoding: '2s'
+    encoding
   }),
 
   call: (addr: bigint): CallCommand => ({
@@ -113,5 +122,37 @@ export const MICROCODE = {
 
   exit: {
     type: 'ExitCommand'
-  } as ExitCommand
+  } as ExitCommand,
+
+  castFromIntToFloat: {
+    type: 'CastCommand',
+    from: '2s',
+    to: 'ieee'
+  } as CastCommand,
+
+  castFromFloatToInt: {
+    type: 'CastCommand',
+    from: 'ieee',
+    to: '2s'
+  } as CastCommand,
+
+  pushMemOntoStack: (from: RegOffset): Microcode[] => [
+    MICROCODE.movMemToMem(from, [StackPointer, 0]),
+    MICROCODE.offsetRSP(WORD_SIZE)
+  ],
+
+  popFromStack: (to?: RegOffset): Microcode[] => {
+    if (!to) {
+      return [MICROCODE.offsetRSP(-WORD_SIZE)]
+    } else {
+      return [
+        MICROCODE.movMemToMem([StackPointer, -WORD_SIZE], to),
+        MICROCODE.offsetRSP(-WORD_SIZE)
+      ]
+    }
+  }
 }
+
+export type GetIdentifierFunction = (name: string) => TypeList
+
+export type GetInstrAddress = (name: string) => number

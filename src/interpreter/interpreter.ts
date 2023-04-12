@@ -1,7 +1,7 @@
 /* tslint:disable:max-classes-per-file */
 import { WORD_SIZE } from '../constants'
 import { Context, Value } from '../types'
-import { GotoRelativeCommand, StackPointer } from './../typings/microcode'
+import { CastCommand, GotoRelativeCommand, StackPointer } from './../typings/microcode'
 import { JumpOnFalseRelativeCommand } from './../typings/microcode'
 import { RelativeAddrMode } from './../typings/microcode'
 import {
@@ -94,15 +94,19 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   /**
    * Processes the `MovImmediateCommand` microcode within the context of a
    * running program.
-   * @param cmd
-   * @param ctx
    */
   MovImmediateCommand: function* (cmd, ctx) {
     const immCmd = cmd as MovImmediateCommand
-    debugPrint(immCmd.type + ' ' + immCmd.value + ' ' + immCmd.encoding, ctx)
     const { dataview } = ctx.cVmContext
 
-    dataview.setBytesAt(calculateAddress(ctx, StackPointer, 0), BigInt(immCmd.value))
+    const pos = calculateAddress(ctx, StackPointer, 0)
+
+    if (immCmd.encoding === '2s') {
+      dataview.setBytesAt(pos, BigInt(immCmd.value))
+    } else {
+      dataview.setBytesAsFloat64At(Number(pos), immCmd.value)
+    }
+
     ctx.cVmContext.SP += BigInt(WORD_SIZE)
 
     incrementPC(ctx)
@@ -111,8 +115,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   /**
    * Processes the `MovCommand` microcode within the context of a running
    * program.
-   * @param cmd
-   * @param ctx
    */
   MovCommand: function* (cmd, ctx) {
     const movCmd = cmd as MovCommand
@@ -165,8 +167,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   /**
    * Calculates `value` and puts it into `dest`.
    * To get the address of a certain variable (i.e. &x)
-   * @param cmd
-   * @param ctx
    */
   LeaCommand: function* (cmd, ctx) {
     const leaCmd = cmd as LeaCommand
@@ -184,8 +184,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   /**
    * Processes the `OffsetRspCommand` microcode within the context of a running
    * program.
-   * @param cmd
-   * @param ctx
    */
   OffsetRspCommand: function* (cmd, ctx) {
     const offsetCmd = cmd as OffsetRspCommand
@@ -194,20 +192,47 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   },
 
   /**
-   * Applies the binary operation `op` to the top two values of the stack
-   * @param cmd
-   * @param ctx
+   * Applies the binary operation `op` to the top two values of the stack.
+   *
+   * It reads the top 2 values of the stack based on the given encoding.
+   *
+   * Then, it places the outcome back on the top of the stack.
+   *
+   * If both left and right encoding the same, it places them back in that encoding.
+   *
+   * Else, it places them back as ieee values.
    */
   BinopCommand: function* (cmd, ctx) {
     const binopCmd = cmd as BinopCommand
     const { dataview } = ctx.cVmContext
-    const { op } = binopCmd
+    const { op, leftEncoding, rightEncoding } = binopCmd
 
-    const arg1 = dataview.getBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2))
-    const arg2 = dataview.getBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE))
-    debugPrint(`${binopCmd.type} ${op} ${arg1} ${arg2} `, ctx)
+    const leftStackPtrPos = calculateAddress(ctx, StackPointer, -WORD_SIZE * 2)
+    const rightStackPtrPos = calculateAddress(ctx, StackPointer, -WORD_SIZE)
+
+    let arg1: number
+    if (leftEncoding === '2s') {
+      arg1 = Number(dataview.getBytesAt(leftStackPtrPos))
+    } else {
+      arg1 = dataview.getBytesAsFloat64At(Number(leftStackPtrPos))
+    }
+
+    let arg2: number
+    if (rightEncoding === '2s') {
+      arg2 = Number(dataview.getBytesAt(rightStackPtrPos))
+    } else {
+      arg2 = dataview.getBytesAsFloat64At(Number(rightStackPtrPos))
+    }
 
     let res = arg1
+    let outputEncoding: '2s' | 'ieee' = 'ieee'
+
+    if (leftEncoding === rightEncoding && leftEncoding === '2s') {
+      outputEncoding = '2s'
+    } else {
+      outputEncoding = 'ieee'
+    }
+
     switch (op) {
       case '+':
         res += arg2
@@ -225,63 +250,75 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
         res %= arg2
         break
       case '>':
-        res = BigInt(arg1 > arg2)
+        outputEncoding = '2s'
+        res = Number(arg1 > arg2)
         break
       case '>=':
-        res = BigInt(arg1 >= arg2)
+        outputEncoding = '2s'
+        res = Number(arg1 >= arg2)
         break
       case '<':
-        res = BigInt(arg1 < arg2)
+        outputEncoding = '2s'
+        res = Number(arg1 < arg2)
         break
       case '<=':
-        res = BigInt(arg1 <= arg2)
+        outputEncoding = '2s'
+        res = Number(arg1 <= arg2)
         break
       case '==':
-        res = BigInt(arg1 === arg2)
+        outputEncoding = '2s'
+        res = Number(arg1 === arg2)
         break
       case '!=':
-        res = BigInt(arg1 !== arg2)
-        break
-      case '||':
-        res = arg1 || arg2 ? BigInt(1) : BigInt(0)
-        break
-      case '&&':
-        res = arg1 && arg2 ? BigInt(1) : BigInt(0)
+        outputEncoding = '2s'
+        res = Number(arg1 !== arg2)
         break
     }
-    dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2), res)
+
+    if (outputEncoding === '2s') {
+      dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2), BigInt(res))
+    } else {
+      dataview.setBytesAsFloat64At(Number(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2)), res)
+    }
 
     ctx.cVmContext.SP -= BigInt(WORD_SIZE)
     incrementPC(ctx)
-    dataview.debug()
   },
 
   /**
    * Applies the unary operation `op` to the top value of the stack
-   * @param cmd
-   * @param ctx
    */
   UnopCommand: function* (cmd, ctx) {
     const unopCmd = cmd as UnopCommand
     const { dataview } = ctx.cVmContext
-    const { op } = unopCmd
+    const { op, encoding } = unopCmd
 
-    const arg = dataview.getBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE))
-    debugPrint(`${unopCmd.type} ${op} ${arg}`, ctx)
+    const pos = calculateAddress(ctx, StackPointer, -WORD_SIZE)
 
-    let res = arg
-    switch (op) {
-      case '!':
-        res = !res ? BigInt(1) : BigInt(0)
-        break
-      case '-':
-        res = -res
-        break
+    let arg: BigInt
+    if (encoding === '2s') {
+      arg = dataview.getBytesAt(pos)
+    } else {
+      arg = BigInt(dataview.getBytesAsFloat64At(Number(pos)))
     }
-    dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE), res)
+
+    if (op === '!') {
+      // since it is negation
+      // place back as an INT
+      const res = !arg ? BigInt(1) : BigInt(0)
+      dataview.setBytesAt(pos, res)
+    } else {
+      const res = BigInt(-arg)
+      if (encoding === '2s') {
+        dataview.setBytesAt(pos, res)
+      } else {
+        dataview.setBytesAsFloat64At(Number(pos), Number(res))
+      }
+    }
 
     incrementPC(ctx)
   },
+
   /**
    * Processes the `CallCommand` microcode within the context of a running
    * program.
@@ -291,8 +328,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * - Pushes the caller's rbp onto stack
    * - Assigns new BP (to setup up the next fx's function BP)
    * - Assigns new PC
-   * @param cmd
-   * @param ctx
    */
   CallCommand: function* (cmd, ctx) {
     const callCmd = cmd as CallCommand
@@ -322,9 +357,6 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
    * It performs the following:
    * - Restores the old bp (since it must be stored at Mem[rbp])
    * - Restores the old return addresss [since it must be stored at Mem[rbp-WORD_SIZE]]
-   *
-   * @param cmd
-   * @param ctx
    */
   ReturnCommand: function* (cmd, ctx) {
     const { dataview } = ctx.cVmContext
@@ -388,20 +420,29 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   },
 
   /**
-   * Processes the `PushCommand` microcode within the context of a running
+   * Processes the `CastCommand` microcode within the context of a running
    * program.
-   * @param cmd
-   * @param ctx
+   *
+   * It changes the item at SP-8 (top of stack),
+   * from 2s to ieee or vice versa.
    */
-  PushCommand: function* (cmd, ctx) {},
+  CastCommand: function* (cmd, ctx) {
+    const xcmd = cmd as CastCommand
+    const { dataview } = ctx.cVmContext
+    const { from, to } = xcmd
 
-  /**
-   * Processes the `PopCommand` microcode within the context of a running
-   * program
-   * @param cmd
-   * @param ctx
-   */
-  PopCommand: function* (cmd, ctx) {}
+    const stackPtrPos = calculateAddress(ctx, StackPointer, -WORD_SIZE)
+
+    if (from === '2s' && to === 'ieee') {
+      const prev = dataview.getBytesAt(stackPtrPos)
+      dataview.setBytesAsFloat64At(Number(stackPtrPos), Number(prev))
+    } else if (from === 'ieee' && to === '2s') {
+      const prev = dataview.getBytesAsFloat64At(Number(stackPtrPos))
+      dataview.setBytesAt(stackPtrPos, BigInt(prev))
+    }
+
+    incrementPC(ctx)
+  }
 }
 
 function incrementPC(ctx: Context): void {

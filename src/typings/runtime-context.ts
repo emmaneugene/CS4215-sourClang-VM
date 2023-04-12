@@ -40,6 +40,24 @@ export interface CVMContext {
   instrs: Microcode[]
 
   dataview: MemoryModel
+
+  /**
+   * Returns the instructions in a
+   * displayable format.
+   */
+  formattedInstrs(): string[]
+
+  /**
+   * Returns the rodata segment in a
+   * displayable format.
+   */
+  formattedRODataSegment(): string[]
+
+  /**
+   * Returns the data segment in a
+   * displayable format.
+   */
+  formattedDataSegment(): string[]
 }
 
 /**
@@ -85,6 +103,14 @@ export class MemoryModel {
 
   setBytesAt(addr: bigint, v: bigint): void {
     this.dv.setBigUint64(Number(addr), v)
+  }
+
+  getBytesAsFloat64At(addr: number): number {
+    return this.dv.getFloat64(addr)
+  }
+
+  setBytesAsFloat64At(addr: number, v: number): void {
+    return this.dv.setFloat64(addr, v)
   }
 
   allocate(size: bigint): bigint {

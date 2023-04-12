@@ -16,6 +16,7 @@ export interface MicrocodeMap {
   ExecuteBuiltInFxCommand: ExecuteBuiltInFxCommand
   JumpOnFalseRelativeCommand: JumpOnFalseRelativeCommand
   GotoRelativeCommand: GotoRelativeCommand
+  CastCommand: CastCommand
 }
 
 /* Union types in MicrocodeMap */
@@ -85,7 +86,9 @@ export interface OffsetRspCommand extends BaseCommand {
  */
 export interface BinopCommand extends BaseCommand {
   type: 'BinopCommand'
-  op: '+' | '-' | '*' | '/' | '%' | '>' | '>=' | '<' | '<=' | '==' | '!=' | '||' | '&&'
+  op: '+' | '-' | '*' | '/' | '%' | '>' | '>=' | '<' | '<=' | '==' | '!=' | '&&' | '||'
+  leftEncoding: '2s' | 'ieee'
+  rightEncoding: '2s' | 'ieee'
 }
 
 /**
@@ -96,6 +99,7 @@ export interface BinopCommand extends BaseCommand {
 export interface UnopCommand extends BaseCommand {
   type: 'UnopCommand'
   op: '!' | '-'
+  encoding: '2s' | 'ieee'
 }
 
 /**
@@ -168,4 +172,10 @@ export interface JumpOnFalseRelativeCommand extends BaseCommand {
 export interface GotoRelativeCommand extends BaseCommand {
   type: 'GotoRelativeCommand'
   relativeValue: bigint
+}
+
+export interface CastCommand extends BaseCommand {
+  type: 'CastCommand'
+  from: '2s' | 'ieee'
+  to: '2s' | 'ieee'
 }
