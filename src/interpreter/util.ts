@@ -4,6 +4,7 @@ import {
   BinopCommand,
   BottomOfMemory,
   CallCommand,
+  CastCommand,
   ExecuteBuiltInFxCommand,
   GotoRelativeCommand,
   JumpOnFalseRelativeCommand,
@@ -90,7 +91,7 @@ export const prettyPrintInstr: { [cmd: string]: (cmd: Microcode) => string } = {
      * Storing variable value to memory: Mem[reg+offset] = BP + offset
      */
     if (from.type === 'register' && to.type === 'relative') {
-      return `MovCommand: Reg[${from.reg}}] -> Mem[${to.reg}${getNumberWithSign(to.offset)}]`
+      return `MovCommand: Reg[${from.reg}] -> Mem[${to.reg}${getNumberWithSign(to.offset)}]`
     }
 
     // R[reg] = Mem[reg+offset]
@@ -124,12 +125,12 @@ export const prettyPrintInstr: { [cmd: string]: (cmd: Microcode) => string } = {
 
   BinopCommand: function (cmd) {
     const binopCmd = cmd as BinopCommand
-    return `BinopCommand: ${binopCmd.op}`
+    return `BinopCommand: ${binopCmd.op} (encL: ${binopCmd.leftEncoding}, enR: ${binopCmd.rightEncoding})`
   },
 
   UnopCommand: function (cmd) {
     const unopCmd = cmd as UnopCommand
-    return `UnopCommand: ${unopCmd.op}`
+    return `UnopCommand: ${unopCmd.op} (enc: ${unopCmd.encoding})`
   },
 
   CallCommand: function (cmd) {
@@ -154,6 +155,13 @@ export const prettyPrintInstr: { [cmd: string]: (cmd: Microcode) => string } = {
   GotoRelativeCommand: function (cmd) {
     const xcmd = cmd as GotoRelativeCommand
     return `GotoRelativeCommand: ${xcmd.relativeValue}`
+  },
+
+  CastCommand: function (cmd) {
+    const xcmd = cmd as CastCommand
+    const { from, to } = xcmd
+
+    return `CastCommand: ${xcmd} ${from}->${to}`
   }
 }
 

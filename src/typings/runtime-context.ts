@@ -1,3 +1,4 @@
+import { TypeList } from '../ast/ast.core'
 import { Microcode } from './microcode'
 /**
  * Represents the VM needed for C to run, which is passed
@@ -121,7 +122,7 @@ export class MemoryModel {
     this.allocator.deallocate(addr)
   }
 
-  debug(sp?: bigint, from: number = 0, to: number = this.SIZE): string {
+  debug(ptr?: bigint, ptrName: string = 'SP', from: number = 0, to: number = this.SIZE): string {
     let rv = ''
     for (let i = Math.max(from, 0); i < Math.min(to, this.SIZE); i += 8) {
       const hexStr = this.dv.getBigUint64(i).toString(16).padStart(16, '0')
@@ -129,9 +130,28 @@ export class MemoryModel {
       for (let j = 0; j < hexStr.length; j += 2) {
         s += hexStr.substring(j, j + 2) + ' '
       }
-      rv += `${i}\t: ${s} ${Number(sp) === i ? '<-- SP' : ''}\n`
+      rv += `${i}\t: ${s} ${Number(ptr) === i ? `<-- ${ptrName}` : ''}\n`
     }
     return rv
+  }
+
+  visualiseAllocatedMemory(): string {
+    let rv = ''
+    this.allocator.getTracker().forEach(interval => {
+      const { start, end } = interval
+      const startNumber = Number(start)
+      const endNumber = Number(end)
+      for (let i = startNumber; i < endNumber; i += 8) {
+        const hexStr = this.dv.getBigUint64(i).toString(16).padStart(16, '0')
+        let s = ''
+        for (let j = 0; j < hexStr.length; j += 2) {
+          s += hexStr.substring(j, j + 2) + ' '
+        }
+        rv += s + '\n'
+      }
+    })
+
+    return rv.trim()
   }
 }
 
@@ -219,4 +239,16 @@ class Allocator {
   deallocate(addr: bigint): void {
     this.tracker = this.tracker.filter(e => e.start !== addr)
   }
+
+  getTracker() {
+    return this.tracker
+  }
 }
+
+export type AddressToIdentifierMap = Record<
+  number,
+  {
+    name: string
+    datatype: TypeList
+  }
+>
