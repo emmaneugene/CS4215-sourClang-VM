@@ -16,7 +16,7 @@ import {
   UnopCommand
 } from './../typings/microcode'
 import { BUILT_IN_IMPL_CTX } from './builtin'
-import { calculateAddress, getRegister, setRegister } from './util'
+import { calculateAddress, getRegister, prettyPrintInstr, setRegister } from './util'
 
 export function* evaluate(context: Context) {
   let returnValue: bigint | undefined
@@ -38,9 +38,12 @@ export function* evaluate(context: Context) {
 
     // debug
     const { SP } = context.cVmContext
-    debugPrint(`Executed command: ${cmd.type}`, context)
+    debugPrint(`Executed command: ${prettyPrintInstr[cmd.type](cmd)}`, context)
     debugPrint(`AX: ${context.cVmContext.AX} | BP: ${context.cVmContext.BP}`, context)
-    debugPrint(context.cVmContext.dataview.debug(SP, Number(SP) - 32, Number(SP) + 32), context)
+    debugPrint(
+      context.cVmContext.dataview.debug(SP, 'SP', Number(SP) - 32, Number(SP) + 32),
+      context
+    )
   }
 
   yield* leave(context)
@@ -361,6 +364,13 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
   ReturnCommand: function* (cmd, ctx) {
     const { dataview } = ctx.cVmContext
 
+    // for visualisation
+    printToScreen('======Function Frame Visualiser (Before RETURN)======', ctx)
+    // visualiseStack(ctx)
+    visualiseFunctionFrame(ctx)
+    // visualiseHeap(ctx)
+    printToScreen('~~~~~~Function Frame Visualiser (Before RETURN)~~~~~~', ctx)
+
     const currFrameBP = ctx.cVmContext.BP
 
     // restore caller's registers
@@ -450,9 +460,30 @@ function incrementPC(ctx: Context): void {
 }
 
 function debugPrint(str: string, ctx: Context): void {
+  console.debug(str)
+}
+
+function printToScreen(str: string, ctx: Context): void {
   if (ctx.externalBuiltIns?.rawDisplay) {
     ctx.externalBuiltIns.rawDisplay(undefined, str, ctx)
   } else {
     console.log(str)
   }
+}
+
+function visualiseFunctionFrame(ctx: Context, defaultRange = 64) {
+  const bp = Number(ctx.cVmContext.BP)
+  const str = ctx.cVmContext.dataview.debug(BigInt(bp), 'BP', bp - defaultRange, bp + defaultRange)
+  printToScreen(str, ctx)
+}
+
+function visualiseStack(ctx: Context, defaultRange = 64) {
+  const sp = Number(ctx.cVmContext.SP)
+  const str = ctx.cVmContext.dataview.debug(BigInt(sp), 'SP', sp - defaultRange, sp + defaultRange)
+  printToScreen(str, ctx)
+}
+
+function visualiseHeap(ctx: Context) {
+  const str = ctx.cVmContext.dataview.visualiseAllocatedMemory()
+  printToScreen(str, ctx)
 }
