@@ -124,7 +124,7 @@ export interface AddressOfExpression extends BaseExpression {
 
 export interface SizeofExpression extends BaseExpression {
   type: 'SizeofExpression'
-  operand: AddressableOperands | TypeList
+  // operand: AddressableOperands | TypeList
 }
 
 export interface BinaryOperatorExpression extends BaseExpression {

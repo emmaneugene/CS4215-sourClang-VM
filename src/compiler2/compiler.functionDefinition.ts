@@ -14,6 +14,7 @@ import {
 } from '../ast/ast.statement'
 import { CompileTimeError } from '../compiler/error'
 import { WORD_SIZE } from '../constants'
+import { isFloatType, isIntType } from '../parser2/utils'
 import { GotoRelativeCommand, Microcode, ReturnValue, StackPointer } from '../typings/microcode'
 import { DeclarationCompiler } from './compiler.declaration'
 import { ExpressionCompiler } from './compiler.expr'
@@ -95,6 +96,12 @@ export class FunctionDefCompiler {
     const { right, left } = stmt
     this.exprCompiler.compileExpr(right)
 
+    if (isFloatType(left.datatype) && isIntType(right.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromIntToFloat])
+    } else if (isIntType(left.datatype) && isFloatType(right.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromFloatToInt])
+    }
+
     if (left.type === 'Identifier') {
       if (left.address.isInstructionAddr) {
         throw new CompileTimeError('Cannot assign to function')
@@ -120,6 +127,13 @@ export class FunctionDefCompiler {
   compileDerefAssignmentStmt(stmt: DerefLeftAssignmentStatement): CompileStmtResult {
     const { right, left } = stmt
     this.exprCompiler.compileExpr(right)
+
+    if (isFloatType(left.datatype) && isIntType(right.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromIntToFloat])
+    } else if (isIntType(left.datatype) && isFloatType(right.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromFloatToInt])
+    }
+
     this.exprCompiler.compileExpr(left)
 
     const derefIterations = stmt.derefChain.length - 1

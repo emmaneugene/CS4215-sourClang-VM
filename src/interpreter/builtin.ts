@@ -182,39 +182,37 @@ function getStringFromAddr(addr: bigint, memory: MemoryModel): string {
  * Supported placeholders:
  * - %d
  * - %p
+ * - %f
  */
 function performPlaceholderSubstitution(formatStr: string, context: Context): string {
   const { placeholderIndex, tokenizedStr } = tokenizeFormatStr(formatStr)
-  let nextArgumentOnStackIndex = 2 // Because the first one is the format string
 
+  const INTEGER_PLACEHOLDER = '%d'
+  const POINTER_PLACEHOLDER = '%p'
+  const FLOAT_PLACEHOLDER = '%f'
+
+  const bp = context.cVmContext.BP
+
+  let argIndex = 2
   placeholderIndex.forEach(i => {
-    const value = getNthArg(
-      nextArgumentOnStackIndex,
-      context.cVmContext.BP,
-      context.cVmContext.dataview
-    )
-    tokenizedStr[i] = convertValueToString(tokenizedStr[i], value)
-    nextArgumentOnStackIndex++
+    argIndex++
+
+    const placeholder = tokenizedStr[i]
+    const argPos = bp - BigInt(argIndex * WORD_SIZE)
+
+    if (placeholder === INTEGER_PLACEHOLDER) {
+      const v = context.cVmContext.dataview.getBytesAt(argPos)
+      tokenizedStr[i] = v.toString()
+    } else if (placeholder === FLOAT_PLACEHOLDER) {
+      const v = context.cVmContext.dataview.getBytesAsFloat64At(Number(argPos))
+      tokenizedStr[i] = v.toString()
+    } else if (placeholder === POINTER_PLACEHOLDER) {
+      const v = context.cVmContext.dataview.getBytesAt(argPos)
+      tokenizedStr[i] = '0x' + v.toString(16)
+    }
   })
 
   return tokenizedStr.join('')
-}
-
-/**
- * Converts the value to its string representation,
- * based on what the placeholder is.
- */
-function convertValueToString(placeholder: string, value: bigint): string {
-  const INTEGER_PLACEHOLDER = '%d'
-  const POINTER_PLACEHOLDER = '%p'
-
-  switch (placeholder) {
-    case INTEGER_PLACEHOLDER:
-      return value.toString()
-    case POINTER_PLACEHOLDER:
-    default:
-      return '0x' + value.toString(16)
-  }
 }
 
 /**
@@ -224,7 +222,7 @@ function tokenizeFormatStr(str: string): {
   placeholderIndex: number[]
   tokenizedStr: string[]
 } {
-  const placeholderRegex = /(\%[dsp]{1})/g
+  const placeholderRegex = /(\%[dpf]{1})/g
   const tokenizedStr = str.split(placeholderRegex).filter(s => s !== '')
 
   const placeholderIndex: number[] = []

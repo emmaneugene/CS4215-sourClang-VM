@@ -15,6 +15,7 @@ import {
   Identifier,
   LogicalExpression,
   NegationExpression,
+  SizeofExpression,
   TernaryExpression,
   UnaryMinusExpression,
   UpdateExpression
@@ -107,7 +108,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
       type: 'FunctionCallExpression',
       callee: functionName,
       arguments: args,
-      datatype: functionIdentifierInfo.datatype
+      datatype: functionIdentifierInfo.datatype.functionReturnType!
     }
   }
 
@@ -182,8 +183,13 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     }
   }
 
-  visitSizeofExpr(ctx: SizeofExprContext): Expression {
-    throw new Error('Unsupported')
+  visitSizeofExpr(_ctx: SizeofExprContext): SizeofExpression {
+    return {
+      type: 'SizeofExpression',
+      datatype: {
+        typeList: [DataType.LONG]
+      }
+    }
   }
 
   visitMult(ctx: MultContext): BinaryOperatorExpression {
@@ -324,12 +330,23 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
     const s = ctx.StringLiteral()
 
     if (c !== undefined && !isNaN(parseInt(c.text))) {
-      return {
-        ...contextToLocation(ctx),
-        type: 'IntLiteral',
-        value: parseInt(c.text),
-        datatype: {
-          typeList: [DataType.LONG]
+      if (c.text.includes('.')) {
+        return {
+          ...contextToLocation(ctx),
+          type: 'FloatLiteral',
+          value: parseInt(c.text),
+          datatype: {
+            typeList: [DataType.DOUBLE]
+          }
+        }
+      } else {
+        return {
+          ...contextToLocation(ctx),
+          type: 'IntLiteral',
+          value: parseInt(c.text),
+          datatype: {
+            typeList: [DataType.LONG]
+          }
         }
       }
     }

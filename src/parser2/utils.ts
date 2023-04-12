@@ -102,7 +102,14 @@ export function getOutputDatatype(
  * The concept of "bigger" uses a ranking system of each type.
  */
 export function getBiggerType(t1: TypeList, t2: TypeList): TypeList {
-  const RANKING = [DataType.CHAR, DataType.SHORT, DataType.INT, DataType.LONG]
+  const RANKING = [
+    DataType.CHAR,
+    DataType.SHORT,
+    DataType.INT,
+    DataType.LONG,
+    DataType.FLOAT,
+    DataType.DOUBLE
+  ]
   const assignRanking = (t: DataType) => RANKING.indexOf(t)
 
   const t1Rank = assignRanking(getPrimitiveType(t1))
@@ -155,4 +162,12 @@ export function errorNodeToLocation(node: ErrorNode): SourceLocation {
       column: node.symbol.charPositionInLine + 1
     }
   }
+}
+
+export function isFloatType(t: TypeList): boolean {
+  return [DataType.FLOAT, DataType.DOUBLE].includes(getPrimitiveType(t))
+}
+
+export function isIntType(t: TypeList): boolean {
+  return [DataType.CHAR, DataType.SHORT, DataType.INT, DataType.LONG].includes(getPrimitiveType(t))
 }

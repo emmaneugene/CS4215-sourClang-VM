@@ -1,6 +1,7 @@
 import { ArrayDeclaration, Declaration, VariableDeclaration } from '../ast/ast.declaration'
 import { CompileTimeError } from '../compiler/error'
 import { WORD_SIZE } from '../constants'
+import { isFloatType, isIntType } from '../parser2/utils'
 import { ExpressionCompiler } from './compiler.expr'
 import { InstrSegment } from './segment.instr'
 import { GetIdentifierFunction, MICROCODE } from './utils'
@@ -59,6 +60,13 @@ export class DeclarationCompiler {
     }
 
     exprCompiler.compileExpr(stmt.init)
+
+    if (isFloatType(stmt.datatype) && isIntType(stmt.init.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromIntToFloat])
+    } else if (isIntType(stmt.datatype) && isFloatType(stmt.init.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromFloatToInt])
+    }
+
     instrSegment.addInstrs([...MICROCODE.popFromStack(stmt.address.address)])
   }
 
@@ -82,6 +90,13 @@ export class DeclarationCompiler {
     }
 
     exprCompiler.compileExpr(stmt.init)
+
+    if (isFloatType(stmt.datatype) && isIntType(stmt.init.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromIntToFloat])
+    } else if (isIntType(stmt.datatype) && isFloatType(stmt.init.datatype)) {
+      this.instrSegment.addInstrs([MICROCODE.castFromFloatToInt])
+    }
+
     for (let i = stmt.size; i >= 1; i--) {
       const arrayElementOffset = arrayPtrOffset + i * WORD_SIZE
       instrSegment.addInstrs([...MICROCODE.popFromStack([arrayPtrReg, arrayElementOffset])])
