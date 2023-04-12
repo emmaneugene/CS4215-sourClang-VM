@@ -334,7 +334,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
         return {
           ...contextToLocation(ctx),
           type: 'FloatLiteral',
-          value: parseInt(c.text),
+          value: parseFloat(c.text),
           datatype: {
             typeList: [DataType.DOUBLE]
           }

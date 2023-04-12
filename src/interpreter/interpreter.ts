@@ -210,18 +210,18 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     const leftStackPtrPos = calculateAddress(ctx, StackPointer, -WORD_SIZE * 2)
     const rightStackPtrPos = calculateAddress(ctx, StackPointer, -WORD_SIZE)
 
-    let arg1: bigint
+    let arg1: number
     if (leftEncoding === '2s') {
-      arg1 = dataview.getBytesAt(leftStackPtrPos)
+      arg1 = Number(dataview.getBytesAt(leftStackPtrPos))
     } else {
-      arg1 = BigInt(dataview.getBytesAsFloat64At(Number(leftStackPtrPos)))
+      arg1 = dataview.getBytesAsFloat64At(Number(leftStackPtrPos))
     }
 
-    let arg2: bigint
+    let arg2: number
     if (rightEncoding === '2s') {
-      arg2 = dataview.getBytesAt(rightStackPtrPos)
+      arg2 = Number(dataview.getBytesAt(rightStackPtrPos))
     } else {
-      arg2 = BigInt(dataview.getBytesAsFloat64At(Number(rightStackPtrPos)))
+      arg2 = dataview.getBytesAsFloat64At(Number(rightStackPtrPos))
     }
 
     let res = arg1
@@ -251,37 +251,34 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
         break
       case '>':
         outputEncoding = '2s'
-        res = BigInt(arg1 > arg2)
+        res = Number(arg1 > arg2)
         break
       case '>=':
         outputEncoding = '2s'
-        res = BigInt(arg1 >= arg2)
+        res = Number(arg1 >= arg2)
         break
       case '<':
         outputEncoding = '2s'
-        res = BigInt(arg1 < arg2)
+        res = Number(arg1 < arg2)
         break
       case '<=':
         outputEncoding = '2s'
-        res = BigInt(arg1 <= arg2)
+        res = Number(arg1 <= arg2)
         break
       case '==':
         outputEncoding = '2s'
-        res = BigInt(arg1 === arg2)
+        res = Number(arg1 === arg2)
         break
       case '!=':
         outputEncoding = '2s'
-        res = BigInt(arg1 !== arg2)
+        res = Number(arg1 !== arg2)
         break
     }
 
     if (outputEncoding === '2s') {
-      dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2), res)
+      dataview.setBytesAt(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2), BigInt(res))
     } else {
-      dataview.setBytesAsFloat64At(
-        Number(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2)),
-        Number(res)
-      )
+      dataview.setBytesAsFloat64At(Number(calculateAddress(ctx, StackPointer, -WORD_SIZE * 2)), res)
     }
 
     ctx.cVmContext.SP -= BigInt(WORD_SIZE)
