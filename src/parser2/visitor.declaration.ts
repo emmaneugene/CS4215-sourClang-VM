@@ -3,6 +3,7 @@ import { ParseTree } from 'antlr4ts/tree/ParseTree'
 import { RuleNode } from 'antlr4ts/tree/RuleNode'
 import { TerminalNode } from 'antlr4ts/tree/TerminalNode'
 
+import { TypeList } from '../ast/ast.core'
 import { ArrayDeclaration, Declaration, VariableDeclaration } from '../ast/ast.declaration'
 import { Expression } from '../ast/ast.expression'
 import {
@@ -73,9 +74,13 @@ export class DeclarationGenerator implements SourCParser2Visitor<Declaration> {
     const datatype = convertTypedefCtxToTypeList(ctx.typeDef())
     const declaredSize = this.getArrayDeclaredSize(ctx)
     const size = getSizeofArrayVariable(declaredSize, datatype)
+    const arrayDatatype: TypeList = {
+      ...datatype,
+      typeList: ['*', ...datatype.typeList]
+    }
     const address = this.addDeclarationCallback({
       name,
-      datatype,
+      datatype: arrayDatatype,
       size
     })
 

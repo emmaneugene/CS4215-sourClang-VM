@@ -195,9 +195,21 @@ export class StatementGenerator implements SourCParser2Visitor<Statement> {
     return {
       ...contextToLocation(ctx),
       type: 'ForStatement',
-      init,
-      test,
-      update,
+      init: init
+        ? {
+            ...init
+          }
+        : undefined,
+      test: test
+        ? {
+            ...test
+          }
+        : undefined,
+      update: update
+        ? {
+            ...update
+          }
+        : undefined,
       body: compoundStatement
     }
   }

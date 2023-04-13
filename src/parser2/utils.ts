@@ -11,8 +11,9 @@ export function removeOnePtr(t: TypeList, source: SourceLocation): TypeList {
   if (t.typeList[0] !== '*') {
     throw new FatalSyntaxError(source)
   }
+  const typeListCopy = [...t.typeList]
   return {
-    typeList: t.typeList.splice(1, t.typeList.length),
+    typeList: typeListCopy.splice(1, typeListCopy.length),
     structDef: t.structDef
   }
 }

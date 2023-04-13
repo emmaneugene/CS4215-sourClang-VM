@@ -346,7 +346,13 @@ export class ExpressionCompiler {
   }
 
   compileBinaryOpExpr(expr: BinaryOperatorExpression): void {
-    const { left, right } = expr
+    const { left, right, operator } = expr
+    const isAddOrSub = ['+', '-'].includes(operator)
+
+    if (!isAddOrSub) {
+      return this.compileBinaryOpExprWithoutPtrArithmetic(expr)
+    }
+
     const isLeftPtr = isPointer(left.datatype)
     const isRightPtr = isPointer(right.datatype)
 
