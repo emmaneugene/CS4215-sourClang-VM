@@ -258,9 +258,9 @@ export class ExpressionCompiler {
   loadIdentifierValue(expr: Identifier): void {
     const list: Microcode[] = []
     if (expr.address.isInstructionAddr) {
-      const reg = BottomOfMemory
+      // const reg = BottomOfMemory
       const addr = this.getInstrAddr(expr.name)
-      list.push(...MICROCODE.pushMemOntoStack([reg, addr]))
+      list.push(...[MICROCODE.movImm(addr, '2s')])
     } else {
       list.push(...MICROCODE.pushMemOntoStack(expr.address.address))
     }

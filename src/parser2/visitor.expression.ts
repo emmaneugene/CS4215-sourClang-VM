@@ -388,7 +388,7 @@ export class ExpressionGenerator implements SourCParser2Visitor<Expression> {
         datatype: arrayInfo.datatype
       },
       index: this.visit(ctx.expr()),
-      datatype: arrayInfo.datatype,
+      datatype: removeOnePtr(arrayInfo.datatype, contextToLocation(ctx)),
       address: arrayInfo.address
     }
   }

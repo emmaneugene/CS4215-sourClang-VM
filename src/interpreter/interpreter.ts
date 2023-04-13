@@ -367,9 +367,9 @@ const MACHINE: { [microcode: string]: EvaluatorFunction } = {
     // for visualisation
     printToScreen('======Function Frame Visualiser (Before RETURN)======', ctx)
     // visualiseStack(ctx)
-    visualiseFunctionFrame(ctx)
+    // visualiseFunctionFrame(ctx)
     // visualiseHeap(ctx)
-    printToScreen('~~~~~~Function Frame Visualiser (Before RETURN)~~~~~~', ctx)
+    // printToScreen('~~~~~~Function Frame Visualiser (Before RETURN)~~~~~~', ctx)
 
     const currFrameBP = ctx.cVmContext.BP
 
@@ -460,7 +460,8 @@ function incrementPC(ctx: Context): void {
 }
 
 function debugPrint(str: string, ctx: Context): void {
-  console.debug(str)
+  // console.log(str)
+  // printToScreen(str, ctx)
 }
 
 function printToScreen(str: string, ctx: Context): void {
