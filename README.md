@@ -70,7 +70,6 @@ Then start the frontend and the new js-slang will be used.
   - [Possible Issues (and manual solutions)](#possible-issues-and-manual-solutions)
 - [Table of Contents](#table-of-contents)
 - [Requirements](#requirements)
-- [Usage (for calc-slang, do not use this)](#usage-for-calc-slang-do-not-use-this)
 - [Documentation](#documentation)
 - [Requirements](#requirements-1)
 - [Testing](#testing)
@@ -82,52 +81,6 @@ Then start the frontend and the new js-slang will be used.
 # Requirements
 
 - node: known working version: v16.14.0
-
-# Usage (for calc-slang, do not use this)
-
-To build,
-
-```{.}
-$ git clone https://github.com/yangdinglou/calc-slang
-$ cd calc-slang
-$ yarn
-$ yarn build
-```
-
-To add \"calc-slang\" to your PATH, build it as per the above instructions, then
-run
-
-```{.}
-$ cd dist
-$ npm link
-```
-
-If you do not wish to add \"calc-slang\" to your PATH, replace \"calc-slang\" with
-\"node dist/repl/repl.js\" in the following examples.
-
-To try out _Source_ in a REPL, run
-
-```{.}
-$ calc-slang -c [chapter] # default: 1
-```
-
-You can set additional options:
-
-```{.}
-Usage: calc-slang [PROGRAM_STRING] [OPTION]
-  -h, --help            display this help
-  -e, --eval            don't show REPL, only display output of evaluation
-```
-
-Currently, valid CHAPTER/VARIANT combinations are:
-
-- `--chapter=1 --variant=calc`
-
-Hint: In `bash` you can take the `PROGRAM_STRING` out of a file as follows:
-
-```{.}
-$ calc-slang -n -e "$(< my_source_program.js)"
-```
 
 # Documentation
 
